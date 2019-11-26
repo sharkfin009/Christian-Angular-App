@@ -1,13 +1,14 @@
 import { Component,  Input, Output , EventEmitter} from '@angular/core';
 
 
+
 @Component({
   selector: 'gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.css',]
 })
 export class GalleryComponent  {
-  @Input() gallery:any
+  @Input() galleryTitle
   @Output() eventClick = new EventEmitter()
   handleClick(){
     this.eventClick.emit("boo");

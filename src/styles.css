@@ -7,5 +7,12 @@ body { margin: 0;
   font-family: Roboto, "Muli", sans-serif;
 
 }
+.thumbnails{
+  object-fit:cover;
+  overflow:hidden;
+  height:180px;
+  width:300px;
+
+}
 
 

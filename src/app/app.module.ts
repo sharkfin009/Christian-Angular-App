@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { GalleryComponent } from './gallery/gallery.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
-import { WikihowService } from './portfolio/shared/galleryPull.service'
+import { WpRESTmoduleService } from './shared/wp_rest_module.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { WikihowService } from './portfolio/shared/galleryPull.service'
     BrowserAnimationsModule,
     HttpClientModule
   ],
-  providers: [WikihowService ],
+  providers: [ WpRESTmoduleService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { };

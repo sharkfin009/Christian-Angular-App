@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WikihowService } from './galleryPull.service';
+import { WpRESTmoduleService } from './wp_rest_module.service';
 
-describe('WikihowService', () => {
+describe('WpRESTmoduleService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: WikihowService = TestBed.get(WikihowService);
+    const service: WpRESTmoduleService = TestBed.get(WpRESTmoduleService);
     expect(service).toBeTruthy();
   });
 });
