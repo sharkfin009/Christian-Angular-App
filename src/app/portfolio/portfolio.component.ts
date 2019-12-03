@@ -12,7 +12,6 @@ import {
   styleUrls: ['./portfolio.component.css']
 })
 
-
 export class PortfolioComponent implements OnInit {
   galleries: any
   pictures: any
@@ -28,3 +27,5 @@ export class PortfolioComponent implements OnInit {
 
     }
   };
+  
+  
