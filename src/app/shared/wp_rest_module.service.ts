@@ -2,33 +2,39 @@ import {
   Injectable
 } from '@angular/core';
 import {
-  Observable
+  Observable,
+  Subject,
+  from,
+  of,
+  pipe
 } from 'rxjs';
 import {
-  catchError,
-  tap
+  map
 } from 'rxjs/operators'
 import {
   HttpClient,
-  HttpErrorResponse
 } from '@angular/common/http';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class WpRESTmoduleService {
+  public data$ = new Subject;
+  cache: any
+
   private galleriesUrl = "http://localhost:8888/wordpress/index.php/wp-json/bens_custom_endpoint/v1/getPostsWithFeaturedImageLinks";
+  // private galleriesUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/bens_custom_endpoint/v1/getPostsWithFeaturedImageLinks";
 
   constructor(private http: HttpClient) {}
 
-  getGalleries(): Observable < any > {
-    return this.http.get(this.galleriesUrl).pipe(
-      tap(data => console.dir(data)),
-      catchError(this.handleError)
-    );
+  apiCall() {
+    let temp = of (this.http.get(this.galleriesUrl))
+    .subscribe(
+      (item)=>this.cache=item
+    )
+    console.log(this.cache)
+    return this.cache
   }
-  private handleError(err:HttpErrorResponse) :any{
-    console.log(err);
-  }
-
 }

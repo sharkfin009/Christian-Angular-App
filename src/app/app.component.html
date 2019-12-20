@@ -1,6 +1,9 @@
-<div class=" ">
+<div class="">
   <h1 class="fw2 w-100 tc">Christian Doppelgatz</h1>
-  <div class="flex justify-center">
-    <portfolio class="w-70 flex justify-around flex-wrap"></portfolio>
-  </div>
+    <div class="full-width-wrapper w-100 flex justify-around">
+        <div  class="relative centered-wrapper w-70 flex justify-center flex-wrap" [@routeAnimations]="prepareRoute(outlet)">
+          <router-outlet #outlet="outlet"></router-outlet>
+        </div>
+      </div>
 </div>
+

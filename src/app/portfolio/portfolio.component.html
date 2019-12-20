@@ -1,10 +1,8 @@
-<div class=""
-(eventClick)="handleEventClicked($event)" *ngFor="let item of galleries; index as i">
-<div class="w-100 pa4 flex justify-center">
+<div class=" w-100">
+  <h3 class="fw2 tc" >Galleries<h3>
+     <div class="w-100 flex justify-around flex-wrap">
+      <gallery-thumbnail *ngFor="let gall of galleries"
+       [gallery]="gall" ></gallery-thumbnail>
+    </div>
 
-    <img class="link dim thumbnails" src="{{galleries[i].featured.medium}}"/>
-    <p>"{{galleries[i].title}}"</p>
-  </div>
-
-</div>
 
