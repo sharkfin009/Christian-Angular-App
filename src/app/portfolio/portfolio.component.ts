@@ -18,8 +18,8 @@ import { of } from "rxjs"
 })
 
 export class PortfolioComponent implements OnInit {
-  galleries: any
-  pictures: any
+  public galleries: any
+
 
 
   constructor(private wpREST: WpRESTmoduleService, private route: ActivatedRoute) {}
@@ -27,20 +27,20 @@ export class PortfolioComponent implements OnInit {
   ngOnInit(): void {
     this.galleries = this.route.snapshot.data['galleries']
     let obs= of(this.addImages());
-    obs.subscribe(
-      item=>this.pictures= item
-    )
-    console.log(this.pictures);
+    obs.subscribe({
+      next:(item)=>{},
+      error:(item)=>{},
+      complete:()=>console.log('done')
+      });
   };
 
   addImages() {
-    let array = [];
-    this.galleries.forEach((item) => {
+    let q;
+  let mixin =  this.galleries.forEach((item) => {
         let gridLoaded = document.createElement('div');
         gridLoaded.innerHTML = item.grid;
         item.imageCache = gridLoaded;
-        array.push(item)
       });
-    return array;
+    return q;
     }
   }

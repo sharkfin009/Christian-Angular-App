@@ -11,7 +11,10 @@ import {
 } from '@angular/router';
 import {
   WpRESTmoduleService
-} from '../shared/wp_rest_module.service' ;
+} from '../shared/wp_rest_module.service';
+import {
+  PortfolioComponent
+} from "../portfolio/portfolio.component"
 
 @Component({
   selector: 'app-grid-gallery',
@@ -24,21 +27,26 @@ export class GridGalleryComponent implements OnInit {
   grid: string;
   imageCache: any;
   trustedGrid: SafeHtml;
-  constructor(private route: ActivatedRoute,private wpREST: WpRESTmoduleService, private sanitizer: DomSanitizer) {
+  constructor(private route: ActivatedRoute, private wpREST: WpRESTmoduleService, private sanitizer: DomSanitizer) {
 
   }
 
   ngOnInit(): void {
-    this.galleries = this.route.snapshot.data['galleries']
+    console.log(this.wpREST.galleries);
+    // this.wpREST.addImages().subscribe(
+    //   item=>this.galleries = this.wpREST.galleries
+    // );
+
     this.getGallery(this.route.snapshot.params['title']);
-    this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.imageCache);
+    this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
+    let wrapper = document.querySelector('#wrapper');
+    //wrapper.appendChild(this.imageCache)
   }
 
   getGallery(title: string): void {
-   let gallery = this.galleries.find((gallery) => gallery.title === title);
-   this.title = gallery.title;
-   this.grid = gallery.grid;
-   this.imageCache = gallery.pictures
-    console.dir(this.grid)
+    let gallery = this.galleries.find((gallery) => gallery.title === title);
+    this.title = gallery.title;
+    this.grid = gallery.grid;
+    this.imageCache = gallery.imageCache
   }
 }
