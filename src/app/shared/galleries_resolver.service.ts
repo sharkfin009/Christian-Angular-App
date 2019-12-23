@@ -11,7 +11,6 @@ export class GalleriesResolverService implements Resolve<any>{
   constructor(private wpREST:WpRESTmoduleService) { }
 
     resolve() {
-      return this.wpREST.apiCall()
-
+      return this.wpREST.galleries$
     }
 }

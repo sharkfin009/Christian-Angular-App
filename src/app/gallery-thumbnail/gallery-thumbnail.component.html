@@ -1,5 +1,5 @@
 <div [routerLink]="['/gallery',gallery.title]" class="w-100 pa4 flex justify-center items-center" (mouseover)="hoverOver()" (mouseleave)="hoverOff()">
 
-    <img class={{opacity}} src="{{gallery.featured.large}}" width="300"/>
+    <img class={{opacity}} src="{{gallery.featured.medium}}" width="300"/>
     <span class="fw2 absolute white" [hidden]="isHidden">{{gallery.title}}</span>
   </div>

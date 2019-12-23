@@ -1,10 +1,12 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  Input
 } from '@angular/core';
 import {
   DomSanitizer,
-  SafeHtml
+  SafeHtml,
+  SafeStyle
 } from '@angular/platform-browser'
 import {
   ActivatedRoute,
@@ -22,31 +24,28 @@ import {
   styleUrls: ['./grid-gallery.component.css']
 })
 export class GridGalleryComponent implements OnInit {
-  galleries: any;
+  grids: any;
+  grid:string;
   title: string;
-  grid: string;
-  imageCache: any;
+  style: any;
   trustedGrid: SafeHtml;
+  trustedStyle: SafeStyle;
   constructor(private route: ActivatedRoute, private wpREST: WpRESTmoduleService, private sanitizer: DomSanitizer) {
-
   }
 
   ngOnInit(): void {
-    console.log(this.wpREST.galleries);
-    // this.wpREST.addImages().subscribe(
-    //   item=>this.galleries = this.wpREST.galleries
-    // );
-
+    this.grids = this.route.snapshot.data['grids']
     this.getGallery(this.route.snapshot.params['title']);
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
-    let wrapper = document.querySelector('#wrapper');
-    //wrapper.appendChild(this.imageCache)
+    this.trustedStyle = this.sanitizer.bypassSecurityTrustStyle(this.style);
+    console.log(this.trustedGrid)
+
   }
 
   getGallery(title: string): void {
-    let gallery = this.galleries.find((gallery) => gallery.title === title);
+    let gallery = this.grids.find((gallery) => gallery.title === title);
     this.title = gallery.title;
+    this.style = gallery.style;
     this.grid = gallery.grid;
-    this.imageCache = gallery.imageCache
   }
 }

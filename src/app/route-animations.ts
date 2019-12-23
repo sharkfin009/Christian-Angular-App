@@ -12,35 +12,36 @@ import{
 
  //Basic
 
- export const fader =
+ export const slider =
  trigger ( 'routeAnimations', [
    transition('portfolio => gallery',[
-      query(':leave,:enter', [
+     style({position:"relative"}),
+      query(':enter,:leave', [
         style({
           position: 'absolute',
-          left: 0,
-          width: '100%',
+          left:0,
+         width: '100%',
         }),
       ], {optional:true}),
         group([
           query(':leave', [
-            style({ transform: ' translateX(0%)'}),
+            style({ transform:'translateX(0%)'}),
             animate('0.8s ease-out',
-            style({ transform: 'translateX(150%)'}))
+            style({ transform:'translateX(150%)'}))
 
           ],{optional:true}),
           query(':enter', [
             style({ transform: 'translateX(-150%)'}),
             animate('0.8s ease-out',
             style  ({ transform: 'translateX(0%)'}))
-
           ],{optional:true})
         ])
     ]),
     transition('gallery => portfolio',[
-      query(':leave,:enter', [
+      style({position:'relative'}),
+      query(':enter,:leave', [
         style({
-          position: 'absolute',
+       position: 'absolute',
           left: 0,
           width: '100%',
         }),

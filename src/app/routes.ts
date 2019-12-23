@@ -6,11 +6,11 @@ import {
   PortfolioComponent
 } from './portfolio/portfolio.component';
 import {
-  GalleryComponent
-} from './gallery/gallery.component';
-import {
   GalleriesResolverService
 } from './shared/galleries_resolver.service'
+import {
+  GridsResolverService
+} from './shared/grids_resolver.service'
 
 
 
@@ -26,7 +26,7 @@ export const appRoutes: Routes = [{
     path: 'gallery/:title',
     component: GridGalleryComponent,
     resolve: {
-      galleries: GalleriesResolverService
+      grids: GridsResolverService
     },
      data:{view:'gallery'}
   },

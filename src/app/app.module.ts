@@ -37,7 +37,8 @@ import {
 import {
   GalleriesResolverService
 } from './shared/galleries_resolver.service';
-import { GridGalleryComponent } from './grid-gallery/grid-gallery.component'
+import { GridGalleryComponent } from './grid-gallery/grid-gallery.component';
+import { LightboxComponent } from './lightbox/lightbox.component'
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { GridGalleryComponent } from './grid-gallery/grid-gallery.component'
     GalleryComponent,
    PortfolioComponent,
      GalleryThumbnailComponent,
-     GridGalleryComponent
+     GridGalleryComponent,
+     LightboxComponent
   ],
   imports: [
     BrowserAnimationsModule,

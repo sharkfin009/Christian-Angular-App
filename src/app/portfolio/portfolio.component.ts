@@ -4,12 +4,11 @@ import {
   Output
 } from '@angular/core';
 import {
-  WpRESTmoduleService
-} from '../shared/wp_rest_module.service';
-import {
   ActivatedRoute
 } from '@angular/router';
-import { of } from "rxjs"
+import { GridCallService } from "../shared/grid-call.service"
+import { of } from 'rxjs';
+
 
 @Component({
   selector: 'portfolio',
@@ -18,29 +17,16 @@ import { of } from "rxjs"
 })
 
 export class PortfolioComponent implements OnInit {
-  public galleries: any
+  preload$ = this.gridz.grids$.subscribe({next:(item=>console.log(item))})
 
+  public galleries: any;
+  errorMessage = '';
 
-
-  constructor(private wpREST: WpRESTmoduleService, private route: ActivatedRoute) {}
+  constructor( private route: ActivatedRoute, private gridz:GridCallService) {}
 
   ngOnInit(): void {
-    this.galleries = this.route.snapshot.data['galleries']
-    let obs= of(this.addImages());
-    obs.subscribe({
-      next:(item)=>{},
-      error:(item)=>{},
-      complete:()=>console.log('done')
-      });
+    this.galleries = this.route.snapshot.data['galleries'];
   };
 
-  addImages() {
-    let q;
-  let mixin =  this.galleries.forEach((item) => {
-        let gridLoaded = document.createElement('div');
-        gridLoaded.innerHTML = item.grid;
-        item.imageCache = gridLoaded;
-      });
-    return q;
-    }
+
   }
