@@ -19,9 +19,7 @@ import {
 import {
   HttpClientModule
 } from '@angular/common/http'
-import {
-  GalleryComponent
-} from './gallery/gallery.component'
+
  import {
   PortfolioComponent
  } from './portfolio/portfolio.component'
@@ -44,7 +42,6 @@ import { LightboxComponent } from './lightbox/lightbox.component'
 @NgModule({
   declarations: [
     AppComponent,
-    GalleryComponent,
    PortfolioComponent,
      GalleryThumbnailComponent,
      GridGalleryComponent,

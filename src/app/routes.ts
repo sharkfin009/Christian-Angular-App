@@ -11,6 +11,10 @@ import {
 import {
   GridsResolverService
 } from './shared/grids_resolver.service'
+import {
+  LightboxService
+} from './shared/lightbox.service'
+import { LightboxComponent } from './lightbox/lightbox.component'
 
 
 
@@ -33,5 +37,9 @@ export const appRoutes: Routes = [{
    { path: '',
     redirectTo: '/portfolio',
     pathMatch: 'full'
+  },
+  { path:'lightbox/:id',
+    component: LightboxComponent,
+  data:{view:'lightbox'}
   }
 ]

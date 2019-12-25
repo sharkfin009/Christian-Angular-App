@@ -16,7 +16,9 @@ import {
 } from '../shared/wp_rest_module.service';
 import {
   PortfolioComponent
-} from "../portfolio/portfolio.component"
+} from "../portfolio/portfolio.component";
+import { LightboxService } from '../shared/lightbox.service'
+
 
 @Component({
   selector: 'app-grid-gallery',
@@ -30,7 +32,8 @@ export class GridGalleryComponent implements OnInit {
   style: any;
   trustedGrid: SafeHtml;
   trustedStyle: SafeStyle;
-  constructor(private route: ActivatedRoute, private wpREST: WpRESTmoduleService, private sanitizer: DomSanitizer) {
+  lightboxes$ = this.pullLightboxes.lightboxes$
+  constructor(private pullLightboxes: LightboxService ,private route: ActivatedRoute, private wpREST: WpRESTmoduleService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
@@ -38,8 +41,7 @@ export class GridGalleryComponent implements OnInit {
     this.getGallery(this.route.snapshot.params['title']);
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
     this.trustedStyle = this.sanitizer.bypassSecurityTrustStyle(this.style);
-    console.log(this.trustedGrid)
-
+    this.pullLightboxes.setGalleryName(this.title);
   }
 
   getGallery(title: string): void {

@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { LightboxService } from '../shared/lightbox.service';
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: 'app-lightbox',
   templateUrl: './lightbox.component.html',
   styleUrls: ['./lightbox.component.css']
 })
 export class LightboxComponent implements OnInit {
-
-  constructor() { }
+  lightboxes$ = this.pullLightboxes.lightboxes$;
+  constructor( private pullLightboxes:LightboxService) { }
 
   ngOnInit() {
+    
   }
 
 }

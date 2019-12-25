@@ -17,7 +17,7 @@ import { of } from 'rxjs';
 })
 
 export class PortfolioComponent implements OnInit {
-  preload$ = this.gridz.grids$.subscribe({next:(item=>console.log(item))})
+  preload$ = this.gridz.grids$.subscribe({next:(item=>item)})
 
   public galleries: any;
   errorMessage = '';
@@ -27,6 +27,4 @@ export class PortfolioComponent implements OnInit {
   ngOnInit(): void {
     this.galleries = this.route.snapshot.data['galleries'];
   };
-
-
   }

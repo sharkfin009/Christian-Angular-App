@@ -1,5 +1,6 @@
 export interface Grid {
    title: string;
     grid: string;
-    style?: any
+    style?: any;
+    attachedMedia?:string;
  }
