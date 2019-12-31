@@ -1,13 +1,13 @@
 import {
   Component,
   OnInit,
-  Output
 } from '@angular/core';
 import {
   ActivatedRoute
 } from '@angular/router';
-import { GridCallService } from "../shared/grid-call.service"
-import { of } from 'rxjs';
+import {
+  GetGalleriesService
+} from "../shared/getGalleries.service"
 
 
 @Component({
@@ -17,14 +17,14 @@ import { of } from 'rxjs';
 })
 
 export class PortfolioComponent implements OnInit {
-  preload$ = this.gridz.grids$.subscribe({next:(item=>item)})
-
-  public galleries: any;
+  preload$ = this.galleries.galleries$.subscribe({
+    next: (item => item)
+  })
   errorMessage = '';
 
-  constructor( private route: ActivatedRoute, private gridz:GridCallService) {}
+  constructor(private route: ActivatedRoute, public  galleries: GetGalleriesService) {}
 
   ngOnInit(): void {
     this.galleries = this.route.snapshot.data['galleries'];
   };
-  }
+}

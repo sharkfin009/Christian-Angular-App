@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router'
-import { WpRESTmoduleService } from './wp_rest_module.service'
+import { GetGalleriesService } from './getGalleries.service'
 
 @Injectable({
   providedIn: 'root'
@@ -8,9 +8,9 @@ import { WpRESTmoduleService } from './wp_rest_module.service'
 
 
 export class GalleriesResolverService implements Resolve<any>{
-  constructor(private wpREST:WpRESTmoduleService) { }
+  constructor(private galleries:GetGalleriesService) { }
 
     resolve() {
-      return this.wpREST.galleries$
+      return this.galleries.galleries$
     }
 }

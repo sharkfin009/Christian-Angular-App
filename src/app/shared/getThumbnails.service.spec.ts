@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WpRESTmoduleService } from './wp_rest_module.service';
+import { GetThumbnailsService } from './getThumbnails.service';
 
-describe('WpRESTmoduleService', () => {
+describe('GetThumbnailsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: WpRESTmoduleService = TestBed.get(WpRESTmoduleService);
+    const service: GetThumbnailsService = TestBed.get(GetThumbnailsService);
     expect(service).toBeTruthy();
   });
 });

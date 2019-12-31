@@ -1,13 +1,13 @@
 
 import { TestBed } from '@angular/core/testing';
 
-import { GridCallService } from './grid-call.service';
+import { GetGalleriesService } from './getGalleries.service';
 
-describe('GridCallService', () => {
+describe('GetGalleriesService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: GridCallService = TestBed.get(GridCallService);
+    const service: GetGalleriesService = TestBed.get(GetGalleriesService);
     expect(service).toBeTruthy();
   });
 });

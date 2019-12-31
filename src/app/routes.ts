@@ -1,20 +1,19 @@
 import {
   Routes
 } from '@angular/router'
-import { GridGalleryComponent } from './grid-gallery/grid-gallery.component'
+import { GalleryComponent } from './gallery/gallery.component'
 import {
   PortfolioComponent
 } from './portfolio/portfolio.component';
 import {
+ ThumbnailsResolverService
+} from './shared/thumbnailsResolver.service'
+import {
   GalleriesResolverService
-} from './shared/galleries_resolver.service'
+} from './shared/galleriesResolver.service'
 import {
-  GridsResolverService
-} from './shared/grids_resolver.service'
-import {
-  LightboxService
-} from './shared/lightbox.service'
-import { LightboxComponent } from './lightbox/lightbox.component'
+  CommissionsComponent
+} from './commissions/commissions.component'
 
 
 
@@ -22,15 +21,15 @@ export const appRoutes: Routes = [{
     path: 'portfolio',
     component: PortfolioComponent,
     resolve: {
-      galleries: GalleriesResolverService
+      galleries: ThumbnailsResolverService
     },
     data:{view:'portfolio'}
   },
   {
-    path: 'gallery/:title',
-    component: GridGalleryComponent,
+    path: 'gallery/:slug',
+    component: GalleryComponent,
     resolve: {
-      grids: GridsResolverService
+      grids: GalleriesResolverService
     },
      data:{view:'gallery'}
   },
@@ -38,8 +37,10 @@ export const appRoutes: Routes = [{
     redirectTo: '/portfolio',
     pathMatch: 'full'
   },
-  { path:'lightbox/:id',
-    component: LightboxComponent,
-  data:{view:'lightbox'}
-  }
+  {
+    path: 'commissions',
+    component: CommissionsComponent,
+    data:{view:'Commissions'}
+  },
+
 ]

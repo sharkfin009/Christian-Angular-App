@@ -24,19 +24,21 @@ import {
   PortfolioComponent
  } from './portfolio/portfolio.component'
 import {
-  WpRESTmoduleService
-} from './shared/wp_rest_module.service'
+  GetThumbnailsService
+} from './shared/getThumbnails.service'
 import {
   GalleryThumbnailComponent
- } from './gallery-thumbnail/gallery-thumbnail.component'
+ } from './thumbnail/gallery-thumbnail.component'
 import {
   appRoutes
 } from './routes'
 import {
-  GalleriesResolverService
-} from './shared/galleries_resolver.service';
-import { GridGalleryComponent } from './grid-gallery/grid-gallery.component';
-import { LightboxComponent } from './lightbox/lightbox.component'
+  ThumbnailsResolverService
+} from './shared/thumbnailsResolver.service';
+import { GalleryComponent } from './gallery/gallery.component';
+import { GetGalleriesService } from './shared/getGalleries.service'
+import { GalleriesResolverService} from './shared/galleriesResolver.service';
+import { CommissionsComponent } from './commissions/commissions.component'
 
 
 @NgModule({
@@ -44,8 +46,8 @@ import { LightboxComponent } from './lightbox/lightbox.component'
     AppComponent,
    PortfolioComponent,
      GalleryThumbnailComponent,
-     GridGalleryComponent,
-     LightboxComponent
+     GalleryComponent,
+     CommissionsComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -55,8 +57,8 @@ import { LightboxComponent } from './lightbox/lightbox.component'
     RouterModule.forRoot(appRoutes),
   ],
   providers: [
-     WpRESTmoduleService,
-     GalleriesResolverService,
+     GetThumbnailsService,
+     ThumbnailsResolverService,
   ],
   bootstrap: [AppComponent]
 })

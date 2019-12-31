@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GalleriesResolverService } from './galleries_resolver.service';
+import { GalleriesResolverService } from './galleriesResolver.service';
 
 describe('ResolverService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

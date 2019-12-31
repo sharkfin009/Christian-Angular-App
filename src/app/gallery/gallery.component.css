@@ -1,0 +1,44 @@
+
+#galleryGrid{
+  -webkit-transition:all 0.5s ease-in;
+  -moz-transition:all 0.5s ease-in;
+   -ms-transition:all 0.5s ease-in;
+    -o-transition:all 0.5s ease-in;
+       transition:all 0.5s ease-in;
+}
+#lightbox{
+  -webkit-transition:all 0.5s ease-in;
+   -moz-transition:all 0.5s ease-in;
+   -ms-transition:all 0.5s ease-in;
+    -o-transition:all 0.5s ease-in;
+       transition:all 0.5s ease-in;
+
+
+}
+#overlay{
+  -webkit-transition:all 0.5s ease-in;
+  -moz-transition:all 0.5s ease-in;
+   -ms-transition:all 0.5s ease-in;
+    -o-transition:all 0.5s ease-in;
+       transition:all 0.5s ease-in;
+
+
+}
+
+.fadeIn {
+  opacity:1;
+}
+.fadeOut{
+  opacity: 0;
+}
+
+.zoomIn {
+  transform: scale(1,1);
+}
+.zoomOut {
+  transform:scale(0,0);
+}
+
+
+
+
