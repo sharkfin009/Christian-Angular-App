@@ -69,13 +69,20 @@ export class GalleryComponent implements OnInit {
           let x = document.querySelector('#close');
           let overlay= document.querySelector("#overlay");
           let bbutton = document.querySelector("#bbutton");
-          //galleryGrid.style.marginLeft = ""
 
 
           function showLightbox(event) {
 
             if (event.target.classList[0] === "q"
             && event.target.alt !== "") {
+              //set transform origin to mouseclick pos
+              let y = event.screenY.toString();
+              let x = event.screenX.toString();
+              let xPerc =(Math.floor(y/window.innerHeight  * 100)).toString();
+              let yPerc =(Math.floor(x/window.innerWidth * 100)).toString();
+              //lightbox.style=`transform-origin:${xPerc}% ${yPerc}%`;
+              console.log(lightbox);
+
               //access and place correct lightbox grid
               let altText = event.target.alt;
               let id = altText.slice(altText.length - 2);
@@ -88,21 +95,14 @@ export class GalleryComponent implements OnInit {
               galleryGrid.className = "fadeOut";
            
               // get mouse position and place lightbox
-              let y = event.screenY.toString();
-              let x = event.screenX.toString();
-              let xPerc = toString(y/window.innerHeight  * 100);
-              let yPerc = toString(x/window.innerWidth * 100);
-              lightbox.style= "transform:rotate(33deg);transform-origin:"+xPerc+","+yPerc;
-             
-              console.log(lightbox.style.marginLeft)
               lightbox.className = " zoomIn fadeIn";
-              console.log(lightbox);
               bbutton.className = "z-1 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer fadeOut";
             }
           }
 
           x.addEventListener("click", closeLightbox);
           function closeLightbox(){
+            //lightbox.style=`transform-origin:50% 50%`;
             
             bbutton.className = "z-1 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer fadeIn";
             overlay.className = "absolute bg-white fixed left-0 top-0  w-100 h-100 ph3   fadeOut";
