@@ -14,6 +14,7 @@ import {
 import {
   CommissionsComponent
 } from './commissions/commissions.component'
+import { LightboxesResolverService } from './shared/lightboxesResolver.service';
 
 
 
@@ -29,7 +30,8 @@ export const appRoutes: Routes = [{
     path: 'gallery/:slug',
     component: GalleryComponent,
     resolve: {
-      grids: GalleriesResolverService
+      grids: GalleriesResolverService,
+      lightboxes: LightboxesResolverService,
     },
      data:{view:'gallery'}
   },

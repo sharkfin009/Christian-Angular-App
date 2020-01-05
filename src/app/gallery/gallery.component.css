@@ -1,44 +1,51 @@
 
-#galleryGrid{
-  -webkit-transition:all 0.5s ease-in;
-  -moz-transition:all 0.5s ease-in;
-   -ms-transition:all 0.5s ease-in;
-    -o-transition:all 0.5s ease-in;
-       transition:all 0.5s ease-in;
-}
-#lightbox{
-  -webkit-transition:all 0.5s ease-in;
-   -moz-transition:all 0.5s ease-in;
-   -ms-transition:all 0.5s ease-in;
-    -o-transition:all 0.5s ease-in;
-       transition:all 0.5s ease-in;
 
-
-}
 #overlay{
-  -webkit-transition:all 0.5s ease-in;
-  -moz-transition:all 0.5s ease-in;
-   -ms-transition:all 0.5s ease-in;
-    -o-transition:all 0.5s ease-in;
-       transition:all 0.5s ease-in;
-
-
-}
-
-.fadeIn {
-  opacity:1;
-}
-.fadeOut{
-  opacity: 0;
-}
-
-.zoomIn {
-  transform: scale(1,1);
+  -webkit-transition:opacity 1s linear;
+  -moz-transition:opacity 1s linear;
+  -ms-transition:opacity 1s linear;
+  -o-transition:opacity 1s linear;
+  transition:opacity 1s linear;
   
 }
-.zoomOut {
-  transform:scale(0,0);
+#galleryGrid{
+  -webkit-transition:all 0.4s linear;
+  -moz-transition:all 0.4s linear;
+  -ms-transition:all 0.4s linear;
+  -o-transition:all 0.4s linear;
+  transition:all 0.4s linear;
 }
+
+.zoomIn{
+  animation: zoom 0.8s ease-out;
+}
+
+ 
+@keyframes zoom {
+  from {left:var(--left);
+        top:var(--top);
+        width:var(--width)
+        }
+  to  {left:var(--leftCenter);
+        top:var(--topCenter);
+        width:var(--widthCenter);
+        }
+}
+
+.left-arrow:hover{
+  cursor: url("src/assets/left-arrow.png"),auto;
+}
+.right-arrow:hover{
+  cursor: url("src/assets/right-arrow.png"),auto;
+}
+.grid:hover{
+  cursor: url("src/assets/menu.png"),auto;
+}
+
+.no-cursor{
+  cursor: none;
+}
+
 
 
 

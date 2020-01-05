@@ -1,8 +1,7 @@
-<div class="z-0 " id="galleryGrid" [innerHtml]="trustedGrid"></div>
-<div  id="overlay" class="absolute z-0 dn o-0 bg-white fixed left-0 top-0 w-100 h-100 ph3 flex justify-left">
-  <div class= "relative h-10 w-10 flex items-center justify-center ">
-
-    <div  class="fw1 tc f2  black-70 hover-black-50 pointer" id="close">×</div>
-  </div>
-  <div class=" zoomOut"id="lightbox"></div>
+<div class="relative " id="galleryGrid" [innerHtml]="trustedGrid"></div>
+<div id="overlay" class="o-0 bg-white fixed w-100 h-100 flex justify-between">
+  <div  id="left" class="z-5 w-20 h-100 "></div>
+  <img (click)="closeLightbox()"id="pic" class="absolute ">
+  <div id="right" class="z-5 w-20 h-100  "></div>
 </div>
+

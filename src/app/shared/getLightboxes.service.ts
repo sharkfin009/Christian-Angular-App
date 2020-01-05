@@ -22,6 +22,9 @@ export class GetLightboxesService {
   private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/getLightboxes/v1/posts/";
   //private apiUrl = "http://localhost:8888/wordpress/index.php/wp-json/getLightboxes/v1/posts/";
   gallery: string;
+  lightboxes$ = this.http.get(this.apiUrl + this.gallery).pipe(
+    shareReplay(1)
+  )
 
 
   getLightboxes(gallery:string) {

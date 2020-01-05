@@ -1,12 +1,12 @@
-<div class="z-5">
+<div class="debug">
 <div class="full-wrapper w-100 flex justify-center">
   <div class="inside-wrapper w-70 flex justify-around flex-wrap">
-<div class="w-100 pt3 flex justify-between items-center">
+<div class=" w-100 pt3 flex justify-between items-center">
   <h1 class="fw2 w-50">Christian Doppelgatz</h1>
   <div id="bbutton" routerLink="portfolio" [routerLinkActive]="['dn']" class=" z-1 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer" ></div>
 </div>
-        <div  class="centered-wrapper w-100 " [@routeAnimations]="prepareRoute(outlet)">
-          <router-outlet #outlet="outlet" ></router-outlet>
+        <div  class="centered-wrapper w-100 overflow-visible" [@routeAnimations]="prepareRoute(outlet)">
+          <router-outlet class="overflow-visible"#outlet="outlet" ></router-outlet>
         </div>
       </div>
     </div>

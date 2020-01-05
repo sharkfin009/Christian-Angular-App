@@ -8,23 +8,30 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 })
 export class GalleryThumbnailComponent implements OnInit {
   @Input() gallery:any;
-  @Output() hoverEvent:any;
-
-  isHidden:boolean = true;
-  opacity:string ="o-100";
+  thumbnail:any;
+  title:any;
+  thumbnailClass:string = "";
+  titleClass:string="";
+  
   constructor() { }
+  
+  ngAfterViewInit(){
+    //setup DOM values
+    this.title = document.querySelector('.title');
+    this.thumbnail = document.querySelector('.thumbnail')
+  }
 
- hoverOver(){
-  this.opacity="o-50"
-  this.isHidden = false;
-
+ hoverOn(){
+  this.thumbnailClass = "thumbnailHoverOn";
+  this.titleClass = "titleHoverOn"
  }
  hoverOff(){
-  this.opacity = "o-100"
-  this.isHidden = true;
+  this.thumbnailClass = "thumbnailHoverOff";
+  this.titleClass = "titleHoverOff";
  }
   ngOnInit() {
 
   }
+  
 
 }
