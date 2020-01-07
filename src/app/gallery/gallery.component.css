@@ -6,7 +6,7 @@
   -ms-transition:opacity 1s linear;
   -o-transition:opacity 1s linear;
   transition:opacity 1s linear;
-  
+
 }
 #galleryGrid{
   -webkit-transition:all 0.4s linear;
@@ -20,7 +20,7 @@
   animation: zoom 0.8s ease-out;
 }
 
- 
+
 @keyframes zoom {
   from {left:var(--left);
         top:var(--top);
@@ -41,7 +41,6 @@
 .grid:hover{
   cursor: url("src/assets/menu.png"),auto;
 }
-
 .no-cursor{
   cursor: none;
 }
