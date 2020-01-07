@@ -145,7 +145,7 @@ export class GalleryComponent implements OnInit {
       this.pic.style.setProperty('--leftCenter', centerLeft + "px");
       this.pic.style.setProperty('--topCenter', centerTop + "px");
       this.pic.style.setProperty('--widthCenter', centerWidth + 'px');
-      this.pic.classList.add('zoomIn');
+     // this.pic.classList.add('zoomIn');
 
       //work out gallery top and left and width values for zoomed position
       let cumulativeOffset = function(element) {
@@ -175,21 +175,26 @@ export class GalleryComponent implements OnInit {
       let picZoomedTopOffset = centerMiddleY - unzoomedMiddleY;
       let originX = (unzoomedMiddleX / galleryWidth) * 100;
       let originY = (unzoomedMiddleY / galleryHeight) * 100;
-      console.log(`galleryWidth:${galleryWidth},galleryHeight:${galleryHeight}\n`, `unzoomedMiddleX:${unzoomedMiddleX},unzoomedMiddleY:${unzoomedMiddleY}\n`, `origin x:${Math.round(originX)}px origin y:${Math.round(originY)}px\n`, "picWidthRatio:" + Math.round(picWidthRatio));
+      console.log
+      (`galleryWidth:${galleryWidth},galleryHeight:${galleryHeight}\n`,
+      `picZoomedLeftOffset:${picZoomedLeftOffset},pixZoomedTopOffset:${picZoomedTopOffset}\n`,
+       `unzoomedMiddleX:${unzoomedMiddleX},unzoomedMiddleY:${unzoomedMiddleY}\n`,
+       `origin x:${Math.round(originX)}px origin y:${Math.round(originY)}px\n`,
+       "picWidthRatio:" + Math.round(picWidthRatio));
 
       // change element properties to trigger outermost div's parallel zoom transition
 
-      this.fullWrapper.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
-      this.fullWrapper.style.transform = `scale(${picWidthRatio},${picWidthRatio})`;
-      // this.fullWrapper.style.left =  picZoomedLeftOffset + 'px';
-     //  this.fullWrapper.style.top = picZoomedTopOffset + "px";
+      // this.fullWrapper.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
+      // this.fullWrapper.style.transform = `scale(${picWidthRatio},${picWidthRatio})`;
+      this.fullWrapper.style.left =  picZoomedLeftOffset + 'px';
+      this.fullWrapper.style.top = picZoomedTopOffset + "px";
 
       //fade in overlay and fade out gallery with css transition
       this.bbutton.style.opacity = '0';
       this.overlay.style.left = '0px';
       this.overlay.style.top = '0px';
-      //this.overlay.style.opacity = '1';
-      // this.galleryGrid.style.opacity = '0';
+        //  this.overlay.style.opacity = '1';
+        //  this.galleryGrid.style.opacity = '0';
 
 
       //add cursor hover classes

@@ -8,13 +8,7 @@
   transition:opacity 1s linear;
 
 }
-#galleryGrid{
-  -webkit-transition:all 0.4s linear;
-  -moz-transition:all 0.4s linear;
-  -ms-transition:all 0.4s linear;
-  -o-transition:all 0.4s linear;
-  transition:all 0.4s linear;
-}
+
 
 .zoomIn{
   animation: zoom 0.8s ease-out;
