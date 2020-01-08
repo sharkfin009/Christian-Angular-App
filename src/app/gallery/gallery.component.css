@@ -1,11 +1,11 @@
 
 
 #overlay{
-  -webkit-transition:opacity 1s linear;
-  -moz-transition:opacity 1s linear;
-  -ms-transition:opacity 1s linear;
-  -o-transition:opacity 1s linear;
-  transition:opacity 1s linear;
+  -webkit-transition:opacity 0.5s linear;
+  -moz-transition:opacity 0.5s linear;
+  -ms-transition:opacity 0.5s linear;
+  -o-transition:opacity 0.5s linear;
+  transition:opacity 0.5s linear;
 
 }
 

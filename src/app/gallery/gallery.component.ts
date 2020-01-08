@@ -81,7 +81,7 @@ export class GalleryComponent implements OnInit {
     //set event listener
     this.array.forEach((item, index) => {
       item.setAttribute("data-id", index);
-      addEventListener("click", this.showLightbox.bind(this), true);
+      item.addEventListener("click", this.showLightbox.bind(this), true);
 
       // preload all imgs in cache
       let preload = document.createElement('img');
@@ -187,14 +187,15 @@ export class GalleryComponent implements OnInit {
       // this.fullWrapper.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
       // this.fullWrapper.style.transform = `scale(${picWidthRatio},${picWidthRatio})`;
       this.fullWrapper.style.left =  picZoomedLeftOffset + 'px';
-      this.fullWrapper.style.top = picZoomedTopOffset + "px";
+       this.fullWrapper.style.top = picZoomedTopOffset + "px";
 
       //fade in overlay and fade out gallery with css transition
       this.bbutton.style.opacity = '0';
       this.overlay.style.left = '0px';
       this.overlay.style.top = '0px';
-        //  this.overlay.style.opacity = '1';
+        //   this.overlay.style.opacity = '1';
         //  this.galleryGrid.style.opacity = '0';
+
 
 
       //add cursor hover classes
