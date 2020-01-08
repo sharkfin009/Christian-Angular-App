@@ -46,6 +46,7 @@ export class GalleryComponent implements OnInit {
   lightboxFlag: boolean;
   picPointer: any;
   fullWrapper: any;
+  header: any;
 
   constructor(private pullLightboxes: GetLightboxesService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
 
@@ -76,6 +77,7 @@ export class GalleryComponent implements OnInit {
     this.left = document.querySelector("#left");
     this.right = document.querySelector("#right");
     this.fullWrapper = document.querySelector(".full-wrapper");
+    this.header = document.querySelector(".header");
     //make array of img's
     this.array = this.galleryGrid.querySelectorAll('img');
     //set event listener
@@ -110,12 +112,74 @@ export class GalleryComponent implements OnInit {
       this.lightboxFlag = true;
       this.picPointer = parseInt(event.target.dataset.id);
       // get the event targets shape and position in viewport
-      let viewportOffset = event.target.getBoundingClientRect();
-      let unzoomedLeft = viewportOffset.left
-      let unzoomedTop = viewportOffset.top;
+      let cumulativeOffset = function(element) {
+        let top = 0, left = 0, i=0;
+        do {
+            top += element.offsetTop  || 0;
+            left += element.offsetLeft || 0;
+            element = element.offsetParent;
+            i++;
+        } while(i<=4);
+
+        return {
+            top: top,
+            left: left
+        };
+    };
+    let zoomTargetPos = cumulativeOffset(event.target);
+      let unzoomedLeft = zoomTargetPos.left;
+      let unzoomedTop = zoomTargetPos.top;
       let unzoomedWidth = event.target.offsetWidth;
       let unzoomedHeight = event.target.offsetHeight;
 
+      // work out 80% height and resultant width
+      let ratio = unzoomedWidth / unzoomedHeight;
+      let centerHeight = window.innerHeight * 0.8;
+      let centerWidth = Math.floor(centerHeight * ratio);
+
+      // work out div top and left values for pic in the center
+      let centerLeft = (window.innerWidth / 2 - centerWidth / 2);
+      let centerTop = (window.innerHeight / 2 - centerHeight / 2);
+      let galleryOffset = this.header.offsetHeight;
+
+      //work out gallery top and left and width values for zoomed position
+
+      let picWidthRatio = centerWidth / unzoomedWidth;
+      let unzoomedMiddleX = unzoomedLeft + unzoomedWidth / 2;
+      let unzoomedMiddleY = unzoomedTop + unzoomedHeight / 2;
+      let centerMiddleX = centerLeft + centerWidth / 2;
+      let centerMiddleY = centerTop + centerHeight / 2 - galleryOffset;
+      let picZoomedLeftOffset = centerMiddleX - unzoomedMiddleX - window.innerWidth *0.15;
+      let picZoomedTopOffset = centerMiddleY - unzoomedMiddleY + window.scrollY;
+
+      console.log(
+        `picZoomedLeftOffset:${picZoomedLeftOffset},pixZoomedTopOffset:${picZoomedTopOffset}\n`,
+        `unzoomedLeft:${unzoomedLeft},unzoomedTop:${unzoomedTop}\n`,
+        `unzoomedMiddleX:${unzoomedMiddleX},unzoomedMiddleY:${unzoomedMiddleY}\n`);
+
+      // change element properties to trigger outermost div's parallel zoom transition
+      this.galleryGrid.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
+      this.galleryGrid.style.transform = `scale(${picWidthRatio},${picWidthRatio})`;
+      this.galleryGrid.style.left = picZoomedLeftOffset + 'px';
+     this.galleryGrid.style.top = picZoomedTopOffset + "px";
+
+      //place div in center of fixed overlay
+      this.pic.style.left = centerLeft + "px";
+      this.pic.style.top = centerTop + "px";
+      this.pic.style.width = centerWidth + 'px';
+
+      //fade in overlay and fade out gallery with css transition
+      this.bbutton.style.opacity = '0';
+      this.overlay.style.left = '0px';
+      this.overlay.style.top = '0px';
+       this.overlay.style.opacity = '1';
+      //  this.galleryGrid.style.opacity = '0';
+
+      //add cursor hover classes
+      this.overlay.classList.add('no-cursor')
+      this.left.classList.add("left-arrow");
+      this.right.classList.add("right-arrow");
+      this.pic.classList.add("grid");
 
       //build copy of event target in the fixed parent div using the #pic div
 
@@ -123,86 +187,10 @@ export class GalleryComponent implements OnInit {
       this.pic.srcset = event.target.srcset;
       this.pic.dataset.id = event.target.dataset.id
 
-      // work out 80% height and resultant width
-      let ratio = unzoomedWidth / unzoomedHeight;
-      let centerHeight = window.innerHeight * 0.8;
-      let centerWidth = Math.floor(centerHeight * ratio);
-
-
-      // work out div top and left values for enlarged div in the center
-      let centerLeft = (window.innerWidth / 2 - centerWidth / 2);
-      let centerTop = (window.innerHeight / 2 - centerHeight / 2);
-
-      //place div in center mr venter
-      this.pic.style.left = centerLeft + "px";
-      this.pic.style.top = centerTop + "px";
-      this.pic.style.width = centerWidth + 'px';
-
-      //pass in css variables and add class to trigger chosen pic's zoom animation
-      this.pic.style.setProperty('--left', unzoomedLeft + "px");
-      this.pic.style.setProperty('--top', unzoomedTop + "px");
-      this.pic.style.setProperty('--width', unzoomedWidth + 'px');
-      this.pic.style.setProperty('--leftCenter', centerLeft + "px");
-      this.pic.style.setProperty('--topCenter', centerTop + "px");
-      this.pic.style.setProperty('--widthCenter', centerWidth + 'px');
-     // this.pic.classList.add('zoomIn');
-
-      //work out gallery top and left and width values for zoomed position
-      let cumulativeOffset = function(element) {
-        let top = 0, left = 0;
-        do {
-            top += element.offsetTop  || 0;
-            left += element.offsetLeft || 0;
-            element = element.offsetParent;
-        } while(element);
-
-        return {
-            top: top,
-            left: left
-        };
-    };
-
-      let zoomTargetPos = cumulativeOffset(event.target);
-
-      let galleryWidth = this.fullWrapper.offsetWidth;
-      let galleryHeight = this.fullWrapper.offsetHeight;
-      let picWidthRatio = centerWidth / unzoomedWidth;
-      let unzoomedMiddleX = zoomTargetPos.left + unzoomedWidth / 2;
-      let unzoomedMiddleY = zoomTargetPos.top + unzoomedHeight / 2;
-      let centerMiddleX = centerLeft + centerWidth / 2;
-      let centerMiddleY = centerTop + centerHeight / 2;
-      let picZoomedLeftOffset = centerMiddleX - unzoomedMiddleX;
-      let picZoomedTopOffset = centerMiddleY - unzoomedMiddleY;
-      let originX = (unzoomedMiddleX / galleryWidth) * 100;
-      let originY = (unzoomedMiddleY / galleryHeight) * 100;
-      console.log
-      (`galleryWidth:${galleryWidth},galleryHeight:${galleryHeight}\n`,
-      `picZoomedLeftOffset:${picZoomedLeftOffset},pixZoomedTopOffset:${picZoomedTopOffset}\n`,
-       `unzoomedMiddleX:${unzoomedMiddleX},unzoomedMiddleY:${unzoomedMiddleY}\n`,
-       `origin x:${Math.round(originX)}px origin y:${Math.round(originY)}px\n`,
-       "picWidthRatio:" + Math.round(picWidthRatio));
-
-      // change element properties to trigger outermost div's parallel zoom transition
-
-      // this.fullWrapper.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
-      // this.fullWrapper.style.transform = `scale(${picWidthRatio},${picWidthRatio})`;
-      this.fullWrapper.style.left =  picZoomedLeftOffset + 'px';
-       this.fullWrapper.style.top = picZoomedTopOffset + "px";
-
-      //fade in overlay and fade out gallery with css transition
-      this.bbutton.style.opacity = '0';
-      this.overlay.style.left = '0px';
-      this.overlay.style.top = '0px';
-        //   this.overlay.style.opacity = '1';
-        //  this.galleryGrid.style.opacity = '0';
 
 
 
-      //add cursor hover classes
-      this.overlay.classList.add('no-cursor')
-      this.left.classList.add("left-arrow");
-      this.right.classList.add("right-arrow");
-      this.pic.classList.add("grid");
+
     }
 
   }
@@ -219,7 +207,9 @@ export class GalleryComponent implements OnInit {
     this.right.classList.remove("right-arrow");
     this.pic.classList.remove("grid");
     //zero gallery zoom
-    this.fullWrapper.style.transform = `none`;
+    this.galleryGrid.style.transform = `none`;
+    this.galleryGrid.style.left = '0';
+    this.galleryGrid.style.top = '0';
 
   }
   browseLeft(e) {
