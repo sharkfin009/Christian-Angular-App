@@ -26,12 +26,9 @@ export class GetLightboxesService {
     shareReplay(1)
   )
 
-
-  getLightboxes(gallery:string) {
-  return this.http.get<Lightbox[]>(this.apiUrl + gallery)
-  }
-
   constructor(private http: HttpClient) {}
 
-
+  getLightboxes(gallery: string) {
+    return this.http.get < Lightbox[] > (this.apiUrl + gallery)
+  }
 }

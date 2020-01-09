@@ -1,6 +1,8 @@
 <div class="relative trans opa" id="galleryGrid" [innerHtml]="trustedGrid"></div>
 <div id="overlay" class="o-0 bg-white fixed w-100 h-100 flex justify-between">
-  <div  id="left" class="z-5 w-20 h-100 "></div>
-  <img (click)="closeLightbox()"id="pic" class="absolute ">
-  <div id="right" class="z-5 w-20 h-100"></div> </div>
-
+  <div id="left" class="z-5 w-20 h-100 "></div>
+  <div (click)="closeLightbox()" class="absolute" id="lightbox">
+    <img id="pic">
+  </div>
+  <div id="right" class="z-5 w-20 h-100"></div>
+</div>
