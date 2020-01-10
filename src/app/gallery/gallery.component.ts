@@ -44,11 +44,12 @@ export class GalleryComponent implements OnInit {
   left: any;
   right: any;
   lightboxFlag: boolean;
+  lightboxNavFlag: boolean;
   picPointer: any;
   fullWrapper: any;
   header: any;
-  lightboxDiv :any;
-  lightboxes =[];
+  lightboxDiv: any;
+  lightboxes = [];
 
   constructor(private pullLightboxes: GetLightboxesService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
 
@@ -63,13 +64,13 @@ export class GalleryComponent implements OnInit {
 
     this.lightboxesObs.subscribe({
       next: item => item.forEach(lightbox => {
-         let preload = document.createElement("div");
-         preload.innerHTML = lightbox.grid;
-         let obj = {
-           preload: preload,
-           slug: lightbox.slug
-         }
-         this.lightboxes.push(obj);
+        let preload = document.createElement("div");
+        preload.innerHTML = lightbox.grid;
+        let obj = {
+          preload: preload,
+          slug: lightbox.slug
+        }
+        this.lightboxes.push(obj);
       })
     });
 
@@ -121,8 +122,11 @@ export class GalleryComponent implements OnInit {
   showLightbox(event) {
 
     if (event.target.classList[0] === "q") {
-        console.log(this.lightboxes)
-
+      if (this.lightboxNavFlag) {
+        this.galleryGrid.style.transform = `none`;
+        this.galleryGrid.style.left = "0";
+        this.galleryGrid.style.top = "0";
+      }
       this.lightboxFlag = true;
       this.picPointer = parseInt(event.target.dataset.id);
       // get the event targets shape and position in viewport
@@ -199,7 +203,7 @@ export class GalleryComponent implements OnInit {
 
       //check for lightbox grid
       let check = this.getLightboxGrid(event.target.alt);
-      if (check){
+      if (check) {
         this.lightboxDiv.appendChild(check.preload);
         console.log(check)
       } else {
@@ -219,43 +223,49 @@ export class GalleryComponent implements OnInit {
 
   closeLightbox() {
     this.lightboxFlag = false;
+    this.lightboxNavFlag = false;
     this.overlay.style.opacity = "0";
     this.bbutton.style.opacity = "1";
     //remove hover classes
-    this.overlay.classList.remove("no-cursor");   § 
+    this.overlay.classList.remove("no-cursor");
     this.left.classList.remove("left-arrow");
     this.right.classList.remove("right-arrow");
-    this.pic.classList.remove("grid");
+    this.lightboxDiv.classList.remove("grid");
     //zero gallery zoom
     this.galleryGrid.style.transform = `none`;
     this.galleryGrid.style.left = '0';
     this.galleryGrid.style.top = '0';
     let div = this.lightboxDiv.querySelector('div');
-    console.log(div);
-   // this.lightboxDiv.removeChild(div);
+    if (div) div.parentNode.removeChild(div);
     this.pic.src = "";
     this.pic.srcset = "";
-
-    [poiwq
-
   }
   browseLeft(e) {
     console.log(this.picPointer)
     if (this.lightboxFlag) {
-      if (this.picPointer >
-        0) this.picPointer -= 1;
+      this.lightboxNavFlag = true;
+      if (this.picPointer > 0) this.picPointer -= 1;
+
       let nextPic = this.array[this.picPointer];
+      this.pic.srcset = nextPic.src;
       this.pic.srcset = nextPic.srcset;
-      this.pic.src = nextPic.src;
-      this.pic.dataset.id = nextPic.dataset.id
+      let y =
+        nextPic.getBoundingClientRect().top +
+        window.scrollY;
+      window.scrollTo(0, y);
     }
   }
   browseRight(e) {
     if (this.lightboxFlag) {
-      if (this.picPointer < this.array.length - 1) this.picPointer += 1;
+      this.lightboxNavFlag = true;
+      if (this.picPointer < this.array.length - 1)
+        this.picPointer += 1;
       let nextPic = this.array[this.picPointer];
       this.pic.srcset = nextPic.srcset;
       this.pic.src = nextPic.src;
+      nextPic.click();
+      let y = nextPic.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo(0, y);
     }
   }
 }

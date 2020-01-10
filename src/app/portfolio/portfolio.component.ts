@@ -17,10 +17,9 @@ import {
 })
 
 export class PortfolioComponent implements OnInit {
-  preload$ = this.galleries.galleries$.subscribe({
-    next: (item => item)
-  })
-  errorMessage = '';
+  // preload$ = this.galleries.galleries$.subscribe({
+  //   next: (item => item)
+  // })
 
   constructor(private route: ActivatedRoute, public  galleries: GetGalleriesService) {}
 
