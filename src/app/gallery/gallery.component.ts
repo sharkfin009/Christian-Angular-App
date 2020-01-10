@@ -222,7 +222,7 @@ export class GalleryComponent implements OnInit {
     this.overlay.style.opacity = "0";
     this.bbutton.style.opacity = "1";
     //remove hover classes
-    this.overlay.classList.remove("no-cursor");
+    this.overlay.classList.remove("no-cursor");   § 
     this.left.classList.remove("left-arrow");
     this.right.classList.remove("right-arrow");
     this.pic.classList.remove("grid");
@@ -236,6 +236,7 @@ export class GalleryComponent implements OnInit {
     this.pic.src = "";
     this.pic.srcset = "";
 
+    [poiwq
 
   }
   browseLeft(e) {
