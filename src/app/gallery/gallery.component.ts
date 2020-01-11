@@ -36,7 +36,7 @@ export class GalleryComponent implements OnInit {
   slug: string;
   trustedGrid: SafeHtml;
   galleryGrid: any;
-  array: any[];
+  imgArray: any[];
   overlay: any;
   pic: any;
   bbutton: any;
@@ -61,6 +61,7 @@ export class GalleryComponent implements OnInit {
     this.grids = this.route.snapshot.data['grids'];
     this.lightboxes = this.route.snapshot.data['lightboxes'];
     this.getGalleryName(this.route.snapshot.params['slug']);
+    console.log('this.slug');
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
     this.lightboxesObs = this.pullLightboxes.getLightboxes(this.slug);
 
@@ -97,12 +98,12 @@ export class GalleryComponent implements OnInit {
     this.header = document.querySelector(".header");
     this.background = document.querySelector("#background");
     //make array of img's
-    this.array = this.galleryGrid.querySelectorAll('img');
+    this.imgArray = this.galleryGrid.querySelectorAll('img');
     this.galleryGrid.style.transform = `none`;
     this.galleryGrid.style.left = '0';
     this.galleryGrid.style.top = '0';
     //set event listener
-    this.array.forEach((item, index) => {
+    this.imgArray.forEach((item, index) => {
       item.setAttribute("data-id", index);
       item.addEventListener("click", this.showLightbox.bind(this), true);
 
@@ -198,7 +199,7 @@ export class GalleryComponent implements OnInit {
       this.background.classList.add('fade');
       setTimeout(() => {
           this.background.style.opacity = "1";
-          this.pic.style.opacity = "1";
+          this.lightboxDiv.style.opacity = "1";
         },
         400);
 
@@ -239,30 +240,28 @@ export class GalleryComponent implements OnInit {
     this.galleryGrid.style.top = '0';
     this.background.classList.remove('fade')
     this.background.style.opacity = "0";
-    this.pic.style.opacity = "0";
+    this.lightboxDiv.style.opacity = "0";
     let div = this.lightboxDiv.querySelector('div');
-    console.log(div);
-    div.parentNode.removeChild(div);
+    if(div) div.parentNode.removeChild(div);
     this.pic.src = "";
     this.pic.srcset = "";
 
   }
   browseLeft(e) {
-    console.log(this.picPointer)
     if (this.lightboxFlag) {
       if (this.picPointer >
         0) this.picPointer -= 1;
-      let nextPic = this.array[this.picPointer];
+      let nextPic = this.imgArray[this.picPointer];
       this.pic.srcset = nextPic.srcset;
       this.pic.src = nextPic.src;
+      
       this.pic.dataset.id = nextPic.dataset.id
     }
   }
   browseRight(e) {
     if (this.lightboxFlag) {
-      console.log(this.picPointer);
-      if (this.picPointer < this.array.length - 1) this.picPointer += 1;
-      let nextPic = this.array[this.picPointer];
+      if (this.picPointer < this.imgArray.length - 1) this.picPointer += 1;
+      let nextPic = this.imgArray[this.picPointer];
       this.pic.srcset = nextPic.srcset;
       this.pic.src = nextPic.src;
     }
