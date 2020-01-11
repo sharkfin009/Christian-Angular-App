@@ -28,8 +28,8 @@ export class PortfolioComponent implements OnInit {
     if (event.hover="hoverOn"){
       this.hoverOnClass="enter";
     }
-    if(event.hover="hoverOff");
+    if(event.hover="hoverOff"){
     this.hoverOnClass='';
   }
 }
-
+}
