@@ -1,8 +1,13 @@
-<div class=" ">
-  <h3 class="fw2 tc" >Galleries<h3>
-     <div class="w-100 flex justify-between flex-wrap">
-      <gallery-thumbnail *ngFor="let gall of galleries"
-       [gallery]="gall" ></gallery-thumbnail>
+<h3 class="fw2 tc">Galleries<h3>
+    <div class="relative w-100 flex justify-between flex-wrap">
+      <gallery-thumbnail id="thumbnail" class="pointer" (hover)="hover($event)" *ngFor="let gall of galleries"
+        [gallery]="gall" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
+
+      <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end ba bw2">
+        <div class="w-20"></div>
+        <h1 id="title" [ngClass]="hoverOnClass" class="w-80 tl pb4  f1  black">
+          {{hoverEventObject.title}}</h1>
+        <div class="w-20"></div>
+
+      </div>
     </div>
-
-

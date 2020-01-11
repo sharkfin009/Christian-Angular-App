@@ -1,10 +1,4 @@
-<div [routerLink]="['/gallery',gallery.slug]" class="w-100 pv5  relative pointer"
-(mouseover)="hoverOn()"
-  (mouseleave)="hoverOff()">
-
-  <span class="title z-2  mt4 f1 absolute position {{titleClass}}">
-    {{gallery.title}}</span>
-  <img class="thumbnail relative {{thumbnailClass}}"
-  src="{{gallery.featured.medium}}" width="300" />
-
+<div [routerLink]="['/gallery',gallery.slug]" id="thumbnail" [ngClass]="hoverDecide(hoverCompute)"
+  class="w-100 pv5  relative pointer" (mouseover)="hoverOn()" (mouseleave)="hoverOff()">
+  <img class="thumbnail relative" src="{{gallery.featured.medium}}" width="300" />
 </div>

@@ -14,4 +14,8 @@ body { margin: 0;
   -moz-user-select: -moz-none;
   -khtml-user-select: none;
   -webkit-user-select: none;
+
+}
+.pointer-events-none{
+    pointer-events: none;
 }

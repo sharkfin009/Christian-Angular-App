@@ -17,13 +17,19 @@ import {
 })
 
 export class PortfolioComponent implements OnInit {
-  // preload$ = this.galleries.galleries$.subscribe({
-  //   next: (item => item)
-  // })
-
+ hoverEventObject={};
+ hoverOnClass ="";
   constructor(private route: ActivatedRoute, public  galleries: GetGalleriesService) {}
-
   ngOnInit(): void {
     this.galleries = this.route.snapshot.data['galleries'];
   };
+  hover(event){
+    this.hoverEventObject=event;
+    if (event.hover="hoverOn"){
+      this.hoverOnClass="enter";
+    }
+    if(event.hover="hoverOff");
+    this.hoverOnClass='';
+  }
 }
+

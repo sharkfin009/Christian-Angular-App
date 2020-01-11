@@ -1,0 +1,14 @@
+#titleFrame{
+  height: 100vh;
+
+}
+
+#title {
+  font-family: 'Ibarra Real Nova', serif;
+  transition: all 0.4s ease-out;
+
+}
+.enter {
+  margin-bottom: 5px;
+}
+
