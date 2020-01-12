@@ -1,9 +1,10 @@
 
 
 
- 
+
 #thumbnail {
-  transition: all 0.9s
+  transition: all 0.9s;
+
 }
 
 .hoverOn {
@@ -16,3 +17,4 @@
 .thisIsHoveredThumbnail{
   opacity: 1!important
 }
+

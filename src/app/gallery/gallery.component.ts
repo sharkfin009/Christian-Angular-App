@@ -122,11 +122,6 @@ export class GalleryComponent implements OnInit {
   showLightbox(event) {
 
     if (event.target.classList[0] === "q") {
-      if (this.lightboxNavFlag) {
-        this.galleryGrid.style.transform = `none`;
-        this.galleryGrid.style.left = "0";
-        this.galleryGrid.style.top = "0";
-      }
       this.lightboxFlag = true;
       this.picPointer = parseInt(event.target.dataset.id);
       // get the event targets shape and position in viewport
@@ -172,10 +167,10 @@ export class GalleryComponent implements OnInit {
       let picZoomedLeftOffset = centerMiddleX - unzoomedMiddleX - window.innerWidth * 0.15;
       let picZoomedTopOffset = centerMiddleY - unzoomedMiddleY + window.scrollY;
 
-      console.log(
-        `picZoomedLeftOffset:${picZoomedLeftOffset},pixZoomedTopOffset:${picZoomedTopOffset}\n`,
-        `unzoomedLeft:${unzoomedLeft},unzoomedTop:${unzoomedTop}\n`,
-        `unzoomedMiddleX:${unzoomedMiddleX},unzoomedMiddleY:${unzoomedMiddleY}\n`);
+      // console.log(
+      //   `picZoomedLeftOffset:${picZoomedLeftOffset},pixZoomedTopOffset:${picZoomedTopOffset}\n`,
+      //   `unzoomedLeft:${unzoomedLeft},unzoomedTop:${unzoomedTop}\n`,
+      //   `unzoomedMiddleX:${unzoomedMiddleX},unzoomedMiddleY:${unzoomedMiddleY}\n`);
 
       // change element properties to trigger outermost div's parallel zoom transition
       this.galleryGrid.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
@@ -192,7 +187,7 @@ export class GalleryComponent implements OnInit {
       this.bbutton.style.opacity = '0';
       this.overlay.style.left = '0px';
       this.overlay.style.top = '0px';
-      this.overlay.style.opacity = '1';
+      this.overlay.style.opacity = '0.5';
       //  this.galleryGrid.style.opacity = '0';
 
       //add cursor hover classes
@@ -209,16 +204,45 @@ export class GalleryComponent implements OnInit {
       } else {
         this.pic.src = event.target.src;
         this.pic.srcset = event.target.srcset;
-        console.log('no lightbox grid')
       }
-
-
-
-
-
-
     }
+    this.resetAndScrollToBrowsedImage(event.target)
 
+  }
+
+  browseLeft(e) {
+    if (this.lightboxFlag) {
+
+      if (this.picPointer > 0) this.picPointer -= 1;
+      let nextPic = this.array[this.picPointer];
+      this.pic.srcset = nextPic.srcset;
+      this.pic.src = nextPic.src;
+      this.resetAndScrollToBrowsedImage(nextPic)
+    nextPic.click();
+    }
+  }
+  browseRight(e) {
+    if (this.lightboxFlag) {
+
+      if (this.picPointer < this.array.length - 1)
+        this.picPointer += 1;
+      let nextPic = this.array[this.picPointer];
+      this.pic.srcset = nextPic.srcset;
+      this.pic.src = nextPic.src;
+      this.resetAndScrollToBrowsedImage(nextPic)
+      nextPic.click();
+    }
+  }
+  
+  resetAndScrollToBrowsedImage(nextPic){
+    this.galleryGrid.style.transform = `none`;
+    this.galleryGrid.style.left = '0';
+    this.galleryGrid.style.top = '0';
+    window.scroll(0, 0);
+    console.log(nextPic);
+    console.log(nextPic.getBoundingClientRect().top);
+    let y = nextPic.getBoundingClientRect().top;
+    window.scroll(0,y)
   }
 
   closeLightbox() {
@@ -231,41 +255,14 @@ export class GalleryComponent implements OnInit {
     this.left.classList.remove("left-arrow");
     this.right.classList.remove("right-arrow");
     this.lightboxDiv.classList.remove("grid");
-    //zero gallery zoom
-    this.galleryGrid.style.transform = `none`;
-    this.galleryGrid.style.left = '0';
-    this.galleryGrid.style.top = '0';
+       //zero gallery zoom
+       this.galleryGrid.style.transform = `none`;
+       this.galleryGrid.style.left = '0';
+       this.galleryGrid.style.top = '0';
     let div = this.lightboxDiv.querySelector('div');
     if (div) div.parentNode.removeChild(div);
     this.pic.src = "";
     this.pic.srcset = "";
   }
-  browseLeft(e) {
-    console.log(this.picPointer)
-    if (this.lightboxFlag) {
-      this.lightboxNavFlag = true;
-      if (this.picPointer > 0) this.picPointer -= 1;
 
-      let nextPic = this.array[this.picPointer];
-      this.pic.srcset = nextPic.src;
-      this.pic.srcset = nextPic.srcset;
-      let y =
-        nextPic.getBoundingClientRect().top +
-        window.scrollY;
-      window.scrollTo(0, y);
-    }
-  }
-  browseRight(e) {
-    if (this.lightboxFlag) {
-      this.lightboxNavFlag = true;
-      if (this.picPointer < this.array.length - 1)
-        this.picPointer += 1;
-      let nextPic = this.array[this.picPointer];
-      this.pic.srcset = nextPic.srcset;
-      this.pic.src = nextPic.src;
-      nextPic.click();
-      let y = nextPic.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo(0, y);
-    }
-  }
 }

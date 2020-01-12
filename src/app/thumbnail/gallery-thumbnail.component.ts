@@ -34,13 +34,12 @@ export class GalleryThumbnailComponent implements OnInit {
       title: this.gallery.title,
       hover: "hoverOff"
     }
-    this.titleFrame = document.querySelector('#titleFrame');
-    this.titleFrame.style.top = "0";
-    this.titleFrame.style.left ="0";
+
   }
 
   hoverOn() {
     this.hover.emit(this.hoverOnWithTitle);
+    console.log('on')
   }
   hoverOff() {
     this.hover.emit(this.hoverOffWithTitle);

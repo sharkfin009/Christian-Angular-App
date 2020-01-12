@@ -1,14 +1,32 @@
-#titleFrame{
+#titleFrame {
   height: 100vh;
-
+  top: 0;
+  left: 0;
 }
 
 #title {
   font-family: 'Ibarra Real Nova', serif;
-  transition: all 0.4s ease-out;
-
-}
-.enter {
+  font-size: 5em;
+  opacity: 1;
   margin-bottom: 5px;
 }
+.hoverOn {
+  animation: settle 1s ease-out , fadeIn 2s ease-out;
 
+}
+.hoverOff {
+  opacity: 0
+}
+
+@keyframes settle {
+  from {
+    margin-bottom: 50px;
+  }
+  to {
+    margin-bottom: 5px;
+  }
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to{opacity: 1;}
+}

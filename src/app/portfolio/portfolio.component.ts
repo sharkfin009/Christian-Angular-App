@@ -25,11 +25,7 @@ export class PortfolioComponent implements OnInit {
   };
   hover(event){
     this.hoverEventObject=event;
-    if (event.hover="hoverOn"){
-      this.hoverOnClass="enter";
-    }
-    if(event.hover="hoverOff"){
-    this.hoverOnClass='';
-  }
+    console.log(event);
+  
 }
 }
