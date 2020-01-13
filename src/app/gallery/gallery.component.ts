@@ -48,8 +48,9 @@ export class GalleryComponent implements OnInit {
   picPointer: any;
   fullWrapper: any;
   header: any;
-  lightboxDiv: any;
+  lightbox: any;
   lightboxes = [];
+  nextPic:any;
 
   constructor(private pullLightboxes: GetLightboxesService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
 
@@ -64,7 +65,7 @@ export class GalleryComponent implements OnInit {
 
     this.lightboxesObs.subscribe({
       next: item => item.forEach(lightbox => {
-        let preload = document.createElement("div");
+        let preload = document.createElement("lightbox-grid");
         preload.innerHTML = lightbox.grid;
         let obj = {
           preload: preload,
@@ -87,7 +88,7 @@ export class GalleryComponent implements OnInit {
 
   ngAfterViewInit() {
     //set up DOM values
-    this.lightboxDiv = document.querySelector('#lightbox');
+    this.lightbox = document.querySelector('#lightbox');
     this.galleryGrid = document.querySelector('#galleryGrid');
     this.bbutton = document.querySelector("#bbutton");
     this.overlay = document.querySelector("#overlay");
@@ -117,31 +118,30 @@ export class GalleryComponent implements OnInit {
     let linkedLightbox = this.lightboxes.find(lightbox => lightbox.slug.slice(lightbox.slug.length - 2) === id);
     return linkedLightbox
   }
+  cumulativeOffset (element) {
+    let top = 0,
+      left = 0,
+      i = 0;
+    do {
+      top += element.offsetTop || 0;
+      left += element.offsetLeft || 0;
+      element = element.offsetParent;
+      i++;
+    } while (i <= 4);
 
+    return {
+      top: top,
+      left: left
+    };
+  };
 
   showLightbox(event) {
-
     if (event.target.classList[0] === "q") {
       this.lightboxFlag = true;
       this.picPointer = parseInt(event.target.dataset.id);
       // get the event targets shape and position in viewport
-      let cumulativeOffset = function (element) {
-        let top = 0,
-          left = 0,
-          i = 0;
-        do {
-          top += element.offsetTop || 0;
-          left += element.offsetLeft || 0;
-          element = element.offsetParent;
-          i++;
-        } while (i <= 4);
 
-        return {
-          top: top,
-          left: left
-        };
-      };
-      let zoomTargetPos = cumulativeOffset(event.target);
+      let zoomTargetPos = this.cumulativeOffset(event.target);
       let unzoomedLeft = zoomTargetPos.left;
       let unzoomedTop = zoomTargetPos.top;
       let unzoomedWidth = event.target.offsetWidth;
@@ -152,7 +152,7 @@ export class GalleryComponent implements OnInit {
       let centerHeight = window.innerHeight * 0.8;
       let centerWidth = Math.floor(centerHeight * ratio);
 
-      // work out div top and left values for pic in the center
+      // work out  top and left values for pic in the center
       let centerLeft = (window.innerWidth / 2 - centerWidth / 2);
       let centerTop = (window.innerHeight / 2 - centerHeight / 2);
       let galleryOffset = this.header.offsetHeight;
@@ -172,16 +172,16 @@ export class GalleryComponent implements OnInit {
       //   `unzoomedLeft:${unzoomedLeft},unzoomedTop:${unzoomedTop}\n`,
       //   `unzoomedMiddleX:${unzoomedMiddleX},unzoomedMiddleY:${unzoomedMiddleY}\n`);
 
-      // change element properties to trigger outermost div's parallel zoom transition
+      // change element properties to trigger galleryGrid's zoom transition
       this.galleryGrid.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
       this.galleryGrid.style.transform = `scale(${picWidthRatio},${picWidthRatio})`;
       this.galleryGrid.style.left = picZoomedLeftOffset + 'px';
       this.galleryGrid.style.top = picZoomedTopOffset + "px";
 
-      //place div in center of fixed overlay
-      this.lightboxDiv.style.left = centerLeft + "px";
-      this.lightboxDiv.style.top = centerTop + "px";
-      this.lightboxDiv.style.width = centerWidth + 'px';
+      //place lightbox in center of fixed overlay
+      this.lightbox.style.left = centerLeft + "px";
+      this.lightbox.style.top = centerTop + "px";
+      this.lightbox.style.width = centerWidth + 'px';
 
       //fade in overlay and fade out gallery with css transition
       this.bbutton.style.opacity = '0';
@@ -194,75 +194,71 @@ export class GalleryComponent implements OnInit {
       this.overlay.classList.add('no-cursor')
       this.left.classList.add("left-arrow");
       this.right.classList.add("right-arrow");
-      this.lightboxDiv.classList.add("grid");
+      this.lightbox.classList.add("grid");
 
       //check for lightbox grid
       let check = this.getLightboxGrid(event.target.alt);
       if (check) {
-        this.lightboxDiv.appendChild(check.preload);
+        this.lightbox.appendChild(check.preload);
         console.log(check)
       } else {
         this.pic.src = event.target.src;
         this.pic.srcset = event.target.srcset;
       }
     }
-    this.resetAndScrollToBrowsedImage(event.target)
-
   }
-
   browseLeft(e) {
     if (this.lightboxFlag) {
 
       if (this.picPointer > 0) this.picPointer -= 1;
-      let nextPic = this.array[this.picPointer];
-      this.pic.srcset = nextPic.srcset;
-      this.pic.src = nextPic.src;
-      this.resetAndScrollToBrowsedImage(nextPic)
-    nextPic.click();
+      this.nextPic = this.array[this.picPointer];
+      this.pic.srcset = this.nextPic.srcset;
+      this.pic.src = this.nextPic.src;
+      this.resetAndScrollToBrowsedImage(this.nextPic)
+
     }
   }
   browseRight(e) {
     if (this.lightboxFlag) {
-
       if (this.picPointer < this.array.length - 1)
         this.picPointer += 1;
-      let nextPic = this.array[this.picPointer];
-      this.pic.srcset = nextPic.srcset;
-      this.pic.src = nextPic.src;
-      this.resetAndScrollToBrowsedImage(nextPic)
-      nextPic.click();
+      this.nextPic = this.array[this.picPointer];
+      this.pic.srcset = this.nextPic.srcset;
+      this.pic.src = this.nextPic.src;
+      this.resetAndScrollToBrowsedImage(this.nextPic)
     }
   }
-  
   resetAndScrollToBrowsedImage(nextPic){
     this.galleryGrid.style.transform = `none`;
     this.galleryGrid.style.left = '0';
     this.galleryGrid.style.top = '0';
     window.scroll(0, 0);
-    console.log(nextPic);
-    console.log(nextPic.getBoundingClientRect().top);
     let y = nextPic.getBoundingClientRect().top;
-    window.scroll(0,y)
+    window.scroll(0,y -( window.innerHeight/2 ) + nextPic.height/2);
   }
-
-  closeLightbox() {
+  closeLightbox(e) {
     this.lightboxFlag = false;
-    this.lightboxNavFlag = false;
     this.overlay.style.opacity = "0";
     this.bbutton.style.opacity = "1";
     //remove hover classes
     this.overlay.classList.remove("no-cursor");
     this.left.classList.remove("left-arrow");
     this.right.classList.remove("right-arrow");
-    this.lightboxDiv.classList.remove("grid");
-       //zero gallery zoom
-       this.galleryGrid.style.transform = `none`;
-       this.galleryGrid.style.left = '0';
-       this.galleryGrid.style.top = '0';
-    let div = this.lightboxDiv.querySelector('div');
-    if (div) div.parentNode.removeChild(div);
-    this.pic.src = "";
-    this.pic.srcset = "";
-  }
+    this.lightbox.classList.remove("grid");
+   //zero gallery zoom
+    this.galleryGrid.style.transform = `none`;
+    this.galleryGrid.style.left = '0';
+    this.galleryGrid.style.top = '0';
+    //zoom Lightbox down to NextPic
+    let zoomTarget = this.nextPic.getBoundingClientRect();
 
+    this.lightbox.style.transformOrigin = `${window.innerWidth/2}px ${window.innerHeight/2}px`;
+    this.lightbox.style.transform = `scale:(${this.nextPic.}`;
+    //remove LightboxDiv
+    let lightboxGrid = this.lightbox.querySelector('lightbox-grid');
+    if (lightboxGrid) lightboxGrid.parentNode.removeChild(lightboxGrid);
+    //empty pic
+    //this.pic.src = "";
+    //this.pic.srcset = "";
+  }
 }
