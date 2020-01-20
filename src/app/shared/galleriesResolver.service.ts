@@ -11,6 +11,6 @@ export class GalleriesResolverService implements Resolve<any>{
   constructor(private galleries:GetGalleriesService) { }
 
     resolve() {
-      return this.galleries.galleries$
+      return this.galleries.galleries$;
     }
 }

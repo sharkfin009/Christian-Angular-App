@@ -23,8 +23,6 @@ import {
 } from 'rxjs';
 
 
-
-
 @Component({
   selector: 'gallery',
   templateUrl: './gallery.component.html',
@@ -37,7 +35,8 @@ export class GalleryComponent implements OnInit {
   trustedGrid: SafeHtml;
   lightboxesObs: any;
   galleryGrid: any;
-  array: any[];
+  picsArray: any[];
+  bigPicArray:any;
   overlay: any;
   pic: any;
   bbutton: any;
@@ -65,10 +64,10 @@ export class GalleryComponent implements OnInit {
 
     this.lightboxesObs.subscribe({
       next: item => item.forEach(lightbox => {
-        let preload = document.createElement("lightbox-grid");
-        preload.innerHTML = lightbox.grid;
+        let LightboxPreload = document.createElement("DIV");
+        LightboxPreload.innerHTML = lightbox.grid;
         let obj = {
-          preload: preload,
+          LightboxPreload: LightboxPreload,
           slug: lightbox.slug
         }
         this.lightboxes.push(obj);
@@ -76,7 +75,11 @@ export class GalleryComponent implements OnInit {
     });
 
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
-
+    //make full res photos Preload array
+    let imgsPreload = document.createElement("DIV");
+    imgsPreload.innerHTML = this.grid;
+    let bigPicArray = imgsPreload.querySelectorAll('img');
+    this.bigPicArray = bigPicArray;
   }
 
   getGalleryName(slug: string): void {
@@ -97,20 +100,15 @@ export class GalleryComponent implements OnInit {
     this.right = document.querySelector("#right");
     this.fullWrapper = document.querySelector(".full-wrapper");
     this.header = document.querySelector(".header");
-    //make array of img's
-    this.array = this.galleryGrid.querySelectorAll('img');
+    //make Array of img's
+    this.picsArray = this.galleryGrid.querySelectorAll('img');
     //set event listener
-
-    this.array.forEach((item, index) => {
+    this.picsArray.forEach((item, index) => {
       item.setAttribute("data-id", index);
       item.addEventListener("click", this.showLightbox.bind(this), true);
-
-      // preload all imgs in cache
-
     });
     this.left.addEventListener("click", this.browseLeft.bind(this), true);
     this.right.addEventListener("click", this.browseRight.bind(this), true);
-
   }
 
   getLightboxGrid(alt) {
@@ -136,8 +134,6 @@ export class GalleryComponent implements OnInit {
   };
 
   showLightbox(event) {
-
-    if (event.target.classList[0] === "q") {
       this.lightboxFlag = true;
       this.picPointer = parseInt(event.target.dataset.id);
       // get the event targets shape and position in viewport
@@ -184,8 +180,8 @@ export class GalleryComponent implements OnInit {
       this.bbutton.style.opacity = '0';
       this.overlay.style.left = '0px';
       this.overlay.style.top = '0px';
-      this.overlay.style.opacity = '1';
-      this.galleryGrid.opacity = '0';
+      //setTimeout(()=>{this.overlay.hidden="false"},300)
+
       //add cursor hover classes
       this.overlay.classList.add('no-cursor')
       this.left.classList.add("left-arrow");
@@ -195,34 +191,34 @@ export class GalleryComponent implements OnInit {
       //check for lightbox grid
       let check = this.getLightboxGrid(event.target.alt);
       if (check) {
-        this.lightbox.appendChild(check.preload);
+        this.lightbox.appendChild(check.LightboxPreload);
       } else {
         this.pic.src = event.target.src;
         this.pic.srcset = event.target.srcset;
       }
-    }
+
   }
   browseLeft(e) {
 
     if (this.lightboxFlag) {
 
       if (this.picPointer > 0) this.picPointer -= 1;
-      this.nextPic = this.array[this.picPointer];
+      this.nextPic = this.picsArray[this.picPointer];
       this.pic.srcset = this.nextPic.srcset;
       this.pic.src = this.nextPic.src;
       this.resetAndScrollToBrowsedImage(this.nextPic)
-      this.galleryGrid.style.opacity = 0;
+     // this.galleryGrid.style.opacity = 0;
     }
   }
   browseRight(e) {
     if (this.lightboxFlag) {
-      if (this.picPointer < this.array.length - 1)
+      if (this.picPointer < this.picsArray.length - 1)
         this.picPointer += 1;
-      this.nextPic = this.array[this.picPointer];
+      this.nextPic = this.picsArray[this.picPointer];
       this.pic.srcset = this.nextPic.srcset;
       this.pic.src = this.nextPic.src;
       this.resetAndScrollToBrowsedImage(this.nextPic);
-      this.galleryGrid.style.opacity = 0;
+  
 
     }
   }
@@ -247,28 +243,36 @@ export class GalleryComponent implements OnInit {
     this.galleryGrid.style.transform = `none`;
     this.galleryGrid.style.left = '0';
     this.galleryGrid.style.top = '0';
-
-    this.overlay.style.opacity = '0';
+    if (this.nextPic === undefined){
+    this.overlay.display = "none";
+    this.timeOut("notBrowsed")}
     if (this.nextPic !== undefined) {
       this.zoomOutFromLightboxBrowsed()
+      this.timeOut("browsed");
     }
-    setTimeout(() => {
-      // remove LightboxDiv
-      let lightboxGrid = this.lightbox.querySelector('lightbox-grid');
-      if (lightboxGrid) lightboxGrid.parentNode.removeChild(lightboxGrid);
-      //empty pic
-      this.pic.src = "";
-      this.pic.srcset = "";
-      //reset lightbox
-      this.lightbox.style.transform = "none"
-      //clear NextPic
-      this.nextPic = undefined;
-      this.galleryGrid.style.opacity = "1";
-      this.overlay.style.opacity = "0";
-
-    }, 200)
 
   }
+timeOut(flag){
+  setTimeout(() => {
+    // remove LightboxDiv
+    let lightboxGrid = this.lightbox.querySelector('lightbox-grid');
+    if (lightboxGrid) lightboxGrid.parentNode.removeChild(lightboxGrid);
+    //empty pic
+    this.pic.src = "";
+    this.pic.srcset = "";
+    //reset lightbox
+    this.lightbox.style.transform = "none"
+    //clear NextPic
+    this.nextPic = undefined;
+    if (flag="browsed"){
+    } else {
+
+    }
+   // this.galleryGrid.style.opacity = "1";
+  //  this.overlay.style.opacity = "0";
+
+  }, 300)
+};
   zoomOutFromLightboxBrowsed() {
     //zoom Lightbox down to NextPic
     let zoomTarget = this.nextPic.getBoundingClientRect();

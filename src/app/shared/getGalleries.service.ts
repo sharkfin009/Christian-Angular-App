@@ -12,16 +12,26 @@ import {
 import {
   Gallery, Lightbox
 } from "../portfolio/interfaces"
+import { Observable } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetGalleriesService {
-   private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGalleries";
-  //private apiUrl = "http://localhost:8888/wordpress/index.php/wp-json/bens_custom_endpoint/v1/getGalleries";
+  // private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGalleries";
+  private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGalleries";
+  galleries$: Observable<any>;
 
-  galleries$ = this.http.get < Gallery[] > (this.apiUrl)
+  constructor(private http: HttpClient) {
+    this.storeGalleries();
+  }
+
+  storeGalleries(){
+    this.galleries$ = this.getGalleries()
+  }
+ getGalleries():Observable<any>{
+   return this.http.get < Gallery[] > (this.apiUrl)
     .pipe(
       map(galleries =>
         galleries.map(gallery => {
@@ -46,6 +56,5 @@ export class GetGalleriesService {
       ),
       shareReplay(1),
     );
-
-  constructor(private http: HttpClient) {}
+      }
 }

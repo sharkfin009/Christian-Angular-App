@@ -1,7 +1,7 @@
 <h3 class="fw2 tc">Galleries<h3>
-    <div class="relative w-100 flex justify-between flex-wrap">
-      <gallery-thumbnail id="thumbnail" class="pointer" (hover)="hover($event)" *ngFor="let gall of galleries"
-        [gallery]="gall" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
+    <div *ngIf="thumbnails$ | async as thumbnails"class="relative w-100 flex justify-between flex-wrap">
+      <gallery-thumbnail  class=" pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
+        [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
 
       <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end ">
         <div class="w-20"></div>
@@ -10,3 +10,4 @@
         <div class="w-20"></div>
       </div>
     </div>
+   

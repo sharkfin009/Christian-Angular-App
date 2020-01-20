@@ -5,7 +5,13 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-
+import {
+  DomSanitizer,
+  SafeHtml,
+} from '@angular/platform-browser'
+import {
+  GetGalleriesService
+} from "../shared/getGalleries.service"
 
 @Component({
   selector: '´gallery-thumbnail',
@@ -13,25 +19,43 @@ import {
   styleUrls: ['./gallery-thumbnail.component.css']
 })
 export class GalleryThumbnailComponent implements OnInit {
-  @Input() gallery: any;
+  galleries$ :any;
+  gallery: any;
+  gridIsPreloaded: boolean;
+  @Input() thumbnail: any;
   @Input() hoverCompute: string;
   @Output() hover = new EventEmitter();
+  @Output() loaded = new EventEmitter();
   hoverOnWithTitle = {};
   hoverOffWithTitle = {};
   titleFrame:any;
+  thumbnailIsLoaded:boolean;
+  //trustedGrid: any;
 
-  constructor() {}
+  constructor(private getGalleries:GetGalleriesService,private sanitizer:DomSanitizer) {}
 
   ngOnInit() {
+    this.galleries$ = this.getGalleries.galleries$.subscribe(
+      (galleries)=>{
+        let gallery = galleries.find((gallery)=>
+          gallery.slug === this.thumbnail.slug
+         );
+      this.gallery = gallery.grid;
+      this.gridIsPreloaded = true;
+      console.log('galleries preloaded')
+
+      }
+    );
+    //this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.galleries$.grid);
 
   }
   ngAfterViewInit() {
     this.hoverOnWithTitle = {
-      title: this.gallery.title,
+      title: this.thumbnail.title,
       hover: "hoverOn"
     };
     this.hoverOffWithTitle = {
-      title: this.gallery.title,
+      title: this.thumbnail.title,
       hover: "hoverOff"
     }
 
@@ -39,13 +63,12 @@ export class GalleryThumbnailComponent implements OnInit {
 
   hoverOn() {
     this.hover.emit(this.hoverOnWithTitle);
-    console.log('on')
   }
   hoverOff() {
     this.hover.emit(this.hoverOffWithTitle);
   }
   hoverDecide(object) {
-    if (this.gallery.title === object.title) {
+    if (this.thumbnail.title === object.title) {
       return "hoverOff";
     } else {
       return object.hover;
@@ -53,4 +76,8 @@ export class GalleryThumbnailComponent implements OnInit {
   }
 
 
+  thumbnailLoaded(){
+   // console.log(`${this.thumbnail.slug} is loaded`);
+    this.thumbnailIsLoaded=true;
+  }
 }

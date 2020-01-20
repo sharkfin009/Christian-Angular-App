@@ -32,9 +32,7 @@ import {
 import {
   appRoutes
 } from './routes'
-import {
-  ThumbnailsResolverService
-} from './shared/thumbnailsResolver.service';
+
 import { GalleryComponent } from './gallery/gallery.component';
 import { GetGalleriesService } from './shared/getGalleries.service'
 import { GalleriesResolverService} from './shared/galleriesResolver.service';
@@ -58,7 +56,6 @@ import { CommissionsComponent } from './commissions/commissions.component'
   ],
   providers: [
      GetThumbnailsService,
-     ThumbnailsResolverService,
   ],
   bootstrap: [AppComponent]
 })

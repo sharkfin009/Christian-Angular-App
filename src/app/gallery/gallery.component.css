@@ -1,9 +1,9 @@
 
 
-#overlay{
-  -webkit-transition:opacity 0.22s ease-in;
+/* #overlay{
+  -webkit-transition:opacity 0.2s ease-in;
   transition:opacity 0.2s ease-in;
-}
+} */
 #galleryGrid{
   transition-property: transform,top,left;
   transition-duration: 0.3s;

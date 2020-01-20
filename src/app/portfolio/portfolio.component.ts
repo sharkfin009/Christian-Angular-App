@@ -5,9 +5,13 @@ import {
 import {
   ActivatedRoute
 } from '@angular/router';
+
 import {
-  GetGalleriesService
-} from "../shared/getGalleries.service"
+  GetThumbnailsService
+} from "../shared/getThumbnails.service"
+import {
+  Observable
+} from 'rxjs';
 
 
 @Component({
@@ -17,15 +21,20 @@ import {
 })
 
 export class PortfolioComponent implements OnInit {
- hoverEventObject={};
- hoverOnClass ="";
-  constructor(private route: ActivatedRoute, public  galleries: GetGalleriesService) {}
-  ngOnInit(): void {
-    this.galleries = this.route.snapshot.data['galleries'];
+  galleries$: Observable < any[] > ;
+  thumbnails$: Observable < any > ;
+  hoverEventObject = {
+    hover: "",
+    title: '',
   };
-  hover(event){
-    this.hoverEventObject=event;
-    console.log(event);
-  
-}
+  hoverOnClass = "";
+
+  constructor(private route: ActivatedRoute, public getThumbnails: GetThumbnailsService){}
+
+  ngOnInit(): void {
+    this.thumbnails$ = this.getThumbnails.thumbnails$;
+  };
+  hover(event) {
+    this.hoverEventObject = event;
+  };
 }

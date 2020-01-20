@@ -12,10 +12,13 @@
 }
 .hoverOn {
   animation: settle 1s ease-out , fadeIn 2s ease-out;
-
 }
 .hoverOff {
   opacity: 0
+}
+
+.thumbnail{
+  animation: fadeIn 0.5s ease-in;
 }
 
 @keyframes settle {
@@ -30,3 +33,4 @@
   from {opacity: 0;}
   to{opacity: 1;}
 }
+
