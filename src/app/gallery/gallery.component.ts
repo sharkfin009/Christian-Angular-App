@@ -16,6 +16,7 @@ import {
 import {
   map,
   shareReplay,
+  timeout,
 } from 'rxjs/operators';
 
 import {
@@ -60,20 +61,6 @@ export class GalleryComponent implements OnInit {
     //set up values
     this.grids = this.route.snapshot.data['grids'];
     this.getGalleryName(this.route.snapshot.params['slug']);
-    // this.lightboxesObs = this.pullLightboxes.getLightboxes(this.slug);
-
-    // this.lightboxesObs.subscribe({
-    //   next: item => item.forEach(lightbox => {
-    //     let LightboxPreload = document.createElement("DIV");
-    //     LightboxPreload.innerHTML = lightbox.grid;
-    //     let obj = {
-    //       LightboxPreload: LightboxPreload,
-    //       slug: lightbox.slug
-    //     }
-    //     this.lightboxes.push(obj);
-    //   })
-    //});
-
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
     //make full res photos Preload array
     let imgsPreload = document.createElement("DIV");
@@ -136,8 +123,8 @@ export class GalleryComponent implements OnInit {
   showLightbox(event) {
     this.lightboxFlag = true;
     this.picPointer = parseInt(event.target.dataset.id);
-    // get the event targets shape and position in viewport
 
+    // get the event targets shape and position in viewport
     let zoomTargetPos = this.cumulativeOffset(event.target);
     let unzoomedLeft = zoomTargetPos.left;
     let unzoomedTop = zoomTargetPos.top;
@@ -155,7 +142,6 @@ export class GalleryComponent implements OnInit {
 
 
     //work out gallery top and left and width values for zoomed position
-
     let galleryOffset = this.header.offsetHeight;
     let picWidthRatio = centerWidth / unzoomedWidth;
     let unzoomedMiddleX = unzoomedLeft + unzoomedWidth / 2;
@@ -167,25 +153,22 @@ export class GalleryComponent implements OnInit {
 
     // change element properties to trigger galleryGrid's zoom transition
     this.galleryGrid.style.transformOrigin = `${unzoomedMiddleX}px ${unzoomedMiddleY}px`;
-    this.galleryGrid.style.transform = "translateX("+picZoomedLeftDiffX + 'px)';
-    this.galleryGrid.style.transform += "translateY("+picZoomedTopDiffY + "px)";
-     this.galleryGrid.style.transform += `scale(${picWidthRatio},${picWidthRatio})`;
+    this.galleryGrid.style.transform = "translateX(" + picZoomedLeftDiffX + 'px)';
+    this.galleryGrid.style.transform += "translateY(" + picZoomedTopDiffY + "px)";
+    this.galleryGrid.style.transform += `scale(${picWidthRatio},${picWidthRatio})`;
 
     //place lightbox in center of fixed overlay
     this.lightbox.style.left = centerLeft + "px";
     this.lightbox.style.top = centerTop + "px";
     this.lightbox.style.width = centerWidth + 'px';
-    setTimeout(()=>{
-      this.lightbox.style.opacity='1';
-    this.overlay.style.display="block";
-      this.galleryGrid.transform="none"
-  },300)
-
+    setTimeout(() => {
+      this.lightbox.style.opacity = '1';
+      this.overlay.style.display = "block";
+      this.galleryGrid.transform = "none"
+    }, 300)
 
     //fade in overlay and fade out gallery with css transition
     this.bbutton.style.opacity = '0';
-
-
 
     //add cursor hover classes
     this.overlay.classList.add('no-cursor');
@@ -193,25 +176,21 @@ export class GalleryComponent implements OnInit {
     this.right.classList.add("right-arrow");
     this.lightbox.classList.add("grid");
 
-    // //check for lightbox grid
-    // let check = this.getLightboxGrid(event.target.alt);
-    // if (check) {
-    //   //this.lightbox.appendChild(check.LightboxPreload);
-    // } else {
-    // }
+    //put this pic in lightbox
     this.pic.src = event.target.src;
     this.pic.srcset = event.target.srcset;
-
   }
   browseLeft(e) {
 
     if (this.lightboxFlag) {
-
+      //assign next pic
       if (this.picPointer > 0) this.picPointer -= 1;
       this.nextPic = this.picsArray[this.picPointer];
       this.pic.srcset = this.nextPic.srcset;
       this.pic.src = this.nextPic.src;
-      this.resetAndScrollToBrowsedImage(this.nextPic)
+
+    //move galleryGrid to position it for new zoom out
+
     }
   }
   browseRight(e) {
@@ -221,83 +200,31 @@ export class GalleryComponent implements OnInit {
       this.nextPic = this.picsArray[this.picPointer];
       this.pic.srcset = this.nextPic.srcset;
       this.pic.src = this.nextPic.src;
-      this.resetAndScrollToBrowsedImage(this.nextPic);
 
 
     }
   }
-  resetAndScrollToBrowsedImage(nextPic) {
-    this.galleryGrid.style.transform = `none`;
-     this.galleryGrid.style.left = '0';
-     this.galleryGrid.style.top = '0';
-    window.scroll(0, 0);
-    let y = nextPic.getBoundingClientRect().top;
-    window.scroll(0, y - (window.innerHeight / 2) + nextPic.height / 2);
-  }
+
   closeLightbox(e) {
     this.lightboxFlag = false;
     this.bbutton.style.opacity = "1";
-    //this.galleryGrid.style.display="block";
     //remove hover classes
     this.overlay.classList.remove("no-cursor");
     this.left.classList.remove("left-arrow");
     this.right.classList.remove("right-arrow");
     this.lightbox.classList.remove("grid");
-    //zero gallery zoom
-    this.galleryGrid.style.transform = `none`;
-
-    if (this.nextPic === undefined) {
-      this.overlay.style.display="none";
-      this.timeOut("notBrowsed")
-    }
-    if (this.nextPic !== undefined) {
-      this.zoomOutFromLightboxBrowsed();
-      this.timeOut("browsed");
-    }
-
-  }
-  timeOut(flag) {
+    //hide overlay
+    this.overlay.style.display = "none";
+    //transition:
+    this.galleryGrid.style.transform="none";
+    //reset after transition:
     setTimeout(() => {
-      // remove LightboxDiv
-      let lightboxGrid = this.lightbox.querySelector('lightbox-grid');
-      if (lightboxGrid) lightboxGrid.parentNode.removeChild(lightboxGrid);
       //empty pic
       this.pic.src = "";
       this.pic.srcset = "";
-      //reset lightbox
-      this.lightbox.style.transform = "none"
       //clear NextPic
       this.nextPic = undefined;
-      if (flag = "browsed") {
-        this.overlay.style.display="none";
-      }
     }, 300)
   };
-  zoomOutFromLightboxBrowsed() {
-    //zoom Lightbox down to NextPic
-    let zoomTarget = this.nextPic.getBoundingClientRect();
-    let lightboxOrigin = this.lightbox.getBoundingClientRect();
-    let zoomRatio = zoomTarget.width / lightboxOrigin.width;
-    let lightboxOriginCenter = {
-      x: lightboxOrigin.left + lightboxOrigin.width / 2,
-      y: lightboxOrigin.top + lightboxOrigin.height / 2,
-    };
-    let zoomTargetCenter = {
-      x: zoomTarget.left + zoomTarget.width / 2,
-      y: zoomTarget.top + zoomTarget.height / 2
-    }
-
-    let diffX = zoomTargetCenter.x - lightboxOriginCenter.x;
-    let diffY = zoomTargetCenter.y - lightboxOriginCenter.y;
-    this.lightbox.style.transformOrigin = `${lightboxOriginCenter.x}px ${lightboxOriginCenter.y}px`;
-    this.lightbox.style.transform = `translateX(${diffX}px)`;
-    this.lightbox.style.transform += `translateY(${diffY}px)`;
-    this.lightbox.style.transform += `scale(${zoomRatio},${zoomRatio})`;
-    // this.lightbox.style.left=`${diffX}px`;
-    // this.lightbox.style.top=`${diffY}px`;
-    setTimeout(()=>{this.lightbox.style.opacity='0';
-this.lightbox.style.transform="none";
-},300)
-
-  }
 }
+
