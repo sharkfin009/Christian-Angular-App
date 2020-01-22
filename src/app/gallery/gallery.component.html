@@ -1,13 +1,13 @@
-<div class="relative z-0 " id="galleryGrid" [innerHtml]="trustedGrid"></div>
+<div class="relative z-1 " id="galleryGrid" [innerHtml]="trustedGrid"></div>
 
-<div id="overlay" class="dn o-50 z-2 bg-white fixed  ">
+<div id="overlay" class="  z-0  fixed  ">
   <div class="flex justify-between h-100">
     <div id="left" class=" w-20 h-100 ">
     </div>
-    <div (click)="closeLightbox($event)" class="absolute" id="lightbox">
+    <div (click)="closeLightbox($event)" class="absolute " id="lightbox">
       <img id="pic"/>
     </div>
-    <div id="right" class=" w-20 h-100"></div>
+    <div id="right" class="w-20 h-100"></div>
   </div>
 </div>
 
