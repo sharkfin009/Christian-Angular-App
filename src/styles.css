@@ -23,5 +23,8 @@ body { margin: 0;
   width: 0px;  /* Remove scrollbar space */
   background: transparent;  /* Optional: just make scrollbar invisible */
 }
-/* Optional: show position indicator in red */
 
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}

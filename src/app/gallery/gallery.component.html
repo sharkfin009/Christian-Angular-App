@@ -1,11 +1,12 @@
-<div class="relative z-1 " id="galleryGrid" [innerHtml]="trustedGrid"></div>
-
-<div id="overlay" class="  z-0  fixed  ">
+<div id="galleryWrapper"class="relative z-1 h-90 w-100">
+  <div id="galleryGrid" class="absolute h-100 w-100" [innerHtml]="trustedGrid"></div >
+</div>
+<div id="overlay" class="o-0 bg-white z-0 fixed">
   <div class="flex justify-between h-100">
     <div id="left" class=" w-20 h-100 ">
     </div>
-    <div (click)="closeLightbox($event)" class="absolute " id="lightbox">
-      <img id="pic"/>
+    <div (click)="closeLightbox($event)" class="absolute o-0" id="lightbox">
+      <img id="pic" />
     </div>
     <div id="right" class="w-20 h-100"></div>
   </div>
@@ -14,4 +15,3 @@
 <div class="" *ngFor="let bigPic of bigPicArray">
   <img class="dn w-100" [src]="bigPic.src" />
 </div>
-

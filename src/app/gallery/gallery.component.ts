@@ -58,6 +58,7 @@ from 'rxjs';
   overlay: any;
   pic: any;
   picWidth: string;
+  lightboxFade: any;
   bbutton: any;
   left: any;
   right: any;
@@ -69,6 +70,8 @@ from 'rxjs';
   lightbox: any;
   lightboxes = [];
   nextPic: any;
+  outletWrapper: any;
+  body:any;
 
   constructor(private pullLightboxes: GetLightboxesService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {}
 
@@ -94,15 +97,18 @@ from 'rxjs';
 
   ngAfterViewInit() {
     //set up DOM values
+    this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
     this.galleryGrid = document.querySelector('#galleryGrid');
-    this.bbutton = document.querySelector("#bbutton");
+    this.lightboxFade = document.querySelector(".lightbox-fade");
+    this.bbutton = document.querySelector("#bbutton")
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
     this.left = document.querySelector("#left");
     this.right = document.querySelector("#right");
     this.fullWrapper = document.querySelector(".full-wrapper");
     this.header = document.querySelector(".header");
+    this.outletWrapper = document.querySelector("#outlet-wrapper");
     //make Array of img's
     this.picsArray = this.galleryGrid.querySelectorAll('img');
 
@@ -141,11 +147,7 @@ from 'rxjs';
       top: top,
       left: left
     }
-
-    ;
   }
-
-  ;
 
   showLightbox(event) {
     this.lightboxFlag = true;
@@ -156,8 +158,12 @@ from 'rxjs';
     setTimeout(() => {
       this.overlay.style.opacity ='1';
       this.overlay.style.zIndex="2";
-    }, 300) //hide header nav bbuton
-    this.bbutton.style.opacity = '0';
+      this.lightbox.style.opacity='1';
+      this.body.classList.add('stop-scrolling');
+    }, 300)
+    //hide header nav bbuton, gallery and heading
+    this.lightboxFade.style.opacity = '0';
+    this.bbutton.style.opacity='0';
 
     //add cursor hover classes
     this.overlay.classList.add('no-cursor');
@@ -167,7 +173,7 @@ from 'rxjs';
 
     //put this pic in lightbox
     this.pic.src = event.target.src;
-    this.pic.srcset = event.target.srcset;
+    this.pic.srcset = "";
   }
 
   picZoom(zoomTarget) {
@@ -181,7 +187,7 @@ from 'rxjs';
     // work out 80% height and resultant width
     let ratio = unzoomedWidth / unzoomedHeight;
     let centerHeight = window.innerHeight * 0.8;
-    let centerWidth = Math.floor(centerHeight * ratio);
+    let centerWidth = centerHeight * ratio;
 
     // work out top and left values for fixed lightbox in the center
     let centerLeft = window.innerWidth / 2 - centerWidth / 2;
@@ -227,7 +233,6 @@ from 'rxjs';
 
       //assign next pic
       if (this.picPointer <= this.picsArray.length-2) {
-        console.log(this.picPointer,this.picsArray)
         this.picPointer += 1;
         this.nextPic = this.picsArray[this.picPointer];
         this.pic.srcset = this.nextPic.srcset;
@@ -239,18 +244,26 @@ from 'rxjs';
   }
 
   closeLightbox(e) {
+    //switch flag
     this.lightboxFlag = false;
-    this.bbutton.style.opacity = "1";
+    //hide bbutton
+    this.lightboxFade.style.opacity = "1";
+    this.bbutton.style.opacity = '1';
+    // hide lightbox
+    this.lightbox.style.opacity ="0";
     //remove hover classes
     this.overlay.classList.remove("no-cursor");
     this.left.classList.remove("left-arrow");
     this.right.classList.remove("right-arrow");
     this.lightbox.classList.remove("grid");
-    //hide overlay
+    //hide overlay w transition
     this.overlay.style.opacity="0";
+    //put overlay behind so we can click on pics again
     this.overlay.style.zIndex="0"
     //transition:
-    this.galleryGrid.style.transform = "none";
+    this.galleryGrid.style.transform = "scale(1,1)";
+    this.galleryGrid.style.transform += "translateX(0px)";
+    this.galleryGrid.style.transform += "translateY(0px)"
 
     //reset after transition:
     setTimeout(() => {
@@ -259,6 +272,8 @@ from 'rxjs';
         this.pic.srcset = "";
         //clear NextPic
         this.nextPic = undefined;
+        this.body.classList.remove('stop-scrolling');
+
       }
 
       , 300)

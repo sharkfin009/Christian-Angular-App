@@ -1,23 +1,26 @@
 
-
-/* #overlay{
-  -webkit-transition:opacity 0.2s ease-in;
-  transition:opacity 0.2s ease-in;
-} */
 #galleryGrid{
+  left:0;
+  top:0;
+  will-change:transform;
+  transform: scale(1,1);
   transition-property: transform;
   transition-duration: 0.3s;
   -webkit-transition-property: transform;
   -webkit-transition-duration: 0.3s;
-  top:0;
-  left:0;
+  overflow:none;
   }
  #lightbox{
   transition-property: transform;
   transition-duration: 0.3s;
   -webkit-transition-property: transform;
   -webkit-transition-duration: 0.3s;
-
+ }
+ #overlay{
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  -webkit-transition-property: opacity;
+  -webkit-transition-duration: 0.5s;
  }
 .left-arrow:hover{
   cursor: url("src/assets/left-arrow.png"),auto;
