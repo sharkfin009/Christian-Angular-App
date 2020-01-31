@@ -3,10 +3,7 @@
   <img (mouseover)="hoverOn()" (mouseleave)="hoverOff()" class="thumbnail relative" src="{{thumbnail.featured.medium}}"
     (load)="thumbnailLoaded()" width="300" />
 </div>
-
   <div *ngIf="gridIsPreloaded">
-
       <div class="dn" [innerHtml]="gallery"></div>
-
   </div>
 
