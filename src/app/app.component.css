@@ -5,8 +5,6 @@
      -ms-transition:opacity 0.5s ease-in;
       -o-transition:opacity 0.5s ease-in;
          transition:opacity 0.5s ease-in;
-
-
   }
   .fadeIn {
     opacity:1;
@@ -14,6 +12,43 @@
   .fadeOut{
     opacity: 0;
   }
+[data-menu-button]{
+  top:40px;
+  left:7.5%;
+  font-weight:800;
+  font-size:40px;
+}
+.headerZ{
+  z-index:5;
+}
+.menuZ{
+  z-index:4;
+}
+[data-menu-button]{
+  -webkit-transition:transform 0.2s ease-in;
+  -moz-transition:transform 0.2s ease-in;
+   -ms-transition:transform 0.2s ease-in;
+    -o-transition:transform 0.2s ease-in;
+       transition:transform 0.2s ease-in;
+}
+li{
+  margin-bottom: 10px;
 
+}
+li:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+li:active{
+  color: #FFB821;
+}
+ul{
+  margin-top: 150px;
+
+  padding-left:0;
+}
+.w-15{
+  width:15%;
+}
 
 

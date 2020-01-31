@@ -8,9 +8,6 @@ import {
   RouterModule
 } from '@angular/router'
 import {
-  AppRoutingModule
-} from './app-routing.module'
-import {
   AppComponent
 } from './app.component'
 import {
@@ -34,9 +31,7 @@ import {
 } from './routes'
 
 import { GalleryComponent } from './gallery/gallery.component';
-import { GetGalleriesService } from './shared/getGalleries.service'
-import { GalleriesResolverService} from './shared/galleriesResolver.service';
-import { CommissionsComponent } from './commissions/commissions.component'
+import { CommissionsComponent } from './commissions/commissions.component';
 
 
 @NgModule({
@@ -50,7 +45,6 @@ import { CommissionsComponent } from './commissions/commissions.component'
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
   ],

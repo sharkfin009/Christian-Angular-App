@@ -1,1 +1,13 @@
-<p>commissions works!</p>
+<h3 class="fw2 tc">Commissions<h3>
+  <div *ngIf="thumbnails$ | async as thumbnails"class="relative w-100 flex justify-between flex-wrap">
+    <gallery-thumbnail  class=" pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
+      [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
+
+    <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end ">
+      <div class="w-20"></div>
+      <h1 id="title" [ngClass]="hoverEventObject.hover" class="w-80 tl pb4  f1  black">
+        {{hoverEventObject.title}}</h1>
+      <div class="w-20"></div>
+    </div>
+  </div>
+

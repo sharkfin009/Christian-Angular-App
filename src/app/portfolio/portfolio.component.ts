@@ -1,6 +1,8 @@
 import {
   Component,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   ActivatedRoute
@@ -12,6 +14,7 @@ import {
 import {
   Observable
 } from 'rxjs';
+// import { EventEmitter } from 'protractor';
 
 
 @Component({
@@ -37,4 +40,5 @@ export class PortfolioComponent implements OnInit {
   hover(event) {
     this.hoverEventObject = event;
   };
+
 }
