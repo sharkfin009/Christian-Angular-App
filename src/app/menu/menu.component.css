@@ -1,0 +1,23 @@
+li{
+  margin-bottom: 10px;
+
+}
+li:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+li:active{
+  color: #FFB821;
+}
+ul{
+  margin-top: 150px;
+
+  padding-left:0;
+}
+.w-15{
+  width:15%;
+}
+.menu-dims{
+  height:100vh;
+  width:300px;
+}

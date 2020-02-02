@@ -6,8 +6,10 @@ import {
 import {
   HttpClient,
 } from '@angular/common/http';
-import { shareReplay, tap } from 'rxjs/operators';
+import { shareReplay, tap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { GalleryComponent } from '../gallery/gallery.component';
+import { GalleryThumb } from '../portfolio/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -25,9 +27,11 @@ export class GetThumbnailsService {
    }
 
   getThumbnails():Observable<any>{
-    return this.http.get(this.galleriesUrl)
+    return this.http.get<GalleryThumb[]>(this.galleriesUrl)
   .pipe(
+    
     shareReplay(1)
+
   )
   }
 }

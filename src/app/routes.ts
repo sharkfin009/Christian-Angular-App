@@ -14,6 +14,7 @@ import {
 import {
   CommissionsComponent
 } from './commissions/commissions.component'
+import { MenuComponent } from './menu/menu.component';
 
 
 
@@ -36,7 +37,7 @@ export const appRoutes: Routes = [{
     }
   }, {
     path: '',
-    redirectTo: '/portfolio',
+    redirectTo: '/gallery/showcase',
     pathMatch: 'full'
   }, {
     path: 'commissions',
@@ -44,6 +45,19 @@ export const appRoutes: Routes = [{
     data: {
       view: 'Commissions'
     }
+  },{
+    path: 'menu',
+    component: MenuComponent,
+    data: {
+      view: "menu"
+    }
   },
+  {
+    path: 'gallery/showcase',
+    component: GalleryComponent,
+    data: {
+      view: "gallery",
+    }
+  }
 
 ]

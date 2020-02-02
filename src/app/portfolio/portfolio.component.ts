@@ -37,6 +37,7 @@ export class PortfolioComponent implements OnInit {
   ngOnInit(): void {
     this.thumbnails$ = this.getThumbnails.thumbnails$;
   };
+ 
   hover(event) {
     this.hoverEventObject = event;
   };

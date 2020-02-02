@@ -12,43 +12,37 @@
   .fadeOut{
     opacity: 0;
   }
-[data-menu-button]{
-  top:40px;
-  left:7.5%;
+.menu-button-style{
+  top:0px;
+  left:15%;
+  padding:23px;
   font-weight:800;
   font-size:40px;
+  -webkit-transition:transform 0.5s ease-in;
+  -moz-transition:transform 0.5s ease-in;
+   -ms-transition:transform 0.5s ease-in;
+    -o-transition:transform 0.5s ease-in;
+       transition:transform 0.5s ease-in;
+       transform-origin: 50% 50%;
 }
-.headerZ{
+
+
+.turn{
+  transform: rotate(45deg);
+}
+.hover-grow:hover{
+ opacity:0.7;
+}
+.header-Z{
   z-index:5;
 }
-.menuZ{
-  z-index:4;
-}
-[data-menu-button]{
-  -webkit-transition:transform 0.2s ease-in;
-  -moz-transition:transform 0.2s ease-in;
-   -ms-transition:transform 0.2s ease-in;
-    -o-transition:transform 0.2s ease-in;
-       transition:transform 0.2s ease-in;
-}
-li{
-  margin-bottom: 10px;
 
+.menu-button-over-Z{
+  z-index:5 
 }
-li:hover{
-  text-decoration: underline;
-  cursor: pointer;
+.menu-button-under-Z{
+  z-index: 3;
 }
-li:active{
-  color: #FFB821;
+.goback-Z{
+  z-index: 4;
 }
-ul{
-  margin-top: 150px;
-
-  padding-left:0;
-}
-.w-15{
-  width:15%;
-}
-
-

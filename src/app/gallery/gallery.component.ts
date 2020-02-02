@@ -83,6 +83,7 @@ from 'rxjs';
     imgsPreload.innerHTML = this.grid;
     let bigPicArray = imgsPreload.querySelectorAll('img');
     this.bigPicArray = bigPicArray;
+
   }
 
   getGalleryName(slug: string): void {
@@ -99,7 +100,10 @@ from 'rxjs';
     this.lightbox = document.querySelector('#lightbox');
     this.galleryGrid = document.querySelector('#galleryGrid');
     this.lightboxFade = document.querySelector(".lightbox-fade");
-    this.bbutton = document.querySelector("#bbutton")
+    this.bbutton = document.querySelector("#bbutton");
+    if (this.slug !== "showcase"){
+      this.bbutton.style.opacity='1';
+    }
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
     this.left = document.querySelector("#left");
@@ -153,7 +157,7 @@ from 'rxjs';
     });
   }
 
- 
+
 
   cumulativeOffset(originOffset) {
     let top = 0,
@@ -223,7 +227,7 @@ from 'rxjs';
     this.unzoomedMiddleY = unzoomedTop + unzoomedHeight / 2;
     let centerMiddleX = centerLeft + centerWidth / 2;
     let centerMiddleY = centerTop + centerHeight / 2 - galleryOffset;
-    let picZoomedLeftDiffX = centerMiddleX - unzoomedMiddleX - window.innerWidth * 0.15;
+    let picZoomedLeftDiffX = centerMiddleX - unzoomedMiddleX - window.innerWidth * 0.20;
     let picZoomedTopDiffY = centerMiddleY - this.unzoomedMiddleY + window.scrollY;
 
     // change originOffset properties to trigger galleryGrid's zoom transition

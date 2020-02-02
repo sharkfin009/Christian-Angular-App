@@ -5,8 +5,16 @@ export interface Gallery {
     title: string;
  }
 
- export interface Lightbox {
+ export interface GalleryThumb {
    slug: string;
-   grid: string;
-   div?: any;
+   title:string;
+   thumb: string;
+
+ }
+
+ export interface Commission {
+  slug: string;
+  content: string;
+  images: string;
+  title: string;
  }

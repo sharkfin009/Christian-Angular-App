@@ -44,8 +44,7 @@ export class GalleryThumbnailComponent implements OnInit {
       this.gridIsPreloaded = true;
       }
     );
-    //this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.galleries$.grid);
-
+ 
   }
   ngAfterViewInit() {
     this.hoverOnWithTitle = {
@@ -61,7 +60,6 @@ export class GalleryThumbnailComponent implements OnInit {
 
   hoverOn() {
     this.hover.emit(this.hoverOnWithTitle);
-    console.log(this.hoverOnWithTitle)
   }
   hoverOff() {
     this.hover.emit(this.hoverOffWithTitle);
@@ -76,7 +74,6 @@ export class GalleryThumbnailComponent implements OnInit {
 
 
   thumbnailLoaded(){
-   // console.log(`${this.thumbnail.slug} is loaded`);
     this.thumbnailIsLoaded=true;
   }
 

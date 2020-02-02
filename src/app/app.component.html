@@ -1,36 +1,24 @@
-<div data-header class="headerZ fixed bg-white full-wrapper w-100 flex justify-center">
-  <div data-menu-button (click)="toggleMenu()"  class=" pointer that-yellow fixed  ">+</div>
+<div data-header class=" header-Z fixed bg-white full-wrapper w-100 flex justify-center">
+  <div  routerLink="/menu" [routerLinkActive]="['turn', 'menu-button-under-Z']"  class="menu-button menu-button-style menu-button-over-Z  hover-grow pointer that-yellow  fixed">+</div>
+  <div  (click)="goBack()"  class="o-0 goback menu-button-style goback-Z  pointer  fixed">+</div>
 
 
-  <div class="inside-wrapper w-70 flex justify-around flex-wrap">
+  <div class="inside-wrapper w-60 flex justify-around flex-wrap">
     <div class="header w-100 pt3 flex justify-between items-center">
-      <h1 id="site-title" class=" fw2 w-50">Christian Doppelgatz</h1>
+      <h2 id="site-title" class="tracked w-50">Christian Doppelgatz</h2>
       <div id="bbutton" routerLink="/portfolio" [routerLinkActive]="['dn']"
-        class=" tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer"></div>
+        class="dn tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer"></div>
     </div>
 
   </div>
 </div>
-<div [@menuAnim]="isCollapsed? 'open' : 'collapsed'" class=" fixed flex justify-center flex-wrap w-15 menuZ">
-  <ul class="  list ">
-    <li>Showcase</li>
-    <li routerLink="/portfolio">Portfolio</li>
-    <li routerLink="/commissions">Commissions</li>
-    <li routerLink="/showreel">Showreel</li>
-    <li routerLink="/news">News/Diary</li>
-    <li routerLink="/about">About</li>
-  </ul>
-</div>
 
+<!-- router-outlet markup -->
 <div class="full-wrapper  w-100  flex justify-center">
-  <div class="inside-wrapper w-70 flex justify-around flex-wrap">
-    <div class="header w-100 pt3 flex justify-between items-center">
-      <h1 id="site-title" class="o-0 z5 fw2 w-50">Christian Doppelgatz</h1>
-      <div id="bbutton" routerLink="portfolio" [routerLinkActive]="['dn']"
-        class="o-0 z-5 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer"></div>
-    </div>
-    <div id="outlet-wrapper" class="centered-wrapper w-100 mb4" [@routeAnimations]="prepareRoute(outlet)">
-      <router-outlet (activate)="onActivate($Event)" #outlet="outlet"></router-outlet>
+  <div class="inside-wrapper w-75 flex justify-around flex-wrap">
+
+    <div id="outlet-wrapper" class=" centered-wrapper w-100 mb4" [@routeAnimations]="prepareRoute(outlet)">
+      <router-outlet class="h6" #outlet="outlet"></router-outlet>
     </div>
   </div>
 </div>

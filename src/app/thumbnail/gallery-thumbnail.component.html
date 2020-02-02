@@ -1,7 +1,7 @@
-<div [routerLink]="['/gallery',thumbnail.slug]" id="thumbnail" [ngClass]="hoverDecide(hoverCompute)" 
-  class="w-100 pv5  relative pointer">
-  <img (mouseover)="hoverOn()" (mouseleave)="hoverOff()" class="thumbnail relative" src="{{thumbnail.featured.medium}}"
-    (load)="thumbnailLoaded()" width="300" />
+<div [routerLink]="['/gallery',thumbnail.slug]" id="thumbnail" [ngClass]="hoverDecide(hoverCompute)"
+  class=" relative pointer">
+  <img (mouseover)="hoverOn()" (mouseleave)="hoverOff()" class="thumbnail relative " src="{{thumbnail.featured.medium}}"
+    (load)="thumbnailLoaded()" width="" />
 </div>
   <div *ngIf="gridIsPreloaded">
       <div class="dn" [innerHtml]="gallery"></div>
