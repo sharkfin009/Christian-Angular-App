@@ -83,7 +83,6 @@ from 'rxjs';
     imgsPreload.innerHTML = this.grid;
     let bigPicArray = imgsPreload.querySelectorAll('img');
     this.bigPicArray = bigPicArray;
-
   }
 
   getGalleryName(slug: string): void {
@@ -101,6 +100,7 @@ from 'rxjs';
     this.galleryGrid = document.querySelector('#galleryGrid');
     this.lightboxFade = document.querySelector(".lightbox-fade");
     this.bbutton = document.querySelector("#bbutton");
+    this.bbutton.style.opacity="0";
     if (this.slug !== "showcase"){
       this.bbutton.style.opacity='1';
     }

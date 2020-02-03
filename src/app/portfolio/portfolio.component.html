@@ -1,11 +1,17 @@
-<h3 class="fw2 tc">Galleries<h3>
+<h3 class="debug
+fw2 tc">Galleries<h3>
     <div *ngIf="thumbnails$ | async as thumbnails" class=" relative flex justify-between flex-wrap">
-    <gallery-thumbnail class= " pointer mb4" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
-        [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject" ></gallery-thumbnail>
-      <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end ">
-        <div class="w-20"></div>
-        <h1 id="title" [ngClass]="hoverEventObject.hover" class="w-80 tl pb5  f1  black">
-          {{hoverEventObject.title}}</h1>
-        <div class="w-20"></div>
+      <gallery-thumbnail class=" pointer mb4" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
+        [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
+      <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-center ">
+        <div class="w-30"></div>
+
+         <div id="text" [ngClass]="hoverEventObject.hover" class="ba  w-40 tl   black">
+          <p class="w-100 " id="names" [ngClass]="hoverEventObject.hover">{{hoverEventObject.names}}</p>
+          <h1 class="w-100" id="title" [ngClass]="hoverEventObject.hover">{{hoverEventObject.title}}</h1>
+        </div>
+
+
+        <div class="w-30"></div>
       </div>
     </div>

@@ -1,7 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { GetCommissionsService } from '../shared/get-commissions.service';
-import { Commission } from '../portfolio/interfaces'
-import { Observable } from 'rxjs';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  GetCommissionsService
+} from '../shared/get-commissions.service';
+
+import {
+  ActivatedRoute
+} from '@angular/router';
+import {
+  DomSanitizer
+} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-commissions',
@@ -9,14 +19,18 @@ import { Observable } from 'rxjs';
   styleUrls: ['./commissions.component.css']
 })
 export class CommissionsComponent implements OnInit {
-commissions$: Observable<any>;
+  commissions: any;
 
-
-
-  constructor(private getCommissions:GetCommissionsService) { }
+  constructor(private route: ActivatedRoute, private getCommissions: GetCommissionsService,
+    private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.commissions$ = this.getCommissions.commissions$;
+    this.commissions = this.route.snapshot.data['commissions'];
+    this.commissions.forEach((item, index, array) => {
+      array[index].sanitizedGrid=this.sanitizer.bypassSecurityTrustHtml(item);
+    });
+    console.dir(this.commissions);
+
   }
 
 }

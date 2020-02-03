@@ -23,6 +23,8 @@ import {
   animations: [slider, menuAnim]
 })
 export class AppComponent {
+  outlet:any;
+  menuButton:any;
   headerElement :any;
   isCollapsed: boolean = false;
   constructor(private location: Location) {}
@@ -34,14 +36,14 @@ export class AppComponent {
   ngAfterViewInit() {
     this.headerElement=document.querySelector('[data-header]')
     let offset = this.headerElement.offsetHeight;
-    let outlet=document.querySelector('#outlet-wrapper');
-   outlet.style.marginTop=`13%`
+    this.outlet=document.querySelector('#outlet-wrapper');
+   this.outlet.style.marginTop=`13%`
   }
 
   goBack(){
     this.location.back();
-    let menuButton = document.querySelector('.menu-button');
-    menuButton.style.classList= "menu-button-over-Z"
+     this.menuButton = document.querySelector('.menu-button');
+    this.menuButton.style.classList= "menu-button-over-Z"
   }
 
 

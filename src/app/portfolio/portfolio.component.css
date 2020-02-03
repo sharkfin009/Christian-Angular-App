@@ -5,24 +5,31 @@
 }
 
 #title {
+  font-family: Ibarra Real Nova;
   font-size: 5em;
   opacity: 0;
   margin-bottom: 5px;
 }
+#names {
+  font-family: Ibarra Real Nova;
+  font-size: 1em;
+  opacity: 0;
+  margin-bottom: 5px;
+}
 .hoverOn {
-  animation: settle 1s ease-out , fadeIn 2s ease-out;
+animation: settle 1s ease-out forwards, fadeIn 2s ease-out forwards;
 }
 .hoverOff {
-  animation:  fadeOut 2s ease-out;
+  animation:  fadeOut 1.5s ease-out forwards;
 }
 
 .thumbnail{
-  animation: fadeIn 0.5s ease-in;
+  animation: fadeIn 0.2s ease-in;
 }
 
 @keyframes settle {
   from {
-    margin-bottom: 50px;
+   transform: translateY(-50px);
   }
   to {
     margin-bottom: 5px;
@@ -36,4 +43,22 @@
   from {opacity: 1;}
   to{opacity: 0;}
 }
+
+
+
+
+/* .hoverOn{
+  translate:0px;
+  opacity:1;
+}
+.hoverOff{
+  opacity:0;
+}
+#text{
+  transition-property: transfrom,opacity;
+  transition-duration: 1s;
+  -webkit-transition-property: transform;
+  -webkit-transition-duration: 1s;
+ } */
+
 

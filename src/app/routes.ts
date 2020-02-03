@@ -15,9 +15,9 @@ import {
   CommissionsComponent
 } from './commissions/commissions.component'
 import { MenuComponent } from './menu/menu.component';
-
-
-
+import {
+  CommissionsResolverService
+} from './shared/commissionsResolver.service'
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
@@ -42,6 +42,9 @@ export const appRoutes: Routes = [{
   }, {
     path: 'commissions',
     component: CommissionsComponent,
+    resolve: {
+      commissions: CommissionsResolverService,
+    },
     data: {
       view: 'Commissions'
     }

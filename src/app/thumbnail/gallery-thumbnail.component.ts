@@ -44,16 +44,18 @@ export class GalleryThumbnailComponent implements OnInit {
       this.gridIsPreloaded = true;
       }
     );
- 
+
   }
   ngAfterViewInit() {
     this.hoverOnWithTitle = {
       title: this.thumbnail.title,
-      hover: "hoverOn"
+      hover: "hoverOn",
+      names:this.thumbnail.names,
     };
     this.hoverOffWithTitle = {
       title: this.thumbnail.title,
-      hover: "hoverOff"
+      hover: "hoverOff",
+      names: this.thumbnail.names,
     }
 
   }

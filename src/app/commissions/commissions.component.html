@@ -1,10 +1,9 @@
 <h3 class="fw2 tc">Commissions<h3>
-  <div *ngIf="commissions$ | async as commissions"class="relative w-100 flex justify-between flex-wrap">
+  <div class="relative w-100 flex justify-between flex-wrap">
     <div  class="pointer" (hover)="hover($event)" *ngFor="let commission of commissions"
      >
      <h3>{{commission.title}}</h3>
-     <div *ngFor="let pic of commission.images">
-      <img src="{{pic}}"><p>{{pic}}</p>
+     <div class="w-100"[innerHtml]="commission.trustedGrid">
      </div>
     </div>
   </div>
