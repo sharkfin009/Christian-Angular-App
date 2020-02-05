@@ -19,7 +19,9 @@ import {
   styleUrls: ['./commissions.component.css']
 })
 export class CommissionsComponent implements OnInit {
-  commissions: any;
+  commissions=[];
+  hoverClass="hoverOn"
+  title:string;
 
   constructor(private route: ActivatedRoute, private getCommissions: GetCommissionsService,
     private sanitizer: DomSanitizer) {}
@@ -27,10 +29,21 @@ export class CommissionsComponent implements OnInit {
   ngOnInit() {
     this.commissions = this.route.snapshot.data['commissions'];
     this.commissions.forEach((item, index, array) => {
-      array[index].sanitizedGrid=this.sanitizer.bypassSecurityTrustHtml(item);
+      array[index].sanitizedGrid=this.sanitizer.bypassSecurityTrustHtml(item.grid);
     });
     console.dir(this.commissions);
+  }
+  ngAfterViewInit(){
 
+  }
+  hoverOn(title){
+    console.log(title)
+    this.hoverClass = "hoverOn";
+    this.title = title;
+
+  }
+  hoverOff(){
+    this.hoverClass = "hoverOff";
   }
 
 }

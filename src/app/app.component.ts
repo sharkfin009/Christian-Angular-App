@@ -37,7 +37,7 @@ export class AppComponent {
     this.headerElement=document.querySelector('[data-header]')
     let offset = this.headerElement.offsetHeight;
     this.outlet=document.querySelector('#outlet-wrapper');
-   this.outlet.style.marginTop=`13%`
+   this.outlet.style.marginTop=`13%`;
   }
 
   goBack(){

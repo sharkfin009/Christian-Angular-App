@@ -227,7 +227,7 @@ from 'rxjs';
     this.unzoomedMiddleY = unzoomedTop + unzoomedHeight / 2;
     let centerMiddleX = centerLeft + centerWidth / 2;
     let centerMiddleY = centerTop + centerHeight / 2 - galleryOffset;
-    let picZoomedLeftDiffX = centerMiddleX - unzoomedMiddleX - window.innerWidth * 0.20;
+    let picZoomedLeftDiffX = centerMiddleX - unzoomedMiddleX - window.innerWidth * 0.10;
     let picZoomedTopDiffY = centerMiddleY - this.unzoomedMiddleY + window.scrollY;
 
     // change originOffset properties to trigger galleryGrid's zoom transition

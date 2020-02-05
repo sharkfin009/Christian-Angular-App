@@ -10,10 +10,6 @@ export interface Gallery {
     title:string;
     content:string;
     thumb: string;
-
-
-
-
  }
 
  export interface Commission {
@@ -21,19 +17,16 @@ export interface Gallery {
   content: string;
   grid: string;
   title: string;
-
  }
 
  export interface Post {
    slug: string;
    grid:string;
    title:string;
-
  }
 
  export interface Video {
    slug: string;
    videoUrl: string;
    title: string;
-
  }
