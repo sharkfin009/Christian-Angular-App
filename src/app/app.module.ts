@@ -33,10 +33,9 @@ import {
 import { GalleryComponent } from './gallery/gallery.component';
 import { CommissionsComponent } from './commissions/commissions.component';
 import { MenuComponent } from './menu/menu.component';
-import { BlogComponent } from './blog/blog.component';
 import { VideosComponent } from './videos/videos.component';
 import { VideoComponent } from './video/video.component';
-import { BlogPostComponent } from './blog-post/blog-post.component';
+import { PostsComponent } from './posts/posts.component';
 
 
 @NgModule({
@@ -47,10 +46,9 @@ import { BlogPostComponent } from './blog-post/blog-post.component';
      GalleryComponent,
      CommissionsComponent,
      MenuComponent,
-     BlogComponent,
+     PostsComponent,
      VideosComponent,
      VideoComponent,
-     BlogPostComponent,
   ],
   imports: [
     BrowserAnimationsModule,

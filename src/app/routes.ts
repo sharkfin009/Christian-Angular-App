@@ -18,6 +18,8 @@ import { MenuComponent } from './menu/menu.component';
 import {
   CommissionsResolverService
 } from './shared/commissionsResolver.service'
+import { PostsComponent } from './posts/posts.component';
+import { PostsResolverService } from './shared/postsResolver.service';
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
@@ -46,7 +48,17 @@ export const appRoutes: Routes = [{
       commissions: CommissionsResolverService,
     },
     data: {
-      view: 'Commissions'
+      view: 'commissions'
+    }
+  },
+  {
+    path: 'posts',
+    component: PostsComponent,
+    resolve: {
+      posts: PostsResolverService,
+    },
+    data: {
+      view: 'posts'
     }
   },{
     path: 'menu',
@@ -61,6 +73,8 @@ export const appRoutes: Routes = [{
     data: {
       view: "gallery",
     }
-  }
+  },
+
+
 
 ]

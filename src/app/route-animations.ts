@@ -61,7 +61,7 @@ import{
         ])
     ]),
 
-    transition('portfolio => menu, gallery=>menu',[
+    transition('portfolio => menu, gallery => menu, commissions => menu, posts => menu',[
       style({position:'relative'}),
       query(':enter,:leave', [
         style({
@@ -85,7 +85,7 @@ import{
           ],{optional:true})
         ])
     ]),
-    transition('menu => portfolio,menu => gallery',[
+    transition('menu => portfolio,menu => gallery, menu => commissions, menu => posts',[
       style({position:'relative'}),
       query(':enter,:leave', [
         style({
@@ -109,5 +109,5 @@ import{
           ],{optional:true})
         ])
     ]),
-  
+
  ]);

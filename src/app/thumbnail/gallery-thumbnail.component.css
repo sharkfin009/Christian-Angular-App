@@ -4,7 +4,7 @@
 
 #thumbnail {
   transition: all 0.9s;
-
+  width:400px
 }
 
 .hoverOn {
