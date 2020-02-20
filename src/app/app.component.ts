@@ -1,5 +1,5 @@
 import { Component ,OnInit} from '@angular/core';
-import { RouterOutlet,RouterModule } from '@angular/router';
+import { RouterOutlet,RouterModule, ActivatedRoute } from '@angular/router';
 import {  slider } from './route-animations'
 
 @Component({
@@ -9,9 +9,14 @@ import {  slider } from './route-animations'
   animations: [ slider ]
 })
 export class AppComponent {
-  constructor(){}
+  pageTitle: any;
+  constructor(private route:ActivatedRoute){}
   prepareRoute(outlet: RouterOutlet ) {
     return outlet.activatedRouteData['view']||"portfolio";
+  }
+  ngOnInit(){
+    this.pageTitle = this.route.snapshot;
+    console.dir(this.pageTitle);
   }
   hoverOver(){
     console.log('over')
