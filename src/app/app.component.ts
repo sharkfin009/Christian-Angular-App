@@ -6,7 +6,7 @@ import {  slider } from './route-animations'
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  animations: [slider, menuAnim]
+  animations: [slider]
 })
 export class AppComponent {
   outlet:any;
@@ -26,11 +26,11 @@ export class AppComponent {
    this.outlet.style.marginTop=`13%`;
   }
 
-  goBack(){
-    this.location.back();
-     this.menuButton = document.querySelector('.menu-button');
-    this.menuButton.style.classList= "menu-button-over-Z"
-  }
+  // goBack(){
+  //   this.location.back();
+  //    this.menuButton = document.querySelector('.menu-button');
+  //   this.menuButton.style.classList= "menu-button-over-Z"
+  // }
 
 
 }
