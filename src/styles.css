@@ -4,9 +4,34 @@
 
 html, body { height: 100%; }
 body { margin: 0;
-  font-family: Roboto, "Muli", sans-serif;
+  
+}
+.that-yellow{
+  color:#FFB821
 }
 
+li,h1,div,#title{
+  font-family: value-regular;
+ 
+
+}
+h2{
+  font-family: Value;
+  text-transform: uppercase;
+  font-size:22px;
+}
+
+@font-face {
+  font-family: Value;
+  src: url('./assets/ValueFont/value-medium-web.woff') ;
+  
+  }
+
+  @font-face {
+    font-family: value-regular;
+    src: url('./assets/ValueFont/value-regular-web.woff')  
+   
+    } 
 
 
 *{
@@ -26,5 +51,4 @@ body { margin: 0;
 
 .stop-scrolling {
   height: 100%;
-  overflow: hidden;
 }

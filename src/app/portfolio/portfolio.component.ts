@@ -1,6 +1,8 @@
 import {
   Component,
   OnInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import {
   ActivatedRoute
@@ -12,6 +14,7 @@ import {
 import {
   Observable
 } from 'rxjs';
+ import { GalleryThumb} from '../shared/interfaces';
 
 
 @Component({
@@ -22,10 +25,11 @@ import {
 
 export class PortfolioComponent implements OnInit {
   galleries$: Observable < any[] > ;
-  thumbnails$: Observable < any > ;
+  thumbnails$: Observable< GalleryThumb[]>;
   hoverEventObject = {
     hover: "",
     title: '',
+    names: "",
   };
   hoverOnClass = "";
 
@@ -34,7 +38,10 @@ export class PortfolioComponent implements OnInit {
   ngOnInit(): void {
     this.thumbnails$ = this.getThumbnails.thumbnails$;
   };
+
   hover(event) {
     this.hoverEventObject = event;
+    console.log('boo')
   };
+
 }

@@ -6,21 +6,32 @@ import {  slider } from './route-animations'
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  animations: [ slider ]
+  animations: [slider, menuAnim]
 })
 export class AppComponent {
-  pageTitle: any;
-  constructor(private route:ActivatedRoute){}
-  prepareRoute(outlet: RouterOutlet ) {
-    return outlet.activatedRouteData['view']||"portfolio";
+  outlet:any;
+  menuButton:any;
+  headerElement :any;
+  isCollapsed: boolean = false;
+  constructor(private location: Location) {}
+  prepareRoute(outlet: RouterOutlet) {
+
+    return outlet.activatedRouteData['view'] || "portfolio";
   }
-  ngOnInit(){
-    this.pageTitle = this.route.snapshot;
-    console.dir(this.pageTitle);
+
+  ngAfterViewInit() {
+    this.headerElement=document.querySelector('[data-header]')
+    let offset = this.headerElement.offsetHeight;
+    this.outlet=document.querySelector('#outlet-wrapper');
+   this.outlet.style.marginTop=`13%`;
   }
-  hoverOver(){
-    console.log('over')
+
+  goBack(){
+    this.location.back();
+     this.menuButton = document.querySelector('.menu-button');
+    this.menuButton.style.classList= "menu-button-over-Z"
   }
+
 
 }
 
