@@ -1,20 +1,32 @@
-<div class="debug z-5 fixed bg-white full-wrapper w-100 flex justify-center">
-  <div class="inside-wrapper w-70 flex justify-around flex-wrap">
-    <div class="header w-100 pt3 flex justify-between items-center">
-      <h1 id="site-title" class="lightbox-fade z5 fw2 w-50 pl2">Christian Doppelgatz</h1>
-      <div id="bbutton" routerLink="portfolio" [routerLinkActive]="['dn']"
-        class="lightbox-fade z-5 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer"></div>
-    </div>
+<div class="header z-1 bg-white fixed w-100 flex flex-nowrap justify-center items-center">
+ <div class="w-80 flex flex-nowrap justify-between">
+    <h1 id="site-title" class=" lightbox-fade z5 fw2  pl2">Christian Doppelgatz</h1>
+    <!-- <div id="bbutton" routerLink="portfolio" [routerLinkActive]="['dn']"
+          class="lightbox-fade z-5 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer"></div> -->
+    <div class=" flex items-center">{{activeRouteTitle}}</div>
+ </div>
+</div>
+
+<div class="debug   w-100 flex justify-center relative">
+
+  <div class=" w-10 flex flex-column items-center justify-end">
+
+    <div class=" menu-button menu-button-over-Z  hover-grow pointer that-yellow">+</div>
+  </div>
+  <div class="relative  w-80 flex flex-column flex-nowrap ">
+
+
+      <div class="w-100 flex flex-wrap">
+
+        <div id="outlet-wrapper" class=" w-100 " [@routeAnimations]="prepareRoute(outlet)">
+          <router-outlet class="scroll" #outlet="outlet"></router-outlet>
+        </div>
+      </div>
 
   </div>
+
+  <div class="w-10 flex flex-column"></div>
 </div>
 
 <!-- router-outlet markup -->
-<div class="full-wrapper  w-100  flex justify-center">
-  <div class="inside-wrapper w-80 flex justify-around flex-wrap">
 
-    <div id="outlet-wrapper" class=" centered-wrapper w-100 mb4" [@routeAnimations]="prepareRoute(outlet)">
-      <router-outlet class="" #outlet="outlet"></router-outlet>
-    </div>
-  </div>
-</div>

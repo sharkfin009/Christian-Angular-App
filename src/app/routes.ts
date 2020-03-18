@@ -25,7 +25,8 @@ export const appRoutes: Routes = [{
     path: 'portfolio',
     component: PortfolioComponent,
     data: {
-      view: 'portfolio'
+      view: 'portfolio',
+      title: "Portfolio",
     }
   },
   {
@@ -35,7 +36,8 @@ export const appRoutes: Routes = [{
       grids: GalleriesResolverService,
     },
     data: {
-      view: 'gallery'
+      view: 'gallery',
+      title: 'Gallery',
     }
   }, {
     path: '',
@@ -48,23 +50,8 @@ export const appRoutes: Routes = [{
       commissions: CommissionsResolverService,
     },
     data: {
-      view: 'commissions'
-    }
-  },
-  {
-    path: 'posts',
-    component: PostsComponent,
-    resolve: {
-      posts: PostsResolverService,
-    },
-    data: {
-      view: 'posts'
-    }
-  },{
-    path: 'menu',
-    component: MenuComponent,
-    data: {
-      view: "menu"
+      view: 'commissions',
+      title: 'Commissions',
     }
   },
   {
@@ -72,6 +59,7 @@ export const appRoutes: Routes = [{
     component: GalleryComponent,
     data: {
       view: "gallery",
+      title: "Gallery",
     }
   },
 

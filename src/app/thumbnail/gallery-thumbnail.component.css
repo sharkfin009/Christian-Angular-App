@@ -7,13 +7,7 @@
   width:400px
 }
 
-.hoverOn {
-  opacity: 0.5;
-}
 
-.hoverOff {
-  opacity: 1;
-}
 .thisIsHoveredThumbnail{
   opacity: 1!important
 }
