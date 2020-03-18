@@ -1,5 +1,5 @@
-import { Component ,OnInit} from '@angular/core';
-import { RouterOutlet,Router, RoutesRecognized, ActivatedRoute } from '@angular/router';
+import { Component, OnInit} from '@angular/core';
+import { RouterOutlet, Router, RoutesRecognized, ActivatedRoute } from '@angular/router';
 import {  slider } from './route-animations'
 
 @Component({
@@ -16,7 +16,6 @@ export class AppComponent implements OnInit{
   activeRouteTitle: any;
 
   constructor( private route: ActivatedRoute, private router: Router) {
-
   }
   prepareRoute(outlet: RouterOutlet) {
 

@@ -12,10 +12,8 @@
   .fadeOut{
     opacity: 0;
   }
-.menu-button-style{
-  top:0px;
-  left:15%;
-  padding:23px;
+.menu-button{
+
   font-weight:800;
   font-size:40px;
   -webkit-transition:transform 0.5s ease-in;
@@ -24,6 +22,7 @@
     -o-transition:transform 0.5s ease-in;
        transition:transform 0.5s ease-in;
        transform-origin: 50% 50%;
+
 }
 
 .turn{
@@ -46,5 +45,7 @@
   z-index: 4;
 }
 #outlet-wrapper{
-  margin-top:95px;
+  margin-top:90px;
+  overflow-y:scroll;
 }
+
