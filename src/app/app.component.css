@@ -26,7 +26,6 @@
        transform-origin: 50% 50%;
 }
 
-
 .turn{
   transform: rotate(45deg);
 }
@@ -38,11 +37,14 @@
 }
 
 .menu-button-over-Z{
-  z-index:5 
+  z-index:5
 }
 .menu-button-under-Z{
   z-index: 3;
 }
 .goback-Z{
   z-index: 4;
+}
+#outlet-wrapper{
+  margin-top:95px;
 }
