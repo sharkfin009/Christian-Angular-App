@@ -4,9 +4,15 @@
 
 #thumbnail {
   transition: all 0.9s;
-  width:400px
+  /* width:400px */
+}
+.paleOn {
+  opacity: 0.5;
 }
 
+.paleOff {
+  opacity: 1;
+}
 
 .thisIsHoveredThumbnail{
   opacity: 1!important

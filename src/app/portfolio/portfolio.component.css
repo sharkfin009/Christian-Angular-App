@@ -24,11 +24,11 @@
   top:40px;
 
 }
-.hoverOn {
+.paleOn {
 animation: settle 1s ease-out forwards, fadeIn 1s ease-out forwards;
 }
-.hoverOff {
-  animation:  fadeOut 0.5s ease-out forwards;
+.paleOff {
+  animation:  return 1s ease-out forwards,fadeOut 0.5s ease-out forwards;
 }
 
 .thumbnail{
@@ -40,8 +40,19 @@ animation: settle 1s ease-out forwards, fadeIn 1s ease-out forwards;
    transform: translateY(-50px);
   }
   to {
-    margin-bottom: 5px;
+  transform: translateY(50px);
   }
+}
+
+@keyframes return {
+  from {
+   transform: translateY(50px);
+  }
+  to {
+  transform: translateY(-50px);
+  }
+
+
 }
 @keyframes fadeIn {
   from {opacity: 0;}

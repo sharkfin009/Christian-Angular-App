@@ -1,15 +1,12 @@
-
-    <div *ngIf="thumbnails$ | async as thumbnails"
-    class="relative w-100 flex-ns justify-between-ns flex-wrap-ns">
-      <gallery-thumbnail  class="w-33 pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
-        [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
-      <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
-        <div class="w-30"></div>
-         <div id="text"  class="w-60 tl black">
-          <span class="w-100 o-100" [ngClass]="hoverEventObject.hover" id="names">{{hoverEventObject.names}}</span>
-          <h1 class="w-100" [ngClass]="hoverEventObject.hover" id="title" >{{hoverEventObject.title}}</h1>
-        </div>
-        <div class="w-10"></div>
-      </div>
+<div *ngIf="thumbnails$ | async as thumbnails" class="relative w-100 flex-ns justify-between-ns flex-wrap-ns">
+  <gallery-thumbnail class="w-33 pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
+    [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
+  <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
+    <div class="w-30"></div>
+    <div id="text" class="w-60 black">
+      <div class="w-100 " [ngClass]="hoverEventObject.hover" id="names">{{hoverEventObject.names}}</div>
+      <h1 class="w-100" [ngClass]="hoverEventObject.hover" id="title">{{hoverEventObject.title}}</h1>
     </div>
-
+    <div class="w-10"></div>
+  </div>
+</div>
