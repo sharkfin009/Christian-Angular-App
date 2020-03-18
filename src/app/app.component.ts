@@ -1,20 +1,6 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  RouterOutlet,
-  RouterModule
-} from '@angular/router';
-import {
-  slider
-} from './route-animations'
-import {
-  menuAnim
-} from './menuAnimation';
-import {
-  Location
-} from "@angular/common";
+import { Component ,OnInit} from '@angular/core';
+import { RouterOutlet,RouterModule, ActivatedRoute } from '@angular/router';
+import {  slider } from './route-animations'
 
 @Component({
   selector: 'app-root',
