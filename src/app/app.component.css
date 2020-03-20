@@ -49,3 +49,23 @@
   overflow-y:scroll;
 }
 
+/* menu */
+li{
+  margin-bottom: 10px;
+
+}
+li:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+li:active{
+  color: #FFB821;
+}
+ul{
+  padding-top:170px;
+  padding-left:0;
+}
+menu-item{
+  
+}
+
