@@ -67,8 +67,9 @@ from 'rxjs';
   nextPic: any;
   outletWrapper: any;
   body: any;
-  unzoomedMiddleY: any;
+  targetMiddleY: any;
   @Output() hideMenuEmit = new EventEmitter;
+  galleryWrapper: any;
 
   constructor( private route: ActivatedRoute, private sanitizer: DomSanitizer) {}
 
@@ -111,7 +112,7 @@ from 'rxjs';
     this.left = document.querySelector("#left");
     this.right = document.querySelector("#right");
     this.fullWrapper = document.querySelector(".full-wrapper");
-    this.header = document.querySelector(".header");
+    this.galleryWrapper = document.querySelector("#galleryWrapper");
     this.outletWrapper = document.querySelector("#outlet-wrapper");
     //make Array of img's
     this.picsArray = this.galleryGrid.querySelectorAll('img');
@@ -158,25 +159,7 @@ from 'rxjs';
 
 
 
-  cumulativeOffset(originOffset) {
-    let top = 0,
-      left = 0,
-      i = 0;
 
-    do {
-      top += originOffset.offsetTop || 0;
-      left += originOffset.offsetLeft || 0;
-      originOffset = originOffset.offsetParent;
-      i++;
-    }
-
-    while (i <= 5);
-
-    return {
-      top: top,
-      left: left
-    }
-  }
 
   showLightbox(event) {
     this.lightboxFlag = true;
@@ -204,13 +187,13 @@ from 'rxjs';
   picZoom(zoomTarget) {
     // get the event targets shape and position in viewport
     let zoomTargetPos = zoomTarget.getBoundingClientRect();
-    let unzoomedLeft = zoomTargetPos.left;
-    let unzoomedTop = zoomTargetPos.top ;
-    let unzoomedWidth = zoomTarget.offsetWidth;
-    let unzoomedHeight = zoomTarget.offsetHeight;
+    let targetLeft = zoomTargetPos.left;
+    let targetTop = zoomTargetPos.top ;
+    let targetWidth = zoomTarget.offsetWidth;
+    let targetHeight = zoomTarget.offsetHeight;
 
     // work out 80% height and resultant width
-    let ratio = unzoomedWidth / unzoomedHeight;
+    let ratio = targetWidth / targetHeight;
     let centerHeight = window.innerHeight * 0.8;
     let centerWidth = centerHeight * ratio;
 
@@ -220,23 +203,29 @@ from 'rxjs';
 
     //work out gallery top and left and width values for zoomed position
 
-    let picWidthRatio = centerWidth / unzoomedWidth;
-    let unzoomedMiddleX = unzoomedLeft + unzoomedWidth / 2;
-    this.unzoomedMiddleY = unzoomedTop + unzoomedHeight / 2;
+    let picWidthRatio = centerWidth / targetWidth;
+    let targetMiddleX = targetLeft + targetWidth / 2;
+    let targetMiddleY = targetTop + targetHeight / 2;
     let centerMiddleX = centerLeft + centerWidth / 2;
     let centerMiddleY = centerTop + centerHeight / 2 ;
-    let picZoomedLeftDiffX = centerMiddleX - unzoomedMiddleX - window.innerWidth * 0.10;
-    let picZoomedTopDiffY = centerMiddleY - this.unzoomedMiddleY + window.scrollY;
+    let picZoomedDiffX = centerMiddleX - targetMiddleX - window.innerWidth * 0.10;
+    let picZoomedDiffY = centerMiddleY - targetMiddleY ;
 
-    // change originOffset properties to trigger galleryGrid's zoom transition
-    this.galleryGrid.style.transformOrigin = `${unzoomedMiddleX}px ${this.unzoomedMiddleY}px`;
-    this.galleryGrid.style.transform = "translateX(" + picZoomedLeftDiffX + "px)";
-    this.galleryGrid.style.transform += "translateY(" + picZoomedTopDiffY + "px)";
+    // change originOffset properties to center of target and trigger galleryGrid's zoom transition
+    this.galleryGrid.style.transformOrigin = `${targetMiddleX}px ${targetMiddleY}px`;
+    this.galleryGrid.style.transform = "translateX(" + picZoomedDiffX + "px)";
+    this.galleryGrid.style.transform += "translateY(" + picZoomedDiffY + "px)";
     this.galleryGrid.style.transform += `scale(${picWidthRatio}, ${picWidthRatio})`;
     //place lightbox in center of fixed overlay
     this.lightbox.style.left = centerLeft + "px";
     this.lightbox.style.top = centerTop + "px";
     this.lightbox.style.width = centerWidth + "px";
+    console.log(
+      `targetLeft:${targetLeft},targetTop:${targetTop}\n`,
+      `targetLeft:${centerLeft},targetTop:${centerTop}\n`,
+      `targetMiddleX:${targetMiddleX},targetMiddleY:${targetMiddleY}\n`,
+      `picZoomedDiffX:${picZoomedDiffX},pixZoomedDiffY:${picZoomedDiffY}\n`,
+    );
 
   }
 
@@ -250,7 +239,7 @@ from 'rxjs';
         this.pic.src = this.nextPic.src;
         //apply transform to the chosen pic to prepare for zooming back when lightbox closes
         this.picZoom(this.nextPic);
-        window.scrollTo(0, this.unzoomedMiddleY - window.innerHeight / 2);
+        // this.galleryWrapper.scrollTo(0, this.targetMiddleY - window.innerHeight / 2);
       };
     }
   }
@@ -266,7 +255,7 @@ from 'rxjs';
         this.pic.src = this.nextPic.src;
         //apply transform to the chosen pic to prepare for zooming back when lightbox closes
         this.picZoom(this.nextPic);
-        window.scrollTo(0, this.unzoomedMiddleY - window.innerHeight / 2);
+        // this.galleryWrapper.scrollTo(0, this.targetMiddleY - window.innerHeight / 2);
 
       };
     }
