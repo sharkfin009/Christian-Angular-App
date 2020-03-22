@@ -210,7 +210,7 @@ from 'rxjs';
     // get the event targets shape and position in viewport
     let zoomTargetPos = this.cumulativeOffset(zoomTarget);
     let unzoomedLeft = zoomTargetPos.left;
-    let unzoomedTop = zoomTargetPos.top;
+    let unzoomedTop = zoomTargetPos.top ;
     let unzoomedWidth = zoomTarget.offsetWidth;
     let unzoomedHeight = zoomTarget.offsetHeight;
 
