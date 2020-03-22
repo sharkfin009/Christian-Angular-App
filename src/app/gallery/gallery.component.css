@@ -1,4 +1,9 @@
+#galleryWrapper{
+  top:0;
+  left:0;
+overflow-y: auto;
 
+}
 #galleryGrid{
   left:0;
   top:0;
@@ -22,7 +27,7 @@
   transition-duration: 0.5s;
   -webkit-transition-property: opacity;
   -webkit-transition-duration: 0.5s;
-  
+
     z-index:-1;
 
  }

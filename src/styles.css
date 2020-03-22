@@ -49,10 +49,6 @@ h2{
   background: transparent;  /* Optional: just make scrollbar invisible */
 }
 
-.stop-scrolling {
-  height: 100%;
-}
-
 .nil {
   border: 2px dashed blue;
 }

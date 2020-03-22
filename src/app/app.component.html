@@ -1,4 +1,4 @@
-<div class=" header z-2 bg-white fixed w-100 flex flex-nowrap justify-center items-center ">
+<div class="header z-2  fixed w-100 flex flex-nowrap justify-center items-center ">
   <div class="w-10" >
     <div class="flex justify-end">
       <div (click)="click()" class="menu-button menu-button-over-Z hover-grow pointer that-yellow"
@@ -15,11 +15,11 @@
   </div>
 </div>
 
-<div class="  h-100 bg-white w-100 flex justify-center ">
+<div class="nil fixed h-100 bg-white w-100 flex justify-center ">
 
-  <div class="menu-box nil relative black z-1  bg-white w-10 flex flex-column items-center justify-start h-100" >
+  <div class="menu-box relative black z-1  bg-white w-10 flex flex-column items-center justify-start h-100" >
 
-    <ul class="list fixed" [ngClass]="turnClass.menu">
+    <ul class="nil list fixed" [ngClass]="turnClass.menu">
       <li routerLink="/gallery/showcase">Showcase</li>
       <li routerLink="/portfolio">Portfolio</li>
       <li routerLink="/commissions">Commissions</li>
@@ -28,12 +28,11 @@
       <li routerLink="/about">About</li>
     </ul>
 
-
   </div>
 
 
-      <div id="outlet-wrapper" class="relative z-0 w-80" [@routeAnimations]="prepareRoute(outlet)">
-        <router-outlet  #outlet="outlet" class=" "></router-outlet>
+      <div id="outlet-wrapper" class="relative z-0 w-80 h-100" [@routeAnimations]="prepareRoute(outlet)">
+        <router-outlet  #outlet="outlet" class="absolute"></router-outlet>
       </div>
 
 

@@ -31,21 +31,16 @@
 .hover-grow:hover{
  opacity:0.7;
 }
-.header-Z{
-  z-index:5;
-}
 
-.menu-button-over-Z{
-  z-index:5
-}
-.menu-button-under-Z{
-  z-index: 3;
-}
-.goback-Z{
-  z-index: 4;
-}
+
+
+
+
 #outlet-wrapper{
-  margin-top:90px;
+  top:90px;
+  left:0;
+
+  overflow-y:scroll;
 
 }
 

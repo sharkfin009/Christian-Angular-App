@@ -104,8 +104,8 @@ from 'rxjs';
       this.pageTitle.style.opacity='0';
     } else {
       this.pageTitle.style.opacity='1';
-
     }
+
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
     this.left = document.querySelector("#left");
@@ -136,10 +136,6 @@ from 'rxjs';
           //set up intersection observors for pics off page
           let observer = new IntersectionObserver(this.intersectionCallback, options);
           observer.observe(item);
-        }
-        if (index === this.picsArray.length-1){
-          item.style.marginBottom = "40px";
-          item.style.transform="";
         }
       }
 
@@ -174,7 +170,7 @@ from 'rxjs';
       i++;
     }
 
-    while (i <= 4);
+    while (i <= 5);
 
     return {
       top: top,
@@ -189,10 +185,9 @@ from 'rxjs';
     this.picZoom(zoomTarget);
     //show lightbox after transition to hide galleryGrid
     setTimeout(() => {
-      this.overlay.style.opacity = '1';
+      this.overlay.style.opacity = '0.5';
       this.overlay.style.zIndex = "10";
       this.lightbox.style.opacity = '1';
-      this.body.classList.add('stop-scrolling');
     }, 300)
 
     //add cursor hover classes
@@ -208,7 +203,7 @@ from 'rxjs';
 
   picZoom(zoomTarget) {
     // get the event targets shape and position in viewport
-    let zoomTargetPos = this.cumulativeOffset(zoomTarget);
+    let zoomTargetPos = zoomTarget.getBoundingClientRect();
     let unzoomedLeft = zoomTargetPos.left;
     let unzoomedTop = zoomTargetPos.top ;
     let unzoomedWidth = zoomTarget.offsetWidth;
@@ -224,12 +219,12 @@ from 'rxjs';
     let centerTop = window.innerHeight / 2 - centerHeight / 2;
 
     //work out gallery top and left and width values for zoomed position
-    let galleryOffset = this.header.offsetHeight;
+
     let picWidthRatio = centerWidth / unzoomedWidth;
     let unzoomedMiddleX = unzoomedLeft + unzoomedWidth / 2;
     this.unzoomedMiddleY = unzoomedTop + unzoomedHeight / 2;
     let centerMiddleX = centerLeft + centerWidth / 2;
-    let centerMiddleY = centerTop + centerHeight / 2 - galleryOffset;
+    let centerMiddleY = centerTop + centerHeight / 2 ;
     let picZoomedLeftDiffX = centerMiddleX - unzoomedMiddleX - window.innerWidth * 0.10;
     let picZoomedTopDiffY = centerMiddleY - this.unzoomedMiddleY + window.scrollY;
 
