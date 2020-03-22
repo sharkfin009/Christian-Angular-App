@@ -1,4 +1,4 @@
-<div id="galleryWrapper" class=" relative z-1 h-90 w-100 ">
+<div id="galleryWrapper" class="  z-1 h-100 w-100 ">
   <div id="galleryGrid" class=" absolute h-100 w-100 " [innerHtml]="trustedGrid"></div>
 </div>
 <div id="overlay" class="o-0 bg-white z-0 fixed">
@@ -13,7 +13,5 @@
 </div>
 
 <div class="" *ngFor="let bigPic of bigPicArray">
-  <img class="dn w-70" [src]="bigPic.src" />
+  <img class="o-0 w-70" [src]="bigPic.src" />
 </div>
-
-

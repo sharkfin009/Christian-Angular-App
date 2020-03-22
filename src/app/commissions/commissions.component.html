@@ -1,5 +1,5 @@
-<h3 class="fw2 tc" >Commissions<h3>
-  <div class="relative w-100 flex justify-between flex-wrap">
+
+  <div class="relative z-0 w-100 flex justify-between flex-wrap">
     <div class="pointer w-100 h-100"   *ngFor="let commission of commissions">
 
       <div class="w-100 mb5" (mouseenter)="hoverOn(commission.title)" (mouseleave)="hoverOff()" [innerHtml]="commission.sanitizedGrid">

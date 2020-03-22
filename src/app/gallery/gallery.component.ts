@@ -55,7 +55,7 @@ from 'rxjs';
   pic: any;
   picWidth: string;
   lightboxFade: any;
-  bbutton: any;
+  pageTitle: any;
   left: any;
   right: any;
   lightboxFlag: boolean;
@@ -93,16 +93,18 @@ from 'rxjs';
 
 
   ngAfterViewInit() {
-    this.hideMenuEmit.emit('hide');
     //set up DOM values
     this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
     this.galleryGrid = document.querySelector('#galleryGrid');
     this.lightboxFade = document.querySelector(".lightbox-fade");
-    this.bbutton = document.querySelector("#bbutton");
-    this.bbutton.style.opacity="0";
-    if (this.slug !== "showcase"){
-      this.bbutton.style.opacity='1';
+    this.pageTitle = document.querySelector("#page-title");
+
+    if (this.slug === "showcase"){
+      this.pageTitle.style.opacity='0';
+    } else {
+      this.pageTitle.style.opacity='1';
+
     }
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
@@ -122,13 +124,14 @@ from 'rxjs';
          let options = {
           root: null,
           rootMargin: '0px',
-          threshold: 1.0,
+          threshold: 0,
         }
         //hide pics not on page
-        let picBottom = item.getBoundingClientRect().bottom;
-        if (picBottom > window.innerHeight) {
+        let picTop = item.getBoundingClientRect().top;
+        if (picTop > window.innerHeight) {
           item.style.opacity = "0";
-          item.style.transform = 'translateY(50px)'
+          item.style.transform = 'translateY(100px)';
+          console.log();
 
           //set up intersection observors for pics off page
           let observer = new IntersectionObserver(this.intersectionCallback, options);
@@ -147,10 +150,10 @@ from 'rxjs';
 
   intersectionCallback(entries) {
     entries.forEach(entry => {
-      let picBottom = entry.target.getBoundingClientRect().bottom;
-      if (picBottom < window.innerHeight) {
-        entry.target.classList.add("picAnim");
-        entry.target.style.transition="opacity 2s, transform ease-out 3s";
+      let picTop = entry.target.getBoundingClientRect().top;
+      if (picTop < window.innerHeight) {
+       // entry.target.classList.add("picAnim");
+        entry.target.style.transition="opacity 1s, transform ease-out 1s";
         entry.target.style.opacity="1";
         entry.target.style.transform = 'translateY(0)';
       }
@@ -278,7 +281,7 @@ from 'rxjs';
     //switch flag
     this.lightboxFlag = false;
     //hide bbutton
-    this.bbutton.style.opacity = '1';
+    this.pageTitle.style.opacity = '1';
     // hide lightbox
     this.lightbox.style.opacity = "0";
     //remove hover classes
@@ -289,7 +292,7 @@ from 'rxjs';
     //hide overlay w transition
     this.overlay.style.opacity = "0";
     //put overlay behind so we can click on pics again
-    this.overlay.style.zIndex = "0"
+    this.overlay.style.zIndex = "-1"
     //transition:
     this.galleryGrid.style.transform = "scale(1,1)";
     this.galleryGrid.style.transform += "translateX(0px)";

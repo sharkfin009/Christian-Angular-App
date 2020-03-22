@@ -14,7 +14,7 @@ import {
 import {
   CommissionsComponent
 } from './commissions/commissions.component'
-import { MenuComponent } from './menu/menu.component';
+
 import {
   CommissionsResolverService
 } from './shared/commissionsResolver.service'
