@@ -4,16 +4,16 @@
 
 #thumbnail {
   transition: all 0.9s;
-
+  /* width:400px */
 }
-
-.hoverOn {
+.paleOn {
   opacity: 0.5;
 }
 
-.hoverOff {
+.paleOff {
   opacity: 1;
 }
+
 .thisIsHoveredThumbnail{
   opacity: 1!important
 }

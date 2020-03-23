@@ -19,16 +19,16 @@
   font-family: Ibarra Real Nova;
   font-size: 2em;
   opacity: 0;
-  padding:0;
-  position:relative;
+ padding:0;
+ position:relative;
   top:40px;
 
 }
-.paleOn {
+.hoverOn {
 animation: settle 1s ease-out forwards, fadeIn 1s ease-out forwards;
 }
-.paleOff {
-  animation:  return 1s ease-out forwards,fadeOut 0.5s ease-out forwards;
+.hoverOff {
+  animation:  fadeOut 0.5s ease-out forwards;
 }
 
 .thumbnail{
@@ -40,19 +40,8 @@ animation: settle 1s ease-out forwards, fadeIn 1s ease-out forwards;
    transform: translateY(-50px);
   }
   to {
-  transform: translateY(50px);
+    margin-bottom: 5px;
   }
-}
-
-@keyframes return {
-  from {
-   transform: translateY(50px);
-  }
-  to {
-  transform: translateY(-50px);
-  }
-
-
 }
 @keyframes fadeIn {
   from {opacity: 0;}

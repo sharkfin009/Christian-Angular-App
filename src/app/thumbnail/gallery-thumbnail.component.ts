@@ -26,8 +26,8 @@ export class GalleryThumbnailComponent implements OnInit {
   @Input() hoverCompute: string;
   @Output() hover = new EventEmitter();
   @Output() loaded = new EventEmitter();
-  hoverOnWithTitle = {};
-  hoverOffWithTitle = {};
+  paleOnWithTitle = {};
+  paleOffWithTitle = {};
   titleFrame:any;
   thumbnailIsLoaded:boolean;
   //trustedGrid: any;
@@ -47,28 +47,28 @@ export class GalleryThumbnailComponent implements OnInit {
 
   }
   ngAfterViewInit() {
-    this.hoverOnWithTitle = {
+    this.paleOnWithTitle = {
       title: this.thumbnail.title,
-      hover: "hoverOn",
+      hover: "paleOn",
       names:this.thumbnail.names,
     };
-    this.hoverOffWithTitle = {
+    this.paleOffWithTitle = {
       title: this.thumbnail.title,
-      hover: "hoverOff",
+      hover: "paleOff",
       names: this.thumbnail.names,
     }
 
   }
 
   hoverOn() {
-    this.hover.emit(this.hoverOnWithTitle);
+    this.hover.emit(this.paleOnWithTitle);
   }
   hoverOff() {
-    this.hover.emit(this.hoverOffWithTitle);
+    this.hover.emit(this.paleOffWithTitle);
   }
   hoverDecide(object) {
     if (this.thumbnail.title === object.title) {
-      return "hoverOff";
+      return "paleOff";
     } else {
       return object.hover;
     }

@@ -4,7 +4,7 @@
 
 html, body { height: 100%; }
 body { margin: 0;
-  
+
 }
 .that-yellow{
   color:#FFB821
@@ -12,7 +12,7 @@ body { margin: 0;
 
 li,h1,div,#title{
   font-family: value-regular;
- 
+
 
 }
 h2{
@@ -24,14 +24,14 @@ h2{
 @font-face {
   font-family: Value;
   src: url('./assets/ValueFont/value-medium-web.woff') ;
-  
+
   }
 
   @font-face {
     font-family: value-regular;
-    src: url('./assets/ValueFont/value-regular-web.woff')  
-   
-    } 
+    src: url('./assets/ValueFont/value-regular-web.woff')
+
+    }
 
 
 *{
@@ -49,6 +49,6 @@ h2{
   background: transparent;  /* Optional: just make scrollbar invisible */
 }
 
-.stop-scrolling {
-  height: 100%;
+.nil {
+  border: 2px dashed blue;
 }

@@ -1,19 +1,18 @@
-<h3 class="fw2 tc" >Commissions<h3>
-    <div class="relative w-100 flex justify-between flex-wrap">
-      <div class="pointer w-100 h-100"   *ngFor="let commission of commissions">
 
-        <div class="w-100 mb5" (mouseenter)="hoverOn(commission.title)" (mouseleave)="hoverOff()" [innerHtml]="commission.sanitizedGrid">
-        </div>
+  <div class="relative z-0 w-100 flex justify-between flex-wrap">
+    <div class="pointer w-100 h-100"   *ngFor="let commission of commissions">
+
+      <div class="w-100 mb5" (mouseenter)="hoverOn(commission.title)" (mouseleave)="hoverOff()" [innerHtml]="commission.sanitizedGrid">
       </div>
     </div>
-    <div id="titleFrame" class="fixed h-80 w-100 pointer-events-none flex items-end ">
-      <div class="w-10"></div>
+  </div>
+  <div id="titleFrame" class="fixed h-80 w-100 pointer-events-none flex items-end ">
+    <div class="w-10"></div>
 
-      <div id="text" class="w-60 tl black">
+    <div id="text" class="w-60 tl black">
 
-        <h1 class="w-100 pb5" [ngClass]="[hoverClass]" id="title">{{title}}</h1>
-      </div>
-
-
-      <div class="w-10"></div>
+      <h1 class="w-100 pb5" [ngClass]="[hoverClass]" id="title">{{title}}</h1>
     </div>
+
+    <div class="w-10"></div>
+  </div>

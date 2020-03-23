@@ -14,7 +14,7 @@ import {
 import {
   Observable
 } from 'rxjs';
- import { GalleryThumb} from '../shared/interfaces';
+ import { GalleryThumb } from '../shared/interfaces';
 
 
 @Component({
@@ -31,7 +31,7 @@ export class PortfolioComponent implements OnInit {
     title: '',
     names: "",
   };
-  hoverOnClass = "";
+
 
   constructor(private route: ActivatedRoute, public getThumbnails: GetThumbnailsService){}
 

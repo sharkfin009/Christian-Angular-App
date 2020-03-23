@@ -14,16 +14,19 @@ import {
 import {
   CommissionsComponent
 } from './commissions/commissions.component'
-import { MenuComponent } from './menu/menu.component';
+
 import {
   CommissionsResolverService
 } from './shared/commissionsResolver.service'
+import { PostsComponent } from './posts/posts.component';
+import { PostsResolverService } from './shared/postsResolver.service';
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
     component: PortfolioComponent,
     data: {
-      view: 'portfolio'
+      view: 'portfolio',
+      title: "Portfolio",
     }
   },
   {
@@ -33,7 +36,8 @@ export const appRoutes: Routes = [{
       grids: GalleriesResolverService,
     },
     data: {
-      view: 'gallery'
+      view: 'gallery',
+      title: 'Gallery',
     }
   }, {
     path: '',
@@ -46,13 +50,8 @@ export const appRoutes: Routes = [{
       commissions: CommissionsResolverService,
     },
     data: {
-      view: 'Commissions'
-    }
-  },{
-    path: 'menu',
-    component: MenuComponent,
-    data: {
-      view: "menu"
+      view: 'commissions',
+      title: 'Commissions',
     }
   },
   {
@@ -60,7 +59,10 @@ export const appRoutes: Routes = [{
     component: GalleryComponent,
     data: {
       view: "gallery",
+      title: "Gallery",
     }
-  }
+  },
+
+
 
 ]

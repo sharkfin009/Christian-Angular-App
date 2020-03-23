@@ -8,13 +8,13 @@ export interface Gallery {
   export interface GalleryThumb {
     slug: string;
     title:string;
-    content:string;
+    names:string;
     thumb: string;
  }
 
  export interface Commission {
   slug: string;
-  content: string;
+  names: string;
   grid: string;
   title: string;
  }
@@ -23,6 +23,7 @@ export interface Gallery {
    slug: string;
    grid:string;
    title:string;
+   content:string
  }
 
  export interface Video {
