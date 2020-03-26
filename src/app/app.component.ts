@@ -39,13 +39,6 @@ export class AppComponent implements OnInit{
   click(){
    this.toggle=!this.toggle;
 
-<<<<<<< HEAD
-  // goBack(){
-  //   this.location.back();
-  //    this.menuButton = document.querySelector('.menu-button');
-  //   this.menuButton.style.classList= "menu-button-over-Z"
-  // }
-=======
     if (this.toggle){
       this.turnClass.x ="x-turn";
       this.turnClass.menu ="menu-slide";
@@ -56,7 +49,6 @@ export class AppComponent implements OnInit{
       this.turnClass.menu="";
     };
   }
->>>>>>> 3811c85128e10f43b10f61a9eb0f02a5240d05dc
 
 
 

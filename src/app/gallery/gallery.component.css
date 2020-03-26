@@ -4,7 +4,7 @@
 overflow-y: auto;
 
 }
-#galleryGrid{
+img{
   left:0;
   top:0;
   will-change:transform;
@@ -27,9 +27,7 @@ overflow-y: auto;
   transition-duration: 0.5s;
   -webkit-transition-property: opacity;
   -webkit-transition-duration: 0.5s;
-
     z-index:-1;
-
  }
 
 .left-arrow:hover{

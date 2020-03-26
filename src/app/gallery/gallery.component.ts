@@ -53,7 +53,7 @@ from 'rxjs';
   bigPicArray: any;
   overlay: any;
   pic: any;
-  picWidth: string;
+  zoom: string;
   lightboxFade: any;
   pageTitle: any;
   left: any;
@@ -127,7 +127,7 @@ from 'rxjs';
           rootMargin: '0px',
           threshold: 0,
         }
-        //hide pics not on page
+        // //hide pics not on page
         let picTop = item.getBoundingClientRect().top;
         if (picTop > window.innerHeight) {
           item.style.opacity = "0";
@@ -157,18 +157,14 @@ from 'rxjs';
     });
   }
 
-
-
-
-
   showLightbox(event) {
     this.lightboxFlag = true;
     this.picPointer = parseInt(event.target.dataset.id);
-    let zoomTarget = event.target;
-    this.picZoom(zoomTarget);
+    let photo = event.target;
+    //this.picZoom(photo);
     //show lightbox after transition to hide galleryGrid
     setTimeout(() => {
-      this.overlay.style.opacity = '0.5';
+      this.overlay.style.opacity = '1';
       this.overlay.style.zIndex = "10";
       this.lightbox.style.opacity = '1';
     }, 300)
@@ -184,47 +180,41 @@ from 'rxjs';
     this.pic.srcset = "";
   }
 
-  picZoom(zoomTarget) {
+  picZoom(photo) {
     // get the event targets shape and position in viewport
-    let zoomTargetPos = zoomTarget.getBoundingClientRect();
-    let targetLeft = zoomTargetPos.left;
-    let targetTop = zoomTargetPos.top ;
-    let targetWidth = zoomTarget.offsetWidth;
-    let targetHeight = zoomTarget.offsetHeight;
+    let photoSource = photo.getBoundingClientRect();
 
     // work out 80% height and resultant width
-    let ratio = targetWidth / targetHeight;
-    let centerHeight = window.innerHeight * 0.8;
-    let centerWidth = centerHeight * ratio;
+    let AspectRatio = Math.round(photoSource.width / photoSource.height);
+    let targetHeight = window.innerHeight * 0.8;
+    let targetWidth = targetHeight * AspectRatio;
 
-    // work out top and left values for fixed lightbox in the center
-    let centerLeft = window.innerWidth / 2 - centerWidth / 2;
-    let centerTop = window.innerHeight / 2 - centerHeight / 2;
+    // work out top and left values for fixed lightbox in the target
+    let targetLeft = window.innerWidth / 2 - targetWidth / 2;
+    let targetTop = window.innerHeight / 2 - targetHeight / 2;
 
     //work out gallery top and left and width values for zoomed position
 
-    let picWidthRatio = centerWidth / targetWidth;
-    let targetMiddleX = targetLeft + targetWidth / 2;
-    let targetMiddleY = targetTop + targetHeight / 2;
-    let centerMiddleX = centerLeft + centerWidth / 2;
-    let centerMiddleY = centerTop + centerHeight / 2 ;
-    let picZoomedDiffX = centerMiddleX - targetMiddleX - window.innerWidth * 0.10;
-    let picZoomedDiffY = centerMiddleY - targetMiddleY ;
+    let zoomRatio = targetWidth / photoSource.width;
+    let picZoomedDiffX = photoSource.left - targetLeft;
+    let picZoomedDiffY = photoSource.top - targetTop ;
 
-    // change originOffset properties to center of target and trigger galleryGrid's zoom transition
-    this.galleryGrid.style.transformOrigin = `${targetMiddleX}px ${targetMiddleY}px`;
-    this.galleryGrid.style.transform = "translateX(" + picZoomedDiffX + "px)";
-    this.galleryGrid.style.transform += "translateY(" + picZoomedDiffY + "px)";
-    this.galleryGrid.style.transform += `scale(${picWidthRatio}, ${picWidthRatio})`;
+    // change transfom origin to center of target and trigger galleryGrid's zoom transition
+
+    // photo.style.transformOrigin = `${sourceMiddleX}px ${sourceMiddleY}px`;
+    photo.style.transform = "translateX(" + picZoomedDiffX + "px)";
+    photo.style.transform += "translateY(" + picZoomedDiffY + "px)";
+    photo.style.transform += `scale(${zoomRatio}, ${zoomRatio})`;
     //place lightbox in center of fixed overlay
-    this.lightbox.style.left = centerLeft + "px";
-    this.lightbox.style.top = centerTop + "px";
-    this.lightbox.style.width = centerWidth + "px";
+    this.lightbox.style.left = targetLeft + "px";
+    this.lightbox.style.top = targetTop + "px";
+    this.lightbox.style.width = targetWidth + "px";
+    console.dir(photo);
     console.log(
+      `photoSource.left:${photoSource.left},photoSource.top:${photoSource.top}\n`,
       `targetLeft:${targetLeft},targetTop:${targetTop}\n`,
-      `targetLeft:${centerLeft},targetTop:${centerTop}\n`,
-      `targetMiddleX:${targetMiddleX},targetMiddleY:${targetMiddleY}\n`,
       `picZoomedDiffX:${picZoomedDiffX},pixZoomedDiffY:${picZoomedDiffY}\n`,
+      `galleryTransformOrigin: ${photo.style.transformOrigin}`,
     );
 
   }
