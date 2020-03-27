@@ -1,8 +1,20 @@
-<div class="header z-2  fixed w-100 flex flex-nowrap justify-center items-center ">
-  <div class="w-10" >
+<div class="header z-2 debug  fixed w-100 flex flex-nowrap justify-center items-center ">
+  <div class=" w-10">
     <div class="flex justify-end">
       <div (click)="click()" class="menu-button menu-button-over-Z hover-grow pointer that-yellow"
         [ngClass]="turnClass.x">+</div>
+    </div>
+    <div class=" menu-box relative black bg-white  flex flex-column items-center justify-start h-100">
+
+      <ul class="list fixed" [ngClass]="turnClass.menu">
+        <li routerLink="/gallery/showcase">Showcase</li>
+        <li routerLink="/portfolio">Portfolio</li>
+        <li routerLink="/commissions">Commissions</li>
+        <li routerLink="/showreel">Showreel</li>
+        <li routerLink="/posts">News/Diary</li>
+        <li routerLink="/about">About</li>
+      </ul>
+
     </div>
   </div>
   <div class="w-80 flex flex-nowrap justify-between">
@@ -17,27 +29,10 @@
 
 <div class="fixed h-100 bg-white w-100 flex justify-center ">
 
-  <div class="menu-box relative black z-1  bg-white w-10 flex flex-column items-center justify-start h-100" >
-
-    <ul class="list fixed" [ngClass]="turnClass.menu">
-      <li routerLink="/gallery/showcase">Showcase</li>
-      <li routerLink="/portfolio">Portfolio</li>
-      <li routerLink="/commissions">Commissions</li>
-      <li routerLink="/showreel">Showreel</li>
-      <li routerLink="/posts">News/Diary</li>
-      <li routerLink="/about">About</li>
-    </ul>
-
+  <div id="outlet-wrapper" class="relative z-0 w-80 h-100" [@routeAnimations]="prepareRoute(outlet)">
+    <router-outlet #outlet="outlet" class="absolute"></router-outlet>
   </div>
 
-
-      <div id="outlet-wrapper" class="relative z-0 w-80 h-100" [@routeAnimations]="prepareRoute(outlet)">
-        <router-outlet  #outlet="outlet" class="absolute"></router-outlet>
-      </div>
-
-
-
-  <div class="w-10 flex flex-column"></div>
 </div>
 
 <!-- router-outlet markup -->
