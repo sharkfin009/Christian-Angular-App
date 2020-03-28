@@ -183,39 +183,73 @@ from 'rxjs';
 
   picZoom(photo) {
     // get the event targets shape and position in viewport
-    photo.style.boxSizing = "border-box";
+   // photo.style.boxSizing = "border-box";
     let photoUnzoomed = photo.getBoundingClientRect();
+    let cumulativeOffset = function(element) {
+      let top = 0, left = 0, i=0;
+      do {
+          top += element.offsetTop  || 0;
+          left += element.offsetLeft || 0;
+          element = element.offsetParent;
+          i++;
+      } while(i<=4);
 
+      return {
+          top: top,
+          left: left
+      };
+    }
     //work out 80% height and resultant width
-    let aspectRatio = photoUnzoomed.width / photoUnzoomed.height;
+    let aspectRatio = photoUnzoomed.height / photoUnzoomed.width;
     let targetHeight = window.innerHeight * 0.8;
     let targetWidth = targetHeight * aspectRatio;
 
     // work out top and left values for target
-    let targetTop = window.innerHeight / 2 - targetHeight/2 + window.innerHeight * 0.1;
+    let targetTop = window.innerHeight / 2 - targetHeight/2 ;
     let targetLeft = window.innerWidth / 2 - targetWidth/2;
 
     //work out photo scale and transform values for zoomed position
 
-    let zoomRatio = targetWidth / photoUnzoomed.width;
-    let picZoomedDiffX = (photoUnzoomed.left + photoUnzoomed.width/2 )- targetLeft;
-    let picZoomedDiffY = (photoUnzoomed.top + photoUnzoomed.height/2) - targetTop;
+    let zoomRatio =  photoUnzoomed.width/targetWidth ;
+    let diffX = targetLeft - cumulativeOffset(photo).left;
+    let diffY = targetTop - cumulativeOffset(photo).top;
 
     //do transforms
+    this.galleryGrid.style.transformOrigin=`${targetLeft + photoUnzoomed.width/2} ${targetTop + photoUnzoomed.height/2}`;
+    //  this.galleryGrid.style.transform =  `translate(${diffX}px,${diffY}px)`;
+     this.galleryGrid.style.transform += `scale(${zoomRatio})`;
 
-    photo.style.transform = "translateX(" + picZoomedDiffX + "px)";
-    photo.style.transform += "translateY(" + picZoomedDiffY + "px)";
-    photo.style.transform += `scale(${zoomRatio}, ${zoomRatio})`;
+    // photo.style.position="absolute";
+    // photo.style.left = "-100px";
+    // photo.animate({
+    //   transform: [`translateY(0px)`, `translateY(100px)`]
+    // }, {
+    //   duration: 1000,
+    //   fill:'both',
+    //   composite:'add',
+
+    // });
+    // photo.animate({
+    //   transform: [`scale(1)`, `scale(${zoomRatio}`]
+    // }, {
+    //   duration: 1000,
+    //   fill:'both',
+    //   composite:'add',
+    // });
+
+
+  //  photo.style.transformOrigin = `${photoUnzoomed.left+photoUnzoomed.width/2} ${photoUnzoomed.top+photoUnzoomed.height/2}`;
+
 
     //place lightbox in center of fixed overlay
 
     this.photo=photo;
     console.dir(photo);
     console.log(
-      `aspectRatio:${aspectRatio}`,
+      `zoomRatio:${zoomRatio}`,
       `photoUnzoomed.left:${photoUnzoomed.left},photoUnzoomed.top:${photoUnzoomed.top}\n`,
       `targetLeft:${targetLeft},targetTop:${targetTop}\n`,
-      `picZoomedDiffX:${picZoomedDiffX},pixZoomedDiffY:${picZoomedDiffY}\n`,
+      `diffX:${diffX},pixZoomedDiffY:${diffY}\n`,
 
     );
 
@@ -272,10 +306,10 @@ from 'rxjs';
 
 
     //transition:
-    this.photo.style.transform = "scale(1,1)";
-    this.photo.style.transform += "translateX(0px)";
-    this.photo.style.transform += "translateY(0px)";
-    this.photo.style.opacity="1";
+    this.galleryGrid.style.transform = "scale(1,1)";
+    this.galleryGrid.style.transform += "translateX(0px)";
+    this.galleryGrid.style.transform += "translateY(0px)";
+    //this.galleryGrid.style.opacity = "1";
 
     //reset after transition:
     setTimeout(() => {
