@@ -1,5 +1,6 @@
 
-  <div class="relative z-0 w-100 flex justify-between flex-wrap">
+<div class="w-100 flex justify-center">
+  <div class="relative z-0 w-80 flex justify-between flex-wrap">
     <div class="pointer w-100 h-100"   *ngFor="let commission of commissions">
 
       <div class="w-100 mb5" (mouseenter)="hoverOn(commission.title)" (mouseleave)="hoverOff()" [innerHtml]="commission.sanitizedGrid">
@@ -16,3 +17,4 @@
 
     <div class="w-10"></div>
   </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output} from '@angular/core';
 import { RouterOutlet, Router, RoutesRecognized, ActivatedRoute } from '@angular/router';
-import {  slider } from './route-animations'
+import { slider } from './route-animations'
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,9 @@ export class AppComponent implements OnInit{
   turnClass={
     x:"",
     menu:"",
+    outlet:"",
   };
+
   toggle=false;
 
   constructor( private route: ActivatedRoute, private router: Router) {
@@ -32,28 +34,24 @@ export class AppComponent implements OnInit{
       }
     }))
   }
+
   ngAfterViewInit() {
-
-
   }
-  click(){
+
+  clickX(){
    this.toggle=!this.toggle;
 
     if (this.toggle){
-      this.turnClass.x ="x-turn";
-      this.turnClass.menu ="menu-slide";
-
+      this.turnClass.x = "x-turn";
+      this.turnClass.menu = "menu-slide-in";
+      this.turnClass.outlet ="outlet-slide";
   }
     if (!this.toggle){
       this.turnClass.x="";
       this.turnClass.menu="";
+      this.turnClass.outlet="";
     };
   }
-
-
-
-
-
 
 }
 

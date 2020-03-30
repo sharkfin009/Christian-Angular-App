@@ -12,7 +12,7 @@ import {
 
 export const slider =
   trigger('routeAnimations', [
-    transition('* <=> *', [
+    transition('portfolio => gallery', [
       style({
         position: "relative"
       }),
@@ -31,7 +31,7 @@ export const slider =
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateX(150%)',
+              transform: 'translateX(-150%)',
             }))
         ],{optional:true}),
         query(':enter', [
