@@ -1,15 +1,19 @@
-<div id="galleryWrapper" class="absolute   z-1 h-100 w-100 mb5 ">
-  <div id="galleryGrid" class="  h-100 w-100 ph2" [innerHtml]="trustedGrid"></div>
+<div id="galleryWrapper" class="absolute  z-2 h-100 w-100 mb5 ">
+  <div id="galleryGrid" class="absolute   w-100 ph2" [innerHtml]="trustedGrid"></div>
 </div>
-<div id="overlay" class="w-100  absolute h-100  z-1 fixed flex justify-between ">
+<div id="overlay" class="w-100  absolute h-100 z-1 fixed flex justify-between ">
     <div id="left" class="w-30 h-100">
     </div>
     <div id ="close" class="w-40 h-100" (click)="closeLightbox($event)">
     </div>
     <div id="right" class="w-30 h-100"></div>
 </div>
-<div  class=" fixed w-100 h-100 flex bg-white  justify-center items-center " id="lightbox">
-  <img class="h-80" id="pic" />
+<div  class="debug fixed w-100 h-100 flex bg-white o-0 justify-center items-center" id="lightbox">
+<div id="picBox" class="relative flex justify-center items-center">
+  <img class="absolute dn lightboxPicHeight" id ="previous"/>
+  <img class="lightboxPicHeight" id="pic" />
+  <img class="absolute dn lightboxPicHeight " id="next">
+</div>
 </div>
 
 
