@@ -1,6 +1,12 @@
 #port-frame{
   padding-top:135px;
 }
+#port-wrapper{
+  display:grid;
+  grid-template-columns: auto  auto  auto;
+  column-gap:70px;
+  row-gap:70px;
+}
 #mask{
   top:0;
   left:0;
@@ -34,31 +40,31 @@
 
 }
 .paleOn {
-animation: settle 1s ease-out forwards, fadeIn 1s ease-out forwards;
+animation: settle 2s ease-out forwards, fadeIn 2s ease-out forwards;
 }
 .paleOff {
-  animation:  return 1s ease-out forwards,fadeOut 0.5s ease-out forwards;
+  animation:  return 2s ease-out forwards,fadeOut 2s ease-out forwards;
 }
 
 .thumbnail{
-  animation: fadeIn 0.2s ease-in;
+  animation: fadeIn 1s ease-in;
 }
 
 @keyframes settle {
   from {
-   transform: translateY(-50px);
+   transform: translateY(0px);
   }
   to {
-  transform: translateY(50px);
+  transform: translateY(25px);
   }
 }
 
 @keyframes return {
   from {
-   transform: translateY(50px);
+   transform: translateY(25px);
   }
   to {
-  transform: translateY(-50px);
+  transform: translateY(0px);
   }
 
 

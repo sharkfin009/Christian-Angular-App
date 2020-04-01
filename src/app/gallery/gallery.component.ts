@@ -142,7 +142,7 @@ import {
         }
          //hide pics not on page
         let picTop = item.getBoundingClientRect().top;
-        if (picTop > window.innerHeight) {
+        if (picTop > window.innerHeight/3) {
           item.style.opacity = "0";
           item.style.transform = 'translateY(300px)';
           console.log();
