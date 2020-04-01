@@ -54,12 +54,12 @@ export class AppComponent implements OnInit{
   }
   onActivate(componentReference){
 console.log(componentReference);
- if (componentReference.route ==="GalleryComponent"){
+
   componentReference.headerClass.subscribe((data)=>{
     this.class=data;
     console.log("yes")
   })
- }
+ 
   }
 
 }

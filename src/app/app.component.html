@@ -1,10 +1,10 @@
-<div [ngClass]="class" class="debug header fixed w-100 flex flex-nowrap justify-center  ">
+<div [ngClass]="class" class=" header fixed w-100 flex flex-nowrap justify-center  ">
   <div class="w-10">
     <div class="flex justify-center">
       <div (click)="clickX()" class="menu-button  hover-grow pointer mt3 that-yellow"
         [ngClass]="turnClass.x">+</div>
     </div>
-    <div class="menu-box relative black   flex flex-column items-center justify-start h-100">
+    <div class="menu-box relative black flex flex-column items-center justify-start h-100">
 
       <ul class="list fixed" [ngClass]="turnClass.menu">
         <li (click)="clickX()"routerLink="/gallery/showcase">Showcase</li>
@@ -27,10 +27,10 @@
   </div>
 </div>
 
-<div id="outlet-frame" class="nil fixed h-100 bg-white w-100 flex justify-center ">
+<div id="outlet-frame" class="fixed h-100 bg-white w-100 flex justify-center ">
 
   <div id="outlet-wrapper"  [ngClass]="turnClass.outlet" class=" relative  w-100 h-100" [@routeAnimations]="prepareRoute(outlet)">
-    <router-outlet (activate)="onActivate($event)" #outlet="outlet" class="absolute "></router-outlet>
+    <router-outlet (activate)="onActivate($event)" #outlet="outlet" class="relative "></router-outlet>
   </div>
 
 </div>

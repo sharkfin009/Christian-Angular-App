@@ -173,7 +173,7 @@ import {
     this.lightboxFlag = true;
     this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id) ;
-    this.mask.style.opacity="0";
+    this.mask.style.opacity=0;
     this.picZoom(event.target);
     //show lightbox after transition to hide galleryGrid
     setTimeout(() => {
@@ -181,7 +181,11 @@ import {
 
        this.overlay.style.zIndex = "300";
        this.lightbox.style.zIndex = "200";
-    }, 280)
+       this.galleryGrid.classList.remove("gridFadeOut");
+       void this.galleryGrid.offsetWidth;
+       this.galleryGrid.classList.add("gridFadeOut");
+       this.galleryGrid.style.opacity=0;
+    }, 300)
 
     //add cursor hover classes
 
@@ -192,8 +196,6 @@ import {
     //put this pic in lightbox
     this.pic.src = event.target.src;
     this.pic.srcset = event.target.srcset;
-
-   console.log(this.picPointer);
 
     //prepare next and previous elements
     if (this.picPointer > 1) {
@@ -222,6 +224,8 @@ import {
   }
   picZoom(photo) {
     let photoUnzoomed = this.cumulativeOffset(photo, 8);
+    // add class to prevent fade
+    photo.classList.add("noFade");
 
     //work out 80% height and resultant width
     let aspectRatio = photo.width / photo.height;
@@ -341,11 +345,30 @@ if(this.picPointer<=this.picsArray.length -2){
   }
 
   closeLightbox(e) {
+    //show grid
+    this.galleryGrid.style.opacity=1;
+    // let pics= document.querySelectorAll("img");
+    // pics.forEach(
+    //   (item)=>{
+    //     if (item.dataset.id !== this.picPointer){
+    //       console.dir(item);
+    //       item.style.opacity="0";
+    //       item.classList.remove("gridFadeIn");
+    //       void item.offsetWidth;
+    //       item.classList.add("gridFadeIn");
+    //       item.style.opacity="1";
+    //     }
+    //   }
+    // )
+
     //switch flag
     this.lightboxFlag = false;
     //emit class to hide header
     this.headerClass.emit('o-100')
     // hide mask
+    this.mask.classList.remove("maskFadeIn");
+    void this.mask.offsetWidth;
+    this.mask.classList.add("maskFadeIn")
     this.mask.style.opacity=1;
     //hide bbutton
     this.pageTitle.style.opacity = '1';
@@ -362,7 +385,7 @@ if(this.picPointer<=this.picsArray.length -2){
     this.lightbox.classList.remove("grid");
     //scroll
     let photo = document.querySelector(`[data-id="${this.picPointer}"]`);
-    console.log(photo);
+
 
     // reset transform
     this.galleryGrid.style.transform = "none";

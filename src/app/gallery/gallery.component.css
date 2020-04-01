@@ -7,10 +7,12 @@ overflow-y: auto;
   top:0;
   left:0;
   height:135px;
-  transition: opacity 2s ease-out;
+
 }
+
 #galleryGrid {
   transition: transform 0.3s ease-out;
+
   left:0;
   top:135px;
 
@@ -20,6 +22,7 @@ overflow-y: auto;
   top:0;
   left:0;
   overflow:hidden;
+  /* transition: opacity 0.1s ease-out; */
  }
 .lightboxPicHeight{
   height:80vh;
@@ -31,6 +34,27 @@ overflow-y: auto;
 @keyframes picFadeOut {
   from {opacity:1}
   to {opacity:0}
+}
+.maskFadeIn{
+  animation: maskFadeIn 0.5s ease-out;
+}
+@keyframes maskFadeIn {
+ from {opacity:0}
+ to {opacity:1}
+}
+.gridFadeOut{
+  animation: gridFadeOut 0.5s ease-out;
+}
+@keyframes gridFadeOut  {
+ from {opacity:1}
+ to {opacity:0}
+}
+.gridFadeIn{
+  animation: gridFadeIn 0.5s ease-out;
+}
+@keyframes gridFadeIn  {
+ from {opacity:0}
+ to {opacity:1}
 }
 .left-arrow:hover{
   cursor: url("src/assets/back-button.cur"),default;
