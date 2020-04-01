@@ -3,11 +3,18 @@
   left:0;
 overflow-y: auto;
 }
+#mask{
+  top:0;
+  left:0;
+  height:135px;
+  transition: opacity 2s ease-out;
+}
 #galleryGrid {
   transition: transform 0.3s ease-out;
   left:0;
-  top:0;
-  height:100%;
+  top:135px;
+
+
   }
  #lightbox{
   top:0;
@@ -16,29 +23,26 @@ overflow-y: auto;
  }
 .lightboxPicHeight{
   height:80vh;
-  transition: opacity 0.5s ease-out;
-
 }
 .picFadeOut{
-  animation: picFadeOut 0.5s ease-out;
+
+   animation: picFadeOut 0.7s ease-out;
 }
 @keyframes picFadeOut {
   from {opacity:1}
   to {opacity:0}
 }
-
-
 .left-arrow:hover{
-  cursor: url("src/assets/left-arrow.png"),auto;
+  cursor: url("src/assets/back-button.cur"),default;
 }
 .right-arrow:hover{
-  cursor: url("src/assets/right-arrow.png"),auto;
+  cursor: url("src/assets/right-button.png"),default;
 }
 .grid:hover{
-  cursor: url("src/assets/menu.png"),auto;
+  cursor: url("src/assets/menu.cur"),default;
 }
 .no-cursor{
-  cursor: none;
+  cursor: default;
 }
 #overlay{
   width:100vw;

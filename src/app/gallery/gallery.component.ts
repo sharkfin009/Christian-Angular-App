@@ -67,13 +67,13 @@ import {
   fullWrapper: any;
   header: any;
   lightbox: any;
-  nextPic: any;
+  newPic: any;
   outletWrapper: any;
   body: any;
-
+  mask:any;
   close: any;
   photo: any;
-  @Output() hideMenuEmit = new EventEmitter;
+  @Output() headerClass = new EventEmitter;
   galleryWrapper: any;
   photoCenterWithinGrid: {
     x: number,
@@ -116,7 +116,7 @@ import {
     } else {
       this.pageTitle.style.opacity = '1';
     }
-
+    this.mask = document.querySelector("#mask");
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
     this.left = document.querySelector("#left");
@@ -144,7 +144,7 @@ import {
         let picTop = item.getBoundingClientRect().top;
         if (picTop > window.innerHeight) {
           item.style.opacity = "0";
-          item.style.transform = 'translateY(100px)';
+          item.style.transform = 'translateY(300px)';
           console.log();
 
           //set up intersection observors for pics off page
@@ -171,14 +171,17 @@ import {
 
   showLightbox(event) {
     this.lightboxFlag = true;
-    this.picPointer = parseInt(event.target.dataset.id);
+    this.headerClass.emit("o-0");
+    this.picPointer = parseInt(event.target.dataset.id) ;
+    this.mask.style.opacity="0";
     this.picZoom(event.target);
     //show lightbox after transition to hide galleryGrid
     setTimeout(() => {
       this.lightbox.style.opacity = '1';
-      this.overlay.style.zIndex = "300";
-      this.lightbox.style.zIndex = "200";
-    }, 300)
+
+       this.overlay.style.zIndex = "300";
+       this.lightbox.style.zIndex = "200";
+    }, 280)
 
     //add cursor hover classes
 
@@ -188,12 +191,12 @@ import {
 
     //put this pic in lightbox
     this.pic.src = event.target.src;
-    this.nextPic = this.picsArray[this.picPointer];
-    this.pic.srcset = this.nextPic.srcset;
-    this.pic.src = this.nextPic.src;
+    this.pic.srcset = event.target.srcset;
+
+   console.log(this.picPointer);
 
     //prepare next and previous elements
-    if (this.picPointer > 0) {
+    if (this.picPointer > 1) {
       this.previous.src = this.picsArray[this.picPointer - 1].src;
       this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
     }
@@ -218,10 +221,7 @@ import {
     };
   }
   picZoom(photo) {
-
-
-
-    let photoUnzoomed = this.cumulativeOffset(photo, 8);;
+    let photoUnzoomed = this.cumulativeOffset(photo, 8);
 
     //work out 80% height and resultant width
     let aspectRatio = photo.width / photo.height;
@@ -250,7 +250,7 @@ import {
 
     // do translates
     this.galleryGrid.style.transform = `translateX(${diffX}px`;
-    this.galleryGrid.style.transform += ` translateY(${diffY + this.galleryWrapper.scrollTop}px)`;
+    this.galleryGrid.style.transform += `translateY(${diffY + this.galleryWrapper.scrollTop}px)`;
 
     //do scale
 
@@ -271,27 +271,32 @@ import {
   browseLeft(e) {
     if (this.lightboxFlag) {
       //assign next pic
-      if (this.picPointer > 0) {
+      if (this.picPointer>0) {
+        console.log(this.picPointer);
         this.picPointer -= 1;
-        this.nextPic = this.picsArray[this.picPointer];
-        this.pic.srcset = this.nextPic.srcset;
-        this.pic.src = this.nextPic.src;
 
-        this.picZoom(this.nextPic);
+        this.pic.srcset = this.picsArray[this.picPointer].srcset;
+        this.pic.src = this.picsArray[this.picPointer].src;
+        this.galleryGrid.style.transform = "none";
+        let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
+
+        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2; ;
+        this.galleryWrapper.scrollTo(0, scrollAmount);
+        this.picZoom(photo);
 
         // set up 'previous'
-        this.previous.style.display = "block";
+       if (this.picPointer>0){
         this.previous.src = this.picsArray[this.picPointer - 1].src;
         this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
-        this.previous.classList.remove("picFadeOut");
-        void this.previous.offsetWidth;
-        this.previous.classList.add("picFadeOut");
-        this.previous.style.opacity="0";
+       }
 
         // set up 'next'
-        this.next.style.display = "block";
         this.next.src = this.picsArray[this.picPointer + 1].src;
         this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
+       //fade out old
+        this.next.classList.remove("picFadeOut");
+        void this.next.offsetWidth;
+        this.next.classList.add("picFadeOut");
         this.next.style.opacity = "0";
       };
     }
@@ -301,30 +306,36 @@ import {
     if (this.lightboxFlag) {
 
       //assign next pic
-      if (this.picPointer <= this.picsArray.length - 2) {
+      if (this.picPointer <= this.picsArray.length-2 ) {
         this.picPointer += 1;
-        this.nextPic = this.picsArray[this.picPointer];
-        this.pic.srcset = this.nextPic.srcset;
-        this.pic.src = this.nextPic.src;
-        this.picZoom(this.nextPic);
+        this.pic.srcset = this.picsArray[this.picPointer].srcset;
+        this.pic.src = this.picsArray[this.picPointer].src;
+        this.galleryGrid.style.transform="none";
+        let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
+
+        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2; ;
+        this.galleryWrapper.scrollTo(0, scrollAmount);
+        this.picZoom(photo);
 
         // set up 'previous'
-        this.previous.style.display = "block";
-        this.previous.src = this.picsArray[this.picPointer - 1].src;
+
+        if (this.picPointer > 0){
+          this.previous.src = this.picsArray[this.picPointer - 1].src;
         this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
-        this.previous.style.opacity = "0";
+        }
+
+        // fade out old
+        this.previous.classList.remove("picFadeOut");
+        void this.previous.offsetWidth;
+        this.previous.classList.add("picFadeOut");
+        this.previous.style.opacity="0";
 
         // set up 'next'
-        this.next.style.display = "block";
-        this.next.src = this.picsArray[this.picPointer + 1].src;
-        this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
+if(this.picPointer<=this.picsArray.length -2){
 
-        this.next.classList.remove("picFadeOut");
-        void this.next.offsetWidth;
-        this.next.classList.add("picFadeOut");
-        this.next.style.opacity = "0";
-
-
+  this.next.src = this.picsArray[this.picPointer + 1].src;
+  this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
+}
       };
     }
   }
@@ -332,6 +343,10 @@ import {
   closeLightbox(e) {
     //switch flag
     this.lightboxFlag = false;
+    //emit class to hide header
+    this.headerClass.emit('o-100')
+    // hide mask
+    this.mask.style.opacity=1;
     //hide bbutton
     this.pageTitle.style.opacity = '1';
     // hide lightbox
@@ -345,11 +360,14 @@ import {
     this.left.classList.remove("left-arrow");
     this.right.classList.remove("right-arrow");
     this.lightbox.classList.remove("grid");
+    //scroll
+    let photo = document.querySelector(`[data-id="${this.picPointer}"]`);
+    console.log(photo);
+
     // reset transform
     this.galleryGrid.style.transform = "none";
-    let scrollAmount = this.cumulativeOffset(this.nextPic, 5).top + this.nextPic.offsetHeight / 2 - this.galleryWrapper.clientHeight / 2;
-    console.log(scrollAmount);
-    this.galleryWrapper.scrollTo(0, scrollAmount);
+
+
   }
 
 }

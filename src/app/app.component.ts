@@ -19,7 +19,7 @@ export class AppComponent implements OnInit{
     menu:"",
     outlet:"",
   };
-
+  class:String;
   toggle=false;
 
   constructor( private route: ActivatedRoute, private router: Router) {
@@ -51,6 +51,15 @@ export class AppComponent implements OnInit{
       this.turnClass.menu="";
       this.turnClass.outlet="";
     };
+  }
+  onActivate(componentReference){
+console.log(componentReference);
+ if (componentReference.route ==="GalleryComponent"){
+  componentReference.headerClass.subscribe((data)=>{
+    this.class=data;
+    console.log("yes")
+  })
+ }
   }
 
 }

@@ -1,4 +1,4 @@
-<div class="header z-2  fixed w-100 flex flex-nowrap justify-center  ">
+<div [ngClass]="class" class="debug header fixed w-100 flex flex-nowrap justify-center  ">
   <div class="w-10">
     <div class="flex justify-center">
       <div (click)="clickX()" class="menu-button  hover-grow pointer mt3 that-yellow"
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div class="w-80 flex flex-nowrap justify-between">
-    <h1 id="site-title" class="lightbox-fade z5 fw2  ml2 mt4 mb5">Christian Doppelgatz</h1>
+    <h1 id="site-title" class="lightbox-fade z5 fw2  ml2 mt4 mb4">Christian Doppelgatz</h1>
     <!-- <div id="bbutton" routerLink="portfolio" [routerLinkActive]="['dn']"
           class="lightbox-fade z-5 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer"></div> -->
     <div id="page-title" class="flex items-center mr2">{{activeRouteTitle}}</div>
@@ -27,10 +27,10 @@
   </div>
 </div>
 
-<div class="fixed h-100 bg-white w-100 flex justify-center ">
+<div id="outlet-frame" class="nil fixed h-100 bg-white w-100 flex justify-center ">
 
-  <div id="outlet-wrapper"  [ngClass]="turnClass.outlet" class="relative z-0 w-100 h-100" [@routeAnimations]="prepareRoute(outlet)">
-    <router-outlet #outlet="outlet" class="absolute "></router-outlet>
+  <div id="outlet-wrapper"  [ngClass]="turnClass.outlet" class=" relative  w-100 h-100" [@routeAnimations]="prepareRoute(outlet)">
+    <router-outlet (activate)="onActivate($event)" #outlet="outlet" class="absolute "></router-outlet>
   </div>
 
 </div>

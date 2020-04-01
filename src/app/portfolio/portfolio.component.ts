@@ -41,7 +41,7 @@ export class PortfolioComponent implements OnInit {
 
   hover(event) {
     this.hoverEventObject = event;
-    console.log('boo')
+    
   };
 
 }

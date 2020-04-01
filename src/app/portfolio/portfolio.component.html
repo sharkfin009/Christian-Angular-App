@@ -1,5 +1,8 @@
-<div class="w-100 flex justify-center">
-  <div *ngIf="thumbnails$ | async as thumbnails" class="relative w-80 flex-ns justify-between-ns flex-wrap-ns">
+<div id="port-frame" class="debug w-100 flex justify-center">
+  <div id="mask" class="w-100 z-2 fixed bg-white">
+
+  </div>
+  <div id="port-wrapper" *ngIf="thumbnails$ | async as thumbnails" class="relative w-80 ml2 flex-ns justify-between-ns flex-wrap-ns">
     <gallery-thumbnail class="w-33 pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
       [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
     <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
