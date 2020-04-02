@@ -1,17 +1,13 @@
 #port-frame{
-  padding-top:135px;
+  padding-top:133px;
 }
 #port-wrapper{
   display:grid;
   grid-template-columns: auto  auto  auto;
-  column-gap:70px;
-  row-gap:70px;
+  column-gap:90px;
+  row-gap:62px;
 }
-#mask{
-  top:0;
-  left:0;
-  height: 135px;
-}
+
   #text{
   padding-bottom:100px;
   position: relative;

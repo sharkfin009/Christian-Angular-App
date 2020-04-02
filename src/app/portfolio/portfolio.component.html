@@ -1,9 +1,7 @@
-<div id="port-frame" class="w-100 flex justify-center">
-  <div id="mask" class="w-100 z-2 fixed bg-white">
+<div id="port-frame" class=" w-100 flex justify-center">
 
-  </div>
-  <div id="port-wrapper" *ngIf="thumbnails$ | async as thumbnails" class="relative w-80 ml2 ">
-    <gallery-thumbnail class=" pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
+  <div id="port-wrapper" *ngIf="thumbnails$ | async as thumbnails" class="relative w-80">
+    <gallery-thumbnail class="pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
       [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
     <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
       <div class="w-30"></div>

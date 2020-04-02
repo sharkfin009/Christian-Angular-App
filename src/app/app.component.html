@@ -1,38 +1,36 @@
-<div [ngClass]="class" class=" header fixed w-100 flex flex-nowrap justify-center  ">
-  <div class="w-10">
-    <div class="flex justify-center">
-      <div (click)="clickX()" class="menu-button  hover-grow pointer mt3 that-yellow"
-        [ngClass]="turnClass.x">+</div>
-    </div>
-    <div class="menu-box relative black flex flex-column items-center justify-start h-100">
+<div id="header" [ngClass]="class" class=" fixed w-100  flex flex-nowrap ">
+  <div class="w-10 flex justify-center items-center ">
 
-      <ul class="list fixed" [ngClass]="turnClass.menu">
-        <li (click)="clickX()"routerLink="/gallery/showcase">Showcase</li>
-        <li (click)="clickX()"routerLink="/portfolio">Portfolio</li>
-        <li (click)="clickX()"routerLink="/commissions">Commissions</li>
-        <li (click)="clickX()"routerLink="/showreel">Showreel</li>
-        <li (click)="clickX()" routerLink="/posts">News/Diary</li>
-        <li (click)="clickX()"routerLink="/about">About</li>
-      </ul>
+      <div (click)="clickX()" class="menu-button  hover-grow pointer  that-yellow" [ngClass]="turnClass.x">+</div>
 
-    </div>
   </div>
-  <div class="w-80 flex flex-nowrap justify-between">
-    <h1 id="site-title" class="lightbox-fade z5 fw2  ml2 mt4 mb4">Christian Doppelgatz</h1>
+  <div id="innerHeader" class=" relative w-80 flex flex-nowrap justify-between">
+    <h1 id="site-title" class="lightbox-fade z5 fw2   mt4 mb4">Christian Doppelgatz</h1>
     <!-- <div id="bbutton" routerLink="portfolio" [routerLinkActive]="['dn']"
           class="lightbox-fade z-5 tc fa fa-angle-right fa-2x black-70 hover-black-50 pointer"></div> -->
     <div id="page-title" class="flex items-center mr2">{{activeRouteTitle}}</div>
+    <div id="menu-box" [ngClass]="turnClass.menu"
+      class="flex items-center absolute   black   ">
+
+      <ul class=" list">
+        <li (click)="clickX()" routerLink="/gallery/showcase">Showcase</li>
+        <li (click)="clickX()" routerLink="/portfolio">Portfolio</li>
+        <li (click)="clickX()" routerLink="/commissions">Commissions</li>
+        <li (click)="clickX()" routerLink="/showreel">Showreel</li>
+        <li (click)="clickX()" routerLink="/posts">News/Diary</li>
+        <li (click)="clickX()" routerLink="/about">About</li>
+      </ul>
+    </div>
   </div>
   <div class="w-10">
   </div>
 </div>
 
-<div id="outlet-frame" class="fixed h-100 bg-white w-100 flex justify-center ">
+<div id="outlet-frame" class=" fixed h-100 bg-white w-100 flex justify-center ">
 
-  <div id="outlet-wrapper"  [ngClass]="turnClass.outlet" class=" relative  w-100 h-100" [@routeAnimations]="prepareRoute(outlet)">
+  <div id="outlet-wrapper" [ngClass]="turnClass.outlet" class=" relative  w-100 h-100"
+    [@routeAnimations]="prepareRoute(outlet)">
     <router-outlet (activate)="onActivate($event)" #outlet="outlet" class="relative "></router-outlet>
   </div>
 
 </div>
-
-

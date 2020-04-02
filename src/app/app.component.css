@@ -1,7 +1,11 @@
 
-.header{
+#header{
   z-index:2;
   transition:opacity 0.5s ease-out;
+  box-sizing:content-box;
+}
+#site-title{
+  font-size:18px;
 }
 #port-wrapper{
   margin-left:-30px;
@@ -22,8 +26,8 @@
   }
 .menu-button{
   line-height:1.2;
-  font-weight:800;
-  font-size:60px;
+  font-weight:500;
+  font-size:30px;
   -webkit-transition:transform 0.5s ease-in;
   -moz-transition:transform 0.5s ease-in;
    -ms-transition:transform 0.5s ease-in;
@@ -42,9 +46,7 @@
 #page-title{
   padding-bottom:25px;
 }
-#outlet-frame{
-  /* padding-top:135px; */
-}
+
 #outlet-wrapper{
   top:0;
   left:0;
@@ -54,6 +56,20 @@
 .outlet-slide{
   transform:translateX(150%)
 }
+#menu-box{
+  left:-20vw;
+  top:0;
+  height:100vh;
+
+  -webkit-transition:transform 0.3s ease-in;
+  -moz-transition:transform 0.3s ease-in;
+   -ms-transition:transform 0.3s ease-in;
+    -o-transition:transform 0.3s ease-in;
+       transition:transform 0.3s ease-in;
+       transform-origin: 50% 50%;
+  z-index:-1;
+      }
+
 
 /* menu */
 li{
@@ -67,19 +83,11 @@ li:active{
   color: #FFB821;
 }
 ul{
-  padding-top:250px;
-  padding-left:0;
-  transform:translateX(-140px) ;
-  -webkit-transition:transform 0.5s ease-in;
-  -moz-transition:transform 0.5s ease-in;
-   -ms-transition:transform 0.5s ease-in;
-    -o-transition:transform 0.5s ease-in;
-       transition:transform 0.5s ease-in;
-       transform-origin: 50% 50%;
+padding-left:0;
+
 }
 .menu-slide-in{
-  transform:translateX(0px)
+  transform:translateX(20vw)
 }
-
 
 
