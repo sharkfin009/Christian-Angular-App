@@ -53,13 +53,13 @@ overscroll-behavior:none
  to {opacity:1}
 }
 .left-arrow{
-  cursor: url("src/assets/back-button.cur"),auto;
+  cursor: url("src/assets/arrow_left.png"),auto;
 }
 .right-arrow{
-  cursor: url("src/assets/right-button.png"),auto;
+  cursor: url("src/assets/arrow_right.png"),auto;
 }
 .grid{
-  cursor: url("src/assets/menu.cur"),auto;
+  cursor: url("src/assets/x.png"),auto;
 }
 .no-cursor{
   cursor: default;

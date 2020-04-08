@@ -50,10 +50,15 @@ export class GetGalleriesService {
           gridLoaded.querySelector('style').innerHTML = style;
           //create array of src and srcset atts
           let imgs = gridLoaded.querySelectorAll("img");
+          let srcSetUrls=[];
           let srcUrls=[];
+
           imgs.forEach(
             (item)=>{
+              srcSetUrls.push(item.getAttribute("srcset"));
               srcUrls.push(item.getAttribute("src"));
+              item.setAttribute("src","");
+              item.setAttribute("srcset","")
             }
           );
 
@@ -62,10 +67,22 @@ export class GetGalleriesService {
           wrapper.appendChild(gridLoaded);
           let gridString= wrapper.innerHTML;
 
+          //preload first 4 images
+          let preload = document.createElement('div');
+
+          for (let i=0;i<=4;i++){
+            let imgPreload=document.createElement('img');
+            preload.appendChild(imgPreload);
+            imgPreload.src = srcUrls[i];
+          }
+
+
+
+
           return {
             slug: gallery.slug,
             grid: gridString,
-            srcImgs: srcUrls,
+            srcSetUrls: srcUrls,
           } as Gallery
         })
       ),

@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { shareReplay, tap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { GalleryComponent } from '../gallery/gallery.component';
+
 import { GalleryThumb } from './interfaces';
 
 @Injectable({

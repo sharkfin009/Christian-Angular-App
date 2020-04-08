@@ -15,7 +15,8 @@
 
 /* menu */
 li{
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
 }
 li:hover{
   text-decoration: underline;

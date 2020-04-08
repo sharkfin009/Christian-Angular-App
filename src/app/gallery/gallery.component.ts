@@ -53,10 +53,10 @@ import {
 
 ) export class GalleryComponent implements OnInit {
   defaultImaj = 'https://www.placecage.com/1000/1000';
-  one="https://source.unsplash.com/user/erondu";
-  two="https://source.unsplash.com/Gkc_xM3VY34/1600X900";
-  three="https://source.unsplash.com/JYvWlLREwBk/1600X900";
-  four="https://source.unsplash.com/d9KHXXjJR54/1600X900";
+  one = "https://source.unsplash.com/user/erondu";
+  two = "https://source.unsplash.com/Gkc_xM3VY34/1600X900";
+  three = "https://source.unsplash.com/JYvWlLREwBk/1600X900";
+  four = "https://source.unsplash.com/d9KHXXjJR54/1600X900";
   grids: any[];
   grid: string;
   slug: string;
@@ -92,6 +92,7 @@ import {
   next: any;
   previous: any;
   activeRouteTitle: any;
+  srcSetUrls: any;
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
@@ -117,7 +118,8 @@ import {
     let gallery = this.grids.find((gallery) => gallery.slug === slug);
     this.slug = gallery.slug;
     this.grid = gallery.grid;
-    console.dir(gallery.srcUrls)
+    console.log(gallery.srcSetUrls)
+    this.srcSetUrls = gallery.srcSetUrls;
   }
 
 
@@ -146,41 +148,42 @@ import {
     this.previous = document.querySelector("#previous");
     this.next = document.querySelector("#next");
     //make Array of img's
-   this.picsArray = this.galleryGrid.querySelectorAll('img');
-   this.picsArray.forEach((item, index) => {
-   //   set event listener
-     item.setAttribute("data-id", index);
-     item.addEventListener("click", this.showLightbox.bind(this), true);
+    this.picsArray = this.galleryGrid.querySelectorAll('img');
+    this.picsArray.forEach((item, index) => {
+      //   set event listener
+      item.flag = false;
+      item.setAttribute("data-id", index);
+      item.addEventListener("click", this.showLightbox.bind(this), true);
       //set up intersection observer options
       let options = {
         root: null,
         rootMargin: '0px',
         threshold: 0,
       }
-      //hide pics not on page
-      let picTop = item.getBoundingClientRect().top;
-      if (picTop > window.innerHeight) {
+      //hide pics for floating in
+
         item.style.opacity = "0";
         item.style.transform = 'translateY(300px)';
-        //set up intersection observors for pics off page
-        let observer = new IntersectionObserver(this.intersectionCallback, options);
-        observer.observe(item);
-      }
-   });
+
+
+      //set up intersection observers
+      let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
+      observer.observe(item);
+    });
 
 
     //add click listeners
     this.left.addEventListener("click", this.browseLeft.bind(this), false);
     this.right.addEventListener("click", this.browseRight.bind(this), false);
     //add key listeners
-    let callBrowse = function(e){
-     if ( e.code === "ArrowLeft"){
-       this.browseLeft();
-     };
-     if ( e.code === "ArrowRight")
-     this.browseRight().bind(this);
-     if  (e.code === "Escape")
-     this.closeLightbox();
+    let callBrowse = function (e) {
+      if (e.code === "ArrowLeft") {
+        this.browseLeft();
+      };
+      if (e.code === "ArrowRight")
+        this.browseRight().bind(this);
+      if (e.code === "Escape")
+        this.closeLightbox();
     }
     document.addEventListener('keydown', callBrowse.bind(this));
   }
@@ -188,15 +191,33 @@ import {
 
   intersectionCallback(entries) {
     entries.forEach(entry => {
-      let picTop = entry.target.getBoundingClientRect().top;
-      if (picTop < window.innerHeight) {
-        entry.target.style.transition = "opacity 1s, transform ease-out 1s";
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = 'translateY(0)';
+      let picTop = entry.boundingClientRect.top;
+      if (entry.target.flag === false) {
+        if (picTop < window.innerHeight) {
+          entry.target.style.transition = "opacity 1s, transform ease-out 1s";
+          entry.target.onload = function () {
+            entry.target.flag = true;
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = 'translateY(0)';
+          }
+          entry.target.srcset = this.srcSetUrls[entry.target.dataset.id];
+        }
+        if (picTop > window.innerHeight) {
+          entry.target.style.opacity = "0";
+          entry.target.style.transform = 'translateY(300px)';
+        }
       }
-      if (picTop > window.innerHeight){
-        entry.target.style.opacity = "0";
-        entry.target.style.transform = 'translateY(300px)';
+      if (entry.target.flag === true) {
+
+        if (picTop < window.innerHeight) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = 'translateY(0)';
+
+        }
+        if (picTop > window.innerHeight) {
+          entry.target.style.opacity = "0";
+          entry.target.style.transform = 'translateY(300px)';
+        }
       }
     });
   }
