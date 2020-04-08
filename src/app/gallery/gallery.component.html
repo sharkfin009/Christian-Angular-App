@@ -1,27 +1,29 @@
 <div id="galleryWrapper" class="relative  z-2 h-100 w-100 mb5  flex justify-center">
-<div class="w-80  relative">
-  <div id="mask" class="fixed z-3 bg-white w-100 ">
+  <div class="w-80  relative">
+
+
+
+    <div id="galleryGrid" class="w-100  relative " [innerHtml]="trustedGrid"></div>
+  </div>
+</div>`
+<div id="overlay" class=" w-100 absolute h-100 z-1 fixed flex justify-between ">
+  <div id="left" class=" w-30 h-100">
+  </div>
+  <div id="close" class="w-40 h-100" (click)="closeLightbox($event)">
+  </div>
+  <div id="right" class=" w-30 h-100"></div>
+</div>
+<div class="fixed w-100 h-100 flex  o-0 justify-center items-center" id="lightbox">
+  <div id="picBox" class=" relative flex justify-center items-center">
+    <img class="lightboxPicHeight" id="pic" />
+    <img class="absolute o-0  lightboxPicHeight" id="previous" />
+    <img class="absolute  o-0 lightboxPicHeight " id="next">
 
   </div>
-  <div id="galleryGrid" class="w-100  relative ph2" [innerHtml]="trustedGrid"></div>
-</div>
-</div>`
-<div id="overlay" class="w-100 absolute h-100 z-1 fixed flex justify-between ">
-    <div id="left" class="w-30 h-100">
+  <div class="absolute arrows w-100 h-100 flex justify-between items-center">
+    <div class="relative ph3  hover-grow pointer  that-yellow">
+      <</div> <div class="relative ph3  hover-grow pointer  that-yellow">>
     </div>
-    <div id ="close" class="w-40 h-100" (click)="closeLightbox($event)">
-    </div>
-    <div id="right" class="w-30 h-100"></div>
-</div>
-<div  class=" fixed w-100 h-100 flex  o-0 justify-center items-center" id="lightbox">
-<div id="picBox" class=" relative flex justify-center items-center">
-  <img class="lightboxPicHeight" id="pic" />
-  <img class="absolute o-0  lightboxPicHeight" id ="previous"/>
-  <img class="absolute  o-0 lightboxPicHeight " id="next">
-</div>
-</div>
 
-
-<!-- <div class="" *ngFor="let bigPic of bigPicArray">
-  <img class="o-0 w-70" [src]="bigPic.src" />
-</div> -->
+  </div>
+</div>

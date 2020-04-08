@@ -33,9 +33,10 @@ import {
 import { GalleryComponent } from './gallery/gallery.component';
 import { CommissionsComponent } from './commissions/commissions.component';
 
-import { VideosComponent } from './videos/videos.component';
-import { VideoComponent } from './video/video.component';
+import { ShowreelComponent } from './showreel/showreel.component';
 import { PostsComponent } from './posts/posts.component';
+import { MenuComponent } from './menu/menu.component';
+import { LazyLoadImageModule } from "ng-lazyload-image";
 
 
 @NgModule({
@@ -46,14 +47,15 @@ import { PostsComponent } from './posts/posts.component';
      GalleryComponent,
      CommissionsComponent,
      PostsComponent,
-     VideosComponent,
-     VideoComponent,
+     ShowreelComponent,
+     MenuComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
+    LazyLoadImageModule,
   ],
   providers: [
      GetThumbnailsService,

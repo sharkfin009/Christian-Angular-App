@@ -31,7 +31,7 @@ export class PortfolioComponent implements OnInit {
     title: '',
     names: "",
   };
-
+  @Output() arrowClass = new EventEmitter();
 
   constructor(private route: ActivatedRoute, public getThumbnails: GetThumbnailsService){}
 
@@ -41,7 +41,8 @@ export class PortfolioComponent implements OnInit {
 
   hover(event) {
     this.hoverEventObject = event;
-    
+
   };
+
 
 }

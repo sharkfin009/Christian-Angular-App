@@ -3,6 +3,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
 }
 
 from '@angular/core';
@@ -15,6 +16,9 @@ import {
 from '@angular/platform-browser'
 
 import {
+  RouterOutlet,
+  Router,
+  RoutesRecognized,
   ActivatedRoute,
 }
 
@@ -43,16 +47,22 @@ import {
 @Component({
     selector: 'gallery',
     templateUrl: './gallery.component.html',
-    styleUrls: ['./gallery.component.css']
+    styleUrls: ['./gallery.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
   }
 
 ) export class GalleryComponent implements OnInit {
+  defaultImaj = 'https://www.placecage.com/1000/1000';
+  one="https://source.unsplash.com/user/erondu";
+  two="https://source.unsplash.com/Gkc_xM3VY34/1600X900";
+  three="https://source.unsplash.com/JYvWlLREwBk/1600X900";
+  four="https://source.unsplash.com/d9KHXXjJR54/1600X900";
   grids: any[];
   grid: string;
   slug: string;
   trustedGrid: SafeHtml;
   galleryGrid: any;
-  picsArray: any[];
+  picsArray: any;
   bigPicArray: any;
   overlay: any;
   pic: any;
@@ -70,7 +80,7 @@ import {
   newPic: any;
   outletWrapper: any;
   body: any;
-  mask:any;
+
   close: any;
   photo: any;
   @Output() headerClass = new EventEmitter;
@@ -81,25 +91,33 @@ import {
   };
   next: any;
   previous: any;
+  activeRouteTitle: any;
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer) {}
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet.activatedRouteData['view'];
+  }
 
   ngOnInit(): void {
     //set up values
     this.grids = this.route.snapshot.data['grids'];
     this.getGalleryName(this.route.snapshot.params['slug']);
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
-    //make full res photos Preload array
-    // let imgsPreload = document.createElement("DIV");
-    // imgsPreload.innerHTML = this.grid;
-    // let bigPicArray = imgsPreload.querySelectorAll('img');
-    // this.bigPicArray = bigPicArray;
+    this.router.events.subscribe((data => {
+      if (data instanceof RoutesRecognized) {
+        this.activeRouteTitle = data.state.root.firstChild.data.title;
+      }
+    }))
+
+
   }
 
   getGalleryName(slug: string): void {
     let gallery = this.grids.find((gallery) => gallery.slug === slug);
     this.slug = gallery.slug;
     this.grid = gallery.grid;
+    console.dir(gallery.srcUrls)
   }
 
 
@@ -116,7 +134,7 @@ import {
     } else {
       this.pageTitle.style.opacity = '1';
     }
-    this.mask = document.querySelector("#mask");
+
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
     this.left = document.querySelector("#left");
@@ -128,35 +146,45 @@ import {
     this.previous = document.querySelector("#previous");
     this.next = document.querySelector("#next");
     //make Array of img's
-    this.picsArray = this.galleryGrid.querySelectorAll('img');
-
-    this.picsArray.forEach((item, index) => {
-        //set event listener
-        item.setAttribute("data-id", index);
-        item.addEventListener("click", this.showLightbox.bind(this), true);
-        //set up intersection observer options
-        let options = {
-          root: null,
-          rootMargin: '0px',
-          threshold: 0,
-        }
-         //hide pics not on page
-        let picTop = item.getBoundingClientRect().top;
-        if (picTop > window.innerHeight/) {
-          item.style.opacity = "0";
-          item.style.transform = 'translateY(300px)';
-          console.log();
-
-          //set up intersection observors for pics off page
-          let observer = new IntersectionObserver(this.intersectionCallback, options);
-          observer.observe(item);
-        }
+   this.picsArray = this.galleryGrid.querySelectorAll('img');
+   this.picsArray.forEach((item, index) => {
+   //   set event listener
+     item.setAttribute("data-id", index);
+     item.addEventListener("click", this.showLightbox.bind(this), true);
+      //set up intersection observer options
+      let options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0,
       }
+      //hide pics not on page
+      let picTop = item.getBoundingClientRect().top;
+      if (picTop > window.innerHeight) {
+        item.style.opacity = "0";
+        item.style.transform = 'translateY(300px)';
+        //set up intersection observors for pics off page
+        let observer = new IntersectionObserver(this.intersectionCallback, options);
+        observer.observe(item);
+      }
+   });
 
-    );
+
+    //add click listeners
     this.left.addEventListener("click", this.browseLeft.bind(this), false);
     this.right.addEventListener("click", this.browseRight.bind(this), false);
+    //add key listeners
+    let callBrowse = function(e){
+     if ( e.code === "ArrowLeft"){
+       this.browseLeft();
+     };
+     if ( e.code === "ArrowRight")
+     this.browseRight().bind(this);
+     if  (e.code === "Escape")
+     this.closeLightbox();
+    }
+    document.addEventListener('keydown', callBrowse.bind(this));
   }
+
 
   intersectionCallback(entries) {
     entries.forEach(entry => {
@@ -166,25 +194,29 @@ import {
         entry.target.style.opacity = "1";
         entry.target.style.transform = 'translateY(0)';
       }
+      if (picTop > window.innerHeight){
+        entry.target.style.opacity = "0";
+        entry.target.style.transform = 'translateY(300px)';
+      }
     });
   }
 
   showLightbox(event) {
     this.lightboxFlag = true;
     this.headerClass.emit("o-0");
-    this.picPointer = parseInt(event.target.dataset.id) ;
-    this.mask.style.opacity=0;
+    this.picPointer = parseInt(event.target.dataset.id);
+
     this.picZoom(event.target);
     //show lightbox after transition to hide galleryGrid
     setTimeout(() => {
       this.lightbox.style.opacity = '1';
 
-       this.overlay.style.zIndex = "300";
-       this.lightbox.style.zIndex = "200";
-       this.galleryGrid.classList.remove("gridFadeOut");
-       void this.galleryGrid.offsetWidth;
-       this.galleryGrid.classList.add("gridFadeOut");
-       this.galleryGrid.style.opacity=0;
+      this.overlay.style.zIndex = "300";
+      this.lightbox.style.zIndex = "200";
+      this.galleryGrid.classList.remove("gridFadeOut");
+      void this.galleryGrid.offsetWidth;
+      this.galleryGrid.classList.add("gridFadeOut");
+      this.galleryGrid.style.opacity = 0;
     }, 300)
 
     //add cursor hover classes
@@ -192,6 +224,8 @@ import {
     this.left.classList.add("left-arrow");
     this.right.classList.add("right-arrow");
     this.close.classList.add("grid");
+
+
 
     //put this pic in lightbox
     this.pic.src = event.target.src;
@@ -275,7 +309,7 @@ import {
   browseLeft(e) {
     if (this.lightboxFlag) {
       //assign next pic
-      if (this.picPointer>0) {
+      if (this.picPointer > 0) {
         console.log(this.picPointer);
         this.picPointer -= 1;
 
@@ -284,20 +318,20 @@ import {
         this.galleryGrid.style.transform = "none";
         let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2; ;
+        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;;
         this.galleryWrapper.scrollTo(0, scrollAmount);
         this.picZoom(photo);
 
         // set up 'previous'
-       if (this.picPointer>0){
-        this.previous.src = this.picsArray[this.picPointer - 1].src;
-        this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
-       }
+        if (this.picPointer > 0) {
+          this.previous.src = this.picsArray[this.picPointer - 1].src;
+          this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
+        }
 
         // set up 'next'
         this.next.src = this.picsArray[this.picPointer + 1].src;
         this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
-       //fade out old
+        //fade out old
         this.next.classList.remove("picFadeOut");
         void this.next.offsetWidth;
         this.next.classList.add("picFadeOut");
@@ -310,43 +344,43 @@ import {
     if (this.lightboxFlag) {
 
       //assign next pic
-      if (this.picPointer <= this.picsArray.length-2 ) {
+      if (this.picPointer <= this.picsArray.length - 2) {
         this.picPointer += 1;
         this.pic.srcset = this.picsArray[this.picPointer].srcset;
         this.pic.src = this.picsArray[this.picPointer].src;
-        this.galleryGrid.style.transform="none";
+        this.galleryGrid.style.transform = "none";
         let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2; ;
+        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;;
         this.galleryWrapper.scrollTo(0, scrollAmount);
         this.picZoom(photo);
 
         // set up 'previous'
 
-        if (this.picPointer > 0){
+        if (this.picPointer > 0) {
           this.previous.src = this.picsArray[this.picPointer - 1].src;
-        this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
+          this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
         }
 
         // fade out old
         this.previous.classList.remove("picFadeOut");
         void this.previous.offsetWidth;
         this.previous.classList.add("picFadeOut");
-        this.previous.style.opacity="0";
+        this.previous.style.opacity = "0";
 
         // set up 'next'
-if(this.picPointer<=this.picsArray.length -2){
+        if (this.picPointer <= this.picsArray.length - 2) {
 
-  this.next.src = this.picsArray[this.picPointer + 1].src;
-  this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
-}
+          this.next.src = this.picsArray[this.picPointer + 1].src;
+          this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
+        }
       };
     }
   }
 
   closeLightbox(e) {
     //show grid
-    this.galleryGrid.style.opacity=1;
+    this.galleryGrid.style.opacity = 1;
     // let pics= document.querySelectorAll("img");
     // pics.forEach(
     //   (item)=>{
@@ -365,11 +399,8 @@ if(this.picPointer<=this.picsArray.length -2){
     this.lightboxFlag = false;
     //emit class to hide header
     this.headerClass.emit('o-100')
-    // hide mask
-    this.mask.classList.remove("maskFadeIn");
-    void this.mask.offsetWidth;
-    this.mask.classList.add("maskFadeIn")
-    this.mask.style.opacity=1;
+
+
     //hide bbutton
     this.pageTitle.style.opacity = '1';
     // hide lightbox

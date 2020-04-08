@@ -1,66 +1,106 @@
-import { Component, OnInit, EventEmitter, Output} from '@angular/core';
-import { RouterOutlet, Router, RoutesRecognized, ActivatedRoute } from '@angular/router';
-import { slider } from './route-animations'
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output
+} from '@angular/core';
+import {
+  RouterOutlet,
+  Router,
+  RoutesRecognized,
+  ActivatedRoute
+} from '@angular/router';
+import {
+  slider
+} from './route-animations'
+import { trigger, state, transition, animate, style } from '@angular/animations';
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  animations: [slider],
+  animations: [slider,
+    trigger('arrow', [
+      state('true', style({transform:"translateX(0)"})),
+      state('false', style({transform:"translateX(-150px)"})),
+      transition('true=>false', [ animate('0.5s ease-out')]),
+      transition('false=>true', [ animate('0.5s ease-out')])
+    ]),
+    trigger('hideX',[
+      state('true', style({opacity:"0"})),
+      state('false', style({opacity:"100"})),
+      transition('true=>false',[animate('0.5s ease-out')]),
+      transition('false=>true',[animate('0.5s ease-out')])
+    ]),
+    trigger('xTurn',[
+      state('true', style({transform:"rotate(-45deg)"})),
+      state('false', style({transform:"rotate(0)"})),
+      transition('true=>false',[animate('0.5s ease-out')]),
+      transition('false=>true',[animate('0.5s ease-out')])
+    ]),
+  ],
 })
-export class AppComponent implements OnInit{
-  outlet:any;
-  menuButton:any;
-  headerElement :any;
+export class AppComponent implements OnInit {
+  outlet: any;
+  menuButton: any;
+  headerElement: any;
   isCollapsed: boolean = false;
   activeRouteTitle: any;
-  turnClass={
-    x:"",
-    menu:"",
-    outlet:"",
+  menuClass = {
+    x: "",
+    menu: "",
+    outlet: "",
+    hideX: 'db',
   };
-  class:String;
-  toggle=false;
+  class: String;
 
-  constructor( private route: ActivatedRoute, private router: Router) {
-  }
+
+  x: any;
+  hideMenuClass: string;
+
+  constructor(private route: ActivatedRoute, private router: Router, private location: Location) {}
   prepareRoute(outlet: RouterOutlet) {
-    return  outlet.activatedRouteData['view'];
+    return outlet.activatedRouteData['view'];
   }
-  ngOnInit(){
-    this.router.events.subscribe((data =>{
-      if (data instanceof RoutesRecognized){
+  ngOnInit() {
+    this.x = document.querySelector(".menu-button");
+    this.router.events.subscribe((data => {
+      if (data instanceof RoutesRecognized) {
         this.activeRouteTitle = data.state.root.firstChild.data.title;
+
       }
-    }))
+    }));
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit() {}
+
+
+
+  onActivate(componentReference) {
+
+    if (componentReference.route !==undefined &&componentReference.route.component.name === "GalleryComponent") {
+      componentReference.headerClass.subscribe((data) => {
+        this.class = data;
+      });
+
+    }
   }
 
-  clickX(){
-   this.toggle=!this.toggle;
-
-    if (this.toggle){
-      this.turnClass.x = "x-turn";
-      this.turnClass.menu = "menu-slide-in";
-      this.turnClass.outlet ="outlet-slide";
+  getArrowState(outlet){
+    return outlet.activatedRouteData['arrowState']
   }
-    if (!this.toggle){
-      this.turnClass.x="";
-      this.turnClass.menu="";
-      this.turnClass.outlet="";
-    };
+  getXState(outlet){
+    return outlet.activatedRouteData['xState']
   }
-  onActivate(componentReference){
-console.log(componentReference);
+  toggleMenu(outlet){
 
-  componentReference.headerClass.subscribe((data)=>{
-    this.class=data;
-    console.log("yes")
-  })
- 
+ if(outlet.activatedRouteData['view']!=="menu"){
+  this.router.navigate(["../menu"],{relativeTo:this.route});
+ }
+ else {
+  this.location.back();
+ }
   }
 
 }
-

@@ -2,19 +2,15 @@
   top:0;
   left:0;
 overflow-y: auto;
+overscroll-behavior:none
 }
-#mask{
-  top:0;
-  left:0;
-  height:135px;
 
-}
 
 #galleryGrid {
   transition: transform 0.3s ease-out;
 
   left:0;
-  top:135px;
+  top:250px;
 
 
   }
@@ -56,14 +52,14 @@ overflow-y: auto;
  from {opacity:0}
  to {opacity:1}
 }
-.left-arrow:hover{
-  cursor: url("src/assets/back-button.cur"),default;
+.left-arrow{
+  cursor: url("src/assets/back-button.cur"),auto;
 }
-.right-arrow:hover{
-  cursor: url("src/assets/right-button.png"),default;
+.right-arrow{
+  cursor: url("src/assets/right-button.png"),auto;
 }
-.grid:hover{
-  cursor: url("src/assets/menu.cur"),default;
+.grid{
+  cursor: url("src/assets/menu.cur"),auto;
 }
 .no-cursor{
   cursor: default;
@@ -75,9 +71,24 @@ overflow-y: auto;
   left:0;
 }
 
+.arrows{
+
+  line-height:1.2;
+  font-weight:500;
+  font-size:50px;
+}
 
 
 
+.ll{
+  width:400px;
+}
 
+img.ng-lazyloaded {
+  animation: fadein 4s;
 
-
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

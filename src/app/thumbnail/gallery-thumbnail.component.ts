@@ -26,6 +26,7 @@ export class GalleryThumbnailComponent implements OnInit {
   @Input() hoverCompute: string;
   @Output() hover = new EventEmitter();
   @Output() loaded = new EventEmitter();
+  @Output() arrowClass = new EventEmitter();
   paleOnWithTitle = {};
   paleOffWithTitle = {};
   titleFrame:any;
@@ -78,6 +79,7 @@ export class GalleryThumbnailComponent implements OnInit {
   thumbnailLoaded(){
     this.thumbnailIsLoaded=true;
   }
+
 
 
 }

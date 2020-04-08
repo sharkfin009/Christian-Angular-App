@@ -1,8 +1,7 @@
 export interface Gallery {
    slug: string;
     grid: string;
-    images: any[];
-    title: string;
+    srcImgs: any;
   }
 
   export interface GalleryThumb {

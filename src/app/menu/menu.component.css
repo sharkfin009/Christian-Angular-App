@@ -1,0 +1,30 @@
+#menu-box{
+  left:-0vw;
+  top:0;
+  height:100vh;
+
+  -webkit-transition:transform 0.5s ease-in;
+  -moz-transition:transform 0.5s ease-in;
+   -ms-transition:transform 0.5s ease-in;
+    -o-transition:transform 0.5s ease-in;
+       transition:transform 0.5s ease-in;
+       transform-origin: 50% 50%;
+
+      }
+
+
+/* menu */
+li{
+  margin-bottom: 10px;
+}
+li:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}
+li:active{
+  color: #FFB821;
+}
+ul{
+padding-left:0;
+
+}

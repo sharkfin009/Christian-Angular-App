@@ -1,14 +1,14 @@
 #port-frame{
-  padding-top:133px;
+  padding-top:250px;
 }
 #port-wrapper{
   display:grid;
   grid-template-columns: auto  auto  auto;
-  column-gap:90px;
-  row-gap:62px;
+  column-gap:140px;
+  row-gap:140px;
 }
 
-  #text{
+#text{
   padding-bottom:100px;
   position: relative;
 }
@@ -20,14 +20,16 @@
 }
 
 #title {
-  font-family: Ibarra Real Nova;
+  font-family: Cormorant Garamond;
+   font-weight:200;
   font-size: 6em;
   opacity: 0;
   line-height:90px;
 
 }
 #names {
-  font-family: Ibarra Real Nova;
+  font-family: Cormorant Garamond;
+   font-weight:200;
   font-size: 3em;
   opacity: 0;
   padding:0;

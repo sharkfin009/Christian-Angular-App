@@ -2,7 +2,10 @@
 
 @import "tachyons-ben.css";
 
-html, body { height: 100%; }
+html, body {
+   height: 100%;
+
+}
 body { margin: 0;
 
 }
@@ -31,6 +34,13 @@ h2{
     font-family: value-regular;
     src: url('./assets/ValueFont/value-regular-web.woff')
 
+    }
+
+    p{
+      font-family: 'Cormorant Garamond', serif;
+    }
+    li{
+      font-family: 'Inconsolata', monospace;
     }
 
 
