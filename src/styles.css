@@ -4,7 +4,9 @@
 
 html, body {
    height: 100%;
-
+   text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 body { margin: 0;
 
@@ -13,24 +15,34 @@ body { margin: 0;
   color:#FFB821
 }
 
-li,div,h1{
-  font-family: Haas;
+div{
+  font-family: XHaas;
+}
+h1, #names{
+  font-family: XXHaas;
 }
 
 #title {
   font-family: Brick;
-
 }
 
 @font-face {
-  font-family: Haas;
+  font-family: XHaas;
   src: url('./assets/NeueHaasDisplay-XThin.woff') ;
 
   }
+  @font-face {
+    font-family: XXHaas;
+    src: url('./assets/NeueHaasDisplay-XXThin.woff') ;
+
+
+
+
+    }
 
   @font-face {
     font-family: Brick;
-    src: url('./assets/brick-display-medium-pro.woff2')
+    src: url('./assets/brick-display-medium-pro.ttf')
 
     }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router'
+import { Resolve , ActivatedRouteSnapshot } from '@angular/router'
 import { GetGalleriesService } from './getGalleries.service'
 
 @Injectable({
@@ -10,7 +10,7 @@ import { GetGalleriesService } from './getGalleries.service'
 export class GalleriesResolverService implements Resolve<any>{
   constructor(private galleries:GetGalleriesService) { }
 
-    resolve() {
-      return this.galleries.galleries$;
+    resolve(route: ActivatedRouteSnapshot) {
+      return this.galleries.getGalleries();
     }
 }

@@ -31,13 +31,13 @@ export const slider =
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateX(150%)',
+              transform: 'translateX(-100%)',
             }))
         ]),
         query(':enter', [
           style({
 
-            transform: 'translate(-150%)',
+            transform: 'translateX(100%)',
           }),
           animate('0.8s ease-out',
             style({
@@ -67,12 +67,12 @@ export const slider =
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateX(-150%)',
+              transform: 'translateX(150%)',
             }))
         ]),
         query(':enter', [
           style({
-            transform: 'translate(150%)',
+            transform: 'translateX(-150%)',
           }),
           animate('0.8s ease-out',
             style({

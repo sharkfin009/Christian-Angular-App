@@ -57,7 +57,7 @@ export class GetGalleriesService {
             (item)=>{
               srcSetUrls.push(item.getAttribute("srcset"));
               srcUrls.push(item.getAttribute("src"));
-              item.setAttribute("src","");
+            item.setAttribute("src","");
               item.setAttribute("srcset","")
             }
           );

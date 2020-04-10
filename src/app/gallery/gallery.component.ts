@@ -118,7 +118,7 @@ import {
     let gallery = this.grids.find((gallery) => gallery.slug === slug);
     this.slug = gallery.slug;
     this.grid = gallery.grid;
-    console.log(gallery.srcSetUrls)
+
     this.srcSetUrls = gallery.srcSetUrls;
   }
 
@@ -149,30 +149,8 @@ import {
     this.next = document.querySelector("#next");
     //make Array of img's
     this.picsArray = this.galleryGrid.querySelectorAll('img');
-    this.picsArray.forEach((item, index) => {
-      //   set event listener
-      item.flag = false;
-      item.setAttribute("data-id", index);
-      item.addEventListener("click", this.showLightbox.bind(this), true);
-      //set up intersection observer options
-      let options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0,
-      }
-      //hide pics for floating in
 
-        item.style.opacity = "0";
-        item.style.transform = 'translateY(300px)';
-
-
-      //set up intersection observers
-      let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
-      observer.observe(item);
-    });
-
-
-    //add click listeners
+    //add click listeners to overlay
     this.left.addEventListener("click", this.browseLeft.bind(this), false);
     this.right.addEventListener("click", this.browseRight.bind(this), false);
     //add key listeners
@@ -186,13 +164,42 @@ import {
         this.closeLightbox();
     }
     document.addEventListener('keydown', callBrowse.bind(this));
+
+    this.picsArray.forEach((item, index) => {
+      //   set event listener
+      item.loadedFlag = false;
+      item.setAttribute("data-id", index);
+      item.addEventListener("click", this.showLightbox.bind(this), true);
+      //set up intersection observer options
+      let options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0,
+      }
+
+      //hide pics for floating in
+      let picTop = item.getBoundingClientRect().top;
+      if (picTop < window.innerHeight) {
+        item.noFloat= true;
+        // item.style.transition = "opacity 1s";
+        // item.style.opacity = "1";
+       } else if ( picTop > window.innerHeight) {
+         item.noFloat = false;
+       }
+      //set up intersection observers
+      let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
+      observer.observe(item);
+    });
+
+
   }
 
 
   intersectionCallback(entries) {
     entries.forEach(entry => {
+
       let picTop = entry.boundingClientRect.top;
-      if (entry.target.flag === false) {
+      if (entry.target.loadedFlag === false && entry.target.noFloat === false) {
         if (picTop < window.innerHeight) {
           entry.target.style.transition = "opacity 1s, transform ease-out 1s";
           entry.target.onload = function () {
@@ -207,7 +214,7 @@ import {
           entry.target.style.transform = 'translateY(300px)';
         }
       }
-      if (entry.target.flag === true) {
+      if (entry.target.loadedFlag === true && entry.target.noFloat === false) {
 
         if (picTop < window.innerHeight) {
             entry.target.style.opacity = "1";
@@ -218,6 +225,10 @@ import {
           entry.target.style.opacity = "0";
           entry.target.style.transform = 'translateY(300px)';
         }
+      };
+      if (entry.target.loadedFlag === false && entry.target.noFloat === true) {
+        entry.target.srcset = this.srcSetUrls[entry.target.dataset.id];
+
       }
     });
   }
@@ -315,15 +326,7 @@ import {
 
     this.galleryGrid.style.transform += `scale(${zoomRatio})`;
 
-    console.log(
 
-      // `zoomRatio:${zoomRatio}\n`,
-      // `cumulativeOffset(photo).left:${this.cumulativeOffset(photo).left}\n`,
-      // `cumulativeOffset(photo).top:${this.cumulativeOffset(photo).top}\n`,
-      // `targetMiddleY:${targetMiddleY}\n`,
-      // `diffX:${diffX},diffY:${diffY}\n`,
-
-    );
 
   }
 
@@ -331,7 +334,7 @@ import {
     if (this.lightboxFlag) {
       //assign next pic
       if (this.picPointer > 0) {
-        console.log(this.picPointer);
+
         this.picPointer -= 1;
 
         this.pic.srcset = this.picsArray[this.picPointer].srcset;
