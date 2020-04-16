@@ -4,19 +4,19 @@
 
 html, body {
    height: 100%;
-   text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+   /* text-rendering: optimizeLegibility; */
+    /* -webkit-font-smoothing: antialiased; */
+    /* -moz-osx-font-smoothing: grayscale; */
 }
 body { margin: 0;
 
 }
-.that-yellow{
-  color:#FFB821
+.that-red{
+  color:#ff381e
 }
 
-div{
-  font-family: XHaas;
+div,li{
+  font-family: XXHaas;
 }
 h1, #names{
   font-family: XXHaas;
@@ -26,11 +26,7 @@ h1, #names{
   font-family: Brick;
 }
 
-@font-face {
-  font-family: XHaas;
-  src: url('./assets/NeueHaasDisplay-XThin.woff') ;
 
-  }
   @font-face {
     font-family: XXHaas;
     src: url('./assets/NeueHaasDisplay-XXThin.woff') ;
@@ -66,4 +62,9 @@ h1, #names{
 
 .nil {
   border: 3px dashed blue;
+}
+.q{
+  opacity:0;
+  transform: translateY(300px);
+  transition:opacity ease-out 2s, transform ease-out 1s;
 }

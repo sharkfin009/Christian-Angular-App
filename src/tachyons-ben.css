@@ -3546,8 +3546,7 @@ code {
     transform: scale(.95)
 }
 
-.pointer:hover,
-.shadow-hover {
+.pointer:hover {
     cursor: pointer
 }
 

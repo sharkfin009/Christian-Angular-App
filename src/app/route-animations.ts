@@ -27,22 +27,24 @@ export const slider =
       group([
         query(':leave', [
           style({
-            transform: 'translateX(0%)'
+            transform: 'translateY(0%)'
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateX(-100%)',
+              transform: 'translateY(-100%)',
             }))
         ]),
         query(':enter', [
           style({
 
-            transform: 'translateX(100%)',
+            transform: 'translateY(40%)',
+            opacity:'0',
           }),
           animate('0.8s ease-out',
             style({
 
-              transform: 'translateX(0%)'
+              transform: 'translateY(0%)',
+              opacity: '1',
             }))
         ] ),
 
@@ -63,26 +65,26 @@ export const slider =
       group([
         query(':leave', [
           style({
-            transform: 'translateX(0%)'
+            transform: 'translateY(0%)'
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateX(150%)',
+              transform: 'translateY(100%)',
             }))
         ]),
         query(':enter', [
           style({
-            transform: 'translateX(-150%)',
+            transform: 'translateY(-100%)',
           }),
           animate('0.8s ease-out',
             style({
 
-              transform: 'translateX(0%)'
+              transform: 'translateY(0%)'
             }))
         ] )
       ])
     ]),
-    transition('menu => *', [
+    transition('menu => portfolio', [
       style({
         position: "relative"
       }),
@@ -146,6 +148,40 @@ export const slider =
             style({
 
               transform: 'translateX(0%)'
+            }))
+        ] )
+      ]),
+    ]),
+    transition('menu => showcase', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateX(0%)'
+          }),
+          animate('0.8s ease-out',
+            style({
+              transform: 'translateX(-20%)',
+            }))
+        ]),
+        query(':enter', [
+          style({
+            transform: 'translateY(150%)',
+          }),
+          animate('0.5s ease-out',
+            style({
+
+              transform: 'translateY(0%)'
             }))
         ] )
       ]),

@@ -1,7 +1,7 @@
 export interface Gallery {
-   slug: string;
-    grid: string;
+    grid:any;
     srcSetUrls: any;
+    srcUrls: any;
   }
 
   export interface GalleryThumb {
@@ -9,6 +9,7 @@ export interface Gallery {
     title:string;
     names:string;
     thumb: string;
+    url:string;
  }
 
  export interface Commission {

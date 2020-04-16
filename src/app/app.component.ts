@@ -22,22 +22,23 @@ import {Location} from "@angular/common";
   styleUrls: ['./app.component.css'],
   animations: [slider,
     trigger('arrow', [
-      state('true', style({transform:"translateX(0)"})),
-      state('false', style({transform:"translateX(-150px)"})),
-      transition('true=>false', [ animate('0.5s ease-out')]),
-      transition('false=>true', [ animate('0.5s ease-out')])
+      state('true', style({transform:"translateY(0)"})),
+      state('false', style({transform:"translateY(100vh)"})),
+      transition('true=>false', [ animate('0.8s ease-out')]),
+      transition('false=>true', [ animate('0.8s ease-out')])
     ]),
-    trigger('hideX',[
-      state('true', style({opacity:"0"})),
-      state('false', style({opacity:"100"})),
-      transition('true=>false',[animate('0.5s ease-out')]),
-      transition('false=>true',[animate('0.5s ease-out')])
+    trigger('slideX',[
+      state('true', style({transform:"translateY(-50vh)"})),
+      state('false', style({transform:"translateY(0)"})),
+      transition('true=>false',[animate('0.8s ease-out')]),
+      transition('false=>true',[animate('0.8s ease-out')])
     ]),
     trigger('xTurn',[
       state('true', style({transform:"rotate(-45deg)"})),
       state('false', style({transform:"rotate(0)"})),
-      transition('true=>false',[animate('0.5s ease-out')]),
-      transition('false=>true',[animate('0.5s ease-out')])
+
+      transition('true=>false',[animate('0.8s ease-out')]),
+      transition('false=>true',[animate('0.8s ease-out')])
     ]),
   ],
 })
@@ -88,10 +89,11 @@ export class AppComponent implements OnInit {
   }
 
   getArrowState(outlet){
-    return outlet.activatedRouteData['arrowState']
-  }
-  getXState(outlet){
-    return outlet.activatedRouteData['xState']
+
+    return outlet.activatedRouteData['arrowState']}
+
+  getXTurnState(outlet){
+    return outlet.activatedRouteData['xTurnState']
   }
   toggleMenu(outlet){
 

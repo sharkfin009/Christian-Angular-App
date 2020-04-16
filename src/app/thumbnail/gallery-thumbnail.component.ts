@@ -11,7 +11,11 @@ import {
 } from '@angular/platform-browser'
 import {
   GetGalleriesService
-} from "../shared/getGalleries.service"
+} from '../shared/getGalleries.service';
+import {
+  Observable
+} from 'rxjs';
+
 
 @Component({
   selector: '´gallery-thumbnail',
@@ -19,30 +23,29 @@ import {
   styleUrls: ['./gallery-thumbnail.component.css']
 })
 export class GalleryThumbnailComponent implements OnInit {
-  galleries$ :any;
-  gallery: any;
-  gridIsPreloaded: boolean;
+
   @Input() thumbnail: any;
   @Input() hoverCompute: string;
   @Output() hover = new EventEmitter();
   @Output() loaded = new EventEmitter();
   @Output() arrowClass = new EventEmitter();
+  @Output() thumbLoaded = new EventEmitter();
   paleOnWithTitle = {};
   paleOffWithTitle = {};
-  titleFrame:any;
-  thumbnailIsLoaded:boolean;
-  //trustedGrid: any;
+  titleFrame: any;
+  thumbnailIsLoaded: boolean;
+  firstFourPics: any;
+  observable$: any;
+  url: String;
 
-  constructor(private getGalleries:GetGalleriesService,private sanitizer:DomSanitizer) {}
+
+  constructor(private sanitizer: DomSanitizer, private gallery: GetGalleriesService) {}
 
   ngOnInit() {
-    this.galleries$ = this.getGalleries.galleries$.subscribe(
-      (galleries)=>{
-        let gallery = galleries.find((gallery)=>
-          gallery.slug === this.thumbnail.slug
-         );
-      this.gallery = gallery.grid;
-      this.gridIsPreloaded = true;
+    this.observable$ = this.gallery.getFirstFourPics(this.thumbnail.slug).subscribe(
+      item => {
+        this.firstFourPics = item;
+
       }
     );
 
@@ -51,7 +54,7 @@ export class GalleryThumbnailComponent implements OnInit {
     this.paleOnWithTitle = {
       title: this.thumbnail.title,
       hover: "paleOn",
-      names:this.thumbnail.names,
+      names: this.thumbnail.names,
     };
     this.paleOffWithTitle = {
       title: this.thumbnail.title,
@@ -76,8 +79,11 @@ export class GalleryThumbnailComponent implements OnInit {
   }
 
 
-  thumbnailLoaded(){
-    this.thumbnailIsLoaded=true;
+  thumbnailLoaded() {
+    this.thumbnailIsLoaded = true;
+    this.thumbLoaded.emit(this.thumbnail.order_field);
+
+
   }
 
 

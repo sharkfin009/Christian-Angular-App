@@ -42,13 +42,16 @@ from 'rxjs';
 import {
   doesNotThrow
 } from 'assert';
+import {
+  Gallery
+} from '../shared/interfaces';
 
 
 @Component({
     selector: 'gallery',
     templateUrl: './gallery.component.html',
     styleUrls: ['./gallery.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+
   }
 
 ) export class GalleryComponent implements OnInit {
@@ -57,18 +60,16 @@ import {
   two = "https://source.unsplash.com/Gkc_xM3VY34/1600X900";
   three = "https://source.unsplash.com/JYvWlLREwBk/1600X900";
   four = "https://source.unsplash.com/d9KHXXjJR54/1600X900";
-  grids: any[];
+  gallery: Gallery;
   grid: string;
   slug: string;
   trustedGrid: SafeHtml;
   galleryGrid: any;
   picsArray: any;
-  bigPicArray: any;
   overlay: any;
   pic: any;
   zoom: string;
   lightboxFade: any;
-  pageTitle: any;
   left: any;
   right: any;
   lightboxFlag: boolean;
@@ -80,7 +81,6 @@ import {
   newPic: any;
   outletWrapper: any;
   body: any;
-
   close: any;
   photo: any;
   @Output() headerClass = new EventEmitter;
@@ -93,6 +93,10 @@ import {
   previous: any;
   activeRouteTitle: any;
   srcSetUrls: any;
+  srcUrls: any;
+  preloads = [];
+  preloadDiv: any;
+  arrowFrame: any;
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
@@ -102,26 +106,14 @@ import {
 
   ngOnInit(): void {
     //set up values
-    this.grids = this.route.snapshot.data['grids'];
-    this.getGalleryName(this.route.snapshot.params['slug']);
-    this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.grid);
-    this.router.events.subscribe((data => {
-      if (data instanceof RoutesRecognized) {
-        this.activeRouteTitle = data.state.root.firstChild.data.title;
-      }
-    }))
-
-
+    this.gallery = this.route.snapshot.data['gallery'];
+    this.srcUrls = this.gallery.srcUrls;
+    this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gallery.grid);
+    //prep preload array
+    for (let i = 0; i < 3; i++) {
+      this.preloads.push(this.srcUrls[i]);
+    }
   }
-
-  getGalleryName(slug: string): void {
-    let gallery = this.grids.find((gallery) => gallery.slug === slug);
-    this.slug = gallery.slug;
-    this.grid = gallery.grid;
-
-    this.srcSetUrls = gallery.srcSetUrls;
-  }
-
 
   ngAfterViewInit() {
     //set up DOM values
@@ -129,14 +121,6 @@ import {
     this.lightbox = document.querySelector('#lightbox');
     this.galleryGrid = document.querySelector('#galleryGrid');
     this.lightboxFade = document.querySelector(".lightbox-fade");
-    this.pageTitle = document.querySelector("#page-title");
-
-    if (this.slug === "showcase") {
-      this.pageTitle.style.opacity = '0';
-    } else {
-      this.pageTitle.style.opacity = '1';
-    }
-
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
     this.left = document.querySelector("#left");
@@ -147,8 +131,10 @@ import {
     this.close = document.querySelector("#close");
     this.previous = document.querySelector("#previous");
     this.next = document.querySelector("#next");
+    this.preloadDiv = document.querySelector("#preloadDiv");
     //make Array of img's
     this.picsArray = this.galleryGrid.querySelectorAll('img');
+    this.arrowFrame = document.querySelector(".arrow-frame");
 
     //add click listeners to overlay
     this.left.addEventListener("click", this.browseLeft.bind(this), false);
@@ -165,11 +151,39 @@ import {
     }
     document.addEventListener('keydown', callBrowse.bind(this));
 
+    this.preloadDiv.addEventListener("load", this.afterLoadFew.bind(this), true);
+  }
+  afterLoadFew() {
+
     this.picsArray.forEach((item, index) => {
-      //   set event listener
-      item.loadedFlag = false;
+      //   load all pics
+      item.src = this.srcUrls[index];
+      //place index in data att
       item.setAttribute("data-id", index);
+      //set lightbox listener
       item.addEventListener("click", this.showLightbox.bind(this), true);
+      this.galleryWrapper.onscroll = function(){
+      console.log('yup');
+        this.arrowFrame.style.opacity=0;
+      }.bind(this)n
+
+
+      //fade in above fold pics when loaded, and set flag to differentiate first screenfull
+      let picTop = item.getBoundingClientRect().top;
+      if (picTop < window.innerHeight) {
+        item.onload = function () {
+          item.style.opacity = "1";
+          item.style.transform = "translateY(0)";
+        };
+        item.noFloat = true;
+      }
+      //hide below fold pics for floating in
+      else if (picTop > window.innerHeight) {
+        item.src = this.srcUrls[index];
+        item.noFloat = false;
+        item.style.opacity = "0";
+        item.style.transform = 'translateY(300px)';
+      }
       //set up intersection observer options
       let options = {
         root: null,
@@ -177,58 +191,24 @@ import {
         threshold: 0,
       }
 
-      //hide pics for floating in
-      let picTop = item.getBoundingClientRect().top;
-      if (picTop < window.innerHeight) {
-        item.noFloat= true;
-        // item.style.transition = "opacity 1s";
-        // item.style.opacity = "1";
-       } else if ( picTop > window.innerHeight) {
-         item.noFloat = false;
-       }
       //set up intersection observers
       let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
       observer.observe(item);
     });
-
-
   }
-
-
   intersectionCallback(entries) {
     entries.forEach(entry => {
-
       let picTop = entry.boundingClientRect.top;
-      if (entry.target.loadedFlag === false && entry.target.noFloat === false) {
-        if (picTop < window.innerHeight) {
-          entry.target.style.transition = "opacity 1s, transform ease-out 1s";
-          entry.target.onload = function () {
-            entry.target.flag = true;
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = 'translateY(0)';
-          }
-          entry.target.srcset = this.srcSetUrls[entry.target.dataset.id];
+      // animate pics on entry and exit (if loaded)
+      if (entry.target.noFloat === false) {
+        if (picTop < window.innerHeight && entry.target.complete === true) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = 'translateY(0)';
         }
         if (picTop > window.innerHeight) {
           entry.target.style.opacity = "0";
           entry.target.style.transform = 'translateY(300px)';
         }
-      }
-      if (entry.target.loadedFlag === true && entry.target.noFloat === false) {
-
-        if (picTop < window.innerHeight) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = 'translateY(0)';
-
-        }
-        if (picTop > window.innerHeight) {
-          entry.target.style.opacity = "0";
-          entry.target.style.transform = 'translateY(300px)';
-        }
-      };
-      if (entry.target.loadedFlag === false && entry.target.noFloat === true) {
-        entry.target.srcset = this.srcSetUrls[entry.target.dataset.id];
-
       }
     });
   }
@@ -242,35 +222,38 @@ import {
     //show lightbox after transition to hide galleryGrid
     setTimeout(() => {
       this.lightbox.style.opacity = '1';
-
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
       this.galleryGrid.classList.remove("gridFadeOut");
       void this.galleryGrid.offsetWidth;
       this.galleryGrid.classList.add("gridFadeOut");
       this.galleryGrid.style.opacity = 0;
+
     }, 300)
 
-    //add cursor hover classes
-
-    this.left.classList.add("left-arrow");
-    this.right.classList.add("right-arrow");
-    this.close.classList.add("grid");
 
 
 
     //put this pic in lightbox
-    this.pic.src = event.target.src;
-    this.pic.srcset = event.target.srcset;
+
+    this.pic.src = this.srcUrls[this.picPointer];
+
+    //set width of close,left and right elements
+
+    this.close.style.width = this.pic.offsetWidth + "px";
+    let sideWidth = (window.innerWidth - this.pic.offsetWidth) / 2;
+    this.left.style.width = sideWidth + "px";
+    this.right.style.width = sideWidth + "px";
+
 
     //prepare next and previous elements
     if (this.picPointer > 1) {
-      this.previous.src = this.picsArray[this.picPointer - 1].src;
-      this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
+      this.previous.src = this.srcUrls[this.picPointer - 1].src;
+      // this.previous.srcset = this.srcUrls[this.picPointer - 1].srcset;
     }
     if (this.picPointer < this.picsArray.length - 2) {
       this.next.src = this.picsArray[this.picPointer + 1].src;
-      this.next.srcset = this.picsArray[this.picPointer + 1].src;
+      // this.next.srcset = this.srcUrls[this.picPointer + 1].src;
     }
   }
   cumulativeOffset(element, index) {
@@ -405,19 +388,7 @@ import {
   closeLightbox(e) {
     //show grid
     this.galleryGrid.style.opacity = 1;
-    // let pics= document.querySelectorAll("img");
-    // pics.forEach(
-    //   (item)=>{
-    //     if (item.dataset.id !== this.picPointer){
-    //       console.dir(item);
-    //       item.style.opacity="0";
-    //       item.classList.remove("gridFadeIn");
-    //       void item.offsetWidth;
-    //       item.classList.add("gridFadeIn");
-    //       item.style.opacity="1";
-    //     }
-    //   }
-    // )
+
 
     //switch flag
     this.lightboxFlag = false;
@@ -425,8 +396,7 @@ import {
     this.headerClass.emit('o-100')
 
 
-    //hide bbutton
-    this.pageTitle.style.opacity = '1';
+
     // hide lightbox
     this.lightbox.style.opacity = "0";
     //this.overlay.style.opacity = "0";
@@ -434,10 +404,7 @@ import {
     //put overlay behind so we can click on pics again
     this.overlay.style.zIndex = "-1"
     //remove hover classes
-    this.overlay.classList.remove("no-cursor");
-    this.left.classList.remove("left-arrow");
-    this.right.classList.remove("right-arrow");
-    this.lightbox.classList.remove("grid");
+
     //scroll
     let photo = document.querySelector(`[data-id="${this.picPointer}"]`);
 

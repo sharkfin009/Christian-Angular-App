@@ -1,8 +1,9 @@
-<div [routerLink]="['/gallery',thumbnail.slug]" id="thumbnail" [ngClass]="hoverDecide(hoverCompute)" 
+<div [routerLink]="['/gallery',thumbnail.slug]" id="thumbnail" [ngClass]="hoverDecide(hoverCompute)"
   class="relative pointer">
-  <img (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="thumbnail relative" src="{{thumbnail.featured.medium}}"
-    (load)="thumbnailLoaded()" />
+  <img  (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="thumbnail relative"
+    (load)="thumbnailLoaded()" [src]="thumbnail.url" />
 </div>
-  <!-- <div *ngIf="gridIsPreloaded">
-      <div class="dn" [innerHtml]="gallery"></div>
-  </div> -->
+<div *ngIf="thumbnailIsLoaded && firstFourPics !== null" class="dn">
+  <img *ngFor="let pic of firstFourPics" [src]="pic">
+
+</div>

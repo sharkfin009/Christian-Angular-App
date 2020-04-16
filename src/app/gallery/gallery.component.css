@@ -8,11 +8,8 @@ overscroll-behavior:none
 
 #galleryGrid {
   transition: transform 0.3s ease-out;
-
   left:0;
   top:250px;
-
-
   }
  #lightbox{
   top:0;
@@ -52,18 +49,8 @@ overscroll-behavior:none
  from {opacity:0}
  to {opacity:1}
 }
-.left-arrow{
-  cursor: url("src/assets/arrow_left.png"),auto;
-}
-.right-arrow{
-  cursor: url("src/assets/arrow_right.png"),auto;
-}
-.grid{
-  cursor: url("src/assets/x.png"),auto;
-}
-.no-cursor{
-  cursor: default;
-}
+
+
 #overlay{
   width:100vw;
   height:100vh;
@@ -79,7 +66,6 @@ overscroll-behavior:none
 }
 
 
-
 .ll{
   width:400px;
 }
@@ -91,4 +77,15 @@ img.ng-lazyloaded {
 @keyframes fadein {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+.left-arrow:hover
+{
+cursor: w-resize;
+}
+.right-arrow:hover{
+  cursor: e-resize;
+}
+.arrow-frame{
+ margin-top: 95vh;
+ transition: opacity 1s ease-out;
 }

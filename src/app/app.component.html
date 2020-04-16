@@ -1,17 +1,16 @@
-<div id="header" [ngClass]="class" class="fixed w-100  flex flex-nowrap ">
-  <div class="w-10 flex justify-center items-center ">
-
-      <img  src="../assets/x-menu.png" width="25" (click)="toggleMenu(outlet)" class="absolute menu-button  hover-grow pointer that-yellow ph2"  [@hideX]="getArrowState(outlet)" [@xTurn]="getXState(outlet)"/>
+<div id="header" [ngClass]="class" class=" fixed w-100  flex flex-nowrap ">
+  <div class="w-10 flex justify-center items-center">
+      <img  src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)" class="absolute menu-button  hover-grow pointer ph2"  [@slideX]="getArrowState(outlet)" [@xTurn]="getXTurnState(outlet)"/>
 
       <div  routerLink="/portfolio" class="absolute arrow" [@arrow]="getArrowState(outlet)" >
-        <img  src="../assets/arrow_left.png" width="26" class="relative ph3  hover-grow pointer  that-yellow"/>
+        <img  src="../assets/arrow_down.svg" width="22" class="relative ph3  hover-grow pointer"/>
 
       </div>
   </div>
   <div id="innerHeader" class="relative w-80 flex flex-nowrap justify-between items-center">
-    <h1 id="site-title" class="lightbox-fade z5 fw2" >Christian Doppelgatz</h1>
+    <div id="site-title" class=" lightbox-fade z5 fw2" >Christian Doppelgatz</div>
 
-    <div id="page-title" class="">{{activeRouteTitle}}</div>
+
 
   </div>
   <div class="w-10">

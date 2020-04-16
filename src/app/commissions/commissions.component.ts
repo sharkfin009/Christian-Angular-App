@@ -37,7 +37,7 @@ export class CommissionsComponent implements OnInit {
 
   }
   hoverOn(title){
-    console.log(title)
+   
     this.hoverClass = "hoverOn";
     this.title = title;
 

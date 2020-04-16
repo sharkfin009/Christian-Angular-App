@@ -22,44 +22,56 @@ import { PostsComponent } from './posts/posts.component';
 import { PostsResolverService } from './shared/postsResolver.service';
 import { MenuComponent } from './menu/menu.component';
 import { ShowreelComponent } from './showreel/showreel.component';
+import { ThumbnailsResolverService } from './shared/thumbnailsResolver.service';
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
     component: PortfolioComponent,
+    resolve: {
+      thumbnails: ThumbnailsResolverService,
+    },
     data: {
       view: 'portfolio',
       title: "Portfolio",
       arrowState: false,
-      xState:false,
+      xTurnState:false,
+      slideXState:false
     }
   },
+
   {
-    path: 'home',
-    component: PortfolioComponent,
+    path: 'showcase',
+    component: GalleryComponent,
+    resolve: {
+      gallery: GalleriesResolverService,
+    },
     data: {
-      view: 'home',
-      title: "",
+      view: "showcase",
+      title: "Showcase",
       arrowState: false,
-      xState:false,
+      xTurnState: false,
+      slideXState:false,
+
     }
   },
    {
     path: 'gallery/:slug',
     component: GalleryComponent,
     resolve: {
-      grids: GalleriesResolverService,
+      gallery: GalleriesResolverService,
     },
     data: {
       view: 'gallery',
       title: 'Gallery',
       arrowState:  true,
-      xState: false,
+      xTurnState: false,
+      slideXState:true,
 
     }
   },
    {
     path: '',
-    redirectTo: '/gallery/showcase',
+    redirectTo: '/showcase',
     pathMatch: 'full'
   }, {
     path: 'commissions',
@@ -72,19 +84,11 @@ export const appRoutes: Routes = [{
       view: 'commissions',
       title: 'Commissions',
       arrowState: false,
-      xState:false,
+      xTurnState:false,
+      slideXState:false,
     }
   },
-  {
-    path: 'gallery/showcase',
-    component: GalleryComponent,
-    data: {
-      view: "gallery",
-      title: "Gallery",
-      arrowState: false,
-      xState: false,
-    }
-  },
+
   {
     path: 'menu',
     component: MenuComponent,
@@ -92,7 +96,8 @@ export const appRoutes: Routes = [{
       view: "menu",
       title: "menu",
       arrowState: false,
-      xState:true,
+      xTurnState:true,
+      slideXState:false,
     }
   },
   {
@@ -102,7 +107,8 @@ export const appRoutes: Routes = [{
       view: "showreel",
       title: "Showreel",
       arrowState: false,
-      xState:true,
+      xTurnState:true,
+      slideXState:false,
     }
   },
 

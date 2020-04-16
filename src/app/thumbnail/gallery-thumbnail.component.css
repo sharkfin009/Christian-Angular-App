@@ -3,8 +3,8 @@
 
 
 #thumbnail {
-  transition: all 0.9s;
-  /* width:400px */
+  transition: opacity 0.5s ease-out;
+
 }
 .paleOn {
   opacity: 0.2;
@@ -17,4 +17,3 @@
 .thisIsHoveredThumbnail{
   opacity: 1!important
 }
-
