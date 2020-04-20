@@ -3,13 +3,13 @@
 </div>
 <div id="galleryWrapper" class="relative  z-3 h-100 w-100   flex justify-center">
   <div class="w-80 relative">
-    <div id="galleryGrid" class="w-100 relative " [innerHtml]="trustedGrid"></div>
+    <div id="renderedGrid" [innerHTML]="trustedGrid" class="w-100 relative"></div>
   </div>
 </div>
-
+<!--
 <div id="preloadDiv" class="dn">
   <img *ngFor="let preload of preloads" [src]="preload">
-</div>
+</div> -->
 
 
 <div id="overlay" class=" w-100 absolute h-100 z-1 fixed flex justify-between ">
@@ -30,6 +30,5 @@
     <img width="15px" src="../../assets/arrow_left.svg" class="relative ph3 hover-grow pointer  that-yellow" />
     <img width="15px" src="../../assets/arrow_right.svg" class="relative ph3  hover-grow pointer  that-yel
       low" />
-
   </div>
 </div>

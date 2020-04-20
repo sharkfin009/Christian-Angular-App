@@ -13,8 +13,16 @@ import {
 import {
   slider
 } from './route-animations'
-import { trigger, state, transition, animate, style } from '@angular/animations';
-import {Location} from "@angular/common";
+import {
+  trigger,
+  state,
+  transition,
+  animate,
+  style
+} from '@angular/animations';
+import {
+  Location
+} from "@angular/common";
 
 @Component({
   selector: 'app-root',
@@ -22,23 +30,35 @@ import {Location} from "@angular/common";
   styleUrls: ['./app.component.css'],
   animations: [slider,
     trigger('arrow', [
-      state('true', style({transform:"translateY(0)"})),
-      state('false', style({transform:"translateY(100vh)"})),
-      transition('true=>false', [ animate('0.8s ease-out')]),
-      transition('false=>true', [ animate('0.8s ease-out')])
+      state('true', style({
+        transform: "translateY(0)"
+      })),
+      state('false', style({
+        transform: "translateY(100vh)"
+      })),
+      transition('true=>false', [animate('0.8s ease-out')]),
+      transition('false=>true', [animate('0.8s ease-out')])
     ]),
-    trigger('slideX',[
-      state('true', style({transform:"translateY(-50vh)"})),
-      state('false', style({transform:"translateY(0)"})),
-      transition('true=>false',[animate('0.8s ease-out')]),
-      transition('false=>true',[animate('0.8s ease-out')])
+    trigger('slideX', [
+      state('true', style({
+        transform: "translateY(-50vh)"
+      })),
+      state('false', style({
+        transform: "translateY(0)"
+      })),
+      transition('true=>false', [animate('0.8s ease-out')]),
+      transition('false=>true', [animate('0.8s ease-out')])
     ]),
-    trigger('xTurn',[
-      state('true', style({transform:"rotate(-45deg)"})),
-      state('false', style({transform:"rotate(0)"})),
+    trigger('xTurn', [
+      state('true', style({
+        transform: "rotate(-45deg)"
+      })),
+      state('false', style({
+        transform: "rotate(0)"
+      })),
 
-      transition('true=>false',[animate('0.8s ease-out')]),
-      transition('false=>true',[animate('0.8s ease-out')])
+      transition('true=>false', [animate('0.8s ease-out')]),
+      transition('false=>true', [animate('0.8s ease-out')])
     ]),
   ],
 })
@@ -49,14 +69,11 @@ export class AppComponent implements OnInit {
   isCollapsed: boolean = false;
   activeRouteTitle: any;
   menuClass = {
-    x: "",
-    menu: "",
-    outlet: "",
+
+
     hideX: 'db',
   };
   class: String;
-
-
   x: any;
   hideMenuClass: string;
 
@@ -74,35 +91,35 @@ export class AppComponent implements OnInit {
     }));
   }
 
-  ngAfterViewInit() {}
-
-
 
   onActivate(componentReference) {
 
-    if (componentReference.route !==undefined &&componentReference.route.component.name === "GalleryComponent") {
+    if (componentReference.route !== undefined && componentReference.route.component.name === "GalleryComponent") {
       componentReference.headerClass.subscribe((data) => {
         this.class = data;
       });
-
     }
   }
 
-  getArrowState(outlet){
-
-    return outlet.activatedRouteData['arrowState']}
-
-  getXTurnState(outlet){
-    return outlet.activatedRouteData['xTurnState']
+  getArrowState(outlet) {
+    return outlet.activatedRouteData['arrowState']
   }
-  toggleMenu(outlet){
 
- if(outlet.activatedRouteData['view']!=="menu"){
-  this.router.navigate(["../menu"],{relativeTo:this.route});
- }
- else {
-  this.location.back();
- }
+  getXTurnState(outlet) {
+    if (outlet.activatedRouteDataundefined){
+      return false
+    } else return
+    outlet.activatedRouteData['xTurnState']
+  }
+
+  toggleMenu(outlet) {
+    if (outlet.activatedRouteData['view'] !== "menu") {
+      this.router.navigate(["../menu"], {
+        relativeTo: this.route
+      });
+    } else {
+      this.location.back();
+    }
   }
 
 }

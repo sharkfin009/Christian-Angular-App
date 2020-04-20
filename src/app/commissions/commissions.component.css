@@ -24,9 +24,9 @@ animation: settle 1s ease-out forwards, fadeIn 1s ease-out forwards;
   animation:  fadeOut 0.5s ease-out forwards;
 }
 
-.thumbnail{
+/* .thumbnail{
   animation: fadeIn 0.2s ease-in;
-}
+} */
 
 @keyframes settle {
   from {

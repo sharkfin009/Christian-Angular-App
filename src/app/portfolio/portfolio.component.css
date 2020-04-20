@@ -6,7 +6,7 @@
   grid-template-columns: auto  auto  auto;
   column-gap:140px;
   margin-bottom:50px;
-  opacity:0; 
+  opacity:0;
 }
 
 #text{
@@ -39,7 +39,11 @@ animation: rise 0.8s ease-out forwards, fadeIn 2s ease-out forwards;
   animation: fadeOut 0.8s ease-out forwards;
 }
 
-.thumbnail{
+.thumbs-box{
+display:grid;
+grid-template-columns: auto auto auto;
+column-gap:140px;
+row-gap:140px;
 
 }
 

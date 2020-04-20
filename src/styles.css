@@ -63,8 +63,4 @@ h1, #names{
 .nil {
   border: 3px dashed blue;
 }
-.q{
-  opacity:0;
-  transform: translateY(300px);
-  transition:opacity ease-out 2s, transform ease-out 1s;
-}
+

@@ -31,13 +31,13 @@ export class CommissionsComponent implements OnInit {
     this.commissions.forEach((item, index, array) => {
       array[index].sanitizedGrid=this.sanitizer.bypassSecurityTrustHtml(item.grid);
     });
-    console.dir(this.commissions);
+  
   }
   ngAfterViewInit(){
 
   }
   hoverOn(title){
-   
+
     this.hoverClass = "hoverOn";
     this.title = title;
 

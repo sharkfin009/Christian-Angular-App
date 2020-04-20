@@ -9,18 +9,33 @@ import {
   DomSanitizer,
   SafeHtml,
 } from '@angular/platform-browser'
-import {
-  GetGalleriesService
-} from '../shared/getGalleries.service';
+
 import {
   Observable
 } from 'rxjs';
+import { state, trigger, transition, style, animate } from '@angular/animations';
 
 
 @Component({
   selector: '´gallery-thumbnail',
   templateUrl: './gallery-thumbnail.component.html',
-  styleUrls: ['./gallery-thumbnail.component.css']
+  styleUrls: ['./gallery-thumbnail.component.css'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('false', style({
+        opacity: 0,
+      })),
+      state('true', style({
+        opacity: 1,
+      })),
+      transition('false=>true', [
+        style({
+          opacity: 0,
+        }),
+        animate("0.5s ease-in")
+      ]),
+    ])
+  ]
 })
 export class GalleryThumbnailComponent implements OnInit {
 
@@ -39,17 +54,12 @@ export class GalleryThumbnailComponent implements OnInit {
   url: String;
 
 
-  constructor(private sanitizer: DomSanitizer, private gallery: GetGalleriesService) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.observable$ = this.gallery.getFirstFourPics(this.thumbnail.slug).subscribe(
-      item => {
-        this.firstFourPics = item;
-
-      }
-    );
 
   }
+
   ngAfterViewInit() {
     this.paleOnWithTitle = {
       title: this.thumbnail.title,
@@ -61,7 +71,6 @@ export class GalleryThumbnailComponent implements OnInit {
       hover: "paleOff",
       names: this.thumbnail.names,
     }
-
   }
 
   hoverOn() {
@@ -78,12 +87,9 @@ export class GalleryThumbnailComponent implements OnInit {
     }
   }
 
-
   thumbnailLoaded() {
     this.thumbnailIsLoaded = true;
     this.thumbLoaded.emit(this.thumbnail.order_field);
-
-
   }
 
 

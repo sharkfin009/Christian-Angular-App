@@ -186,7 +186,40 @@ export const slider =
         ] )
       ]),
     ]),
+    transition('menu => *', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateX(0%)'
+          }),
+          animate('0.8s ease-out',
+            style({
+              transform: 'translateX(-60%)',
+            }))
+        ]),
+        query(':enter', [
+          style({
+            transform: 'translate(150%)',
+          }),
+          animate('0.5s ease-out',
+            style({
 
+              transform: 'translateX(0%)'
+            }))
+        ] )
+      ]),
+    ]),
 
 
 

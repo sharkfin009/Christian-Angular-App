@@ -6,16 +6,15 @@ overscroll-behavior:none
 }
 
 
-#galleryGrid {
-  transition: transform 0.3s ease-out;
+#renderedGrid{
   left:0;
   top:250px;
+  transition:transform 0.3s ease-out;
   }
  #lightbox{
   top:0;
   left:0;
   overflow:hidden;
-  /* transition: opacity 0.1s ease-out; */
  }
 .lightboxPicHeight{
   height:80vh;
@@ -89,3 +88,4 @@ cursor: w-resize;
  margin-top: 95vh;
  transition: opacity 1s ease-out;
 }
+
