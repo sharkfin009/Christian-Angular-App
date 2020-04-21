@@ -56,7 +56,7 @@ import { isNgTemplate } from '@angular/compiler';
   }
 
 ) export class GalleryComponent implements OnInit {
- 
+
   gallery: Gallery;
   grid: string;
   slug: string;
@@ -233,6 +233,7 @@ import { isNgTemplate } from '@angular/compiler';
     this.picZoom(event.target);
     //show lightbox after transition to hide renderedGrid
     setTimeout(() => {
+      this.arrowFrame.style.opacity = 0;
       this.lightbox.style.opacity = '1';
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
@@ -240,18 +241,12 @@ import { isNgTemplate } from '@angular/compiler';
       void this.renderedGrid.offsetWidth;
       this.renderedGrid.classList.add("gridFadeOut");
       this.renderedGrid.style.opacity = 0;
-
     }, 300)
 
-
-
-
     //put this pic in lightbox
-
     this.pic.src = this.srcUrls[this.picPointer];
 
     //set width of close,left and right elements
-
     this.close.style.width = this.pic.offsetWidth + "px";
     let sideWidth = (window.innerWidth - this.pic.offsetWidth) / 2;
     this.left.style.width = sideWidth + "px";

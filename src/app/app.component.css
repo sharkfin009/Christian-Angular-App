@@ -3,7 +3,7 @@
   z-index:2;
   transition:opacity 0.5s ease-out;
   box-sizing:content-box;
-  border-top: 1px solid #ff381e;
+ 
 }
 #site-title{
   font-size:30px;
@@ -29,8 +29,7 @@
     opacity: 0;
   }
   .arrow{
-    transform: translateY(100vh);
-    transform: rotate(180deg);
+    margin-top: 6px;
     z-index:2;
   }
 

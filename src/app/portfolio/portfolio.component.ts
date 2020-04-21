@@ -70,14 +70,13 @@ export class PortfolioComponent implements OnInit {
       );
 
     })
-    console.dir(this.thumbnails)
     this.loadLoop(0);
   };
   loadLoop(counter): void {
     //break out if no more images
     if (counter === this.thumbnails.length) {
       this.thumbnailsAllLoaded = true;
-    
+
       return
     }
     //grab an image object

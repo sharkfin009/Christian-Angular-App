@@ -37,6 +37,7 @@ import { ShowreelComponent } from './showreel/showreel.component';
 import { PostsComponent } from './posts/posts.component';
 import { MenuComponent } from './menu/menu.component';
 import { LazyLoadImageModule } from "ng-lazyload-image";
+import { CommissionComponent } from './commission/commission.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { LazyLoadImageModule } from "ng-lazyload-image";
      PostsComponent,
      ShowreelComponent,
      MenuComponent,
+     CommissionComponent,
   ],
   imports: [
     BrowserAnimationsModule,

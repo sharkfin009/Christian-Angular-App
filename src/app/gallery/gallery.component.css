@@ -88,4 +88,6 @@ cursor: w-resize;
  margin-top: 95vh;
  transition: opacity 1s ease-out;
 }
-
+#close{
+  cursor:alias;
+}
