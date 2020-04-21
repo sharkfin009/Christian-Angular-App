@@ -104,12 +104,18 @@ export class AppComponent implements OnInit {
   getArrowState(outlet) {
     return outlet.activatedRouteData['arrowState']
   }
+  getSlideXState(outlet){
+    switch (outlet.activatedRouteData) {
+      case undefined:
+        return false;
+        break;
+      default:
+        return outlet.activatedRouteData['slideXState']
+    }
+  }
 
   getXTurnState(outlet) {
-    if (outlet.activatedRouteDataundefined){
-      return false
-    } else return
-    outlet.activatedRouteData['xTurnState']
+ return outlet.activatedRouteData['xTurnState']
   }
 
   toggleMenu(outlet) {
