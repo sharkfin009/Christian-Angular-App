@@ -1,26 +1,27 @@
-<div id="header" [ngClass]="class" class=" fixed w-100  flex flex-nowrap ">
-  <div class="w-10 flex justify-center items-center">
-      <img  src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)" class="absolute menu-button  hover-grow pointer ph2"  [@slideX]="getArrowState(outlet)" [@xTurn]="getXTurnState(outlet)"/>
+<div id="fullWrapper" [@showtime]="showtimeAnimStateChange()">
+  <div id="header" [ngClass]="class" class=" fixed w-100  flex flex-nowrap ">
+    <div class="w-10 flex justify-center items-center">
+        <img  src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)" class="absolute menu-button hover-grow pointer ph2"  [@slideX]="getArrowState(outlet)" [@xTurn]="getXTurnState(outlet)"/>
 
-      <div  routerLink="/portfolio" class="absolute arrow" [@arrow]="getArrowState(outlet)" >
-        <img  src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer"/>
-      </div>
+        <div (click)="location.back()" class="absolute arrow" [@arrow]="getArrowState(outlet)" >
+          <img  src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer"/>
+        </div>
+    </div>
+    <div id="innerHeader" class="relative w-80 flex flex-nowrap justify-between items-center">
+      <div id="site-title" class=" lightbox-fade z5 fw2" >Christian Doppelgatz</div>
+
+    </div>
+    <div class="w-10">
+    </div>
   </div>
-  <div id="innerHeader" class="relative w-80 flex flex-nowrap justify-between items-center">
-    <div id="site-title" class=" lightbox-fade z5 fw2" >Christian Doppelgatz</div>
 
+  <div id="outlet-frame" class="fixed h-100 bg-white w-100 flex justify-center ">
 
+    <div id="outlet-wrapper" class="relative  w-100 h-100"
+      [@routeAnimations]="prepareRoute(outlet)">
+      <router-outlet (activate)="onActivate($event)" #outlet="outlet" class="relative "></router-outlet>
+    </div>
 
-  </div>
-  <div class="w-10">
-  </div>
-</div>
-
-<div id="outlet-frame" class="fixed h-100 bg-white w-100 flex justify-center ">
-
-  <div id="outlet-wrapper" class="relative  w-100 h-100"
-    [@routeAnimations]="prepareRoute(outlet)">
-    <router-outlet (activate)="onActivate($event)" #outlet="outlet" class="relative "></router-outlet>
   </div>
 
 </div>

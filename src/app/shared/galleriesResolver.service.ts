@@ -22,9 +22,7 @@ export class GalleriesResolverService implements Resolve < any > {
       return this.galleries.getGallery(
         route.paramMap.get("slug"));
     } else {
-
       return this.galleries.getGallery("showcase");
     }
-
   }
 }

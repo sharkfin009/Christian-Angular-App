@@ -18,11 +18,15 @@ import {
 import {
   CommissionsResolverService
 } from './shared/commissionsResolver.service'
+import {
+  CommissionResolverService
+} from './shared/commissionResolver.service'
 import { PostsComponent } from './posts/posts.component';
 import { PostsResolverService } from './shared/postsResolver.service';
 import { MenuComponent } from './menu/menu.component';
 import { ShowreelComponent } from './showreel/showreel.component';
 import { ThumbnailsResolverService } from './shared/thumbnailsResolver.service';
+import { CommissionComponent } from './commission/commission.component';
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
@@ -50,7 +54,7 @@ export const appRoutes: Routes = [{
       title: "Showcase",
       arrowState: false,
       xTurnState: false,
-      slideXState:false,
+      slideXState:true,
 
     }
   },
@@ -78,7 +82,6 @@ export const appRoutes: Routes = [{
     component: CommissionsComponent,
     resolve: {
       commissions: CommissionsResolverService,
-
     },
     data: {
       view: 'commissions',
@@ -86,12 +89,29 @@ export const appRoutes: Routes = [{
       arrowState: false,
       xTurnState:false,
       slideXState:false,
+
+    }
+  },
+  {
+    path: 'commission/:slug',
+    component: CommissionComponent,
+    resolve: {
+      commission: CommissionResolverService
+    },
+    data: {
+      view: 'commission',
+      title: 'Commission',
+      arrowState: true,
+      xTurnState:false,
+      slideXState:true,
+
     }
   },
 
   {
     path: 'menu',
     component: MenuComponent,
+   
     data: {
       view: "menu",
       title: "menu",

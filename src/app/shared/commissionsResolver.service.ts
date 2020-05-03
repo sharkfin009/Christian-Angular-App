@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router'
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router'
 import { GetCommissionsService } from './get-commissions.service'
 
 @Injectable({
@@ -8,8 +8,8 @@ import { GetCommissionsService } from './get-commissions.service'
 
 export class CommissionsResolverService implements Resolve<any>{
   constructor(private commissions:GetCommissionsService) { }
-    resolve() {
-      return this.commissions.commissions$;
+    resolve(route: ActivatedRouteSnapshot) {
+        return this.commissions.getCommissionsThumbnailLayout();
     }
 }
 

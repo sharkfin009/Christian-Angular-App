@@ -1,1 +1,35 @@
-<p>commission works!</p>
+<div class=" z-2 arrow-frame fixed  w-100 h-5 flex justify-center items-end">
+  <img src="../assets/black arrow down.svg" width="22" class="relative z-5 ph3 hover-grow mb4" />
+</div>
+<div id="galleryWrapper" class="relative   h-100 w-100   flex justify-center">
+  <div class="w-80 relative">
+    <div id="renderedGrid" [innerHTML]="trustedGrid" class="w-100 relative"></div>
+  </div>
+</div>
+<!--
+<div id="preloadDiv" class="dn">
+  <img *ngFor="let preload of preloads" [src]="preload">
+</div> -->
+
+
+<div id="overlay" class=" w-100 absolute h-100 z-1 fixed flex justify-between ">
+  <div id="left" class="h-100 left-arrow">
+  </div>
+  <div id="close" class=" h-100 " (click)="closeLightbox($event)">
+  </div>
+  <div id="right" class="h-100 right-arrow"></div>
+</div>
+<div class="fixed w-100 h-100 flex  o-0 justify-center items-center" id="lightbox">
+  <div id="picBox" class=" relative flex justify-center items-center">
+    <img class="lightboxPicHeight" id="pic" />
+    <img class="absolute o-0  lightboxPicHeight" id="previous" />
+    <img class="absolute  o-0 lightboxPicHeight " id="next">
+
+  </div>
+  <div class="absolute arrows  w-100 h-100 flex justify-between items-center">
+    <img width="15px" src="../../assets/arrow_left.svg" class="relative ph3 hover-grow pointer  that-yellow" />
+    <img width="15px" src="../../assets/arrow_right.svg" class="relative ph3  hover-grow pointer  that-yel
+      low" />
+  </div>
+</div>
+

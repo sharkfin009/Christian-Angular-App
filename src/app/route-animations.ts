@@ -33,20 +33,20 @@ export const slider =
             style({
               transform: 'translateY(-100%)',
             }))
-        ]),
+        ],{optional:true}),
         query(':enter', [
           style({
 
             transform: 'translateY(40%)',
-            opacity:'0',
+
           }),
           animate('0.8s ease-out',
             style({
 
               transform: 'translateY(0%)',
-              opacity: '1',
+
             }))
-        ] ),
+        ],{optional:true} ),
 
       ])
     ]),
@@ -71,7 +71,7 @@ export const slider =
             style({
               transform: 'translateY(100%)',
             }))
-        ]),
+        ],{optional:true}),
         query(':enter', [
           style({
             transform: 'translateY(-100%)',
@@ -81,7 +81,79 @@ export const slider =
 
               transform: 'translateY(0%)'
             }))
-        ] )
+        ] ,{optional:true})
+      ])
+    ]),
+    transition('commissions => commission', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateY(0%)'
+          }),
+          animate('0.8s ease-out',
+            style({
+              transform: 'translateY(-100%)',
+            }))
+        ],{optional:true}),
+        query(':enter', [
+          style({
+
+            transform: 'translateY(100%)',
+
+          }),
+          animate('0.8s ease-out',
+            style({
+
+              transform: 'translateY(0%)',
+
+            }))
+        ],{optional:true} ),
+
+      ])
+    ]),
+    transition('commission => commissions', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateY(0%)'
+          }),
+          animate('0.8s ease-out',
+            style({
+              transform: 'translateY(200vh)',
+            }))
+        ],{optional:true}),
+        query(':enter', [
+          style({
+            transform: 'translateY(-200vh)',
+          }),
+          animate('0.8s ease-out',
+            style({
+
+              transform: 'translateY(0%)'
+            }))
+        ] ,{optional:true})
       ])
     ]),
     transition('menu => portfolio', [
@@ -105,7 +177,7 @@ export const slider =
             style({
               transform: 'translateX(-20%)',
             }))
-        ]),
+        ],{optional:true}),
         query(':enter', [
           style({
             transform: 'translate(150%)',
@@ -115,7 +187,7 @@ export const slider =
 
               transform: 'translateX(0%)'
             }))
-        ] )
+        ] ,{optional:true})
       ]),
     ]),
     transition('* => menu', [
@@ -139,7 +211,7 @@ export const slider =
             style({
               transform: 'translateX(150%)',
             }))
-        ]),
+        ],{optional:true}),
         query(':enter', [
           style({
             transform: 'translate(-60%)',
@@ -149,7 +221,7 @@ export const slider =
 
               transform: 'translateX(0%)'
             }))
-        ] )
+        ],{optional:true} )
       ]),
     ]),
     transition('menu => showcase', [
@@ -173,7 +245,7 @@ export const slider =
             style({
               transform: 'translateX(-20%)',
             }))
-        ]),
+        ],{optional:true}),
         query(':enter', [
           style({
             transform: 'translateY(150%)',
@@ -183,7 +255,7 @@ export const slider =
 
               transform: 'translateY(0%)'
             }))
-        ] )
+        ],{optional:true} )
       ]),
     ]),
     transition('menu => *', [
@@ -205,7 +277,7 @@ export const slider =
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateX(-60%)',
+              transform: 'translateX(-20%)',
             }))
         ]),
         query(':enter', [

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -7,14 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
 
-      var uLinkAttr = 'data-underlined-link';
-      var uLinks = document.querySelectorAll('li');
-      for (var u = 0; u < uLinks.length; u++) {
-        uLinks[u].setAttribute(uLinkAttr, uLinks[u].innerText);
+    var uLinkAttr = 'data-underlined-link';
+    var uLinks = document.querySelectorAll('li');
+    for (var u = 0; u < uLinks.length; u++) {
+      uLinks[u].setAttribute(uLinkAttr, uLinks[u].innerText);
 
     };
   }

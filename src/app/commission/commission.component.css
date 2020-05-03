@@ -1,0 +1,92 @@
+#galleryWrapper{
+  top:0;
+  left:0;
+overflow-y: auto;
+overscroll-behavior:none
+}
+
+
+#renderedGrid{
+  left:0;
+  top:250px;
+  transition:transform 0.3s ease-out;
+  }
+ #lightbox{
+  top:0;
+  left:0;
+  overflow:hidden;
+ }
+.lightboxPicHeight{
+  height:80vh;
+}
+.picFadeOut{
+   animation: picFadeOut 0.7s ease-out;
+}
+@keyframes picFadeOut {
+  from {opacity:1}
+  to {opacity:0}
+}
+.maskFadeIn{
+  animation: maskFadeIn 0.5s ease-out;
+}
+@keyframes maskFadeIn {
+ from {opacity:0}
+ to {opacity:1}
+}
+.gridFadeOut{
+  animation: gridFadeOut 0.5s ease-out;
+}
+@keyframes gridFadeOut  {
+ from {opacity:1}
+ to {opacity:0}
+}
+.gridFadeIn{
+  animation: gridFadeIn 0.5s ease-out;
+}
+@keyframes gridFadeIn  {
+ from {opacity:0}
+ to {opacity:1}
+}
+
+
+#overlay{
+  width:100vw;
+  height:100vh;
+  top:0;
+  left:0;
+}
+
+.arrows{
+
+  line-height:1.2;
+  font-weight:500;
+  font-size:50px;
+}
+
+
+.ll{
+  width:400px;
+}
+
+/* img.ng-lazyloaded {
+  animation: fadein 4s;
+
+} */
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.left-arrow:hover
+{
+cursor: w-resize;
+}
+.right-arrow:hover{
+  cursor: e-resize;
+}
+.arrow-frame{
+ margin-top: 95vh;
+ transition: opacity 1s ease-out;
+}
+#close{
+  cursor:alias;
+}

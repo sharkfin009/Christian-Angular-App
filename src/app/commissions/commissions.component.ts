@@ -7,11 +7,13 @@ import {
 } from '../shared/get-commissions.service';
 
 import {
-  ActivatedRoute
+  ActivatedRoute,
+  Router
 } from '@angular/router';
 import {
   DomSanitizer
 } from '@angular/platform-browser';
+import { isNgTemplate } from '@angular/compiler';
 
 @Component({
   selector: 'app-commissions',
@@ -19,28 +21,44 @@ import {
   styleUrls: ['./commissions.component.css']
 })
 export class CommissionsComponent implements OnInit {
-  commissions=[];
+  layout:any;
+  sanitizedLayout:any;
   hoverClass="hoverOn"
   title:string;
+  thumbs: any;
+  images: any;
 
-  constructor(private route: ActivatedRoute, private getCommissions: GetCommissionsService,
-    private sanitizer: DomSanitizer) {}
+  constructor(private route: ActivatedRoute, 
+    private sanitizer: DomSanitizer, private router: Router) {}
 
   ngOnInit() {
-    this.commissions = this.route.snapshot.data['commissions'];
-    this.commissions.forEach((item, index, array) => {
-      array[index].sanitizedGrid=this.sanitizer.bypassSecurityTrustHtml(item.grid);
-    });
-  
+    this.layout = this.route.snapshot.data['commissions'];
+   this.sanitizedLayout=this.sanitizer.bypassSecurityTrustHtml(this.layout.grid);
+
   }
+
   ngAfterViewInit(){
+    this.thumbs = document.querySelector("#thumbs");
+    this.images = this.thumbs.querySelectorAll(".q");
+
+
+    this.images.forEach((item,index)=>{
+
+      item.src = this.layout.srcUrls[index];
+
+      item.style.opacity = 1;
+       //item.style.transform = "translateY(0)";
+      item.onclick = function(){
+        this.router.navigate(["/commission",this.layout.names[index]],
+        {relativeTo:this.route}
+        );
+      }.bind(this)
+    })
 
   }
-  hoverOn(title){
-
+  hoverOn(){
     this.hoverClass = "hoverOn";
-    this.title = title;
-
+;
   }
   hoverOff(){
     this.hoverClass = "hoverOff";

@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   EventEmitter,
-  Output
+  Output,
+  ɵConsole,
+  Input
 } from '@angular/core';
 import {
   RouterOutlet,
@@ -23,6 +25,11 @@ import {
 import {
   Location
 } from "@angular/common";
+import { GetThumbnailsService } from './shared/getThumbnails.service';
+import { Observable } from 'rxjs';
+import { GalleryThumb } from './shared/interfaces';
+import { GetCommissionsService } from './shared/get-commissions.service';
+
 
 @Component({
   selector: 'app-root',
@@ -60,7 +67,16 @@ import {
       transition('true=>false', [animate('0.8s ease-out')]),
       transition('false=>true', [animate('0.8s ease-out')])
     ]),
-  ],
+    trigger('showtime', [
+      state('initial', style({
+        opacity: "0"
+      })),
+      state('final', style({
+        opacity: "1"
+      })),
+      transition('initial=>final', [animate('2s ease-out')]),
+    ]),
+  ]
 })
 export class AppComponent implements OnInit {
   outlet: any;
@@ -69,15 +85,15 @@ export class AppComponent implements OnInit {
   isCollapsed: boolean = false;
   activeRouteTitle: any;
   menuClass = {
-
-
     hideX: 'db',
   };
   class: String;
   x: any;
   hideMenuClass: string;
-
-  constructor(private route: ActivatedRoute, private router: Router, private location: Location) {}
+  fullWrapper: any;
+  showtimeAnimState = "initial";
+  @Input('thumbs') thumbStore=[];
+  constructor(private route: ActivatedRoute, private router: Router, private location: Location, private thumbs: GetThumbnailsService,private getCommissions: GetCommissionsService,) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
@@ -89,8 +105,29 @@ export class AppComponent implements OnInit {
 
       }
     }));
+    //get thumbnails
+    this.thumbs.getThumbnails().subscribe(
+      (array)=>{
+        // this.thumbStore = array;
+        // console.log(this.thumbStore)
+      }
+    );
+     this.getCommissions.getCommissionsThumbnailLayout().subscribe(
+      (array)=>{
+        // this.thumbStore = array;
+        // console.log(this.thumbStore)
+      }
+    )
   }
+  ngAfterViewInit() {
+    // this.fullWrapper = document.querySelector("#fullWrapper");
+    // this.fullWrapper.style.opacity = 1;
+    this.showtimeAnimState = "final";
 
+  }
+  showtimeAnimStateChange() {
+    return this.showtimeAnimState;
+  }
 
   onActivate(componentReference) {
 
@@ -102,18 +139,21 @@ export class AppComponent implements OnInit {
   }
 
   getArrowState(outlet) {
-    return outlet.activatedRouteData['arrowState']
+    if (outlet.activatedRouteData.arrowState === undefined) {
+      return false
+    } else return outlet.activatedRouteData['arrowState']
   }
 
-  getSlideXState(outlet){
-        return outlet.activatedRouteData.slideXState
+  getSlideXState(outlet) {
+    if (outlet.activatedRouteData.slideXState === undefined) {
+      return false
+    } else return outlet.activatedRouteData.slideXState
   }
 
   getXTurnState(outlet) {
-    if(outlet.activatedRouteData.xTurnState === undefined){
+    if (outlet.activatedRouteData.xTurnState === undefined) {
       return false
-    }
-     else return outlet.activatedRouteData.xTurnState
+    } else return outlet.activatedRouteData.xTurnState
   }
 
   toggleMenu(outlet) {
@@ -125,5 +165,7 @@ export class AppComponent implements OnInit {
       this.location.back();
     }
   }
+
+
 
 }
