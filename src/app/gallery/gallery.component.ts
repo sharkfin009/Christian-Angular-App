@@ -45,13 +45,60 @@ import {
 import {
   Gallery
 } from '../shared/interfaces';
-import { isNgTemplate } from '@angular/compiler';
+import {
+  isNgTemplate
+} from '@angular/compiler';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+  keyframes
+} from '@angular/animations';
 
 
 @Component({
     selector: 'gallery',
     templateUrl: './gallery.component.html',
     styleUrls: ['./gallery.component.css'],
+    animations: [
+      trigger('scrollFadeHide', [
+
+        transition('*=>fire', [
+          animate('0.7s ease-out',
+            keyframes([
+              style({
+                opacity: "1",
+                offset: 0
+              }),
+              style({
+                opacity: "0",
+                offset: 1.0
+              })
+            ]))
+        ]),
+
+      ]),
+      trigger('scrollFadeHide2', [
+
+        transition('*=>fire', [
+          animate('0.7s ease-out',
+            keyframes([
+              style({
+                opacity: "1",
+                offset: 0
+              }),
+              style({
+                opacity: "0",
+                offset: 1.0
+              })
+            ]))
+        ]),
+
+      ]),
+    ]
+
 
   }
 
@@ -87,7 +134,7 @@ import { isNgTemplate } from '@angular/compiler';
     y: number
   };
   next: any;
-  previous: any;
+  leftPic: any;
   activeRouteTitle: any;
   srcSetUrls: any;
   srcUrls: any;
@@ -97,6 +144,14 @@ import { isNgTemplate } from '@angular/compiler';
   flag = false;
   exp: any;
   renderedGrid: any;
+  scrollFadeFlag = true;
+  rightPic: any;
+  fadeFlag = "reload";
+  fader: any;
+  faderB: any;
+  crossFadeDone = false;
+  fadeFlag2 = "reload";
+  crossFadeDone2 = false;
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
@@ -124,8 +179,10 @@ import { isNgTemplate } from '@angular/compiler';
     this.galleryWrapper = document.querySelector("#galleryWrapper");
     this.outletWrapper = document.querySelector("#outlet-wrapper");
     this.close = document.querySelector("#close");
-    this.previous = document.querySelector("#previous");
-    this.next = document.querySelector("#next");
+    this.leftPic = document.querySelector("#leftPic");
+    this.rightPic = document.querySelector("#rightPic");
+    this.fader = document.querySelector("#fader");
+    this.faderB = document.querySelector("#faderB");
 
     // this.preloadDiv = document.querySelector("#preloadDiv");
 
@@ -165,63 +222,63 @@ import { isNgTemplate } from '@angular/compiler';
 
 
     //load first pic
-    this.picsArray[0].src=this.picsArray[0].dataset.src;
+    this.picsArray[0].src = this.picsArray[0].dataset.src;
     //place load events on preload div to trigger anim according to position
   }
 
 
   picsListenLoadAndObserve() {
     this.picsArray.forEach((item, index) => {
-      item.onload=function(){
-           //fade in above fold pics , and set flag to differentiate first screenfull
-      let picTop = item.getBoundingClientRect().top;
-      if (picTop < window.innerHeight) {
-        item.style.opacity = "1";
-        item.transform = "translateY(0)";
-      }
-      //hide below fold pics for floating in
-      else if (picTop > window.innerHeight ) {
-        item.noFloat = false;
-        item.style.opacity = "0";
-        item.style.transform = 'translateY(300px)';
-      }
-      //set up intersection observer options
-      let options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0,
-      }
+      item.onload = function () {
+        //fade in above fold pics , and set flag to differentiate first screenfull
+        let picTop = item.getBoundingClientRect().top;
+        if (picTop < window.innerHeight) {
+          item.style.opacity = "1";
+          item.transform = "translateY(0)";
+        }
+        //hide below fold pics for floating in
+        else if (picTop > window.innerHeight) {
+          item.noFloat = false;
+          item.style.opacity = "0";
+          item.style.transform = 'translateY(300px)';
+        }
+        //set up intersection observer options
+        let options = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0,
+        }
 
-      //set up intersection observers
-      let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
-      observer.observe(item);
+        //set up intersection observers
+        let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
+        observer.observe(item);
       }.bind(this)
-      if (index!==0){
-        item.src= item.dataset.src;
+      if (index !== 0) {
+        item.src = item.dataset.src;
       }
       //place index in data att
-        item.setAttribute("data-id", index);
-        //set lightbox listener
-        item.addEventListener("click", this.showLightbox.bind(this), true);
+      item.setAttribute("data-id", index);
+      //set lightbox listener
+      item.addEventListener("click", this.showLightbox.bind(this), true);
 
 
     });
   }
 
   intersectionCallback(entries) {
-    entries.forEach((entry,index) => {
+    entries.forEach((entry, index) => {
 
       let picTop = entry.boundingClientRect.top;
 
       // animate pics on entry and exit (if loaded)
-        if (picTop < window.innerHeight) {
-          entry.target.style.opacity = "1";
-          entry.target.style.transform = 'translateY(0)';
-        }
-        if (picTop > window.innerHeight) {
-          entry.target.style.opacity = "0";
-          entry.target.style.transform = 'translateY(300px)';
-        }
+      if (picTop < window.innerHeight) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = 'translateY(0)';
+      }
+      if (picTop > window.innerHeight) {
+        entry.target.style.opacity = "0";
+        entry.target.style.transform = 'translateY(300px)';
+      }
     });
   }
 
@@ -253,13 +310,7 @@ import { isNgTemplate } from '@angular/compiler';
     this.right.style.width = sideWidth + "px";
 
 
-    //prepare next and previous elements
-    if (this.picPointer > 1) {
-      this.previous.src = this.srcUrls[this.picPointer - 1].src;
-    }
-    if (this.picPointer < this.picsArray.length - 2) {
-      this.next.src = this.picsArray[this.picPointer + 1].src;
-    }
+
   }
   cumulativeOffset(element, index) {
     let top = 0,
@@ -277,9 +328,24 @@ import { isNgTemplate } from '@angular/compiler';
     };
   }
   picZoom(photo) {
+    //get absolute photo position
     let photoUnzoomed = this.cumulativeOffset(photo, 8);
-    // add class to prevent fade
-    photo.classList.add("noFade");
+
+    //check transform values set in layGridder
+    let yOffsetPerc = photo.parentElement.parentElement.dataset.offsety;
+    let xOffsetPerc = photo.parentElement.parentElement.dataset.offsetx;
+    let yOffset = () => {
+      if (yOffsetPerc) {
+        let yOffset = window.innerWidth * yOffsetPerc / 100;
+        return yOffset;
+      } else return 0;
+    }
+    let xOffset = () => {
+      if (xOffsetPerc) {
+        let xOffset = window.innerWidth * xOffsetPerc / 100;
+        return xOffset;
+      } else return 0;
+    }
 
     //work out 80% height and resultant width
     let aspectRatio = photo.width / photo.height;
@@ -290,17 +356,19 @@ import { isNgTemplate } from '@angular/compiler';
     let zoomRatio = targetWidth / photo.offsetWidth;
 
     //work out photo center
-    let photoMiddleX = photoUnzoomed.left + photo.offsetWidth / 2;
-    let photoMiddleY = photoUnzoomed.top + photo.offsetHeight / 2;
+    let photoMiddleX = photoUnzoomed.left + photo.offsetWidth / 2 + xOffset();
+    let photoMiddleY = photoUnzoomed.top + photo.offsetHeight / 2 + yOffset();
+
+    //get photo position within grid for transform origin , so that zoom animation is correct
     this.photoCenterWithinGrid = {
-      x: this.cumulativeOffset(photo, 5).left + photo.offsetWidth / 2,
-      y: this.cumulativeOffset(photo, 5).top + photo.offsetHeight / 2
+      x: this.cumulativeOffset(photo, 5).left + photo.offsetWidth / 2 + xOffset(),
+      y: this.cumulativeOffset(photo, 5).top + photo.offsetHeight / 2 + yOffset() - 250,
     }
     // set transform origin
     this.renderedGrid.style.transformOrigin = `${this.photoCenterWithinGrid.x}px ${this.photoCenterWithinGrid.y}px`;
 
     // work out  middle Y value for target
-    let targetMiddleY = window.innerHeight / 2 - targetHeight / 2;
+    //let targetMiddleY = window.innerHeight / 2 - targetHeight / 2;
 
     //work out translate values for zoomed position
     let diffX = window.innerWidth / 2 - photoMiddleX;
@@ -313,80 +381,123 @@ import { isNgTemplate } from '@angular/compiler';
     //do scale
 
     this.renderedGrid.style.transform += `scale(${zoomRatio})`;
+  }
 
-
+  resetScrollFade() {
+    this.fadeFlag = "reload";
+    console.log("done");
+    this.crossFadeDone = true;
+  }
+  resetScrollFade2() {
+    this.fadeFlag2 = "reload";
+    console.log("done");
+    this.crossFadeDone2 = true;
 
   }
 
-  browseLeft(e) {
+
+  browseLeft() {
+
     if (this.lightboxFlag) {
+      if (!this.crossFadeDone2) {
+        //return;
+      }
       //assign next pic
-      if (this.picPointer > 0) {
-
-        this.picPointer -= 1;
-
-        this.pic.srcset = this.picsArray[this.picPointer].srcset;
-        this.pic.src = this.picsArray[this.picPointer].src;
-        this.renderedGrid.style.transform = "none";
-        let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
-
-        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;;
-        this.galleryWrapper.scrollTo(0, scrollAmount);
-        this.picZoom(photo);
-
-        // set up 'previous'
-        if (this.picPointer > 0) {
-          this.previous.src = this.picsArray[this.picPointer - 1].src;
-          this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
-        }
-
-        // set up 'next'
-        this.next.src = this.picsArray[this.picPointer + 1].src;
-        this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
-        //fade out old
-        this.next.classList.remove("picFadeOut");
-        void this.next.offsetWidth;
-        this.next.classList.add("picFadeOut");
-        this.next.style.opacity = "0";
-      };
+      console.log(this.crossFadeDone)
+      if (this.crossFadeDone) {
+        //  this.fader.srcset = this.picsArray[this.picPointer].srcset;
+        this.fader.src = this.picsArray[this.picPointer].src;
+      }
+      if (this.picPointer <= this.picsArray.length - 3) {
+        //  this.faderB.srcset = this.picsArray[this.picPointer+1].srcset;
+        this.faderB.src = this.picsArray[this.picPointer + 2].src;
+      }
     }
+
+    if (this.picPointer > 0) {
+
+      this.picPointer -= 1;
+
+      this.pic.srcset = this.picsArray[this.picPointer].srcset;
+      this.pic.src = this.picsArray[this.picPointer].src;
+
+      //adjust invisible grid according to scroll;
+      this.renderedGrid.style.transform = "none";
+      let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
+
+      let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;;
+      this.galleryWrapper.scrollTo(0, scrollAmount);
+      this.picZoom(photo);
+
+
+
+      //if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
+      if (!this.crossFadeDone) {
+
+        this.fadeFlag2 = "fire";
+        this.crossFadeDone2 = false;
+      }
+
+
+      //fade out old
+
+      this.fadeFlag = "fire";
+      this.crossFadeDone = false;
+    };
   }
 
-  browseRight(e) {
+
+  browseRight() {
+
     if (this.lightboxFlag) {
+      if (!this.crossFadeDone2) {
+       // return;
+      }
+      console.log(this.crossFadeDone)
+
+      if (this.crossFadeDone) {
+        this.fader.srcset = this.picsArray[this.picPointer].srcset;
+        this.fader.src = this.picsArray[this.picPointer].src;
+      }
+
+      if (this.picPointer > 2) {
+        //    this.faderB.srcset = this.picsArray[this.picPointer-1].srcset;
+        this.faderB.src = this.picsArray[this.picPointer - 2].src;
+      }
+
+
+
 
       //assign next pic
       if (this.picPointer <= this.picsArray.length - 2) {
         this.picPointer += 1;
         this.pic.srcset = this.picsArray[this.picPointer].srcset;
         this.pic.src = this.picsArray[this.picPointer].src;
+
+        //adjust invisible grid according to scroll
         this.renderedGrid.style.transform = "none";
         let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;;
+        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;
         this.galleryWrapper.scrollTo(0, scrollAmount);
         this.picZoom(photo);
 
-        // set up 'previous'
+      }
 
-        if (this.picPointer > 0) {
-          this.previous.src = this.picsArray[this.picPointer - 1].src;
-          this.previous.srcset = this.picsArray[this.picPointer - 1].srcset;
-        }
 
+      //if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
+      if (!this.crossFadeDone) {
+
+        this.fadeFlag2 = "fire";
+        this.crossFadeDone2 = false;
         // fade out old
-        this.previous.classList.remove("picFadeOut");
-        void this.previous.offsetWidth;
-        this.previous.classList.add("picFadeOut");
-        this.previous.style.opacity = "0";
+      }
 
-        // set up 'next'
-        if (this.picPointer <= this.picsArray.length - 2) {
+      this.fadeFlag = "fire";
+      this.crossFadeDone = false;
 
-          this.next.src = this.picsArray[this.picPointer + 1].src;
-          this.next.srcset = this.picsArray[this.picPointer + 1].srcset;
-        }
-      };
+
+
     }
   }
 

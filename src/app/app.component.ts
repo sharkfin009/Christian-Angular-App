@@ -93,7 +93,7 @@ export class AppComponent implements OnInit {
   fullWrapper: any;
   showtimeAnimState = "initial";
   @Input('thumbs') thumbStore=[];
-  constructor(private route: ActivatedRoute, private router: Router, private location: Location, private thumbs: GetThumbnailsService,private getCommissions: GetCommissionsService,) {}
+  constructor(private route: ActivatedRoute, private router: Router, public location: Location, private thumbs: GetThumbnailsService,private getCommissions: GetCommissionsService,) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
@@ -106,16 +106,12 @@ export class AppComponent implements OnInit {
       }
     }));
     //get thumbnails
-    this.thumbs.getThumbnails().subscribe(
-      (array)=>{
-        // this.thumbStore = array;
-        // console.log(this.thumbStore)
-      }
-    );
+    this.thumbs.getThumbnails().subscribe();
      this.getCommissions.getCommissionsThumbnailLayout().subscribe(
-      (array)=>{
-        // this.thumbStore = array;
-        // console.log(this.thumbStore)
+      (obj)=>{
+        let url = obj.srcUrls[0];
+        let img1 = document.createElement('img');
+        img1.src = url;
       }
     )
   }

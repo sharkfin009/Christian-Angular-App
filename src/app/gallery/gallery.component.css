@@ -2,14 +2,19 @@
   top:0;
   left:0;
 overflow-y: auto;
-overscroll-behavior:none
+/* overscroll-behavior:none */
 }
 
-
+.spacer1{
+  height:250px;
+}
 #renderedGrid{
-  left:0;
-  top:250px;
+
   transition:transform 0.3s ease-out;
+  }
+
+  .spacer2{
+    height:100vh;
   }
  #lightbox{
   top:0;
@@ -19,14 +24,9 @@ overscroll-behavior:none
 .lightboxPicHeight{
   height:80vh;
 }
-.picFadeOut{
 
-   animation: picFadeOut 0.7s ease-out;
-}
-@keyframes picFadeOut {
-  from {opacity:1}
-  to {opacity:0}
-}
+
+
 .maskFadeIn{
   animation: maskFadeIn 0.5s ease-out;
 }

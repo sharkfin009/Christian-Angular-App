@@ -1,9 +1,13 @@
-<div class="z-2 arrow-frame fixed  w-100 h-5 flex justify-center items-end">
+<div class=" z-2 arrow-frame fixed  w-100 h-5 flex justify-center items-end">
+
   <img src="../assets/black arrow down.svg" width="22" class="relative z-5 ph3 hover-grow mb4" />
 </div>
 <div id="galleryWrapper" class="relative  z-3 h-100 w-100   flex justify-center">
-  <div class="w-80 relative">
-    <div id="renderedGrid" [innerHTML]="trustedGrid" class="w-100 relative"></div>
+
+  <div class="w-80 h-100  absolute">
+    <div class="spacer1 "></div>
+    <div id="renderedGrid" [innerHTML]="trustedGrid" class=" w-100 "></div>
+    <div class="spacer2 "></div>
   </div>
 </div>
 <!--
@@ -20,10 +24,14 @@
   <div id="right" class="h-100 right-arrow"></div>
 </div>
 <div class="fixed w-100 h-100 flex  o-0 justify-center items-center" id="lightbox">
-  <div id="picBox" class=" relative flex justify-center items-center">
-    <img class="lightboxPicHeight" id="pic" />
-    <img class="absolute o-0  lightboxPicHeight" id="previous" />
-    <img class="absolute  o-0 lightboxPicHeight " id="next">
+  <div id="picBox" class="relative flex justify-center items-center o-100">
+
+    <img class="lightboxPicHeight"
+    id="pic" />
+    <img [@scrollFadeHide]="fadeFlag" (@scrollFadeHide.done)="resetScrollFade()" class="absolute   lightboxPicHeight o-0"
+    id="fader" />
+    <img [@scrollFadeHide2]="fadeFlag2" (@scrollFadeHide2.done)="resetScrollFade2()" class="absolute lightboxPicHeight o-0"
+    id="faderB"/>
 
   </div>
   <div class="absolute arrows  w-100 h-100 flex justify-between items-center">

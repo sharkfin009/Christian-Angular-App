@@ -232,7 +232,7 @@ export class CommissionComponent implements OnInit {
   picZoom(photo) {
     let photoUnzoomed = this.cumulativeOffset(photo, 8);
     // add class to prevent fade
-    photo.classList.add("noFade");
+   // photo.classList.add("noFade");
 
     //work out 80% height and resultant width
     let aspectRatio = photo.width / photo.height;

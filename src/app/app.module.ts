@@ -23,6 +23,8 @@ import {
 import {
   GetThumbnailsService
 } from './shared/getThumbnails.service'
+import { GetPreloadPicsService}
+  from './shared/getPreloadPics.service'
 import {
   GalleryThumbnailComponent
  } from './thumbnail/gallery-thumbnail.component'
@@ -38,6 +40,9 @@ import { PostsComponent } from './posts/posts.component';
 import { MenuComponent } from './menu/menu.component';
 import { LazyLoadImageModule } from "ng-lazyload-image";
 import { CommissionComponent } from './commission/commission.component';
+import { GetGalleriesService } from './shared/getGalleries.service'
+import { GetCommissionService } from './shared/get-commission.service'
+import { GetPostsService } from './shared/get-posts.service'
 
 
 @NgModule({
@@ -51,6 +56,7 @@ import { CommissionComponent } from './commission/commission.component';
      ShowreelComponent,
      MenuComponent,
      CommissionComponent,
+
   ],
   imports: [
     BrowserAnimationsModule,
@@ -61,6 +67,11 @@ import { CommissionComponent } from './commission/commission.component';
   ],
   providers: [
      GetThumbnailsService,
+     GetPreloadPicsService,
+     GetGalleriesService,
+     GetCommissionService,
+     GetPostsService,
+     GetCommissionService,
   ],
   bootstrap: [AppComponent]
 })

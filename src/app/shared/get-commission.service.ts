@@ -56,7 +56,10 @@ export class GetCommissionService {
               item.setAttribute("currentSrc","")
             }
           );
-
+          let aTags = gridLoaded.querySelectorAll("a");
+          aTags.forEach((item)=>{
+            item.removeAttribute("href");
+          });
           //create string from final grid element
           let wrapper = newHTMLDoc.createElement('div');
           wrapper.appendChild(gridLoaded);

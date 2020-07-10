@@ -2,7 +2,7 @@
   class="relative pointer">
   <img  (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="thumbnail relative  "
 
-    [src]="thumbnail.url"
+    [src]="thumbnail.loadedUrl"
      [@simpleFadeAnimation]="thumbnail.showFlag"
     />
 </div>

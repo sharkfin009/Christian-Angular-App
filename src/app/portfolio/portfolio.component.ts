@@ -7,9 +7,6 @@ import {
 import {
   ActivatedRoute
 } from '@angular/router';
-import {
-  GetGalleriesService
-} from '../shared/getGalleries.service';
 
 import {
   GetThumbnailsService
@@ -22,6 +19,7 @@ import {
   style,
   animate
 } from '@angular/animations';
+import { GetPreloadPicsService } from '../shared/getPreloadPics.service';
 
 
 @Component({
@@ -47,7 +45,7 @@ export class PortfolioComponent implements OnInit {
 
   thumbnailsAllLoaded: any;
 
-  constructor(private route: ActivatedRoute, public getThumbnails: GetThumbnailsService, private galleries: GetGalleriesService) {}
+  constructor(private route: ActivatedRoute, public getThumbnails: GetThumbnailsService, private preloadPics: GetPreloadPicsService) {}
 
   ngOnInit(): void {
     this.thumbnails = this.route.snapshot.data["thumbnails"];
@@ -58,15 +56,14 @@ export class PortfolioComponent implements OnInit {
       this.preloadImage.id = "pic" + i;
       this.preloadDiv.appendChild(this.preloadImage);
     }
-    //subscribe to get four pics per gallery
+  //  // subscribe to get four pics per gallery
     this.thumbnails.forEach((thumbnail) => {
-      thumbnail.obs$ = this.galleries.getFirstFourPics(thumbnail.slug).subscribe(
+      thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
         array => {
           thumbnail.fourPics = array;
           thumbnail.done = true;
         }
       );
-
     })
     this.loadLoop(0);
   };
@@ -79,7 +76,7 @@ export class PortfolioComponent implements OnInit {
     }
     //grab an image object
     let img = < HTMLImageElement > this.preloadDiv.querySelector("#pic" + counter);
-    
+    this.thumbnails[counter].loadedUrl = this.thumbnails[counter].url
     img.onload = () => {
       this.thumbnails[counter].showFlag = true;
       this.loadLoop(counter + 1)
