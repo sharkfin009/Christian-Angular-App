@@ -28,6 +28,8 @@ import {
 import { GetThumbnailsService } from './shared/getThumbnails.service';
 import FontFaceObserver from "fontfaceobserver";
 import { GetCommissionsService } from './shared/get-commissions.service';
+    import LogRocket from "logrocket";
+
 
 
 @Component({
@@ -98,6 +100,7 @@ export class AppComponent implements OnInit {
     return outlet.activatedRouteData['view'];
   }
   ngOnInit() {
+    LogRocket.init("k9inbd/doppelgatz");
     this.XXHaasObserver = new FontFaceObserver('XXHaas');
     this.XXHaasObserver.load().then( ()=> {
       this.showTime.state = "final";

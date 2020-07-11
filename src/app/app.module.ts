@@ -17,46 +17,69 @@ import {
   HttpClientModule
 } from '@angular/common/http'
 
- import {
+import {
   PortfolioComponent
- } from './portfolio/portfolio.component'
+} from './portfolio/portfolio.component'
 import {
   GetThumbnailsService
 } from './shared/getThumbnails.service'
-import { GetPreloadPicsService}
-  from './shared/getPreloadPics.service'
+import {
+  GetPreloadPicsService
+}
+from './shared/getPreloadPics.service'
 import {
   GalleryThumbnailComponent
- } from './thumbnail/gallery-thumbnail.component'
+} from './thumbnail/gallery-thumbnail.component'
 import {
   appRoutes
 } from './routes'
 import FontFaceObserver from 'fontfaceobserver'
 
-import { GalleryComponent } from './gallery/gallery.component';
-import { CommissionsComponent } from './commissions/commissions.component';
+import {
+  GalleryComponent
+} from './gallery/gallery.component';
+import {
+  CommissionsComponent
+} from './commissions/commissions.component';
 
-import { ShowreelComponent } from './showreel/showreel.component';
-import { PostsComponent } from './posts/posts.component';
-import { MenuComponent } from './menu/menu.component';
-import { LazyLoadImageModule } from "ng-lazyload-image";
-import { CommissionComponent } from './commission/commission.component';
-import { GetGalleriesService } from './shared/getGalleries.service'
-import { GetCommissionService } from './shared/get-commission.service'
-import { GetPostsService } from './shared/get-posts.service'
+import {
+  ShowreelComponent
+} from './showreel/showreel.component';
+import {
+  PostsComponent
+} from './posts/posts.component';
+import {
+  MenuComponent
+} from './menu/menu.component';
+import {
+  LazyLoadImageModule
+} from "ng-lazyload-image";
+import {
+  CommissionComponent
+} from './commission/commission.component';
+import {
+  GetGalleriesService
+} from './shared/getGalleries.service'
+import {
+  GetCommissionService
+} from './shared/get-commission.service'
+import {
+  GetPostsService
+} from './shared/get-posts.service'
+import LogRocket from "logrocket";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-   PortfolioComponent,
-     GalleryThumbnailComponent,
-     GalleryComponent,
-     CommissionsComponent,
-     PostsComponent,
-     ShowreelComponent,
-     MenuComponent,
-     CommissionComponent,
+    PortfolioComponent,
+    GalleryThumbnailComponent,
+    GalleryComponent,
+    CommissionsComponent,
+    PostsComponent,
+    ShowreelComponent,
+    MenuComponent,
+    CommissionComponent,
 
   ],
   imports: [
@@ -65,14 +88,15 @@ import { GetPostsService } from './shared/get-posts.service'
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     LazyLoadImageModule,
+    
   ],
   providers: [
-     GetThumbnailsService,
-     GetPreloadPicsService,
-     GetGalleriesService,
-     GetCommissionService,
-     GetPostsService,
-     GetCommissionService,
+    GetThumbnailsService,
+    GetPreloadPicsService,
+    GetGalleriesService,
+    GetCommissionService,
+    GetPostsService,
+    GetCommissionService,
   ],
   bootstrap: [AppComponent]
 })

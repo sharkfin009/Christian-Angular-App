@@ -152,6 +152,7 @@ import {
   crossFadeDone = false;
   fadeFlag2 = "reload";
   crossFadeDone2 = false;
+  yOffset: any;
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
@@ -291,7 +292,7 @@ import {
     //show lightbox after transition to hide renderedGrid
     setTimeout(() => {
       this.arrowFrame.style.opacity = 0;
-      this.lightbox.style.opacity = '1';
+      this.lightbox.style.opacity = '0.5';
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
       this.renderedGrid.classList.remove("gridFadeOut");
@@ -334,7 +335,8 @@ import {
     //check transform values set in layGridder
     let yOffsetPerc = photo.parentElement.parentElement.dataset.offsety;
     let xOffsetPerc = photo.parentElement.parentElement.dataset.offsetx;
-    let yOffset = () => {
+    console.log(xOffsetPerc,yOffsetPerc);
+    this.yOffset = () => {
       if (yOffsetPerc) {
         let yOffset = window.innerWidth * yOffsetPerc / 100;
         return yOffset;
@@ -346,7 +348,7 @@ import {
         return xOffset;
       } else return 0;
     }
-
+    console.log(xOffset(),this.yOffset())
     //work out 80% height and resultant width
     let aspectRatio = photo.width / photo.height;
     let targetHeight = window.innerHeight * 0.8;
@@ -357,12 +359,12 @@ import {
 
     //work out photo center
     let photoMiddleX = photoUnzoomed.left + photo.offsetWidth / 2 + xOffset();
-    let photoMiddleY = photoUnzoomed.top + photo.offsetHeight / 2 + yOffset();
+    let photoMiddleY = photoUnzoomed.top + photo.offsetHeight / 2 + this.yOffset();
 
     //get photo position within grid for transform origin , so that zoom animation is correct
     this.photoCenterWithinGrid = {
       x: this.cumulativeOffset(photo, 5).left + photo.offsetWidth / 2 + xOffset(),
-      y: this.cumulativeOffset(photo, 5).top + photo.offsetHeight / 2 + yOffset() - 250,
+      y: this.cumulativeOffset(photo, 5).top + photo.offsetHeight / 2 + this.yOffset() - 250,
     }
     // set transform origin
     this.renderedGrid.style.transformOrigin = `${this.photoCenterWithinGrid.x}px ${this.photoCenterWithinGrid.y}px`;
@@ -425,7 +427,7 @@ import {
       this.renderedGrid.style.transform = "none";
       let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-      let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;;
+      let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2 ;
       this.galleryWrapper.scrollTo(0, scrollAmount);
       this.picZoom(photo);
 
@@ -478,7 +480,7 @@ import {
         this.renderedGrid.style.transform = "none";
         let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;
+        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2 ;
         this.galleryWrapper.scrollTo(0, scrollAmount);
         this.picZoom(photo);
 
