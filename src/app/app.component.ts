@@ -26,8 +26,7 @@ import {
   Location
 } from "@angular/common";
 import { GetThumbnailsService } from './shared/getThumbnails.service';
-import { Observable } from 'rxjs';
-import { GalleryThumb } from './shared/interfaces';
+import FontFaceObserver from "fontfaceobserver";
 import { GetCommissionsService } from './shared/get-commissions.service';
 
 
@@ -79,6 +78,7 @@ import { GetCommissionsService } from './shared/get-commissions.service';
   ]
 })
 export class AppComponent implements OnInit {
+  XXHaasObserver:any;
   outlet: any;
   menuButton: any;
   headerElement: any;
@@ -91,13 +91,17 @@ export class AppComponent implements OnInit {
   x: any;
   hideMenuClass: string;
   fullWrapper: any;
-  showtimeAnimState = "initial";
+  showTime = {state:"initial"};
   @Input('thumbs') thumbStore=[];
   constructor(private route: ActivatedRoute, private router: Router, public location: Location, private thumbs: GetThumbnailsService,private getCommissions: GetCommissionsService,) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
   ngOnInit() {
+    this.XXHaasObserver = new FontFaceObserver('XXHaas');
+    this.XXHaasObserver.load().then( ()=> {
+      this.showTime.state = "final";
+    });
     this.x = document.querySelector(".menu-button");
     this.router.events.subscribe((data => {
       if (data instanceof RoutesRecognized) {
@@ -118,12 +122,10 @@ export class AppComponent implements OnInit {
   ngAfterViewInit() {
     // this.fullWrapper = document.querySelector("#fullWrapper");
     // this.fullWrapper.style.opacity = 1;
-    this.showtimeAnimState = "final";
+
 
   }
-  showtimeAnimStateChange() {
-    return this.showtimeAnimState;
-  }
+
 
   onActivate(componentReference) {
 

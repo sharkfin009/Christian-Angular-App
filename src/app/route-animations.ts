@@ -12,78 +12,47 @@ import {
 
 export const slider =
   trigger('routeAnimations', [
-    transition('portfolio => gallery', [
-      style({
-        position: "relative"
-      }),
-      query(':enter,:leave', [
-        style({
-           position: 'absolute',
-           left: 0,
-          top:0,
-          width: '100%',
-        }),
-      ]),
-      group([
-        query(':leave', [
-          style({
-            transform: 'translateY(0%)'
-          }),
-          animate('0.8s ease-out',
-            style({
-              transform: 'translateY(-100%)',
-            }))
-        ],{optional:true}),
-        query(':enter', [
-          style({
+    // transition('portfolio => gallery', [
+    //   style({
+    //     position: "relative"
+    //   }),
+    //   query(':enter,:leave', [
+    //     style({
+    //        position: 'absolute',
+    //        left: 0,
+    //       top:0,
+    //       width: '100%',
+    //     }),
+    //   ]),
+    //   group([
+    //     query(':leave', [
+    //       style({
+    //         // transform: 'translateY(0%)'
+    //       opacity:"1",
+    //       }),
+    //       animate('0.8s ease-in',
+    //         style({
+    //          // transform: 'translateY(-100%)',
+    //          opacity:'0',
+    //         }))
+    //     ],{optional:true}),
+    //     query(':enter', [
+    //       style({
 
-            transform: 'translateY(40%)',
+    //         transform: 'translateY(100%)',
 
-          }),
-          animate('0.8s ease-out',
-            style({
+    //       }),
+    //       animate('0.8s ease-out',
+    //         style({
 
-              transform: 'translateY(0%)',
+    //           transform: 'translateY(0%)',
 
-            }))
-        ],{optional:true} ),
+    //         }))
+    //     ],{optional:true} ),
 
-      ])
-    ]),
-    transition('gallery => portfolio', [
-      style({
-        position: "relative"
-      }),
-      query(':enter,:leave', [
-        style({
-           position: 'absolute',
-           left: 0,
-          top:0,
-          width: '100%',
-        }),
-      ]),
-      group([
-        query(':leave', [
-          style({
-            transform: 'translateY(0%)'
-          }),
-          animate('0.8s ease-out',
-            style({
-              transform: 'translateY(100%)',
-            }))
-        ],{optional:true}),
-        query(':enter', [
-          style({
-            transform: 'translateY(-100%)',
-          }),
-          animate('0.8s ease-out',
-            style({
+    //   ])
+    // ]),
 
-              transform: 'translateY(0%)'
-            }))
-        ] ,{optional:true})
-      ])
-    ]),
     transition('commissions => commission', [
       style({
         position: "relative"

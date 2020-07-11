@@ -1,13 +1,8 @@
 #port-frame{
   padding-top:250px;
+overflow-y:scroll;
 }
-.portfolio-row{
-  display:grid;
-  grid-template-columns: auto  auto  auto;
-  column-gap:140px;
-  margin-bottom:50px;
-  opacity:0;
-}
+
 
 #text{
   padding-bottom:120px;
@@ -44,7 +39,6 @@ display:grid;
 grid-template-columns: auto auto auto;
 column-gap:140px;
 row-gap:140px;
-
 }
 
 @keyframes rise {

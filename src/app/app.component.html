@@ -1,4 +1,4 @@
-<div id="fullWrapper" [@showtime]="showtimeAnimStateChange()">
+<div id="fullWrapper" [@showtime]="showTime.state">
   <div id="header" [ngClass]="class" class=" fixed w-100  flex flex-nowrap ">
     <div class="w-10 flex justify-center items-center">
         <img  src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)" class="absolute menu-button hover-grow pointer ph2"  [@slideX]="getArrowState(outlet)" [@xTurn]="getXTurnState(outlet)"/>

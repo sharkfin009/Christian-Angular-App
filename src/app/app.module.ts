@@ -31,6 +31,7 @@ import {
 import {
   appRoutes
 } from './routes'
+import FontFaceObserver from 'fontfaceobserver'
 
 import { GalleryComponent } from './gallery/gallery.component';
 import { CommissionsComponent } from './commissions/commissions.component';

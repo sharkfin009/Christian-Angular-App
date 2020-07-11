@@ -111,7 +111,7 @@ export const appRoutes: Routes = [{
   {
     path: 'menu',
     component: MenuComponent,
-   
+
     data: {
       view: "menu",
       title: "menu",
