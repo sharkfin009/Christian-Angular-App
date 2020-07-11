@@ -298,7 +298,7 @@ import {
       this.renderedGrid.classList.remove("gridFadeOut");
       void this.renderedGrid.offsetWidth;
       this.renderedGrid.classList.add("gridFadeOut");
-      this.renderedGrid.style.opacity = 0;
+      //this.renderedGrid.style.opacity = 0;
     }, 300)
 
     //put this pic in lightbox
@@ -335,7 +335,6 @@ import {
     //check transform values set in layGridder
     let yOffsetPerc = photo.parentElement.parentElement.dataset.offsety;
     let xOffsetPerc = photo.parentElement.parentElement.dataset.offsetx;
-    console.log(xOffsetPerc,yOffsetPerc);
     this.yOffset = () => {
       if (yOffsetPerc) {
         let yOffset = window.innerWidth * yOffsetPerc / 100;
@@ -348,7 +347,6 @@ import {
         return xOffset;
       } else return 0;
     }
-    console.log(xOffset(),this.yOffset())
     //work out 80% height and resultant width
     let aspectRatio = photo.width / photo.height;
     let targetHeight = window.innerHeight * 0.8;
@@ -427,7 +425,7 @@ import {
       this.renderedGrid.style.transform = "none";
       let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-      let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2 ;
+      let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2  ;
       this.galleryWrapper.scrollTo(0, scrollAmount);
       this.picZoom(photo);
 

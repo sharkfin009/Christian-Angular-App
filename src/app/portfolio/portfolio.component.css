@@ -39,6 +39,8 @@ display:grid;
 grid-template-columns: auto auto auto;
 column-gap:140px;
 row-gap:140px;
+
+
 }
 
 @keyframes rise {
