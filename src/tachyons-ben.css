@@ -1566,7 +1566,7 @@ code {
 }
 
 .o-60 {
-    opacity: .6 
+    opacity: .6
 }
 
 .o-50 {
@@ -3546,8 +3546,7 @@ code {
     transform: scale(.95)
 }
 
-.pointer:hover,
-.shadow-hover {
+.pointer:hover {
     cursor: pointer
 }
 

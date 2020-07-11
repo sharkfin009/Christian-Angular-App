@@ -1,0 +1,59 @@
+#text{
+  padding-bottom:100px;
+  position: relative;
+}
+#titleFrame {
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+#title {
+  font-family: Ibarra Real Nova;
+  font-size: 5em;
+  opacity: 0;
+  line-height:90px;
+
+}
+#names {
+  font-family: Ibarra Real Nova;
+  font-size: 2em;
+  opacity: 0;
+ padding:0;
+ position:relative;
+  top:40px;
+
+}
+.hoverOn {
+animation: settle 1s ease-out forwards, fadeIn 1s ease-out forwards;
+}
+.hoverOff {
+  animation:  fadeOut 0.5s ease-out forwards;
+}
+
+.thumbnail{
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes settle {
+  from {
+   transform: translateY(-50px);
+  }
+  to {
+    margin-bottom: 5px;
+  }
+}
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to{opacity: 1;}
+}
+@keyframes fadeOut {
+  from {opacity: 1;}
+  to{opacity: 0;}
+}
+
+
+
+
+
+

@@ -1,22 +1,37 @@
 import {
-  Injectable
+  Injectable,
+  OnInit
 } from '@angular/core';
 
 import {
   HttpClient,
 } from '@angular/common/http';
-import { shareReplay } from 'rxjs/operators';
+import { shareReplay, tap, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
+import { GalleryThumb } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetThumbnailsService {
- // private galleriesUrl = "http://localhost:8888/wordpress/index.php/wp-json/bens_custom_endpoint/v1/getThumbnails";
    private galleriesUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/bens_custom_endpoint/v1/getThumbnails";
-  galleries$ = this.http.get(this.galleriesUrl)
+  thumbnails$:Observable<GalleryThumb[]>;
+
+   constructor(private http: HttpClient) {
+    this.storeThumbnails();
+   }
+
+   storeThumbnails(){
+     this.thumbnails$ = this.getThumbnails();
+   }
+
+  getThumbnails():Observable<GalleryThumb[]>{
+    return this.http.get<GalleryThumb[]>(this.galleriesUrl)
   .pipe(
+
     shareReplay(1)
+
   )
-  constructor(private http: HttpClient) {
   }
 }

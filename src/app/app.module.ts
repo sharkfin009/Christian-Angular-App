@@ -8,9 +8,6 @@ import {
   RouterModule
 } from '@angular/router'
 import {
-  AppRoutingModule
-} from './app-routing.module'
-import {
   AppComponent
 } from './app.component'
 import {
@@ -20,45 +17,86 @@ import {
   HttpClientModule
 } from '@angular/common/http'
 
- import {
+import {
   PortfolioComponent
- } from './portfolio/portfolio.component'
+} from './portfolio/portfolio.component'
 import {
   GetThumbnailsService
 } from './shared/getThumbnails.service'
 import {
+  GetPreloadPicsService
+}
+from './shared/getPreloadPics.service'
+import {
   GalleryThumbnailComponent
- } from './thumbnail/gallery-thumbnail.component'
+} from './thumbnail/gallery-thumbnail.component'
 import {
   appRoutes
 } from './routes'
+import FontFaceObserver from 'fontfaceobserver'
+
 import {
-  ThumbnailsResolverService
-} from './shared/thumbnailsResolver.service';
-import { GalleryComponent } from './gallery/gallery.component';
-import { GetGalleriesService } from './shared/getGalleries.service'
-import { GalleriesResolverService} from './shared/galleriesResolver.service';
-import { CommissionsComponent } from './commissions/commissions.component'
+  GalleryComponent
+} from './gallery/gallery.component';
+import {
+  CommissionsComponent
+} from './commissions/commissions.component';
+
+import {
+  ShowreelComponent
+} from './showreel/showreel.component';
+import {
+  PostsComponent
+} from './posts/posts.component';
+import {
+  MenuComponent
+} from './menu/menu.component';
+import {
+  LazyLoadImageModule
+} from "ng-lazyload-image";
+import {
+  CommissionComponent
+} from './commission/commission.component';
+import {
+  GetGalleriesService
+} from './shared/getGalleries.service'
+import {
+  GetCommissionService
+} from './shared/get-commission.service'
+import {
+  GetPostsService
+} from './shared/get-posts.service'
+import LogRocket from "logrocket";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-   PortfolioComponent,
-     GalleryThumbnailComponent,
-     GalleryComponent,
-     CommissionsComponent,
+    PortfolioComponent,
+    GalleryThumbnailComponent,
+    GalleryComponent,
+    CommissionsComponent,
+    PostsComponent,
+    ShowreelComponent,
+    MenuComponent,
+    CommissionComponent,
+
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
+    LazyLoadImageModule,
+    
   ],
   providers: [
-     GetThumbnailsService,
-     ThumbnailsResolverService,
+    GetThumbnailsService,
+    GetPreloadPicsService,
+    GetGalleriesService,
+    GetCommissionService,
+    GetPostsService,
+    GetCommissionService,
   ],
   bootstrap: [AppComponent]
 })

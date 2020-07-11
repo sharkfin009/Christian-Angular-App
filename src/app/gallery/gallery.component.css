@@ -1,35 +1,93 @@
+#galleryWrapper{
+  top:0;
+  left:0;
+overflow-y: auto;
+/* overscroll-behavior:none */
+}
 
-.fade{
-  transition-property: opacity;
-  transition-duration: 1.5s;
-  -webkit-transition-property: opacity;
-  -webkit-transition-duration: 1.5s;
-  animation-timing-function: ease-out;
+.spacer1{
+  height:250px;
+}
+#renderedGrid{
+
+  transition:transform 0.3s ease-out;
   }
 
-
-#galleryGrid{
-  transition-property: transform,top,left;
-  transition-duration: 0.4s;
-  -webkit-transition-property: transform,top,left;
-  -webkit-transition-duration: 0.4s;
+  .spacer2{
+    height:100vh;
   }
+ #lightbox{
+  top:0;
+  left:0;
+  overflow:hidden;
+ }
+.lightboxPicHeight{
+  height:80vh;
+}
 
-.left-arrow:hover{
-  cursor: url("src/assets/left-arrow.png"),auto;
+
+
+.maskFadeIn{
+  animation: maskFadeIn 0.5s ease-out;
+}
+@keyframes maskFadeIn {
+ from {opacity:0}
+ to {opacity:1}
+}
+.gridFadeOut{
+  animation: gridFadeOut 0.5s ease-out;
+}
+@keyframes gridFadeOut  {
+ from {opacity:1}
+ to {opacity:0}
+}
+.gridFadeIn{
+  animation: gridFadeIn 0.5s ease-out;
+}
+@keyframes gridFadeIn  {
+ from {opacity:0}
+ to {opacity:1}
+}
+
+
+#overlay{
+  width:100vw;
+  height:100vh;
+  top:0;
+  left:0;
+}
+
+.arrows{
+
+  line-height:1.2;
+  font-weight:500;
+  font-size:50px;
+}
+
+
+.ll{
+  width:400px;
+}
+
+img.ng-lazyloaded {
+  animation: fadein 4s;
+
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.left-arrow:hover
+{
+cursor: w-resize;
 }
 .right-arrow:hover{
-  cursor: url("src/assets/right-arrow.png"),auto;
+  cursor: e-resize;
 }
-.grid:hover{
-  cursor: url("src/assets/menu.png"),auto;
+.arrow-frame{
+ margin-top: 95vh;
+ transition: opacity 1s ease-out;
 }
-.no-cursor{
-  cursor: none;
+#close{
+  cursor:alias;
 }
-
-
-
-
-
-
