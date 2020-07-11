@@ -1,16 +1,29 @@
 
-#thumbnail {
-  transition: opacity 0.5s ease-out;
+
+.title{
+  font-family: 'Ibarra Real Nova', serif;
+  opacity:0;
+  transition: all 0.4s ease-out;
+  left:10px;
+  top:70px;
+}
+ .thumbnail{
+  transition: all 0.5s;
 
 }
-.paleOn {
-  opacity: 0.2;
-}
 
-.paleOff {
+.thumbnailHoverOn{
+  opacity: 0.5;
+}
+.thumbnailHoverOff{
   opacity: 1;
 }
 
-.thisIsHoveredThumbnail{
-  opacity: 1!important
+.titleHoverOn{
+  opacity:1;
+  top:0px;
+}
+.titleHoverOff{
+  opacity:0;
+  top:70px;
 }
