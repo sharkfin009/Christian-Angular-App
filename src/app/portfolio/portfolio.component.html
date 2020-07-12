@@ -1,7 +1,7 @@
 <div id="port-frame" class=" h-100 w-100 flex justify-center ">
 
 
-  <div class="thumbs-box relative w-80 pb4">
+  <div class="relative thumbs-box relative w-80 ">
     <gallery-thumbnail class="thumbnail pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
       [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
 
@@ -16,7 +16,8 @@
       </div>
     </div>
 
-<div class="spacer h2"></div>
+    <div class="spacer h2"></div>
+
   </div>
   <div class="dn" *ngIf="thumbnailsAllLoaded">
     <div *ngFor="let thumbnail of thumbnails" class="">

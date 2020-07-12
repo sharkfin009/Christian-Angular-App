@@ -86,10 +86,15 @@ import LogRocket from "logrocket";
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes,{
+      scrollPositionRestoration: "enabled",
+
+    }),
+
     LazyLoadImageModule,
-    
+
   ],
+  exports:[RouterModule],
   providers: [
     GetThumbnailsService,
     GetPreloadPicsService,

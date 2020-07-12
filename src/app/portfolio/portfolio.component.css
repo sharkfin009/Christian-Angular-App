@@ -1,8 +1,15 @@
 #port-frame{
   padding-top:250px;
-overflow-y:scroll;
+ overflow-y:hidden;
 }
 
+.thumbs-box{
+  display:grid;
+  grid-template-columns: auto auto auto;
+  column-gap:140px;
+  row-gap:140px;
+  height:100%;
+  }
 
 #text{
   padding-bottom:120px;
@@ -34,14 +41,7 @@ animation: rise 0.8s ease-out forwards, fadeIn 2s ease-out forwards;
   animation: fadeOut 0.8s ease-out forwards;
 }
 
-.thumbs-box{
-display:grid;
-grid-template-columns: auto auto auto;
-column-gap:140px;
-row-gap:140px;
 
-
-}
 
 @keyframes rise {
   from {

@@ -11,6 +11,7 @@ overflow-y: auto;
 #renderedGrid{
 
   transition:transform 0.3s ease-out;
+  /* transition: opacity 0.1s; */
   }
 
   .spacer2{
@@ -20,6 +21,7 @@ overflow-y: auto;
   top:0;
   left:0;
   overflow:hidden;
+  /* transition: opacity 0.05s; */
  }
 .lightboxPicHeight{
   height:80vh;
@@ -27,27 +29,6 @@ overflow-y: auto;
 
 
 
-.maskFadeIn{
-  animation: maskFadeIn 0.5s ease-out;
-}
-@keyframes maskFadeIn {
- from {opacity:0}
- to {opacity:1}
-}
-.gridFadeOut{
-  animation: gridFadeOut 0.5s ease-out;
-}
-@keyframes gridFadeOut  {
- from {opacity:1}
- to {opacity:0}
-}
-.gridFadeIn{
-  animation: gridFadeIn 0.5s ease-out;
-}
-@keyframes gridFadeIn  {
- from {opacity:0}
- to {opacity:1}
-}
 
 
 #overlay{
@@ -69,14 +50,7 @@ overflow-y: auto;
   width:400px;
 }
 
-img.ng-lazyloaded {
-  animation: fadein 4s;
 
-}
-@keyframes fadein {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
 .left-arrow:hover
 {
 cursor: w-resize;

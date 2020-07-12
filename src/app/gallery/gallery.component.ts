@@ -153,6 +153,8 @@ import {
   fadeFlag2 = "reload";
   crossFadeDone2 = false;
   yOffset: any;
+  clickBlock:Boolean;
+
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
@@ -235,13 +237,13 @@ import {
         let picTop = item.getBoundingClientRect().top;
         if (picTop < window.innerHeight) {
           item.style.opacity = "1";
-          item.transform = "translateY(0)";
+          item.transform = "translateY(300)";
         }
         //hide below fold pics for floating in
         else if (picTop > window.innerHeight) {
           item.noFloat = false;
           item.style.opacity = "0";
-          item.style.transform = 'translateY(300px)';
+          item.style.transform = 'translateY(0px)';
         }
         //set up intersection observer options
         let options = {
@@ -278,12 +280,13 @@ import {
       }
       if (picTop > window.innerHeight) {
         entry.target.style.opacity = "0";
-        entry.target.style.transform = 'translateY(300px)';
+        entry.target.style.transform = `translateY(300px)`;
       }
     });
   }
 
   showLightbox(event) {
+    this.clickBlock = true;
     this.lightboxFlag = true;
     this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id);
@@ -292,13 +295,16 @@ import {
     //show lightbox after transition to hide renderedGrid
     setTimeout(() => {
       this.arrowFrame.style.opacity = 0;
-      this.lightbox.style.opacity = '0.5';
+      this.lightbox.style.transition = "opacity 0.05s";
+      this.lightbox.style.opacity = '1';
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
-      this.renderedGrid.classList.remove("gridFadeOut");
+      // this.renderedGrid.classList.remove("gridFadeOut");
       void this.renderedGrid.offsetWidth;
-      this.renderedGrid.classList.add("gridFadeOut");
-      //this.renderedGrid.style.opacity = 0;
+      // this.renderedGrid.classList.add("gridFadeOut");
+      this.renderedGrid.style.transition = "opacity 0.3s"
+      this.renderedGrid.style.opacity = 0;
+      this.clickBlock=false;
     }, 300)
 
     //put this pic in lightbox
@@ -385,12 +391,10 @@ import {
 
   resetScrollFade() {
     this.fadeFlag = "reload";
-    console.log("done");
     this.crossFadeDone = true;
   }
   resetScrollFade2() {
     this.fadeFlag2 = "reload";
-    console.log("done");
     this.crossFadeDone2 = true;
 
   }
@@ -403,7 +407,6 @@ import {
         //return;
       }
       //assign next pic
-      console.log(this.crossFadeDone)
       if (this.crossFadeDone) {
         //  this.fader.srcset = this.picsArray[this.picPointer].srcset;
         this.fader.src = this.picsArray[this.picPointer].src;
@@ -422,10 +425,13 @@ import {
       this.pic.src = this.picsArray[this.picPointer].src;
 
       //adjust invisible grid according to scroll;
+
+      this.renderedGrid.style.transition = "none";
       this.renderedGrid.style.transform = "none";
+
       let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-      let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2  ;
+      let scrollAmount = this.cumulativeOffset(photo, 8).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;
       this.galleryWrapper.scrollTo(0, scrollAmount);
       this.picZoom(photo);
 
@@ -451,9 +457,8 @@ import {
 
     if (this.lightboxFlag) {
       if (!this.crossFadeDone2) {
-       // return;
+        // return;
       }
-      console.log(this.crossFadeDone)
 
       if (this.crossFadeDone) {
         this.fader.srcset = this.picsArray[this.picPointer].srcset;
@@ -475,10 +480,11 @@ import {
         this.pic.src = this.picsArray[this.picPointer].src;
 
         //adjust invisible grid according to scroll
+        this.renderedGrid.style.transition = "none";
         this.renderedGrid.style.transform = "none";
         let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
 
-        let scrollAmount = this.cumulativeOffset(photo, 5).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2 ;
+        let scrollAmount = this.cumulativeOffset(photo,8).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;
         this.galleryWrapper.scrollTo(0, scrollAmount);
         this.picZoom(photo);
 
@@ -502,10 +508,15 @@ import {
   }
 
   closeLightbox(e) {
+    if(this.clickBlock === true){
+      console.log("catch")
+      return;
+    }
     //show grid
+    this.renderedGrid.style.transition = "none";
     this.renderedGrid.style.opacity = 1;
-
-
+    this.renderedGrid.style.transition = "transform 0.3s ease-out";
+    this.renderedGrid.style.transform = "none";
     //switch flag
     this.lightboxFlag = false;
     //emit class to hide header
@@ -514,19 +525,18 @@ import {
 
 
     // hide lightbox
+    this.lightbox.style.transition = "opacity 0.1s"
     this.lightbox.style.opacity = "0";
-    //this.overlay.style.opacity = "0";
     this.lightbox.style.zIndex = "-1";
     //put overlay behind so we can click on pics again
     this.overlay.style.zIndex = "-1"
     //remove hover classes
 
-    //scroll
     let photo = document.querySelector(`[data-id="${this.picPointer}"]`);
+    photo.style.transition = "none";
+    photo.style.opacity="1";
+    photo.style.transform="none";
 
-
-    // reset transform
-    this.renderedGrid.style.transform = "none";
 
 
   }
