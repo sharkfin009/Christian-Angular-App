@@ -1,14 +1,16 @@
 #port-frame{
+  overflow-y:scroll;
   padding-top:250px;
- overflow-y:hidden;
+  height:500vh;
 }
+
 
 .thumbs-box{
   display:grid;
   grid-template-columns: auto auto auto;
   column-gap:140px;
   row-gap:140px;
-  height:100%;
+  overflow:visible;
   }
 
 #text{

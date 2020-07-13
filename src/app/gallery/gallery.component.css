@@ -2,6 +2,7 @@
   top:0;
   left:0;
 overflow-y: auto;
+height: 100vh;
 /* overscroll-behavior:none */
 }
 

@@ -123,7 +123,6 @@ import {
   header: any;
   lightbox: any;
   newPic: any;
-  outletWrapper: any;
   body: any;
   close: any;
   photo: any;
@@ -180,7 +179,6 @@ import {
     this.right = document.querySelector("#right");
     this.fullWrapper = document.querySelector(".full-wrapper");
     this.galleryWrapper = document.querySelector("#galleryWrapper");
-    this.outletWrapper = document.querySelector("#outlet-wrapper");
     this.close = document.querySelector("#close");
     this.leftPic = document.querySelector("#leftPic");
     this.rightPic = document.querySelector("#rightPic");

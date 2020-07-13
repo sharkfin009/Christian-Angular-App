@@ -2,6 +2,18 @@ import {
   BrowserModule
 } from '@angular/platform-browser'
 import {
+  RetainScrollPolyfillModule
+}
+from "./retain-scroll-polyfill/retain-scroll-polyfill.module"
+import {
+  RetainScrollPolyfillService
+}
+from "./shared/retain-scroll-polyfill.service"
+
+import {DomUtils} from "./retain-scroll-polyfill/dom-utils"
+// import {RouterOutletDirective}
+// from "./retain-scroll-polyfill/router-outlet.directive"
+import {
   NgModule
 } from '@angular/core'
 import {
@@ -80,21 +92,18 @@ import LogRocket from "logrocket";
     ShowreelComponent,
     MenuComponent,
     CommissionComponent,
-
+    // RouterOutletDirective,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes,{
-      scrollPositionRestoration: "enabled",
-
-    }),
+    RouterModule.forRoot(appRoutes),
 
     LazyLoadImageModule,
-
+    RetainScrollPolyfillModule,
   ],
-  exports:[RouterModule],
+  exports: [RouterModule],
   providers: [
     GetThumbnailsService,
     GetPreloadPicsService,
@@ -102,7 +111,10 @@ import LogRocket from "logrocket";
     GetCommissionService,
     GetPostsService,
     GetCommissionService,
+    RetainScrollPolyfillService,
+    DomUtils,
+
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {};

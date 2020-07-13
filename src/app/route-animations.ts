@@ -14,7 +14,8 @@ export const slider =
   trigger('routeAnimations', [
     transition('portfolio => gallery', [
       style({
-        position: "relative"
+        position: "relative",
+        width:'100%'
       }),
       query(':enter,:leave', [
         style({
@@ -28,12 +29,10 @@ export const slider =
         query(':leave', [
           style({
              transform: 'translateY(0%)'
-          // opacity:"1",
           }),
-          animate('0.8s ease-in',
+          animate('0.8s ease-out',
             style({
               transform: 'translateY(-100%)',
-            //  opacity:'0',
             }))
         ],{optional:true}),
         query(':enter', [
@@ -68,12 +67,10 @@ export const slider =
         query(':leave', [
           style({
              transform: 'translateY(0%)'
-          // opacity:"1",
           }),
           animate('0.8s ease-in',
             style({
               transform: 'translateY( 100%)',
-            //  opacity:'0',
             }))
         ],{optional:true}),
         query(':enter', [

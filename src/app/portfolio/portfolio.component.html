@@ -1,24 +1,23 @@
-<div id="port-frame" class=" h-100 w-100 flex justify-center ">
+<div id="port-frame" class="relative bw2 b--yellow w-100 flex justify-center  ">
 
 
-  <div class="relative thumbs-box relative w-80 ">
-    <gallery-thumbnail class="thumbnail pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
-      [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
+    <div class="relative   thumbs-box h-100 w-80 ">
+      <gallery-thumbnail class="thumbnail pointer" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
+        [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
 
-    <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
+      <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
 
-      <div id="text" class="w-60 black">
-        <div class=" w-100 " [ngClass]="hoverEventObject.hover" id="names">{{hoverEventObject.names}}</div>
-        <div class="mt4  w-100" [ngClass]="hoverEventObject.hover" id="title">{{hoverEventObject.title}}
-          <div>
+        <div id="text" class="w-60 black">
+          <div class=" w-100 " [ngClass]="hoverEventObject.hover" id="names">{{hoverEventObject.names}}</div>
+          <div class="mt4  w-100" [ngClass]="hoverEventObject.hover" id="title">{{hoverEventObject.title}}
+            <div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="spacer h2"></div>
     </div>
 
-    <div class="spacer h2"></div>
-
-  </div>
   <div class="dn" *ngIf="thumbnailsAllLoaded">
     <div *ngFor="let thumbnail of thumbnails" class="">
       <div *ngIf="thumbnail.done===true">
