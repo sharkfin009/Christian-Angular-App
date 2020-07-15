@@ -1,7 +1,7 @@
 #port-frame{
   overflow-y:scroll;
   padding-top:250px;
-  height:500vh;
+  height:200vh;
 }
 
 
@@ -12,6 +12,8 @@
   row-gap:140px;
   overflow:visible;
   }
+
+
 
 #text{
   padding-bottom:120px;

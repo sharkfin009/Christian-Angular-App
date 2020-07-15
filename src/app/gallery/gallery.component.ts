@@ -530,7 +530,7 @@ import {
     this.overlay.style.zIndex = "-1"
     //remove hover classes
 
-    let photo = document.querySelector(`[data-id="${this.picPointer}"]`);
+    let photo = <any>document.querySelector(`[data-id="${this.picPointer}"]`);
     photo.style.transition = "none";
     photo.style.opacity="1";
     photo.style.transform="none";

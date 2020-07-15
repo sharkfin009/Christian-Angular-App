@@ -5,14 +5,7 @@ import {
   RetainScrollPolyfillModule
 }
 from "./retain-scroll-polyfill/retain-scroll-polyfill.module"
-import {
-  RetainScrollPolyfillService
-}
-from "./shared/retain-scroll-polyfill.service"
 
-import {DomUtils} from "./retain-scroll-polyfill/dom-utils"
-// import {RouterOutletDirective}
-// from "./retain-scroll-polyfill/router-outlet.directive"
 import {
   NgModule
 } from '@angular/core'
@@ -98,10 +91,12 @@ import LogRocket from "logrocket";
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
-
+    RouterModule.forRoot(appRoutes,{
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling:'disabled',
+    }),
     LazyLoadImageModule,
-    RetainScrollPolyfillModule,
+   // RetainScrollPolyfillModule,
   ],
   exports: [RouterModule],
   providers: [
@@ -111,8 +106,7 @@ import LogRocket from "logrocket";
     GetCommissionService,
     GetPostsService,
     GetCommissionService,
-    RetainScrollPolyfillService,
-    DomUtils,
+
 
   ],
   bootstrap: [AppComponent],
