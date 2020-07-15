@@ -46,18 +46,18 @@ export class PortfolioComponent implements OnInit {
   previousScrollValue: Object;
   thumbnailsAllLoaded: any;
 
-  constructor(private route: ActivatedRoute, public getThumbnails: GetThumbnailsService, private preloadPics: GetPreloadPicsService,) {}
+  constructor(private route: ActivatedRoute, private preloadPics: GetPreloadPicsService,) {}
 
   ngOnInit(): void {
 
       this.thumbnails = this.route.snapshot.data["thumbnails"];
       this.preloadDiv = document.createElement("div");
-      for (let i = 0; i < this.thumbnails.length; i++) {
-        this.thumbnails[i].showFlag = false;
+      this.thumbnails.forEach((item,index )=> {
+        item.showFlag = false;
         this.preloadImage = new Image;
-        this.preloadImage.id = "pic" + i;
+        this.preloadImage.id = "pic" + index;
         this.preloadDiv.appendChild(this.preloadImage);
-      }
+      })
       //  // subscribe to get four pics per gallery
       this.thumbnails.forEach((thumbnail) => {
         thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
@@ -81,11 +81,11 @@ export class PortfolioComponent implements OnInit {
     }
 
     ngAfterViewInit(){
-     // this.loadLoop(0);
-      // if (sessionStorage.getItem('scroll')) {
-      //   console.log(sessionStorage.getItem('scroll'))
-      //   this.previousScrollValue = sessionStorage.getItem('scroll')
-      // };
+      this.loadLoop(0);
+      if (sessionStorage.getItem('scroll')) {
+        console.log(sessionStorage.getItem('scroll'))
+        this.previousScrollValue = sessionStorage.getItem('scroll')
+      };
     }
 
     loadLoop(counter): void {
