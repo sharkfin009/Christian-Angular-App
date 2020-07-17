@@ -97,6 +97,23 @@ import {
         ]),
 
       ]),
+      trigger('scrollFadeIn', [
+
+        transition('*=>fire', [
+          animate('1s ease-out',
+            keyframes([
+              style({
+                opacity: "0",
+                offset: 0
+              }),
+              style({
+                opacity: "1",
+                offset: 1.0
+              })
+            ]))
+        ]),
+
+      ]),
     ]
 
 
@@ -152,7 +169,13 @@ import {
   fadeFlag2 = "reload";
   crossFadeDone2 = false;
   yOffset: any;
-  clickBlock:Boolean;
+  clickBlock: Boolean;
+  fadeInFlag: string;
+  fadeInDone: boolean;
+  arrowLeft: string;
+  arrowRight: string;
+  nonce = 0;
+  startFlag = false;
 
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
@@ -188,15 +211,21 @@ import {
     // this.preloadDiv = document.querySelector("#preloadDiv");
 
     //add click listeners to overlay
-    this.left.addEventListener("click", this.browseLeft.bind(this), false);
-    this.right.addEventListener("click", this.browseRight.bind(this), false);
+    this.left.addEventListener("click", this.browse.bind(this), false);
+    this.left.direction = "left";
+    console.dir(this.left)
+    this.right.addEventListener("click", this.browse.bind(this), false);
+    this.right.direction = "right";
+
     //add key listeners
     let callBrowse = function (e) {
       if (e.code === "ArrowLeft") {
-        this.browseLeft();
+        this.browse("left");
       };
+
       if (e.code === "ArrowRight")
-        this.browseRight();
+        this.browse("right");
+
       if (e.code === "Escape")
         this.closeLightbox();
     }
@@ -289,6 +318,18 @@ import {
     this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id);
 
+    //hide arrows at start and end of pics
+    if (this.picPointer === 0) {
+      this.arrowLeft = "o-0";
+    } else {
+      this.arrowLeft = "o-100";
+    }
+    if (this.picPointer === this.picsArray.length - 1) {
+      this.arrowRight = "o-0";
+    } else {
+      this.arrowRight = "o-100";
+    }
+
     this.picZoom(event.target);
     //show lightbox after transition to hide renderedGrid
     setTimeout(() => {
@@ -302,7 +343,7 @@ import {
       // this.renderedGrid.classList.add("gridFadeOut");
       this.renderedGrid.style.transition = "opacity 0.3s"
       this.renderedGrid.style.opacity = 0;
-      this.clickBlock=false;
+      this.clickBlock = false;
     }, 300)
 
     //put this pic in lightbox
@@ -351,9 +392,9 @@ import {
         return xOffset;
       } else return 0;
     }
-    //work out 80% height and resultant width
+    //work out 90% height and resultant width
     let aspectRatio = photo.width / photo.height;
-    let targetHeight = window.innerHeight * 0.8;
+    let targetHeight = window.innerHeight * 0.9;
     let targetWidth = targetHeight * aspectRatio;
 
     //work out zoom ratio
@@ -385,42 +426,144 @@ import {
     //do scale
 
     this.renderedGrid.style.transform += `scale(${zoomRatio})`;
+
+
   }
 
   resetScrollFade() {
+    console.log("reset 1")
     this.fadeFlag = "reload";
     this.crossFadeDone = true;
   }
   resetScrollFade2() {
+    console.log("reset 2")
     this.fadeFlag2 = "reload";
     this.crossFadeDone2 = true;
 
   }
+  resetScrollFadeIn() {
+    this.fadeInFlag = "reload";
+
+  }
 
 
-  browseLeft() {
+  browse(param) {
+    //establish direction
+    let direction = "";
 
-    if (this.lightboxFlag) {
-      if (!this.crossFadeDone2) {
-        //return;
-      }
-      //assign next pic
-      if (this.crossFadeDone) {
-        //  this.fader.srcset = this.picsArray[this.picPointer].srcset;
-        this.fader.src = this.picsArray[this.picPointer].src;
-      }
-      if (this.picPointer <= this.picsArray.length - 3) {
-        //  this.faderB.srcset = this.picsArray[this.picPointer+1].srcset;
-        this.faderB.src = this.picsArray[this.picPointer + 2].src;
-      }
+    if (typeof (param) === "string") {
+      direction = param;
+    };
+
+    if (param.target) {
+      direction = param.target.direction
+    }
+     //close lightbox at start
+     if (direction === "left" && this.picPointer === 0) {
+      this.closeLightbox();
     }
 
-    if (this.picPointer > 0) {
+    //close lightbox at end
+    if (direction === "right" && this.picPointer === this.picsArray.length - 1) {
+      this.closeLightbox();
+    }
 
-      this.picPointer -= 1;
+    // check lightbox flag and range for whole function
+    if (this.lightboxFlag &&
+      this.picPointer <= this.picsArray.length - 1 &&
+      this.picPointer >= 0) {
 
-      this.pic.srcset = this.picsArray[this.picPointer].srcset;
+      //adjust pointer with direction
+      if (direction === "left" && this.picPointer > 0) {
+        this.picPointer -= 1;
+      }
+      if (direction === "right" && this.picPointer < this.picsArray.length - 1) {
+        this.picPointer += 1;
+      }
+      console.log("direction:", direction)
+      console.log("picPointer:", this.picPointer);
+      console.log("crossfadeDone=",this.crossFadeDone);
+      console.log("crossfadeDone2=",this.crossFadeDone2)
+      //update pic
       this.pic.src = this.picsArray[this.picPointer].src;
+
+        // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
+       // check range again
+       if (!this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
+        this.picPointer >= 0) {
+        console.log('fire 2')
+
+        if (this.picPointer === 0) {
+          this.startFlag = true;
+        }
+        //check direction and put previous pic in front to fade out according to direction
+        if (direction === "right") {
+          //manage first pic
+          this.startFlag = false;
+          this.nonce = 0;
+          //move right with animation
+          this.faderB.src = this.picsArray[this.picPointer - 1].src;
+          this.fadeFlag2 = "fire";
+          this.crossFadeDone2 = false;
+        }
+        if (direction === "left") {
+          let moveLeft = () => {
+            this.faderB.src = this.picsArray[this.picPointer + 1].src;
+            this.fadeFlag2 = "fire";
+            this.crossFadeDone2 = false;
+            this.nonce++;
+          }
+
+          //manage first pic
+          if (this.startFlag === true && this.nonce === 0) {
+            this.nonce++;
+            moveLeft()
+          }
+          if (this.startFlag === false) {
+            moveLeft()
+          }
+        }
+        this.fadeFlag2 = "fire";
+        this.crossFadeDone2 = false;
+      }
+
+     //check if 1st fade is done and range should be allowed
+      if (this.crossFadeDone && this.picPointer < this.picsArray.length - 1 &&
+        this.picPointer >= 0) {
+          console.log('fire 1')
+        if (this.picPointer === 0) {
+          this.startFlag = true;
+        }
+        //check direction and put previous pic in front to fade out according to direction
+        if (direction === "right") {
+          //manage first pic
+          this.startFlag = false;
+          this.nonce = 0;
+          //move right with animation
+          this.fader.src = this.picsArray[this.picPointer - 1].src;
+          this.fadeFlag = "fire";
+          this.crossFadeDone = false;
+        }
+        if (direction === "left") {
+          let moveLeft = () => {
+            this.fader.src = this.picsArray[this.picPointer + 1].src;
+            this.fadeFlag = "fire";
+            this.crossFadeDone = false;
+            this.nonce++;
+          }
+
+          //manage first pic
+          if (this.startFlag === true && this.nonce === 0) {
+            this.nonce++;
+            moveLeft()
+          }
+          if (this.startFlag === false) {
+            moveLeft()
+          }
+        }
+      }
+
+
 
       //adjust invisible grid according to scroll;
 
@@ -433,80 +576,82 @@ import {
       this.galleryWrapper.scrollTo(0, scrollAmount);
       this.picZoom(photo);
 
-
-
-      //if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
-      if (!this.crossFadeDone) {
-
-        this.fadeFlag2 = "fire";
-        this.crossFadeDone2 = false;
+      if (this.picPointer === 0) {
+        this.arrowLeft = "o-0";
+      } else {
+        this.arrowLeft = "o-100";
       }
-
-
-      //fade out old
-
-      this.fadeFlag = "fire";
-      this.crossFadeDone = false;
-    };
-  }
-
-
-  browseRight() {
-
-    if (this.lightboxFlag) {
-      if (!this.crossFadeDone2) {
-        // return;
+      if (this.picPointer === this.picsArray.length - 1) {
+        this.arrowRight = "o-0";
+      } else {
+        this.arrowRight = "o-100";
       }
-
-      if (this.crossFadeDone) {
-        this.fader.srcset = this.picsArray[this.picPointer].srcset;
-        this.fader.src = this.picsArray[this.picPointer].src;
-      }
-
-      if (this.picPointer > 2) {
-        //    this.faderB.srcset = this.picsArray[this.picPointer-1].srcset;
-        this.faderB.src = this.picsArray[this.picPointer - 2].src;
-      }
-
-
-
-
-      //assign next pic
-      if (this.picPointer <= this.picsArray.length - 2) {
-        this.picPointer += 1;
-        this.pic.srcset = this.picsArray[this.picPointer].srcset;
-        this.pic.src = this.picsArray[this.picPointer].src;
-
-        //adjust invisible grid according to scroll
-        this.renderedGrid.style.transition = "none";
-        this.renderedGrid.style.transform = "none";
-        let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
-
-        let scrollAmount = this.cumulativeOffset(photo,8).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;
-        this.galleryWrapper.scrollTo(0, scrollAmount);
-        this.picZoom(photo);
-
-      }
-
-
-      //if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
-      if (!this.crossFadeDone) {
-
-        this.fadeFlag2 = "fire";
-        this.crossFadeDone2 = false;
-        // fade out old
-      }
-
-      this.fadeFlag = "fire";
-      this.crossFadeDone = false;
-
 
 
     }
   }
 
-  closeLightbox(e) {
-    if(this.clickBlock === true){
+
+  // browseRight() {
+  //   if (this.crossFadeDone) {
+
+  //     this.fader.src = this.picsArray[this.picPointer].src;
+  //   }
+
+  //   if (this.picPointer > 2) {
+
+  //     this.faderB.src = this.picsArray[this.picPointer - 2].src;
+  //   }
+
+
+  //   //assign next pic
+  //   if (this.picPointer <= this.picsArray.length - 2) {
+  //     this.picPointer += 1;
+  //     //store old pic width
+  //     let oldWidth = this.pic.offsetWidth;
+  //     this.pic.srcset = this.picsArray[this.picPointer].srcset;
+  //     this.pic.src = this.picsArray[this.picPointer].src;
+
+
+
+  //     //if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
+  //     if (!this.crossFadeDone) {
+  //       this.pic.style.transition = "none";
+  //       this.pic.style.opacity = 0;
+  //       this.pic.style.transition = "opacity 0.7s ease-out";
+  //       this.pic.style.opacity = 1;
+
+
+  //       this.fadeFlag2 = "fire";
+  //       this.crossFadeDone2 = false;
+  //     }
+
+  //     // fade out old
+
+  //     this.fadeFlag = "fire";
+  //     this.crossFadeDone = false;
+
+  //     //adjust invisible grid according to scroll
+  //     this.renderedGrid.style.transition = "none";
+  //     this.renderedGrid.style.transform = "none";
+  //     let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
+
+  //     let scrollAmount = this.cumulativeOffset(photo, 8).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;
+  //     this.galleryWrapper.scrollTo(0, scrollAmount);
+  //     this.picZoom(photo);
+  //   }
+  //   console.log(this.picPointer)
+
+  //   if (this.picPointer === this.picsArray.length) {
+  //     this.arrowRight = "o-0";
+  //   } else {
+  //     this.arrowRight = "o-100";
+  //   }
+
+  // }
+
+  closeLightbox() {
+    if (this.clickBlock === true) {
       console.log("catch")
       return;
     }
@@ -530,10 +675,10 @@ import {
     this.overlay.style.zIndex = "-1"
     //remove hover classes
 
-    let photo = <any>document.querySelector(`[data-id="${this.picPointer}"]`);
+    let photo = < any > document.querySelector(`[data-id="${this.picPointer}"]`);
     photo.style.transition = "none";
-    photo.style.opacity="1";
-    photo.style.transform="none";
+    photo.style.opacity = "1";
+    photo.style.transform = "none";
 
 
 

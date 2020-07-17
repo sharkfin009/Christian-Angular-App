@@ -38,7 +38,7 @@ export const slider =
         query(':enter', [
           style({
 
-            transform: 'translateY(100%)',
+            transform: 'translateY(200%)',
 
           }),
           animate('0.8s ease-out',
@@ -68,9 +68,9 @@ export const slider =
           style({
              transform: 'translateY(0%)'
           }),
-          animate('0.8s ease-in',
+          animate('0.8s ease-out',
             style({
-              transform: 'translateY( 100%)',
+              transform: 'translateY(200%)',
             }))
         ],{optional:true}),
         query(':enter', [

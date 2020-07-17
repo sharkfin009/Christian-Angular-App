@@ -59,14 +59,7 @@ export class PortfolioComponent implements OnInit {
         this.preloadDiv.appendChild(this.preloadImage);
       })
       //  // subscribe to get four pics per gallery
-      this.thumbnails.forEach((thumbnail) => {
-        thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
-          array => {
-            thumbnail.fourPics = array;
-            thumbnail.done = true;
-          }
-        );
-      })
+
     };
 
 
@@ -81,17 +74,38 @@ export class PortfolioComponent implements OnInit {
     }
 
     ngAfterViewInit(){
-      this.loadLoop(0);
+      if (!sessionStorage.getItem("firstLoad")){
+        this.loadLoop(0);
+      } else {
+        this.thumbnails.forEach(item=>{
+         setTimeout(()=>{ item.loadedUrl = item.url;
+        item.showFlag=true;
+        this.thumbnailsAllLoaded = true;})
+
+        })
+      }
       if (sessionStorage.getItem('scroll')) {
+      setTimeout(()=>{
         console.log(sessionStorage.getItem('scroll'))
         this.previousScrollValue = sessionStorage.getItem('scroll')
+      })
       };
+
+      this.thumbnails.forEach((thumbnail) => {
+        thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
+          array => {
+            thumbnail.fourPics = array;
+            thumbnail.done = true;
+          }
+        );
+      })
     }
 
     loadLoop(counter): void {
       //break out if no more images
       if (counter === this.thumbnails.length) {
         this.thumbnailsAllLoaded = true;
+        sessionStorage.setItem("firstLoad","done")
 
 
         return
@@ -106,6 +120,7 @@ export class PortfolioComponent implements OnInit {
       //load image
      img.src = this.thumbnails[counter].url;
     }
+
 
 
   }

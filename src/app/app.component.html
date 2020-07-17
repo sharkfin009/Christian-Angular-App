@@ -1,10 +1,10 @@
 <div id="fullWrapper" [@showtime]="showTime.state">
-  <div id="header" [ngClass]="class" class=" fixed w-100  flex flex-nowrap ">
+  <div id="header" class=" fixed w-100  flex flex-nowrap ">
     <div class="w-10 flex justify-center items-center">
       <img src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)"
         class="absolute menu-button hover-grow pointer ph2" [@slideX]="getArrowState(outlet)"
         [@xTurn]="getXTurnState(outlet)" />
-      <div (click)="location.back()" class="absolute arrow" [@arrow]="getArrowState(outlet)">
+      <div routerLink="/portfolio" class=" b--green absolute arrow" [@arrow]="getArrowState(outlet)">
         <img src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer" />
       </div>
     </div>

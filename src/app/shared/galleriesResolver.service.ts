@@ -21,7 +21,8 @@ export class GalleriesResolverService implements Resolve < any > {
     if (route.paramMap.get("slug") !== null) {
       return this.galleries.getGallery(
         route.paramMap.get("slug"));
-    } else {
+    } else  {
+      console.log(route)
       return this.galleries.getGallery("showcase");
     }
   }

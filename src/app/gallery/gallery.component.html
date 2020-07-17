@@ -24,19 +24,20 @@
   <div id="right" class="h-100 right-arrow"></div>
 </div>
 <div class="fixed w-100 h-100 flex o-0 justify-center items-center" id="lightbox">
-  <div id="picBox" class="relative flex justify-center items-center o-100">
+  <div id="picBox" class="bw2 b--yellow relative flex justify-center  o-100">
 
-    <img class="lightboxPicHeight"
-    id="pic" />
-    <img [@scrollFadeHide]="fadeFlag" (@scrollFadeHide.done)="resetScrollFade()" class="absolute   lightboxPicHeight o-0"
-    id="fader" />
-    <img [@scrollFadeHide2]="fadeFlag2" (@scrollFadeHide2.done)="resetScrollFade2()" class="absolute lightboxPicHeight o-0"
-    id="faderB"/>
+    <img class="absolute bw2 b--blue  lightboxImages" (@scrollFadeIn.done)="resetScrollFadeIn()" id="pic" />
+
+    <img class="absolute bw2 b--yellow lightboxImages o-0" [@scrollFadeHide]="fadeFlag" (@scrollFadeHide.done)="resetScrollFade()"  id="fader" />
+
+    <img class="absolute bw2 b--red lightboxImages o-0" [@scrollFadeHide2]="fadeFlag2" (@scrollFadeHide2.done)="resetScrollFade2()"
+      id="faderB" />
+
+
 
   </div>
   <div class="absolute arrows w-100 h-100 flex justify-between items-center">
-    <img width="15px" src="../../assets/arrow_left.svg" class="relative ph3 hover-grow pointer  that-yellow" />
-    <img width="15px" src="../../assets/arrow_right.svg" class="relative ph3  hover-grow pointer  that-yel
-      low" />
+    <img width="15px" src="../../assets/arrow_left.svg" class="relative ph3 hover-grow pointer" [ngClass]="arrowLeft" />
+    <img width="15px" src="../../assets/arrow_right.svg" class="relative ph3  hover-grow pointer" [ngClass]="arrowRight" />
   </div>
 </div>
