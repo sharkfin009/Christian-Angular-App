@@ -36,6 +36,7 @@ export class GetGalleriesService {
           let newHTMLDoc = document.implementation.createHTMLDocument('gridPrep')
           let gridLoaded = newHTMLDoc.createElement('div');
           gridLoaded.innerHTML = grid;
+
           let flexString = " .lg-column-wrap{display:-webkit-flex;display:-ms-flexbox;display:flex;}.lg-align-middle{-webkit-align-self:center;-ms-flex-item-align:center;align-self:center;position:relative;} .lg-col{position:relative;display:inline-block;z-index:1;pointer-events:auto;}  .lg-column-wrap{position:relative;width:100%;z-index:1;pointer-events:none;}.lg-row-inner{width:100%;position:relative;}.lg-type-img{position:relative;}.lg-placeholder > *{position:absolute;top:0;left:0;width:100%;height:100%;}.lg-placeholder{position:relative;}";
           let animString = ".q{transition:opacity ease-out 2s, transform ease-out 1s; opacity:0;transform:translateY(300px)}";
 
@@ -49,14 +50,14 @@ export class GetGalleriesService {
           gridLoaded.querySelector('style').innerHTML = style;
           //create array of src and srcset atts
           let imgs = gridLoaded.querySelectorAll("img");
-          let srcSetUrls = [];
+          let srcSets = [];
           let srcUrls = [];
 
           imgs.forEach(
             (item) => {
-              srcSetUrls.push(item.getAttribute("srcset"));
+              srcSets.push(item.getAttribute("srcset"));
               srcUrls.push(item.getAttribute("src"));
-              item.setAttribute("data-src", item.src);
+               item.setAttribute("data-src", item.src);
               item.src="";
               item.setAttribute("srcset", "");
               item.setAttribute("currentSrc","")
@@ -68,10 +69,11 @@ export class GetGalleriesService {
           wrapper.appendChild(gridLoaded);
           let gridString = wrapper.innerHTML;
 
-
+          console.log("wrapper:")
+          console.dir(wrapper)
           return {
             grid: gridString,
-            srcSetUrls: srcSetUrls,
+            srcSets: srcSets,
             srcUrls: srcUrls,
           }
 
@@ -80,5 +82,5 @@ export class GetGalleriesService {
       );
   };
 
- 
+
   }

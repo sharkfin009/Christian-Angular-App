@@ -176,6 +176,7 @@ import {
   arrowRight: string;
   nonce = 0;
   startFlag = false;
+  srcSets= [];
 
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
@@ -188,8 +189,13 @@ import {
     //set up values
     this.gallery = this.route.snapshot.data['gallery'];
     this.srcUrls = this.gallery.srcUrls;
+    this.srcSets = this.gallery.srcSets;
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gallery.grid);
+    console.dir(this.srcUrls);
+    console.dir(this.gallery)
+
   }
+
 
   ngAfterViewInit() {
     //set up DOM values
@@ -252,10 +258,15 @@ import {
 
 
     //load first pic
-    this.picsArray[0].src = this.picsArray[0].dataset.src;
+     this.picsArray[0].src = this.picsArray[0].dataset.src;
+  //  this.picsArray[0].srcset = this.srcSets[0];
     //place load events on preload div to trigger anim according to position
   }
 
+  scrollToTop(): void {
+    console.log("yip")
+    this.galleryWrapper.scrollTo(0,0)
+  }
 
   picsListenLoadAndObserve() {
     this.picsArray.forEach((item, index) => {
@@ -285,6 +296,8 @@ import {
       }.bind(this)
       if (index !== 0) {
         item.src = item.dataset.src;
+      //  item.src = this.srcUrls[index];
+    // item.srcset = this.srcSets[index]
       }
       //place index in data att
       item.setAttribute("data-id", index);
@@ -348,6 +361,7 @@ import {
 
     //put this pic in lightbox
     this.pic.src = this.srcUrls[this.picPointer];
+     this.pic.srcset = this.srcSets[this.picPointer];
 
     //set width of close,left and right elements
     this.close.style.width = this.pic.offsetWidth + "px";
@@ -486,6 +500,7 @@ import {
       console.log("crossfadeDone2=",this.crossFadeDone2)
       //update pic
       this.pic.src = this.picsArray[this.picPointer].src;
+      this.pic.srcset = this.srcSets[this.picPointer];
 
         // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
        // check range again
@@ -502,13 +517,15 @@ import {
           this.startFlag = false;
           this.nonce = 0;
           //move right with animation
-          this.faderB.src = this.picsArray[this.picPointer - 1].src;
+           this.faderB.src = this.picsArray[this.picPointer - 1].src;
+          // this.faderB.srcset = this.srcSets[this.picPointer -1];
           this.fadeFlag2 = "fire";
           this.crossFadeDone2 = false;
         }
         if (direction === "left") {
           let moveLeft = () => {
-            this.faderB.src = this.picsArray[this.picPointer + 1].src;
+             this.faderB.src = this.picsArray[this.picPointer + 1].src;
+            // this.faderB.srcset = this.srcSets[this.picPointer +1];
             this.fadeFlag2 = "fire";
             this.crossFadeDone2 = false;
             this.nonce++;

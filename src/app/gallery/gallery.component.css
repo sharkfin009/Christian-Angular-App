@@ -3,9 +3,11 @@
   left: 0;
   overflow-y: auto;
   height: 100vh;
-  /* overscroll-behavior:none */
+  scroll-behavior:smooth
 }
-
+.link{
+  margin-top:auto;
+}
 .spacer1 {
   height: 250px;
 }
@@ -17,7 +19,7 @@
 }
 
 .spacer2 {
-  height: 100vh;
+  height: 30vh;
 }
 
 #pic{
