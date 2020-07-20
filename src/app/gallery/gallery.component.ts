@@ -195,7 +195,7 @@ import {
     //set up DOM values
     this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
-    this.lightboxFade = document.querySelector(".lightbox-fade");
+    this.lightboxFade = document.querySelectorAll(".lightbox-fade");
     this.overlay = document.querySelector("#overlay");
     this.pic = document.querySelector("#pic");
     this.left = document.querySelector("#left");
@@ -317,7 +317,7 @@ import {
     this.lightboxFlag = true;
     this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id);
-
+    this.lightboxFade.forEach(item=>item.style.opacity = 0);
     //hide arrows at start and end of pics
     if (this.picPointer === 0) {
       this.arrowLeft = "o-0";
@@ -354,10 +354,8 @@ import {
     let sideWidth = (window.innerWidth - this.pic.offsetWidth) / 2;
     this.left.style.width = sideWidth + "px";
     this.right.style.width = sideWidth + "px";
-
-
-
   }
+
   cumulativeOffset(element, index) {
     let top = 0,
       left = 0,
@@ -458,8 +456,8 @@ import {
     if (param.target) {
       direction = param.target.direction
     }
-     //close lightbox at start
-     if (direction === "left" && this.picPointer === 0) {
+    //close lightbox at start
+    if (direction === "left" && this.picPointer === 0) {
       this.closeLightbox();
     }
 
@@ -482,14 +480,14 @@ import {
       }
       console.log("direction:", direction)
       console.log("picPointer:", this.picPointer);
-      console.log("crossfadeDone=",this.crossFadeDone);
-      console.log("crossfadeDone2=",this.crossFadeDone2)
+      console.log("crossfadeDone=", this.crossFadeDone);
+      console.log("crossfadeDone2=", this.crossFadeDone2)
       //update pic
       this.pic.src = this.picsArray[this.picPointer].src;
 
-        // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
-       // check range again
-       if (!this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
+      // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
+      // check range again
+      if (!this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
         this.picPointer >= 0) {
         console.log('fire 2')
 
@@ -527,10 +525,10 @@ import {
         this.crossFadeDone2 = false;
       }
 
-     //check if 1st fade is done and range should be allowed
+      //check if 1st fade is done and range should be allowed
       if (this.crossFadeDone && this.picPointer < this.picsArray.length - 1 &&
         this.picPointer >= 0) {
-          console.log('fire 1')
+        console.log('fire 1')
         if (this.picPointer === 0) {
           this.startFlag = true;
         }
@@ -586,69 +584,10 @@ import {
       } else {
         this.arrowRight = "o-100";
       }
-
-
     }
   }
 
 
-  // browseRight() {
-  //   if (this.crossFadeDone) {
-
-  //     this.fader.src = this.picsArray[this.picPointer].src;
-  //   }
-
-  //   if (this.picPointer > 2) {
-
-  //     this.faderB.src = this.picsArray[this.picPointer - 2].src;
-  //   }
-
-
-  //   //assign next pic
-  //   if (this.picPointer <= this.picsArray.length - 2) {
-  //     this.picPointer += 1;
-  //     //store old pic width
-  //     let oldWidth = this.pic.offsetWidth;
-  //     this.pic.srcset = this.picsArray[this.picPointer].srcset;
-  //     this.pic.src = this.picsArray[this.picPointer].src;
-
-
-
-  //     //if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
-  //     if (!this.crossFadeDone) {
-  //       this.pic.style.transition = "none";
-  //       this.pic.style.opacity = 0;
-  //       this.pic.style.transition = "opacity 0.7s ease-out";
-  //       this.pic.style.opacity = 1;
-
-
-  //       this.fadeFlag2 = "fire";
-  //       this.crossFadeDone2 = false;
-  //     }
-
-  //     // fade out old
-
-  //     this.fadeFlag = "fire";
-  //     this.crossFadeDone = false;
-
-  //     //adjust invisible grid according to scroll
-  //     this.renderedGrid.style.transition = "none";
-  //     this.renderedGrid.style.transform = "none";
-  //     let photo = document.querySelector(`[data-id="${this.picPointer}"]`)
-
-  //     let scrollAmount = this.cumulativeOffset(photo, 8).top + photo.clientHeight / 2 - this.galleryWrapper.clientHeight / 2;
-  //     this.galleryWrapper.scrollTo(0, scrollAmount);
-  //     this.picZoom(photo);
-  //   }
-  //   console.log(this.picPointer)
-
-  //   if (this.picPointer === this.picsArray.length) {
-  //     this.arrowRight = "o-0";
-  //   } else {
-  //     this.arrowRight = "o-100";
-  //   }
-
-  // }
 
   closeLightbox() {
     if (this.clickBlock === true) {
@@ -664,9 +603,6 @@ import {
     this.lightboxFlag = false;
     //emit class to hide header
     this.headerClass.emit('o-100')
-
-
-
     // hide lightbox
     this.lightbox.style.transition = "opacity 0.1s"
     this.lightbox.style.opacity = "0";
@@ -679,8 +615,7 @@ import {
     photo.style.transition = "none";
     photo.style.opacity = "1";
     photo.style.transform = "none";
-
-
+    this.lightboxFade.forEach(item=>item.style.opacity = 1);
 
   }
 
