@@ -2,11 +2,14 @@
 
 @import "tachyons-ben.css";
 
+
+
 html, body {
    height: 100%;
    /* text-rendering: optimizeLegibility; */
     /* -webkit-font-smoothing: antialiased; */
     /* -moz-osx-font-smoothing: grayscale; */
+    cursor: url('./assets/pointer-styled.svg'),auto;
 }
 body { margin: 0;
 
@@ -14,7 +17,9 @@ body { margin: 0;
 .that-red{
   color:#ff381e
 }
-
+.pointer-styled:hover {
+  cursor: url('./assets/hand-pointer.svg'),auto;
+}
 div,li{
   font-family: XXHaas;
 }

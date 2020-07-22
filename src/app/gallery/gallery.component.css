@@ -3,10 +3,10 @@
   left: 0;
   overflow-y: auto;
   height: 100vh;
-  scroll-behavior:smooth
+   scroll-behavior:smooth;
 }
 .link{
-  margin-top:auto;
+  font-size:0.9rem;;
 }
 .spacer1 {
   height: 250px;
@@ -30,12 +30,11 @@
 #lightbox {
   top: 0;
   left: 0;
-  overflow: hidden;
-  /* transition: opacity 0.05s; */
+  /* overflow: hidden; */
 }
 
 #picBox {
-  height: 90vh;
+  height: 80vh;
   width: 80vw;
   overflow: none;
 }
@@ -63,19 +62,27 @@
   font-weight: 500;
   font-size: 50px;
 }
-
+.hide-scroll{
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+  box-sizing: content-box; /* So the width will be 100% + 17px */
+  scroll-behavior: auto !important
+};
 
 .ll {
   width: 400px;
 }
 
 
+
 .left-arrow:hover {
-  cursor: w-resize;
+  cursor: url('../../assets/arrow-cursor-left.svg'),auto;
 }
 
 .right-arrow:hover {
-  cursor: e-resize;
+  cursor: url('../../assets/arrow-cursor-right.svg'),auto;
 }
 
 .arrow-frame {
@@ -84,6 +91,16 @@
 }
 
 #close {
-  cursor: alias;
+  cursor: url('../../assets/vectrXNoShadow.svg'),auto;
+  transition: opacity 1s ease-out;
+  width:54vw;
+}
+
+#left{
+  width:23vw
+}
+
+#right{
+  width:23vw
 }
 

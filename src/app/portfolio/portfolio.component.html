@@ -2,7 +2,7 @@
 
 
     <div class="relative thumbs-box h-100 w-80 ">
-      <gallery-thumbnail class="thumbnail pointer  b--purple bw2" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
+      <gallery-thumbnail class="thumbnail pointer-styled b--purple bw2" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
         [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
 
       <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
@@ -18,10 +18,10 @@
       <div class="spacer h2"></div>
     </div>
 
-  <div class="dn" *ngIf="thumbnailsAllLoaded">
+  <!-- <div class="dn" *ngIf="thumbnailsAllLoaded">
     <div *ngFor="let thumbnail of thumbnails" class="">
       <div *ngIf="thumbnail.done===true">
         <img *ngFor="let pic of thumbnail.fourPics" class="w-10 mt2 o-50" [src]="pic">
       </div>
     </div>
-  </div>
+  </div> -->

@@ -44,7 +44,7 @@ export class GetGalleriesService {
           let style = flexString + animString + mobileQuery + gridLoaded.querySelector('style').innerHTML;
           let imgElements = gridLoaded.querySelectorAll("img");
           imgElements.forEach(item => {
-            item.className += "q pointer ";
+            item.className += "q pointer-styled";
           })
           //add strings to style tag
           gridLoaded.querySelector('style').innerHTML = style;

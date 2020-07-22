@@ -1,15 +1,15 @@
 <div id="fullWrapper" [@showtime]="showTime.state">
   <div id="header" class=" fixed w-100  flex flex-nowrap ">
-    <div class="w-10 flex justify-center items-center">
+    <div id="nav-icon"class="w-10 flex justify-center items-center">
       <img src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)"
-        class="absolute menu-button hover-grow pointer ph2" [@slideX]="getArrowState(outlet)"
+        class="absolute menu-button hover-grow pointer-styled ph2" [@slideX]="getArrowState(outlet)"
         [@xTurn]="getXTurnState(outlet)" />
       <div routerLink="/portfolio" class=" b--green absolute arrow" [@arrow]="getArrowState(outlet)">
-        <img src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer lightbox-fade" />
+        <img src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer-styled lightbox-fade" />
       </div>
     </div>
     <div id="innerHeader" class="relative w-80 flex flex-nowrap justify-between items-center">
-      <div id="site-title" class="o-80 lightbox-fade z5 fw2">Christian Doppelgatz</div>
+      <div id="site-title" class="o-80 lightbox-fade  fw2">Christian Doppelgatz</div>
     </div>
     <div class="w-10">
     </div>

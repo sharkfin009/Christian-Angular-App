@@ -3,7 +3,11 @@
   z-index:2;
   transition:opacity 0.5s ease-out;
   box-sizing:content-box;
+  pointer-events:none;
 
+}
+#nav-icon{
+  pointer-events:auto;
 }
 #site-title{
   font-size:30px;

@@ -46,81 +46,84 @@ export class PortfolioComponent implements OnInit {
   previousScrollValue: Object;
   thumbnailsAllLoaded: any;
 
-  constructor(private route: ActivatedRoute, private preloadPics: GetPreloadPicsService,) {}
+  constructor(private route: ActivatedRoute, private preloadPics: GetPreloadPicsService, ) {}
 
   ngOnInit(): void {
 
-      this.thumbnails = this.route.snapshot.data["thumbnails"];
-      this.preloadDiv = document.createElement("div");
-      this.thumbnails.forEach((item,index )=> {
-        item.showFlag = false;
-        this.preloadImage = new Image;
-        this.preloadImage.id = "pic" + index;
-        this.preloadDiv.appendChild(this.preloadImage);
-      })
-      //  // subscribe to get four pics per gallery
+    this.thumbnails = this.route.snapshot.data["thumbnails"];
+    this.preloadDiv = document.createElement("div");
+    this.thumbnails.forEach((item, index) => {
+      item.showFlag = false;
+      this.preloadImage = new Image;
+      this.preloadImage.id = "pic" + index;
+     // this.preloadImage.src=item.url;
+      this.preloadDiv.appendChild(this.preloadImage);
 
-    };
+    })
+    //  // subscribe to get four pics per gallery
+
+  };
 
 
-    hover(event) {
-      this.hoverEventObject = event;
-    };
+  hover(event) {
+    this.hoverEventObject = event;
+  };
 
-    onScroll(event) {
-      sessionStorage.setItem("scroll",
-        event.srcElement.scrollTop,
-      )
-    }
+  onScroll(event) {
+    sessionStorage.setItem("scroll",
+      event.srcElement.scrollTop,
+    )
+  }
 
-    ngAfterViewInit(){
-      if (!sessionStorage.getItem("firstLoad")){
-        this.loadLoop(0);
-      } else {
-        this.thumbnails.forEach(item=>{
-         setTimeout(()=>{ item.loadedUrl = item.url;
-        item.showFlag=true;
-        this.thumbnailsAllLoaded = true;})
-
+  ngAfterViewInit() {
+    if (!sessionStorage.getItem("firstLoad")) {
+      this.loadLoop(0);
+    } else {
+      this.thumbnails.forEach(item => {
+        setTimeout(() => {
+          item.loadedUrl = item.url;
+          item.showFlag = true;
         })
-      }
-      if (sessionStorage.getItem('scroll')) {
-      setTimeout(()=>{
+        this.thumbnailsAllLoaded = true;
+      })
+    }
+    if (sessionStorage.getItem('scroll')) {
+      setTimeout(() => {
         console.log(sessionStorage.getItem('scroll'))
         this.previousScrollValue = sessionStorage.getItem('scroll')
       })
-      };
+    };
 
-      this.thumbnails.forEach((thumbnail) => {
-        thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
-          array => {
-            thumbnail.fourPics = array;
-            thumbnail.done = true;
-          }
-        );
-      })
-    }
-
-    loadLoop(counter): void {
-      //break out if no more images
-      if (counter === this.thumbnails.length) {
-        this.thumbnailsAllLoaded = true;
-        sessionStorage.setItem("firstLoad","done")
-
-
-        return
-      }
-      //grab an image object
-      let img = < HTMLImageElement > this.preloadDiv.querySelector("#pic" + counter);
-      this.thumbnails[counter].loadedUrl = this.thumbnails[counter].url
-      img.onload = () => {
-        this.thumbnails[counter].showFlag = true;
-        this.loadLoop(counter + 1)
-      }
-      //load image
-     img.src = this.thumbnails[counter].url;
-    }
-
-
-
+    // this.thumbnails.forEach((thumbnail) => {
+    //   thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
+    //     array => {
+    //       thumbnail.fourPics = array;
+    //       thumbnail.done = true;
+    //     }
+    //   );
+    // })
   }
+
+  loadLoop(counter): void {
+    //break out if no more images
+    if (counter === this.thumbnails.length) {
+      this.thumbnailsAllLoaded = true;
+      sessionStorage.setItem("firstLoad", "done")
+
+
+      return
+    }
+    //grab an image object
+    let img = < HTMLImageElement > this.preloadDiv.querySelector("#pic" + counter);
+    // this.thumbnails[counter].loadedUrl = this.thumbnails[counter].url
+    img.onload = () => {
+      this.thumbnails[counter].showFlag = true;
+      this.loadLoop(counter + 1)
+    }
+    //load image
+    img.src = this.thumbnails[counter].url;
+  }
+
+
+
+}

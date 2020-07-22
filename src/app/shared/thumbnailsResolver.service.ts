@@ -1,4 +1,4 @@
-  import {
+    import {
   Injectable
 } from '@angular/core';
 import {
@@ -18,7 +18,7 @@ export class ThumbnailsResolverService implements Resolve < any > {
   resolve(route: ActivatedRouteSnapshot) {
    {
       return this.thumbnails.getThumbnails();
-    } 
+    }
 
   }
 }

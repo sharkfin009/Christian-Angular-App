@@ -176,7 +176,9 @@ import {
   arrowRight: string;
   nonce = 0;
   startFlag = false;
-  srcSets= [];
+  srcSets = [];
+  links: any;
+  loadLoopFired = false;
 
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
@@ -213,8 +215,9 @@ import {
     this.rightPic = document.querySelector("#rightPic");
     this.fader = document.querySelector("#fader");
     this.faderB = document.querySelector("#faderB");
+    this.links = document.querySelector("#close")
 
-    // this.preloadDiv = document.querySelector("#preloadDiv");
+
 
     //add click listeners to overlay
     this.left.addEventListener("click", this.browse.bind(this), false);
@@ -258,14 +261,17 @@ import {
 
 
     //load first pic
-     this.picsArray[0].src = this.picsArray[0].dataset.src;
-  //  this.picsArray[0].srcset = this.srcSets[0];
+    this.picsArray[0].src = this.picsArray[0].dataset.src;
+    this.picsArray[0].srcset = this.srcSets[0];
+    this.picsArray[1].src = this.picsArray[1].dataset.src;
+    this.picsArray[1].srcset = this.srcSets[1];
     //place load events on preload div to trigger anim according to position
   }
 
   scrollToTop(): void {
-    console.log("yip")
-    this.galleryWrapper.scrollTo(0,0)
+    this.galleryWrapper.style.scrollBehaviour = "smooth";
+    this.galleryWrapper.scrollTo(0, 0)
+
   }
 
   picsListenLoadAndObserve() {
@@ -294,10 +300,9 @@ import {
         let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
         observer.observe(item);
       }.bind(this)
-      if (index !== 0) {
+      if (index !== 0 || index !== 1) {
         item.src = item.dataset.src;
-      //  item.src = this.srcUrls[index];
-    // item.srcset = this.srcSets[index]
+        item.srcset = this.srcSets[index]
       }
       //place index in data att
       item.setAttribute("data-id", index);
@@ -325,12 +330,38 @@ import {
     });
   }
 
+  lightboxRecursiveLoad() {
+    this.loadLoopFired = true;
+    this.preloadDiv = document.createElement('div');
+    let loadLoop = (counter) => {
+      if (counter === this.picsArray.length) {
+        return
+      }
+      let preloadImage = new Image;
+      //set load listener on image
+      preloadImage.onload = ()=>{
+        let  src_1024 =  this.picsArray[counter].src + "?resize=1024%2C683&ssl=1"
+        this.preloadDiv.append(preloadImage);
+        this.picsArray.lightboxPicLoaded = src_1024;
+        loadLoop(counter +1 )
+      }
+      //load image
+      preloadImage.src = this.picsArray.lightboxPicLoaded
+    }
+    loadLoop(0);
+  }
+
   showLightbox(event) {
+    if (!this.loadLoopFired) {
+      this.lightboxRecursiveLoad()
+    }
+    this.galleryWrapper.classList.toggle('hide-scroll');
+    this.close.style.opacity = 0.8;
     this.clickBlock = true;
     this.lightboxFlag = true;
     this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id);
-    this.lightboxFade.forEach(item=>item.style.opacity = 0);
+    this.lightboxFade.forEach(item => item.style.opacity = 0);
     //hide arrows at start and end of pics
     if (this.picPointer === 0) {
       this.arrowLeft = "o-0";
@@ -351,9 +382,7 @@ import {
       this.lightbox.style.opacity = '1';
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
-      // this.renderedGrid.classList.remove("gridFadeOut");
       void this.renderedGrid.offsetWidth;
-      // this.renderedGrid.classList.add("gridFadeOut");
       this.renderedGrid.style.transition = "opacity 0.3s"
       this.renderedGrid.style.opacity = 0;
       this.clickBlock = false;
@@ -361,13 +390,14 @@ import {
 
     //put this pic in lightbox
     this.pic.src = this.srcUrls[this.picPointer];
-     this.pic.srcset = this.srcSets[this.picPointer];
+    //  this.pic.srcset = this.srcSets[this.picPointer];
 
     //set width of close,left and right elements
-    this.close.style.width = this.pic.offsetWidth + "px";
-    let sideWidth = (window.innerWidth - this.pic.offsetWidth) / 2;
-    this.left.style.width = sideWidth + "px";
-    this.right.style.width = sideWidth + "px";
+    // let sideWidth = (window.innerWidth - this.pic.offsetWidth) / 2;
+    // this.close.style.width = this.pic.offsetWidth + "px";
+
+    // this.left.style.width = sideWidth + "px";
+    // this.right.style.width = sideWidth + "px";
   }
 
   cumulativeOffset(element, index) {
@@ -406,7 +436,7 @@ import {
     }
     //work out 90% height and resultant width
     let aspectRatio = photo.width / photo.height;
-    let targetHeight = window.innerHeight * 0.9;
+    let targetHeight = window.innerHeight * 0.8;
     let targetWidth = targetHeight * aspectRatio;
 
     //work out zoom ratio
@@ -443,12 +473,10 @@ import {
   }
 
   resetScrollFade() {
-    console.log("reset 1")
     this.fadeFlag = "reload";
     this.crossFadeDone = true;
   }
   resetScrollFade2() {
-    console.log("reset 2")
     this.fadeFlag2 = "reload";
     this.crossFadeDone2 = true;
 
@@ -492,19 +520,15 @@ import {
       if (direction === "right" && this.picPointer < this.picsArray.length - 1) {
         this.picPointer += 1;
       }
-      console.log("direction:", direction)
-      console.log("picPointer:", this.picPointer);
-      console.log("crossfadeDone=", this.crossFadeDone);
-      console.log("crossfadeDone2=", this.crossFadeDone2)
+
       //update pic
       this.pic.src = this.picsArray[this.picPointer].src;
-      this.pic.srcset = this.srcSets[this.picPointer];
+      //this.pic.srcset = this.srcSets[this.picPointer];
 
       // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
       // check range again
       if (!this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
         this.picPointer >= 0) {
-        console.log('fire 2')
 
         if (this.picPointer === 0) {
           this.startFlag = true;
@@ -515,14 +539,14 @@ import {
           this.startFlag = false;
           this.nonce = 0;
           //move right with animation
-           this.faderB.src = this.picsArray[this.picPointer - 1].src;
-          // this.faderB.srcset = this.srcSets[this.picPointer -1];
+          this.faderB.src = this.picsArray[this.picPointer - 1].src;
+          //this.faderB.srcset = this.srcSets[this.picPointer -1];
           this.fadeFlag2 = "fire";
           this.crossFadeDone2 = false;
         }
         if (direction === "left") {
           let moveLeft = () => {
-             this.faderB.src = this.picsArray[this.picPointer + 1].src;
+            this.faderB.src = this.picsArray[this.picPointer + 1].src;
             // this.faderB.srcset = this.srcSets[this.picPointer +1];
             this.fadeFlag2 = "fire";
             this.crossFadeDone2 = false;
@@ -545,7 +569,6 @@ import {
       //check if 1st fade is done and range should be allowed
       if (this.crossFadeDone && this.picPointer < this.picsArray.length - 1 &&
         this.picPointer >= 0) {
-        console.log('fire 1')
         if (this.picPointer === 0) {
           this.startFlag = true;
         }
@@ -607,8 +630,9 @@ import {
 
 
   closeLightbox() {
+    this.galleryWrapper.classList.toggle('hide-scroll');
+    this.close.style.opacity = 0;
     if (this.clickBlock === true) {
-      console.log("catch")
       return;
     }
     //show grid
@@ -632,7 +656,7 @@ import {
     photo.style.transition = "none";
     photo.style.opacity = "1";
     photo.style.transform = "none";
-    this.lightboxFade.forEach(item=>item.style.opacity = 1);
+    this.lightboxFade.forEach(item => item.style.opacity = 1);
 
   }
 

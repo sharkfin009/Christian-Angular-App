@@ -45,7 +45,7 @@ export class GetPreloadPicsService {
               srcUrls.push(item.getAttribute('src'))
             }
           )
-          for (let i=0; i<2; i++){
+          for (let i=0; i<1; i++){
             if(srcUrls[1])
             fourPics.push(srcUrls[i]);
           }
