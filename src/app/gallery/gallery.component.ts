@@ -337,16 +337,20 @@ import {
       if (counter === this.picsArray.length) {
         return
       }
+      console.log("load loop , counter=", counter)
       let preloadImage = new Image;
+      let srcWithPrefix = this.picsArray[counter].src;
+      let src = srcWithPrefix.slice(8);
+      let src_1024 = "https://i0.wp.com/" + src + "?resize=768%2C512&ssl=1"
       //set load listener on image
-      preloadImage.onload = ()=>{
-        let  src_1024 =  this.picsArray[counter].src + "?resize=1024%2C683&ssl=1"
+      preloadImage.onload = () => {
         this.preloadDiv.append(preloadImage);
         this.picsArray.lightboxPicLoaded = src_1024;
-        loadLoop(counter +1 )
+        counter++;
+        loadLoop(counter)
       }
       //load image
-      preloadImage.src = this.picsArray.lightboxPicLoaded
+      preloadImage.src = src_1024;
     }
     loadLoop(0);
   }
@@ -389,7 +393,9 @@ import {
     }, 300)
 
     //put this pic in lightbox
-    this.pic.src = this.srcUrls[this.picPointer];
+    this.picsArray[this.picPointer].lightboxPicLoaded !== undefined ?
+      this.pic.src = this.picsArray[this.picPointer].lightboxPicLoaded :
+      this.pic.src = this.srcUrls[this.picPointer];
     //  this.pic.srcset = this.srcSets[this.picPointer];
 
     //set width of close,left and right elements
@@ -522,9 +528,9 @@ import {
       }
 
       //update pic
-      this.pic.src = this.picsArray[this.picPointer].src;
-      //this.pic.srcset = this.srcSets[this.picPointer];
-
+        this.picsArray[this.picPointer].lightboxPicLoaded !== undefined
+          ? (this.pic.src = this.picsArray[this.picPointer].lightboxPicLoaded)
+          : (this.pic.src = this.srcUrls[this.picPointer]);
       // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
       // check range again
       if (!this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
@@ -539,15 +545,19 @@ import {
           this.startFlag = false;
           this.nonce = 0;
           //move right with animation
-          this.faderB.src = this.picsArray[this.picPointer - 1].src;
-          //this.faderB.srcset = this.srcSets[this.picPointer -1];
+          this.picsArray[this.picPointer+1].lightboxPicLoaded !== undefined
+            ? (this.pic.src = this.picsArray[this.picPointer+1].lightboxPicLoaded)
+            : (this.pic.src = this.srcUrls[this.picPointer+1]);
           this.fadeFlag2 = "fire";
           this.crossFadeDone2 = false;
         }
         if (direction === "left") {
           let moveLeft = () => {
-            this.faderB.src = this.picsArray[this.picPointer + 1].src;
-            // this.faderB.srcset = this.srcSets[this.picPointer +1];
+            this.picsArray[this.picPointer-1].lightboxPicLoaded !== undefined
+              ? (this.pic.src = this.picsArray[
+                  this.picPointer-1
+                ].lightboxPicLoaded)
+              : (this.pic.src = this.srcUrls[this.picPointer-1]);
             this.fadeFlag2 = "fire";
             this.crossFadeDone2 = false;
             this.nonce++;
@@ -578,13 +588,21 @@ import {
           this.startFlag = false;
           this.nonce = 0;
           //move right with animation
-          this.fader.src = this.picsArray[this.picPointer - 1].src;
+            this.picsArray[this.picPointer+1].lightboxPicLoaded !== undefined
+              ? (this.pic.src = this.picsArray[
+                  this.picPointer+1
+                ].lightboxPicLoaded)
+              : (this.pic.src = this.srcUrls[this.picPointer+1]);
           this.fadeFlag = "fire";
           this.crossFadeDone = false;
         }
         if (direction === "left") {
           let moveLeft = () => {
-            this.fader.src = this.picsArray[this.picPointer + 1].src;
+              this.picsArray[this.picPointer-1].lightboxPicLoaded !== undefined
+                ? (this.pic.src = this.picsArray[
+                    this.picPointer-1
+                  ].lightboxPicLoaded)
+                : (this.pic.src = this.srcUrls[this.picPointer-1]);
             this.fadeFlag = "fire";
             this.crossFadeDone = false;
             this.nonce++;

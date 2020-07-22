@@ -1,6 +1,6 @@
 export interface Gallery {
     grid:any;
-    srcSetUrls: any;
+    srcSets: any;
     srcUrls: any;
   }
 
