@@ -8,7 +8,7 @@
     <div class="spacer1 "></div>
     <div id="renderedGrid" [innerHTML]="trustedGrid" class=" w-100 "></div>
     <div class="spacer2 flex justify-center w-100">
-      <img (click)="scrollToTop($event)" src="../assets/upArrao!.svg" width="22" class="pointer relative z-5 ph3 hover-grow mb4" />
+      <img (click)="scrollToTop()" src="../assets/upArrao!.svg" width="22" class="pointer relative z-5 ph3 hover-grow mb4" />
     </div>
 
   </div>
@@ -20,16 +20,16 @@
 <div id="overlay" class="w-100 absolute h-100 z-1 fixed flex justify-between">
   <div id="left" class=" h-100 left-arrow">
   </div>
-  <div id="close" class=" h-100 flex justify-between items-end pb4 ph6 o-0" (click)="closeLightbox($event)">
+  <div id="close" class=" h-100 flex justify-between items-end pb4 ph6 o-0" (click)="closeLightbox()">
     <span class="link pointer-styled">download image</span>
     <span  class="link pointer-styled">add to PDF lightbox</span>
   </div>
   <div id="right" class=" h-100 right-arrow"></div>
 </div>
-<div class="fixed w-100 h-100 flex o-0 justify-center items-center" id="lightbox">
-  <div id="picBox" class="bw2 b--yellow relative flex justify-center  o-100">
+<div class="fixed w-100 ba h-100 flex o-0 justify-center items-center" id="lightbox">
+  <div id="picBox" class=" relative flex justify-center  o-100">
 
-    <img class="absolute bw2 b--blue  lightboxImages" (@scrollFadeIn.done)="resetScrollFadeIn()" id="pic" />
+    <img class="  bw2 b--blue  lightboxImages" (@scrollFadeIn.done)="resetScrollFadeIn()" id="pic" />
 
     <img class="absolute bw2 b--yellow lightboxImages o-0" [@scrollFadeHide]="fadeFlag" (@scrollFadeHide.done)="resetScrollFade()"  id="fader" />
 

@@ -179,7 +179,7 @@ import {
   srcSets = [];
   links: any;
   loadLoopFired = false;
-
+  loadedLightboxPics = [];
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
@@ -215,7 +215,6 @@ import {
     this.rightPic = document.querySelector("#rightPic");
     this.fader = document.querySelector("#fader");
     this.faderB = document.querySelector("#faderB");
-    this.links = document.querySelector("#close")
 
 
 
@@ -250,7 +249,8 @@ import {
     //target DOM element containing santized grid as innerHTML
     this.renderedGrid = document.querySelector('#renderedGrid');
     // make nodelist of img's within grid
-    this.picsArray = this.renderedGrid.querySelectorAll('img');
+    let picNodelist = this.renderedGrid.querySelectorAll('img');
+    this.picsArray = Array.from(picNodelist)
 
     //set first pic load event handler
     this.picsArray[0].addEventListener("load", function () {
@@ -300,7 +300,7 @@ import {
         let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
         observer.observe(item);
       }.bind(this)
-      if (index !== 0 || index !== 1) {
+      if (index !== 0) {
         item.src = item.dataset.src;
         item.srcset = this.srcSets[index]
       }
@@ -332,6 +332,11 @@ import {
 
   lightboxRecursiveLoad() {
     this.loadLoopFired = true;
+    this.picsArray.forEach((item, index) => {
+      let src = item.src.slice(8);
+      this.loadedLightboxPics[index] = "https://i0.wp.com/" + src + "?resize=1740&ssl=1";
+
+    })
     this.preloadDiv = document.createElement('div');
     let loadLoop = (counter) => {
       if (counter === this.picsArray.length) {
@@ -339,18 +344,16 @@ import {
       }
       console.log("load loop , counter=", counter)
       let preloadImage = new Image;
-      let srcWithPrefix = this.picsArray[counter].src;
-      let src = srcWithPrefix.slice(8);
-      let src_1024 = "https://i0.wp.com/" + src + "?resize=768%2C512&ssl=1"
+
       //set load listener on image
       preloadImage.onload = () => {
         this.preloadDiv.append(preloadImage);
-        this.picsArray.lightboxPicLoaded = src_1024;
+
         counter++;
         loadLoop(counter)
       }
       //load image
-      preloadImage.src = src_1024;
+      preloadImage.src = this.loadedLightboxPics[counter];
     }
     loadLoop(0);
   }
@@ -358,7 +361,9 @@ import {
   showLightbox(event) {
     if (!this.loadLoopFired) {
       this.lightboxRecursiveLoad()
-    }
+    };
+    console.dir(this.loadedLightboxPics)
+
     this.galleryWrapper.classList.toggle('hide-scroll');
     this.close.style.opacity = 0.8;
     this.clickBlock = true;
@@ -393,9 +398,8 @@ import {
     }, 300)
 
     //put this pic in lightbox
-    this.picsArray[this.picPointer].lightboxPicLoaded !== undefined ?
-      this.pic.src = this.picsArray[this.picPointer].lightboxPicLoaded :
-      this.pic.src = this.srcUrls[this.picPointer];
+    this.pic.src = this.loadedLightboxPics[this.picPointer]
+
     //  this.pic.srcset = this.srcSets[this.picPointer];
 
     //set width of close,left and right elements
@@ -528,9 +532,12 @@ import {
       }
 
       //update pic
-        this.picsArray[this.picPointer].lightboxPicLoaded !== undefined
-          ? (this.pic.src = this.picsArray[this.picPointer].lightboxPicLoaded)
-          : (this.pic.src = this.srcUrls[this.picPointer]);
+
+      this.pic.src = this.loadedLightboxPics[this.picPointer]
+
+
+      //FADE WHEN CLICKING SLOWLY:
+
       // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
       // check range again
       if (!this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
@@ -545,21 +552,21 @@ import {
           this.startFlag = false;
           this.nonce = 0;
           //move right with animation
-          this.picsArray[this.picPointer+1].lightboxPicLoaded !== undefined
-            ? (this.pic.src = this.picsArray[this.picPointer+1].lightboxPicLoaded)
-            : (this.pic.src = this.srcUrls[this.picPointer+1]);
+
+          this.fader.src = this.loadedLightboxPics[this.picPointer - 1]
+
           this.fadeFlag2 = "fire";
           this.crossFadeDone2 = false;
         }
         if (direction === "left") {
           let moveLeft = () => {
-            this.picsArray[this.picPointer-1].lightboxPicLoaded !== undefined
-              ? (this.pic.src = this.picsArray[
-                  this.picPointer-1
-                ].lightboxPicLoaded)
-              : (this.pic.src = this.srcUrls[this.picPointer-1]);
-            this.fadeFlag2 = "fire";
-            this.crossFadeDone2 = false;
+
+
+            this.fader.src = this.loadedLightboxPics[
+              this.picPointer + 1];
+
+            this.fadeFlag = "fire";
+            this.crossFadeDone = false;
             this.nonce++;
           }
 
@@ -572,9 +579,11 @@ import {
             moveLeft()
           }
         }
-        this.fadeFlag2 = "fire";
-        this.crossFadeDone2 = false;
+        this.fadeFlag = "fire";
+        this.crossFadeDone = false;
       }
+
+      //BACKUP FADE IN CASE OF QUICK CLICK THROUGH
 
       //check if 1st fade is done and range should be allowed
       if (this.crossFadeDone && this.picPointer < this.picsArray.length - 1 &&
@@ -588,23 +597,20 @@ import {
           this.startFlag = false;
           this.nonce = 0;
           //move right with animation
-            this.picsArray[this.picPointer+1].lightboxPicLoaded !== undefined
-              ? (this.pic.src = this.picsArray[
-                  this.picPointer+1
-                ].lightboxPicLoaded)
-              : (this.pic.src = this.srcUrls[this.picPointer+1]);
-          this.fadeFlag = "fire";
-          this.crossFadeDone = false;
+          this.faderB.src = this.loadedLightboxPics[
+            this.picPointer - 1
+          ]
+
+          this.fadeFlag2 = "fire";
+          this.crossFadeDone2 = false;
         }
         if (direction === "left") {
           let moveLeft = () => {
-              this.picsArray[this.picPointer-1].lightboxPicLoaded !== undefined
-                ? (this.pic.src = this.picsArray[
-                    this.picPointer-1
-                  ].lightboxPicLoaded)
-                : (this.pic.src = this.srcUrls[this.picPointer-1]);
-            this.fadeFlag = "fire";
-            this.crossFadeDone = false;
+            this.faderB.src = this.loadedLightboxPics[
+              this.picPointer + 1
+            ]
+            this.fadeFlag2 = "fire";
+            this.crossFadeDone2 = false;
             this.nonce++;
           }
 

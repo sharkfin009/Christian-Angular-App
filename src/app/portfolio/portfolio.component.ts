@@ -94,14 +94,14 @@ export class PortfolioComponent implements OnInit {
       })
     };
 
-    // this.thumbnails.forEach((thumbnail) => {
-    //   thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
-    //     array => {
-    //       thumbnail.fourPics = array;
-    //       thumbnail.done = true;
-    //     }
-    //   );
-    // })
+    this.thumbnails.forEach((thumbnail) => {
+      thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
+        array => {
+          thumbnail.fourPics = array;
+          thumbnail.done = true;
+        }
+      );
+    })
   }
 
   loadLoop(counter): void {
