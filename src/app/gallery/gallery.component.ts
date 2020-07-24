@@ -485,16 +485,15 @@ import {
   resetScrollFade() {
     this.fadeFlag = "reload";
     this.crossFadeDone = true;
+    console.log("reset 1")
   }
   resetScrollFade2() {
     this.fadeFlag2 = "reload";
     this.crossFadeDone2 = true;
+    console.log("reset 2")
 
   }
-  resetScrollFadeIn() {
-    this.fadeInFlag = "reload";
 
-  }
 
 
   browse(param) {
@@ -523,7 +522,7 @@ import {
       this.picPointer <= this.picsArray.length - 1 &&
       this.picPointer >= 0) {
 
-      //adjust pointer with direction
+      //adjust pointer according to direction
       if (direction === "left" && this.picPointer > 0) {
         this.picPointer -= 1;
       }
@@ -534,60 +533,15 @@ import {
       //update pic
 
       this.pic.src = this.loadedLightboxPics[this.picPointer]
+      console.log(this.picPointer,this.crossFadeDone)
 
-
-      //FADE WHEN CLICKING SLOWLY:
-
-      // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
-      // check range again
-      if (!this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
-        this.picPointer >= 0) {
-
-        if (this.picPointer === 0) {
-          this.startFlag = true;
-        }
-        //check direction and put previous pic in front to fade out according to direction
-        if (direction === "right") {
-          //manage first pic
-          this.startFlag = false;
-          this.nonce = 0;
-          //move right with animation
-
-          this.fader.src = this.loadedLightboxPics[this.picPointer - 1]
-
-          this.fadeFlag2 = "fire";
-          this.crossFadeDone2 = false;
-        }
-        if (direction === "left") {
-          let moveLeft = () => {
-
-
-            this.fader.src = this.loadedLightboxPics[
-              this.picPointer + 1];
-
-            this.fadeFlag = "fire";
-            this.crossFadeDone = false;
-            this.nonce++;
-          }
-
-          //manage first pic
-          if (this.startFlag === true && this.nonce === 0) {
-            this.nonce++;
-            moveLeft()
-          }
-          if (this.startFlag === false) {
-            moveLeft()
-          }
-        }
-        this.fadeFlag = "fire";
-        this.crossFadeDone = false;
-      }
 
       //BACKUP FADE IN CASE OF QUICK CLICK THROUGH
 
-      //check if 1st fade is done and range should be allowed
-      if (this.crossFadeDone && this.picPointer < this.picsArray.length - 1 &&
+      //check if 1st fade is not done, if the second fade IS done and range should be allowed
+      if (!this.crossFadeDone  && this.picPointer < this.picsArray.length - 1 &&
         this.picPointer >= 0) {
+          console.log("B")
         if (this.picPointer === 0) {
           this.startFlag = true;
         }
@@ -624,6 +578,56 @@ import {
           }
         }
       }
+
+
+      //FADE WHEN CLICKING SLOWLY:
+
+      // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
+      // check range again
+      if (this.crossFadeDone  && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
+        this.picPointer >= 0) {
+          console.log("A")
+        if (this.picPointer === 0) {
+          this.startFlag = true;
+        }
+        //check direction and put previous pic in front to fade out according to direction
+        if (direction === "right") {
+          //manage first pic
+          this.startFlag = false;
+          this.nonce = 0;
+          //move right with animation
+
+          this.fader.src = this.loadedLightboxPics[this.picPointer - 1]
+
+          this.fadeFlag = "fire";
+          this.crossFadeDone = false;
+        }
+        if (direction === "left") {
+          let moveLeft = () => {
+
+
+            this.fader.src = this.loadedLightboxPics[
+              this.picPointer + 1];
+
+            this.fadeFlag = "fire";
+            this.crossFadeDone = false;
+            this.nonce++;
+          }
+
+          //manage first pic
+          if (this.startFlag === true && this.nonce === 0) {
+            this.nonce++;
+            moveLeft()
+          }
+          if (this.startFlag === false) {
+            moveLeft()
+          }
+        }
+        this.fadeFlag = "fire";
+        this.crossFadeDone = false;
+      }
+
+
 
 
 

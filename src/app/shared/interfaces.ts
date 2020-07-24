@@ -10,6 +10,7 @@ export interface Gallery {
     names:string;
     thumb: string;
     url:string;
+    showFlag: boolean;
  }
 
  export interface Commission {

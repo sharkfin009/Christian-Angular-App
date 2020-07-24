@@ -23,6 +23,7 @@ import {
 import {
   GetPreloadPicsService
 } from '../shared/getPreloadPics.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -33,7 +34,7 @@ import {
 })
 
 export class PortfolioComponent implements OnInit {
-  thumbnails = [];
+  thumbnails: Object;
   hoverEventObject = {
     hover: "",
     title: '',
@@ -46,21 +47,10 @@ export class PortfolioComponent implements OnInit {
   previousScrollValue: Object;
   thumbnailsAllLoaded: any;
 
-  constructor(private route: ActivatedRoute, private preloadPics: GetPreloadPicsService, ) {}
+  constructor(private route: ActivatedRoute, private preloadPics: GetPreloadPicsService, private thumbnailsService: GetThumbnailsService) {}
 
   ngOnInit(): void {
 
-    this.thumbnails = this.route.snapshot.data["thumbnails"];
-    this.preloadDiv = document.createElement("div");
-    this.thumbnails.forEach((item, index) => {
-      item.showFlag = false;
-      this.preloadImage = new Image;
-      this.preloadImage.id = "pic" + index;
-     // this.preloadImage.src=item.url;
-      this.preloadDiv.appendChild(this.preloadImage);
-
-    })
-    //  // subscribe to get four pics per gallery
 
   };
 
@@ -76,32 +66,48 @@ export class PortfolioComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    if (!sessionStorage.getItem("firstLoad")) {
-      this.loadLoop(0);
-    } else {
-      this.thumbnails.forEach(item => {
-        setTimeout(() => {
-          item.loadedUrl = item.url;
-          item.showFlag = true;
-        })
-        this.thumbnailsAllLoaded = true;
-      })
-    }
-    if (sessionStorage.getItem('scroll')) {
-      setTimeout(() => {
-        console.log(sessionStorage.getItem('scroll'))
-        this.previousScrollValue = sessionStorage.getItem('scroll')
-      })
-    };
 
-    this.thumbnails.forEach((thumbnail) => {
-      thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
-        array => {
-          thumbnail.fourPics = array;
-          thumbnail.done = true;
-        }
-      );
+    this.thumbnailsService.getThumbnails().subscribe(thumbnails=>{
+      console.dir(thumbnails);
+      this.preloadDiv = document.createElement("div");
+      thumbnails.forEach((item, index) => {
+        item.showFlag = false;
+        this.preloadImage = new Image;
+        this.preloadImage.id = "pic" + index;
+       // this.preloadImage.src=item.url;
+        this.preloadDiv.appendChild(this.preloadImage);
+
+      })
     })
+
+  //
+    // if (!sessionStorage.getItem("firstLoad")) {
+    //   this.loadLoop(0);
+    // } else {
+    //   this.thumbnails.forEach(item => {
+    //     setTimeout(() => {
+    //       item.loadedUrl = item.url;
+    //       item.showFlag = true;
+    //     })
+    //     this.thumbnailsAllLoaded = true;
+    //   })
+    // }
+
+    // if (sessionStorage.getItem('scroll')) {
+    //   setTimeout(() => {
+    //     console.log(sessionStorage.getItem('scroll'))
+    //     this.previousScrollValue = sessionStorage.getItem('scroll')
+    //   })
+    // };
+
+    // this.thumbnails.forEach((thumbnail) => {
+    //   thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(
+    //     array => {
+    //       thumbnail.fourPics = array;
+    //       thumbnail.done = true;
+    //     }
+    //   );
+    // })
   }
 
   loadLoop(counter): void {

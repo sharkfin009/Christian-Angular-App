@@ -29,11 +29,11 @@
 <div class="fixed w-100 ba h-100 flex o-0 justify-center items-center" id="lightbox">
   <div id="picBox" class=" relative flex justify-center  o-100">
 
-    <img class="  bw2 b--blue  lightboxImages" (@scrollFadeIn.done)="resetScrollFadeIn()" id="pic" />
+    <img class="  bw2 b--blue  lightboxImages"  id="pic" />
 
     <img class="absolute bw2 b--yellow lightboxImages o-0" [@scrollFadeHide]="fadeFlag" (@scrollFadeHide.done)="resetScrollFade()"  id="fader" />
 
-    <img class="absolute bw2 b--red lightboxImages o-0" [@scrollFadeHide2]="fadeFlag2" (@scrollFadeHide2.done)="resetScrollFade2()"
+    <img class="absolute  bw2 b--red lightboxImages o-0" [@scrollFadeHide2]="fadeFlag2" (@scrollFadeHide2.done)="resetScrollFade2()"
       id="faderB" />
 
 

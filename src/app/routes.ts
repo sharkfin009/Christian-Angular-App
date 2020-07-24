@@ -31,9 +31,9 @@ import { CommissionComponent } from './commission/commission.component';
 export const appRoutes: Routes = [{
     path: 'portfolio',
     component: PortfolioComponent,
-    resolve: {
-      thumbnails: ThumbnailsResolverService,
-    },
+    // resolve: {
+    //   thumbnails: ThumbnailsResolverService,
+    // },
     data: {
       view: 'portfolio',
       title: "Portfolio",

@@ -1,12 +1,11 @@
-<div id="port-frame" class="relative bw2 b--yellow w-100 flex justify-center" (scroll)="onScroll($event)" [scrollTop]="previousScrollValue">
+<div id="port-frame" class="relative bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll($event)" [scrollTop]="previousScrollValue">
 
 
-    <div class="relative thumbs-box h-100 w-80 ">
+    <div class="relative  thumbs-box w-80 pb7">
       <gallery-thumbnail class="thumbnail pointer-styled b--purple bw2" (hover)="hover($event)" *ngFor="let thumbnail of thumbnails"
         [thumbnail]="thumbnail" [hoverCompute]="hoverEventObject"></gallery-thumbnail>
 
       <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
-
         <div id="text" class="w-60 black">
           <div class=" w-100 " [ngClass]="hoverEventObject.hover" id="names">{{hoverEventObject.names}}</div>
           <div class="mt4  w-100" [ngClass]="hoverEventObject.hover" id="title">{{hoverEventObject.title}}
@@ -15,13 +14,13 @@
           </div>
         </div>
       </div>
-      <div class="spacer h2"></div>
+      <div class="spacer "></div>
     </div>
 
-  <!-- <div class="dn" *ngIf="thumbnailsAllLoaded">
+  <div class="dn" *ngIf="thumbnailsAllLoaded">
     <div *ngFor="let thumbnail of thumbnails" class="">
       <div *ngIf="thumbnail.done===true">
         <img *ngFor="let pic of thumbnail.fourPics" class="w-10 mt2 o-50" [src]="pic">
       </div>
     </div>
-  </div> -->
+  </div>
