@@ -3,15 +3,35 @@
   height: 400vh;
   overflow:scroll;
 }
+@media only screen and ( min-width:0px){
+  .thumbs-box {
+    display: flex;
+   justify-content: space-around;
+   flex-wrap: wrap;
 
-
-.thumbs-box {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  column-gap: 140px;
-  row-gap: 140px;
-
+  }
 }
+
+
+@media only screen and ( min-width:1252px){
+  .thumbs-box {
+    display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+
+  }
+}
+
+@media only screen and ( min-width:1440px){
+  .thumbs-box {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 140px;
+    row-gap: 140px;
+  }
+}
+
+
 .spacer{
   height:273vh
 }

@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 export interface Gallery {
     grid:any;
     srcSets: any;
@@ -11,6 +13,7 @@ export interface Gallery {
     thumb: string;
     url:string;
     showFlag: boolean;
+    obs$:any;
  }
 
  export interface Commission {

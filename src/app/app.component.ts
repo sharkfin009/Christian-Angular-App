@@ -25,7 +25,7 @@ import {
 import {
   Location
 } from "@angular/common";
-import { GetThumbnailsService } from './shared/getThumbnails.service';
+
 import FontFaceObserver from "fontfaceobserver";
 import { GetCommissionsService } from './shared/get-commissions.service';
     import LogRocket from "logrocket";
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
   fullWrapper: any;
   showTime = {state:"initial"};
   @Input('thumbs') thumbStore=[];
-  constructor(private route: ActivatedRoute, private router: Router, public location: Location, private thumbs: GetThumbnailsService,private getCommissions: GetCommissionsService,) {}
+  constructor(private route: ActivatedRoute, private router: Router, public location: Location) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
@@ -113,14 +113,14 @@ export class AppComponent implements OnInit {
       }
     }));
     //get thumbnails
-    this.thumbs.getThumbnails().subscribe();
-     this.getCommissions.getCommissionsThumbnailLayout().subscribe(
-      (obj)=>{
-        let url = obj.srcUrls[0];
-        let img1 = document.createElement('img');
-        img1.src = url;
-      }
-    )
+    // this.thumbs.getThumbnails().subscribe();
+    //  this.getCommissions.getCommissionsThumbnailLayout().subscribe(
+    //   (obj)=>{
+    //     let url = obj.srcUrls[0];
+    //     let img1 = document.createElement('img');
+    //     img1.src = url;
+    //   }
+    // )
   }
   ngAfterViewInit() {
     // this.fullWrapper = document.querySelector("#fullWrapper");

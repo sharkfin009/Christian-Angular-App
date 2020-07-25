@@ -1,8 +1,45 @@
 
+
+@media only screen and ( min-width:0px) {
+
+  #thumbnail {
+    border: 2px dashed green;
+    transition: opacity 0.5s ease-out;
+    width:300px;
+    height:200px;
+    margin-right: 2em;
+    margin-bottom: 4em;
+  }
+}
+
+@media only screen and ( min-width:1440px) {
+
+  #thumbnail {
+    border: 2px dashed red;
+    transition: opacity 0.5s ease-out;
+    width: 300px;
+    height:200px;
+  }
+}
+@media
+only screen and (-webkit-min-device-pixel-ratio: 1.25),
+only screen and ( min--moz-device-pixel-ratio: 1.25),
+only screen and ( -o-min-device-pixel-ratio: 1.25/1),
+only screen and ( min-device-pixel-ratio: 1.25),
+only screen and ( min-resolution: 200dpi),
+only screen and ( min-resolution: 1.25dppx)
+{
+  #thumbnail {
+    border: 2px dashed blue;
+    width: 300px;
+    height:200px;
+  }
+}
 #thumbnail {
   transition: opacity 0.5s ease-out;
 
 }
+
 .paleOn {
   opacity: 0.2;
 }
@@ -11,6 +48,6 @@
   opacity: 1;
 }
 
-.thisIsHoveredThumbnail{
-  opacity: 1!important
+.thisIsHoveredThumbnail {
+  opacity: 1 !important
 }

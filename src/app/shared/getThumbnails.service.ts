@@ -8,14 +8,13 @@ import {
 } from '@angular/common/http';
 import { shareReplay, tap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
 import { GalleryThumb } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetThumbnailsService {
-   private galleriesUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/bens_custom_endpoint/v1/getThumbnails";
+   private galleriesUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/thumbnails_endpoint/v1/thumbs";
   thumbnails$:Observable<GalleryThumb[]>;
 
    constructor(private http: HttpClient) {
@@ -27,7 +26,7 @@ export class GetThumbnailsService {
    }
 
   getThumbnails():Observable<GalleryThumb[]>{
-    return this.http.get<GalleryThumb[]>(this.galleriesUrl)
+    return this.http.get<GalleryThumb[]>(this.galleriesUrl )
   .pipe(
 
     shareReplay(1)
