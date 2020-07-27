@@ -22,7 +22,7 @@ import {
 })
 export class GetPreloadPicsService {
   // private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGalleries";
-  private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGallery/";
+  private apiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGallery/";
   galleries$: Observable < any > ;
   constructor(private http: HttpClient) {
 

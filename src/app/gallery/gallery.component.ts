@@ -193,8 +193,6 @@ import {
     this.srcUrls = this.gallery.srcUrls;
     this.srcSets = this.gallery.srcSets;
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gallery.grid);
-    console.dir(this.srcUrls);
-    console.dir(this.gallery)
 
   }
 
@@ -221,7 +219,6 @@ import {
     //add click listeners to overlay
     this.left.addEventListener("click", this.browse.bind(this), false);
     this.left.direction = "left";
-    console.dir(this.left)
     this.right.addEventListener("click", this.browse.bind(this), false);
     this.right.direction = "right";
 
@@ -251,7 +248,11 @@ import {
     // make nodelist of img's within grid
     let picNodelist = this.renderedGrid.querySelectorAll('img');
     this.picsArray = Array.from(picNodelist)
+    this.picsArray.forEach((item, index) => {
+      let src = item.dataset.src.slice(8);
+      this.loadedLightboxPics[index] = "https://i0.wp.com/" + src + "?resize=1740&ssl=1";
 
+    })
     //set first pic load event handler
     this.picsArray[0].addEventListener("load", function () {
       this.picsArray[0].style.opacity = 1;
@@ -332,17 +333,12 @@ import {
 
   lightboxRecursiveLoad() {
     this.loadLoopFired = true;
-    this.picsArray.forEach((item, index) => {
-      let src = item.src.slice(8);
-      this.loadedLightboxPics[index] = "https://i0.wp.com/" + src + "?resize=1740&ssl=1";
 
-    })
     this.preloadDiv = document.createElement('div');
     let loadLoop = (counter) => {
       if (counter === this.picsArray.length) {
         return
       }
-      console.log("load loop , counter=", counter)
       let preloadImage = new Image;
 
       //set load listener on image
@@ -359,10 +355,10 @@ import {
   }
 
   showLightbox(event) {
+
     if (!this.loadLoopFired) {
       this.lightboxRecursiveLoad()
     };
-    console.dir(this.loadedLightboxPics)
 
     this.galleryWrapper.classList.toggle('hide-scroll');
     this.close.style.opacity = 0.8;
@@ -384,30 +380,35 @@ import {
     }
 
     this.picZoom(event.target);
+
     //show lightbox after transition to hide renderedGrid
     setTimeout(() => {
       this.arrowFrame.style.opacity = 0;
-      this.lightbox.style.transition = "opacity 0.05s";
+      this.lightbox.style.transition = "none";
       this.lightbox.style.opacity = '1';
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
       void this.renderedGrid.offsetWidth;
-      this.renderedGrid.style.transition = "opacity 0.3s"
+      this.renderedGrid.style.transition = "opacity 1s ease-in-out"
       this.renderedGrid.style.opacity = 0;
       this.clickBlock = false;
+
     }, 300)
+    //set onload event
+    this.pic.onload = () => {
+      if (this.pic.src === this.loadedLightboxPics[this.picPointer]) {
+        console.log('hi res load')
 
-    //put this pic in lightbox
-    this.pic.src = this.loadedLightboxPics[this.picPointer]
+        return
+      }
+      console.log(this.pic.src)
 
-    //  this.pic.srcset = this.srcSets[this.picPointer];
+      }
 
-    //set width of close,left and right elements
-    // let sideWidth = (window.innerWidth - this.pic.offsetWidth) / 2;
-    // this.close.style.width = this.pic.offsetWidth + "px";
-
-    // this.left.style.width = sideWidth + "px";
-    // this.right.style.width = sideWidth + "px";
+      //put backup pic in lightbox
+      //this.pic.src = event.target.src
+      //put this pic in lightbox
+      this.pic.src = this.loadedLightboxPics[this.picPointer];
   }
 
   cumulativeOffset(element, index) {
@@ -485,12 +486,10 @@ import {
   resetScrollFade() {
     this.fadeFlag = "reload";
     this.crossFadeDone = true;
-    console.log("reset 1")
   }
   resetScrollFade2() {
     this.fadeFlag2 = "reload";
     this.crossFadeDone2 = true;
-    console.log("reset 2")
 
   }
 
@@ -533,15 +532,13 @@ import {
       //update pic
 
       this.pic.src = this.loadedLightboxPics[this.picPointer]
-      console.log(this.picPointer,this.crossFadeDone)
 
 
       //BACKUP FADE IN CASE OF QUICK CLICK THROUGH
 
       //check if 1st fade is not done, if the second fade IS done and range should be allowed
-      if (!this.crossFadeDone  && this.picPointer < this.picsArray.length - 1 &&
+      if (!this.crossFadeDone && this.picPointer < this.picsArray.length - 1 &&
         this.picPointer >= 0) {
-          console.log("B")
         if (this.picPointer === 0) {
           this.startFlag = true;
         }
@@ -584,9 +581,8 @@ import {
 
       // if scroll is fired before last scroll fade anim is finished, fire the backup fade anim
       // check range again
-      if (this.crossFadeDone  && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
+      if (this.crossFadeDone && this.crossFadeDone2 && this.picPointer < this.picsArray.length - 1 &&
         this.picPointer >= 0) {
-          console.log("A")
         if (this.picPointer === 0) {
           this.startFlag = true;
         }

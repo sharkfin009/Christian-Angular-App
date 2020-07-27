@@ -15,6 +15,7 @@ export interface Gallery {
     showFlag: boolean;
     obs$:any;
     count:string;
+    cachedUrl:string;
  }
 
  export interface Commission {

@@ -9,7 +9,8 @@ import {
   ViewChildren,
   QueryList,
   ElementRef,
-  ViewContainerRef
+  ViewContainerRef,
+  TemplateRef
 } from '@angular/core';
 import {
   ActivatedRoute
@@ -47,11 +48,12 @@ import {
 
 })
 
-export class PortfolioComponent implements AfterViewInit {
+export class PortfolioComponent implements OnInit, AfterViewInit {
   @ViewChildren(GalleryThumbnailComponent, {
     read: ViewContainerRef
-  }) thumbBoxes: QueryList<ViewContainerRef>;
+  }) thumbBoxes: QueryList < ViewContainerRef > ;
   thumbnails = [];
+  prepClass = "";
   hoverEventObject = {
     hover: "",
     title: '',
@@ -63,6 +65,9 @@ export class PortfolioComponent implements AfterViewInit {
   previousScrollValue: Object;
   thumbnailsAllLoaded: any;
   elements: any;
+  cachedFlag: boolean = false;
+
+
 
   constructor(private route: ActivatedRoute, private preloadPics: GetPreloadPicsService, private thumbnailsService: GetThumbnailsService) {}
 
@@ -83,55 +88,83 @@ export class PortfolioComponent implements AfterViewInit {
     });
   }
 
+  ngOnInit() {
+
+
+  }
+
   ngAfterViewInit() {
-    this.thumbnailsService.getThumbnails().subscribe(thumbs => {
-      thumbs.forEach((item, index) => {
-        item.count = `number-${index}`;
-      })
-
-      this.thumbnails = thumbs;
-      this.thumbBoxes.changes.subscribe(item => {
-        this.elements=item.toArray();
-        orchestrate(thumbs);
-       });
-    });
-
-    let orchestrate = async (thumbs) => {
-
-      this.thumbnails.forEach((item, index) => {
-        let thumbClass = `.number-${index}`;
-        let img = this.elements[index]._data.renderElement.children[0].children[0];
-         item.img = img;
-         let imgPromise = this.onload2Promise(img);
-         item.imgPromise = imgPromise;
-      });
-      console.dir(this.thumbnails);
-      let recursive = (count) => {
-        this.thumbnails[count].img.src = this.thumbnails[count].url;
-        this.thumbnails[count].imgPromise.then(data => {
-          this.thumbnails[count].img.style.opacity = "1";
-          count++;
-          recursive(count);
-         })
-      }
-      recursive(0);
-    }
-
-
-    if (!sessionStorage.getItem("firstLoad")) {
-
-    } else {
-
-    }
+    // reset scroll after render
     if (sessionStorage.getItem('scroll')) {
+      console.log(sessionStorage.getItem('scroll'));
       setTimeout(() => {
         console.log(sessionStorage.getItem('scroll'))
         this.previousScrollValue = sessionStorage.getItem('scroll')
       })
     };
 
+    //check if this is not first time. if not, load instantly from cache so that route animation looks good
+    //so if cache is there, skip consecutive load and animation
+    if (sessionStorage.getItem("firstLoad") === "no") {
+      this.thumbnailsService.getThumbnails().subscribe(thumbs => {
+        this.cachedFlag = true;
+        this.thumbnails = thumbs;
+        console.log("if cached - thumbnails:", this.thumbnails)
+        this.cacheGalleyMarkup();
+      })
+      return
+    } else {
+      sessionStorage.setItem("firstLoad", 'no');
+      this.prepClass = "prepareForAnim";
+      this.getThumbsForAnim();
+    }
+
+
+  }
+  getThumbsForAnim() {
+    console.log(" first time")
+
+    this.thumbnailsService.getThumbnails().subscribe(thumbs => {
+      this.thumbnails = thumbs;
+      this.thumbBoxes.changes.subscribe(item => {
+        this.elements = item.toArray();
+        this.loadWithAnim(thumbs);
+      });
+    });
+  }
+  loadWithAnim(thumbs) {
+
+    this.thumbnails.forEach((item, index) => {
+      let img = this.elements[index]._data.renderElement.children[0].children[0];
+      item.img = img;
+      let imgPromise = this.onload2Promise(img);
+      item.imgPromise = imgPromise;
+    });
+
+    let recursive = (count) => {
+      if (count  === this.thumbnails.length) {
+        this.cacheGalleyMarkup();
+        return
+      };
+
+      this.thumbnails[count].img.src = this.thumbnails[count].url;
+      this.thumbnails[count].imgPromise.then(data => {
+
+        this.thumbnails[count].img.style.opacity = "1";
+        this.thumbnails[count].img.style.transform = "translateY(0px)";
+        console.log(count)
+        count++;
+        recursive(count);
+      })
+    }
+
+    recursive(0);
+
+  }
+  cacheGalleyMarkup(){
     this.thumbnails.forEach((thumbnail) => {
-      thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe();
+      thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(item=>console.dir(item));
     })
   }
+
 }

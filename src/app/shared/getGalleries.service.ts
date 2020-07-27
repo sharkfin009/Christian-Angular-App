@@ -69,8 +69,7 @@ export class GetGalleriesService {
           wrapper.appendChild(gridLoaded);
           let gridString = wrapper.innerHTML;
 
-          console.log("wrapper:")
-          console.dir(wrapper)
+          
           return {
             grid: gridString,
             srcSets: srcSets,

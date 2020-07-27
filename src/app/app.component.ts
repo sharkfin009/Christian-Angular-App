@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
     return outlet.activatedRouteData['view'];
   }
   ngOnInit() {
-    LogRocket.init("k9inbd/doppelgatz");
+    // LogRocket.init("k9inbd/doppelgatz");
     this.XXHaasObserver = new FontFaceObserver('XXHaas');
     this.XXHaasObserver.load().then( ()=> {
       this.showTime.state = "final";
@@ -115,7 +115,7 @@ export class AppComponent implements OnInit {
 
   }
   ngAfterViewInit() {
- 
+
 
 
   }

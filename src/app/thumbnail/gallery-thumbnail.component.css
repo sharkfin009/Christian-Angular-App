@@ -1,10 +1,14 @@
 
-
+prepareForAnim{
+  opacity:0;
+  transform: translateY(100px);
+  transition: transform 1s ease-in;
+}
 
 
 
 #thumbnail {
-  transition: opacity 0.5s ease-out;
+
   width: 100%;
   height:100%;
 }
