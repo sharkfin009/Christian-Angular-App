@@ -14,7 +14,7 @@ import { GalleryThumb } from './interfaces';
   providedIn: 'root'
 })
 export class GetThumbnailsService {
-   private galleriesUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/thumbnails_endpoint/v1/thumbs";
+   private galleriesUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/thumbnails_endpoint/v1/thumbs";
   thumbnails$:Observable<GalleryThumb[]>;
 
    constructor(private http: HttpClient) {

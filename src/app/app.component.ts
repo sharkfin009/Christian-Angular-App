@@ -112,19 +112,10 @@ export class AppComponent implements OnInit {
 
       }
     }));
-    //get thumbnails
-    // this.thumbs.getThumbnails().subscribe();
-    //  this.getCommissions.getCommissionsThumbnailLayout().subscribe(
-    //   (obj)=>{
-    //     let url = obj.srcUrls[0];
-    //     let img1 = document.createElement('img');
-    //     img1.src = url;
-    //   }
-    // )
+
   }
   ngAfterViewInit() {
-    // this.fullWrapper = document.querySelector("#fullWrapper");
-    // this.fullWrapper.style.opacity = 1;
+ 
 
 
   }

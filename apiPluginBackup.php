@@ -30,28 +30,6 @@ function my_lg_enqueue_scripts(){
   }
 
 
-add_action( 'wp_enqueue_scripts', 'my_lg_enqueue_scripts' );
-
-	//create array of galleries in order
-function makeGalleriesArray(){
-  $args = [
-    "numberposts" => 9999,
-    "post_type" => "gallery",
-    "category" => '0',
-  ];
-  $galleries = get_posts( $args );
-  $sort = [];
-  $i = 0;
-
-  foreach($galleries as $gallery){
-    if ($gallery->post_name != "showcase"){
-      $sort[$i]['title'] = $gallery->post_title;
-      $sort[$i]['url'] = get_the_post_thumbnail_url($gallery->$post->ID,"medium");
-      $sort[$i]['order_field'] = get_post_meta($post->ID,"order_field",true);
-      $sort[$i]['names' ] = get_post_meta($post->ID,'names',true);
-      $i++;
-  }
-}
 
 if( empty($galleries)) return null;
 
@@ -121,7 +99,7 @@ add_action( 'rest_api_init', function () {
   foreach($galleries as $gallery){
     if ($gallery->post_name != "showcase"){
       $sort[$i]['title'] = $gallery->post_title;
-      $sort[$i]['url'] = get_the_post_thumbnail_url($gallery->$ID,"medium");
+      $sort[$i]['url'] = get_the_post_thumbnail _url($gallery->$ID,"portfolio-thumb");
       $sort[$i]['order_field'] = get_post_meta($gallery->ID,"order_field",true);
       $sort[$i]['names' ] = get_post_meta($gallery->ID,'names',true);
       $i++;

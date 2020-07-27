@@ -14,6 +14,7 @@ export interface Gallery {
     url:string;
     showFlag: boolean;
     obs$:any;
+    count:string;
  }
 
  export interface Commission {

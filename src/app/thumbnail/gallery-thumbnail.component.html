@@ -1,8 +1,6 @@
-<div class="nil ba b--blue bw2" [routerLink]="['/gallery',thumbnail.slug]" id="thumbnail" [ngClass]="hoverDecide(hoverCompute)"
+<div id="thumbnail" class="  b--blue bw2" [routerLink]="['/gallery',thumbnail.slug]"  [ngClass]="hoverDecide(hoverCompute)"
   class="relative">
-  <img  (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="relative"
-
-    [src]="thumbnail.loadedUrl"
+  <img  (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" ngClass="thumbnail.count" class=" relative"
      [@simpleFadeAnimation]="thumbnail.showFlag"
     />
 
