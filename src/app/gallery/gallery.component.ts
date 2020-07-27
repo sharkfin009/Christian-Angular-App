@@ -344,12 +344,13 @@ import {
       //set load listener on image
       preloadImage.onload = () => {
         this.preloadDiv.append(preloadImage);
-
+        this.picsArray[counter].fullResLoadedFlag = true;
         counter++;
         loadLoop(counter)
       }
       //load image
       preloadImage.src = this.loadedLightboxPics[counter];
+
     }
     loadLoop(0);
   }
@@ -359,6 +360,8 @@ import {
     if (!this.loadLoopFired) {
       this.lightboxRecursiveLoad()
     };
+
+
 
     this.galleryWrapper.classList.toggle('hide-scroll');
     this.close.style.opacity = 0.8;
@@ -401,14 +404,20 @@ import {
 
         return
       }
-      console.log(this.pic.src)
+      if (this.pic.src === event.target.currentSrc) {
+        console.log('lo res load')
+        this.pic.src = this.loadedLightboxPics[this.picPointer];
 
+
+        return
       }
 
-      //put backup pic in lightbox
-      //this.pic.src = event.target.src
-      //put this pic in lightbox
-      this.pic.src = this.loadedLightboxPics[this.picPointer];
+    }
+
+    //put backup pic in lightbox
+    console.log(event.target.currentSrc)
+    this.pic.src = event.target.currentSrc
+    //put this pic in lightbox
   }
 
   cumulativeOffset(element, index) {
@@ -530,8 +539,11 @@ import {
       }
 
       //update pic
-
-      this.pic.src = this.loadedLightboxPics[this.picPointer]
+      if (this.picsArray[this.picPointer].fullResLoadedFlag) {
+        this.pic.src = this.loadedLightboxPics[this.picPointer]
+      } else {
+        this.pic.src= this.picsArray[this.picPointer].currentSrc;
+      }
 
 
       //BACKUP FADE IN CASE OF QUICK CLICK THROUGH
