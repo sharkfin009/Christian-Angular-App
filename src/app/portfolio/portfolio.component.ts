@@ -61,13 +61,10 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
   };
   @Output() arrowClass = new EventEmitter();
 
-
   previousScrollValue: Object;
   thumbnailsAllLoaded: any;
   elements: any;
   cachedFlag: boolean = false;
-
-
 
   constructor(private route: ActivatedRoute, private preloadPics: GetPreloadPicsService, private thumbnailsService: GetThumbnailsService) {}
 
@@ -103,67 +100,107 @@ export class PortfolioComponent implements OnInit, AfterViewInit {
       })
     };
 
-    //check if this is not first time. if not, load instantly from cache so that route animation looks good
-    //so if cache is there, skip consecutive load and animation
-    if (sessionStorage.getItem("firstLoad") === "no") {
-      this.thumbnailsService.getThumbnails().subscribe(thumbs => {
-        this.cachedFlag = true;
-        this.thumbnails = thumbs;
-        console.log("if cached - thumbnails:", this.thumbnails)
-        this.cacheGalleyMarkup();
-      })
-      return
-    } else {
-      sessionStorage.setItem("firstLoad", 'no');
-      this.prepClass = "prepareForAnim";
-      this.getThumbsForAnim();
-    }
+    //animated load function
 
+    let loadWithAnim = async() => {
 
-  }
-  getThumbsForAnim() {
-    console.log(" first time")
-
-    this.thumbnailsService.getThumbnails().subscribe(thumbs => {
-      this.thumbnails = thumbs;
-      this.thumbBoxes.changes.subscribe(item => {
-        this.elements = item.toArray();
-        this.loadWithAnim(thumbs);
+      this.thumbnails.forEach((item, index) => {
+        let img = this.elements[index]._data.renderElement.children[0].children[0];
+        item.img = img;
+        item.imgPromise = this.onload2Promise(img);
       });
-    });
-  }
-  loadWithAnim(thumbs) {
 
-    this.thumbnails.forEach((item, index) => {
-      let img = this.elements[index]._data.renderElement.children[0].children[0];
-      item.img = img;
-      let imgPromise = this.onload2Promise(img);
-      item.imgPromise = imgPromise;
-    });
+      let recursive = (count) => {
+        if (count === this.thumbnails.length) {
+          console.log("recursive done")
+          this.cacheGalleryMarkup();
+          return
+        };
 
-    let recursive = (count) => {
-      if (count  === this.thumbnails.length) {
-        this.cacheGalleyMarkup();
-        return
-      };
+        this.thumbnails[count].img.src = this.thumbnails[count].url;
+        this.thumbnails[count].imgPromise.then(data => {
+          this.thumbnails[count].img.style.opacity = "1";
+          this.thumbnails[count].img.style.transform = "translateY(0px)";
+          console.log(count)
+          count++;
+          recursive(count);
+        })
+      }
 
-      this.thumbnails[count].img.src = this.thumbnails[count].url;
-      this.thumbnails[count].imgPromise.then(data => {
+      recursive(0);
 
-        this.thumbnails[count].img.style.opacity = "1";
-        this.thumbnails[count].img.style.transform = "translateY(0px)";
-        console.log(count)
-        count++;
-        recursive(count);
-      })
     }
 
-    recursive(0);
+    let loadNoAnim = async() => {
+
+      this.thumbnails.forEach((item, index) => {
+        let img = this.elements[index]._data.renderElement.children[0].children[0];
+        item.img = img;
+        item.imgPromise = this.onload2Promise(img);
+      });
+
+      let recursive = (count) => {
+        if (count === this.thumbnails.length) {
+          console.log("recursive done")
+          this.cacheGalleryMarkup();
+          return
+        };
+        this.thumbnails[count].img.style.transition = "none";
+          this.thumbnails[count].img.style.opacity = "1";
+          this.thumbnails[count].img.style.transform = "translateY(0px)";
+        this.thumbnails[count].img.src = this.thumbnails[count].url;
+        this.thumbnails[count].imgPromise.then(data => {
+
+          console.log(count)
+          count++;
+          recursive(count);
+        })
+      }
+
+      recursive(0);
+
+    }
+
+      //check if this is not first time. if not, load instantly from cache so that route animation looks good
+      //so if cache is there, skip consecutive load and animation
+      if (sessionStorage.getItem("firstLoad") === "no") {
+        this.thumbnailsService.getThumbnails().subscribe(thumbs => {
+          this.cachedFlag = true;
+          this.thumbnails = thumbs;  this.thumbBoxes.changes.subscribe(item => {
+            this.elements = item.toArray();
+            loadWithAnim();
+          });
+          console.log("not first time - thumbnails:", this.thumbnails);
+          loadNoAnim();
+          this.cacheGalleryMarkup();
+        })
+
+        return
+
+      } else {
+
+        sessionStorage.setItem("firstLoad", 'no');
+        this.prepClass = "prepareForAnim";
+        console.log("first time");
+        this.thumbnailsService.getThumbnails().subscribe(thumbs => {
+          this.thumbnails = thumbs;
+          this.thumbBoxes.changes.subscribe(item => {
+            this.elements = item.toArray();
+            loadWithAnim();
+          });
+        });
+
+
+      }
+
+
+
 
   }
-  cacheGalleyMarkup(){
+
+  cacheGalleryMarkup() {
     this.thumbnails.forEach((thumbnail) => {
-      thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(item=>console.dir(item));
+      thumbnail.obs$ = this.preloadPics.getFirstFourPics(thumbnail.slug).subscribe(item => {});
     })
   }
 

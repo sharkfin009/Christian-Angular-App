@@ -1,7 +1,7 @@
-<div id="thumbnail" class="  b--blue bw2" [routerLink]="['/gallery',thumbnail.slug]"
+<div  class="  b--blue bw2" [routerLink]="['/gallery',thumbnail.slug]"
   [ngClass]="hoverDecide(hoverCompute)" class="relative">
-  <img *ngIf="!cachedFlag" (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="
-   relative" [ngClass]="prepClass"
+  <img id="thumbnail" (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="
+   relative"
     [@simpleFadeAnimation]="thumbnail.showFlag" [src]="thumbnail.url"/>
 
 </div>

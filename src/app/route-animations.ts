@@ -70,7 +70,7 @@ export const slider =
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateY(200%)',
+              transform: 'translateY(100%)',
             }))
         ],{optional:true}),
         query(':enter', [
