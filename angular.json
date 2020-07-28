@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "angular-wordpress-api"
+  "defaultProject": "angular-wordpress-api",
+  "cli": {
+    "analytics": "4afb7c31-4ac0-4b0f-acc9-ed11ed53cb3e"
+  }
 }

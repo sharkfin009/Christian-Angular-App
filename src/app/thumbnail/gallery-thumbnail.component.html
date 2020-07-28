@@ -1,7 +1,6 @@
 <div  class="  b--blue bw2" [routerLink]="['/gallery',thumbnail.slug]"
   [ngClass]="hoverDecide(hoverCompute)" class="relative">
-  <img id="thumbnail" (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="
+  <img id="thumbnail" [ngClass]="prepClass" (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="
    relative"
-    [@simpleFadeAnimation]="thumbnail.showFlag" [src]="thumbnail.url"/>
-
+    [@simpleFadeAnimation]="thumbnail.showFlag" [src]= "thumbnail.url" />
 </div>

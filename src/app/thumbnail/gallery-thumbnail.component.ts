@@ -39,6 +39,8 @@ import { state, trigger, transition, style, animate } from '@angular/animations'
 })
 export class GalleryThumbnailComponent implements OnInit {
 
+  
+  @Input() prepClass: string;
   @Input() thumbnail: any;
   @Input() hoverCompute: string;
   @Output() hover = new EventEmitter();
@@ -61,6 +63,7 @@ export class GalleryThumbnailComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    console.log("prepClass:",this.prepClass)
     this.paleOnWithTitle = {
       title: this.thumbnail.title,
       hover: "paleOn",
