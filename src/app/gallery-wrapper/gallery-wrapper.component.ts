@@ -11,7 +11,7 @@ export class GalleryWrapperComponent implements OnInit {
   constructor(private router:Router ) { }
 
   ngOnInit() {
-    this.router.navigate(['/gallery','/showcase'])
+    this.router.navigate(['/','showcaseInner'])
   }
 
 }

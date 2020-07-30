@@ -12,7 +12,7 @@
   height: 250px;
 }
 
-#renderedGrid {
+#renderedGridA {
 
   transition: transform 0.3s ease-out;
   /* transition: opacity 0.1s; */

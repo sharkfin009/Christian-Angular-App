@@ -4,16 +4,13 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  AfterViewInit,
-  Pipe,
-  PipeTransform
 }
 
 from '@angular/core';
 
 import {
   DomSanitizer,
-  // SafeHtml,
+  SafeHtml,
 }
 
 from '@angular/platform-browser'
@@ -60,18 +57,9 @@ import {
   keyframes
 } from '@angular/animations';
 import {
-  GetAboutService
-} from '../shared/getAbout.service'
+  THIS_EXPR
+} from '@angular/compiler/src/output/output_ast';
 
-@Pipe({
-  name: 'safeHtmlPipe'
-})
-export class SafeHtmlPipe implements PipeTransform {
-  constructor(private sanitized: DomSanitizer) {}
-  transform(value) {
-    return this.sanitized.bypassSecurityTrustHtml(value);
-  }
-}
 
 @Component({
     selector: 'about',
@@ -134,12 +122,12 @@ export class SafeHtmlPipe implements PipeTransform {
 
   }
 
-) export class AboutComponent implements OnInit, AfterViewInit {
+) export class AboutComponent implements OnInit {
 
   gallery: Gallery;
   grid: string;
   slug: string;
-  trustedGrid: any;
+  trustedGrid: SafeHtml;
   galleryGrid: any;
   picsArray: any;
   overlay: any;
@@ -197,11 +185,7 @@ export class SafeHtmlPipe implements PipeTransform {
   loadedLightboxPics = [];
   browseBlock: Boolean = true;
   galleryPicsLoaded = 0;
-  aboutData: any;
-  contentSizeFlag = false;
-
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router, private aboutService: GetAboutService) {};
-
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
@@ -209,14 +193,17 @@ export class SafeHtmlPipe implements PipeTransform {
 
   ngOnInit(): void {
     //set up values
-
+    this.gallery = this.route.snapshot.data['aboutGrid'];
+    console.dir(this.gallery)
+    this.srcUrls = this.gallery.srcUrls;
+    this.srcSets = this.gallery.srcSets;
+    this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gallery.grid);
 
   }
 
 
-
   ngAfterViewInit() {
-
+    sessionStorage.setItem("about","cached");
     //set up DOM values
     this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
@@ -232,7 +219,6 @@ export class SafeHtmlPipe implements PipeTransform {
     this.rightPic = document.querySelector("#rightPic");
     this.fader = document.querySelector("#fader");
     this.faderB = document.querySelector("#faderB");
-    this.renderedGrid = document.querySelector("#renderedGridA");
 
 
 
@@ -254,37 +240,27 @@ export class SafeHtmlPipe implements PipeTransform {
       if (e.code === "Escape")
         this.closeLightbox();
     }
-
     document.addEventListener('keydown', callBrowse.bind(this));
+
     //hide arrow on scroll
     this.arrowFrame = document.querySelector(".arrow-frame");
     // add arrow hide listener
     this.galleryWrapper.onscroll = () => {
-    this.arrowFrame.style.opacity = 0;
+      this.arrowFrame.style.opacity = 0;
     }
 
-    this.aboutService.getAbout().subscribe((item) => {
-      this.aboutData = item;
-      this.srcUrls = this.aboutData.srcUrls;
-      this.srcSets = this.aboutData.srcSets;
-      this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.aboutData.grid);
-      console.log(this.trustedGrid)
-      this.renderedGrid.addEventListener("load",this.onGridLoad,false)
-    });
-  }
-
-  onGridLoad() {
-    //target DOM element containing sanitized grid as innerHTML
-    console.log("load")
+    //target DOM element containing santized grid as innerHTML
+    this.renderedGrid = document.querySelector('#renderedGridA');
     // make nodelist of img's within grid
     let picNodeList = this.renderedGrid.querySelectorAll('img');
-    console.dir(picNodeList);
+    console.dir(picNodeList)
     this.picsArray = Array.from(picNodeList)
 
 
     this.picsArray.forEach((item, index, array) => {
       let src = item.dataset.src.slice(8);
       this.loadedLightboxPics[index] = "https://i0.wp.com/" + src + "?resize=1740&ssl=1";
+
     })
     //set first pic load event handler
     this.picsArray[0].addEventListener("load", function () {
@@ -296,10 +272,10 @@ export class SafeHtmlPipe implements PipeTransform {
 
 
     //load first  pic
-    this.picsArray[0].src = this.picsArray[0].dataset.src;
+     this.picsArray[0].src = this.picsArray[0].dataset.src;
     this.picsArray[0].srcset = this.srcSets[0];
-  }
 
+  }
 
   scrollToTop(): void {
     this.galleryWrapper.style.scrollBehaviour = "smooth";
@@ -308,15 +284,15 @@ export class SafeHtmlPipe implements PipeTransform {
   }
 
   picsListenLoadAndObserve() {
-    this.picsArray.forEach((item, index, array) => {
+    this.picsArray.forEach((item, index,array) => {
 
-      item.onload = () => {
-        //set onload event handler to count all pics loaded, and set flag to enable lightbox scrolling
-        this.galleryPicsLoaded++;
-        console.log(this.galleryPicsLoaded)
-        if (this.galleryPicsLoaded + 1 === array.length) {
-          this.browseBlock = false;
-        }
+      item.onload = ()=> {
+           //set onload event handler to count all pics loaded, and set flag to enable lightbox scrolling
+           this.galleryPicsLoaded++;
+           console.log(this.galleryPicsLoaded)
+           if (this.galleryPicsLoaded+1 === array.length) {
+             console.log("browseBlock now false")
+             this.browseBlock = false;}
         //fade in above fold pics , and set flag to differentiate first screenfull
         let picTop = item.getBoundingClientRect().top;
         if (picTop < window.innerHeight) {
@@ -616,7 +592,7 @@ export class SafeHtmlPipe implements PipeTransform {
           }
 
           //manage first pic
-          if (this.startFlag === true) {
+          if (this.startFlag === true ) {
             moveLeft()
           }
           if (this.startFlag === false) {
@@ -658,7 +634,7 @@ export class SafeHtmlPipe implements PipeTransform {
           }
 
           //manage first pic
-          if (this.startFlag === true) {
+          if (this.startFlag === true ) {
 
             moveLeft()
           }

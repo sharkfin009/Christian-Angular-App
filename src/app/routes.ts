@@ -21,14 +21,16 @@ import {
 import {
   CommissionResolverService
 } from './shared/commissionResolver.service'
-import { PostsComponent } from './posts/posts.component';
-import { PostsResolverService } from './shared/postsResolver.service';
+
 import { MenuComponent } from './menu/menu.component';
 import { AboutComponent } from './about/about.component'
 import { ShowreelComponent } from './showreel/showreel.component';
 import { ThumbnailsResolverService } from './shared/thumbnailsResolver.service';
 import { CommissionComponent } from './commission/commission.component';
 import {GalleryWrapperComponent } from './gallery-wrapper/gallery-wrapper.component'
+import { ShowcaseComponent } from './showcase/showcase.component';
+import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
+import { AboutResolverService } from './shared/aboutResolver.service'
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
@@ -48,6 +50,20 @@ export const appRoutes: Routes = [{
   {
     path: 'showcase',
     component: GalleryWrapperComponent,
+    data: {
+      view: "showcase-wrapper",
+      title: "showcase-wrapper",
+      arrowState: false,
+      xTurnState: false,
+      slideXState:false,
+    }
+  },
+  {
+    path: 'showcaseInner',
+    component: ShowcaseComponent,
+    resolve: {
+      gallery: GalleriesResolverService,
+    },
     data: {
       view: "showcase",
       title: "Showcase",
@@ -132,16 +148,30 @@ export const appRoutes: Routes = [{
   },
   {
     path: 'about',
-    component: AboutComponent,
+    component: AboutWrapperComponent,
     data: {
-      view: "about",
-      title: "About",
+      view: "aboutWrapper",
+      title: "AboutWrapper",
       arrowState: false,
       xTurnState:true,
       slideXState:false,
     }
   },
+  {
+    path: 'aboutInner',
+    component: AboutComponent,
+    resolve: {
+      aboutGrid: AboutResolverService,
+    },
+    data: {
+      view: 'about',
+      title: 'about',
+      arrowState:  false,
+      xTurnState: false,
+      slideXState:true,
 
+    }
+  },
 
 
 

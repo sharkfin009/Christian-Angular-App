@@ -132,8 +132,8 @@ export class PortfolioComponent implements AfterViewInit {
       this.thumbnailsService.getThumbnails().subscribe((thumbs) => {
         this.cachedFlag = true;
         this.thumbnails = thumbs;
-      
-        console.log("not first time - thumbnails:", this.thumbnails);
+
+        // console.log("not first time - thumbnails:", this.thumbnails);
         // reset scroll after render
         if (sessionStorage.getItem("scroll")) {
           console.log(sessionStorage.getItem("scroll"));
@@ -141,7 +141,6 @@ export class PortfolioComponent implements AfterViewInit {
             console.log(sessionStorage.getItem("scroll"));
             this.previousScrollValue = sessionStorage.getItem("scroll");
           });
-
         }
         this.cacheGalleryMarkup();
       });

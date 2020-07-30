@@ -383,7 +383,7 @@ import {
     this.close.style.opacity = 0.8;
     this.clickBlock = true;
     this.lightboxFlag = true;
-    this.headerClass.emit("o-0");
+   // this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id);
     this.lightboxFade.forEach(item => item.style.opacity = 0);
     //hide arrows at start and end of pics
