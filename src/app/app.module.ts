@@ -72,6 +72,9 @@ import {
   GetPostsService
 } from './shared/get-posts.service'
 import LogRocket from "logrocket";
+import { AboutComponent } from './about/about.component';
+import { GalleryWrapperComponent } from './gallery-wrapper/gallery-wrapper.component';
+import { ShowcaseComponent } from './showcase/showcase.component';
 
 
 @NgModule({
@@ -85,6 +88,9 @@ import LogRocket from "logrocket";
     ShowreelComponent,
     MenuComponent,
     CommissionComponent,
+    AboutComponent,
+    GalleryWrapperComponent,
+    ShowcaseComponent,
     // RouterOutletDirective,
   ],
   imports: [

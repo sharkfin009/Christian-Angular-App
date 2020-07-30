@@ -12,7 +12,59 @@ function ms_setup() {
 add_image_size( 'portfolio-thumb', 675, 450, true );
 };
 
+add_action( 'after_setup_theme', 'ms_setup' );
 
+function add_cors_http_header(){
+    header("Access-Control-Allow-Origin: *");
+};
+
+add_action('init','add_cors_http_header');
+
+
+function my_lg_enqueue_scripts(){
+  wp_enqueue_style( 'laygrid' );
+     wp_enqueue_script('lg-flexbox-polyfill');
+     if (get_option('misc_options_simple_parallax', '') == 'on') {
+         wp_enqueue_script('lg-parallax');
+     }
+  }
+
+
+add_action( 'wp_enqueue_scripts', 'my_lg_enqueue_scripts' );
+
+	//create array of galleries in order
+function makeGalleriesArray(){
+  $args = [
+    "numberposts" => 9999,
+    "post_type" => "gallery",
+    "category" => '0',
+  ];
+  $galleries = get_posts( $args );
+  $sort = [];
+  $i = 0;
+
+  foreach($galleries as $gallery){
+    if ($gallery->post_name != "showcase"){
+      $sort[$i]['title'] = $gallery->post_title;
+      $sort[$i]['url'] = get_the_post_thumbnail_url($gallery->$post->ID,"medium");
+      $sort[$i]['order_field'] = get_post_meta($post->ID,"order_field",true);
+      $sort[$i]['names' ] = get_post_meta($post->ID,'names',true);
+      $i++;
+  }
+}
+
+if( empty($galleries)) return null;
+
+  //sort by order
+
+function sort_method($a,$b){
+  return ($a["order_field"] <=$b["order_field"]) ? -1 : 1;
+}
+  usort($sort, "sort_method");
+
+  return $sort;
+
+  };
 
 
 
@@ -21,7 +73,7 @@ add_image_size( 'portfolio-thumb', 675, 450, true );
  //endpoints
 
 add_action( 'rest_api_init', function () {
-    register_rest_route( 'gallery_thumbnail/v1', '/thumbs', array(
+    register_rest_route( 'gallery_thumbnail/v1', '/(?P<index>[a-zA-Z0-9-]+)', array(
       'methods' => 'GET',
       'callback' => 'getThumbnails',
     ) );
@@ -51,6 +103,11 @@ add_action( 'rest_api_init', function () {
       'callback' => 'getVideos',
     ) );
 
+    register_rest_route( 'getAboutPage/v1', '/please', array(
+      'methods' => 'GET',
+      'callback' => 'getAboutPage',
+    ) );
+
   } );
 
   function getThumbnails($index){
@@ -69,7 +126,7 @@ add_action( 'rest_api_init', function () {
   foreach($galleries as $gallery){
     if ($gallery->post_name != "showcase"){
       $sort[$i]['title'] = $gallery->post_title;
-      $sort[$i]['url'] = get_the_post_thumbnail_url($gallery->ID,"portfolio-thumb");
+      $sort[$i]['url'] = get_the_post_thumbnail_url($gallery->$ID,"medium");
       $sort[$i]['order_field'] = get_post_meta($gallery->ID,"order_field",true);
       $sort[$i]['names' ] = get_post_meta($gallery->ID,'names',true);
       $i++;
@@ -192,5 +249,23 @@ global $wpdb;
       }
       return $data;
 
-}
+};
 
+function getAboutPage(){
+  $args =[
+      "post_type" => "page",
+      "category" => '0',
+  "name" => "About"
+  ];
+  $post = get_posts( $args );
+
+   $grid =  get_laygrid($post[0]->ID,'post');
+
+	$data->content = $post[0]->post_content;
+	$data->grid = $grid;
+
+  if ( empty( $post ) ) {
+    return null;
+  }
+  return $data;
+};

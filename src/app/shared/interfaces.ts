@@ -37,3 +37,10 @@ export interface Gallery {
    videoUrl: string;
    title: string;
  }
+
+ export interface About {
+   content: string;
+   grid:string;
+   srcSets: any;
+   srcUrls: any;
+ }

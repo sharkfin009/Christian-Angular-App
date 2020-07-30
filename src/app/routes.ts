@@ -24,9 +24,11 @@ import {
 import { PostsComponent } from './posts/posts.component';
 import { PostsResolverService } from './shared/postsResolver.service';
 import { MenuComponent } from './menu/menu.component';
+import { AboutComponent } from './about/about.component'
 import { ShowreelComponent } from './showreel/showreel.component';
 import { ThumbnailsResolverService } from './shared/thumbnailsResolver.service';
 import { CommissionComponent } from './commission/commission.component';
+import {GalleryWrapperComponent } from './gallery-wrapper/gallery-wrapper.component'
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
@@ -45,10 +47,7 @@ export const appRoutes: Routes = [{
 
   {
     path: 'showcase',
-    component: GalleryComponent,
-    resolve: {
-      gallery: GalleriesResolverService,
-    },
+    component: GalleryWrapperComponent,
     data: {
       view: "showcase",
       title: "Showcase",
@@ -126,6 +125,17 @@ export const appRoutes: Routes = [{
     data: {
       view: "showreel",
       title: "Showreel",
+      arrowState: false,
+      xTurnState:true,
+      slideXState:false,
+    }
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: {
+      view: "about",
+      title: "About",
       arrowState: false,
       xTurnState:true,
       slideXState:false,
