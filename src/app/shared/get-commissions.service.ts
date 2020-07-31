@@ -10,7 +10,7 @@ import {
 import {
   shareReplay, map
 } from 'rxjs/operators';
-import { Commission } from '../interfaces';
+import { Commission } from './interfaces';
 
 @Injectable({
   providedIn: 'root'

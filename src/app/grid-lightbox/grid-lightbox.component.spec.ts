@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GalleryWrapperComponent } from './showcase-wrapper.component';
+import { GridLightboxComponent } from './grid-lightbox.component';
 
-describe('GalleryWrapperComponent', () => {
-  let component: GalleryWrapperComponent;
-  let fixture: ComponentFixture<GalleryWrapperComponent>;
+describe('GridLightboxComponent', () => {
+  let component: GridLightboxComponent;
+  let fixture: ComponentFixture<GridLightboxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GalleryWrapperComponent ]
+      declarations: [ GridLightboxComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GalleryWrapperComponent);
+    fixture = TestBed.createComponent(GridLightboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

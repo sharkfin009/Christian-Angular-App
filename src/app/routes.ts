@@ -9,8 +9,8 @@ import {
 } from './portfolio/portfolio.component';
 
 import {
-  GalleriesResolverService
-} from './shared/old/galleriesResolver.service'
+  GridResolverService
+} from './shared/gridResolver.service'
 import {
   CommissionsComponent
 } from './commissions/commissions.component'
@@ -30,7 +30,6 @@ import { CommissionComponent } from './commission/commission.component';
 import {ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component'
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
-import { AboutResolverService } from './shared/old/aboutResolver.service'
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
@@ -45,24 +44,24 @@ export const appRoutes: Routes = [{
   },
 
   {
-    path: 'showcase',
+    path: 'showcase-no-resolver',
     component: ShowcaseWrapperComponent,
     data: {
-      view: "showcase-wrapper",
-      title: "showcase",
+      view: "showcase-no-resolver",
+      title: "Showcase",
       arrowState: false,
       xTurnState: false,
       slideXState:false,
     }
   },
   {
-    path: 'show-case',
+    path: 'showcase',
     component: ShowcaseComponent,
     resolve: {
-      gallery: GalleriesResolverService,
+      showCaseGrid: GridResolverService,
     },
     data: {
-      view: "show-case",
+      view: "showcase",
       title: "Showcase",
       arrowState: false,
       xTurnState: false,
@@ -74,7 +73,7 @@ export const appRoutes: Routes = [{
     path: 'gallery/:slug',
     component: GalleryComponent,
     resolve: {
-      gallery: GalleriesResolverService,
+      gallery: GridResolverService,
     },
     data: {
       view: 'gallery',
@@ -82,7 +81,6 @@ export const appRoutes: Routes = [{
       arrowState:  true,
       xTurnState: false,
       slideXState:true,
-
     }
   },
    {
@@ -144,10 +142,10 @@ export const appRoutes: Routes = [{
     }
   },
   {
-    path: 'about',
+    path: 'about-no-resolver',
     component: AboutWrapperComponent,
     data: {
-      view: "aboutWrapper",
+      view: "about-no-resolver",
       title: "About",
       arrowState: false,
       xTurnState:true,
@@ -155,13 +153,13 @@ export const appRoutes: Routes = [{
     }
   },
   {
-    path: 'aboutInner',
+    path: 'about',
     component: AboutComponent,
     resolve: {
-      aboutGrid: AboutResolverService,
+      aboutGrid: GridResolverService,
     },
     data: {
-      view: 'about-inner',
+      view: 'about',
       title: 'about',
       arrowState:  false,
       xTurnState: false,

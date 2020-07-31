@@ -9,16 +9,16 @@ import {
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  showcaseLink="/showcase";
-  aboutLink="/about";
+  showcaseLink="/showcase-no-resolver";
+  aboutLink="/about-no-resolver";
   constructor() {}
 
   ngOnInit() {
     if (sessionStorage.getItem("showcase") === "cached"){
-      this.showcaseLink = "/show-case";
+      this.showcaseLink = "/showcase";
     };
     if(sessionStorage.getItem('about') ==="cached"){
-      this.aboutLink = "/aboutInner"
+      this.aboutLink = "/about"
     }
     var uLinkAttr = 'data-underlined-link';
     var uLinks = document.querySelectorAll('li');

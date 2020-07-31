@@ -10,7 +10,7 @@ import {
   HttpClient,
 } from '@angular/common/http';
 import {
-  Gallery,
+  Grid,
 } from "./interfaces"
 import {
   Observable
@@ -20,19 +20,35 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class GetGalleriesService {
-  // private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGalleries";
-  private apiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGallery/";
+export class GetGridService {
+  private galleryApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGallery/";
+  private aboutApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/getAboutPage/v1/please";
+  private commissionApiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/getCommission/v1/";
+
+
   constructor(private http: HttpClient) {
 
   }
 
-  getGallery(slug): Observable < any > {
+  getGrid(view, slug =''): Observable < any > {
+    let apiUrl = "";
+    switch (view) {
+      case "gallery":
+        apiUrl = this.galleryApiUrl + slug;
+        break;
+      case "about":
+        apiUrl = this.aboutApiUrl;
+        break;
+      case "commission":
+        apiUrl = this.commissionApiUrl;
+      case "showcase":
+        apiUrl = this.galleryApiUrl + "/showcase"
 
-    return this.http.get < any > (this.apiUrl + slug)
+    };
+
+    return this.http.get < any > (apiUrl)
       .pipe(
         map(grid => {
-
           let newHTMLDoc = document.implementation.createHTMLDocument('gridPrep')
           let gridLoaded = newHTMLDoc.createElement('div');
           gridLoaded.innerHTML = grid;
@@ -57,10 +73,10 @@ export class GetGalleriesService {
             (item) => {
               srcSets.push(item.getAttribute("srcset"));
               srcUrls.push(item.getAttribute("src"));
-               item.setAttribute("data-src", item.src);
-              item.src="";
+              item.setAttribute("data-src", item.src);
+              item.src = "";
               item.setAttribute("srcset", "");
-              item.setAttribute("currentSrc","")
+              item.setAttribute("currentSrc", "")
             }
           );
 
@@ -69,7 +85,7 @@ export class GetGalleriesService {
           wrapper.appendChild(gridLoaded);
           let gridString = wrapper.innerHTML;
 
-          
+
           return {
             grid: gridString,
             srcSets: srcSets,
@@ -82,4 +98,9 @@ export class GetGalleriesService {
   };
 
 
-  }
+
+
+
+
+
+}

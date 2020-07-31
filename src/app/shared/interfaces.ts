@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-export interface Gallery {
+export interface Grid {
     grid:any;
     srcSets: any;
     srcUrls: any;
@@ -39,7 +39,7 @@ export interface Gallery {
  }
 
  export interface About {
-   content: string;
+
    grid:string;
    srcSets: any;
    srcUrls: any;

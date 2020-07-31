@@ -11,7 +11,7 @@ export class ShowcaseWrapperComponent implements OnInit {
   constructor(private router:Router ) { }
 
   ngOnInit() {
-    this.router.navigate(['/','show-case'])
+    this.router.navigate(['/','showcase'])
   }
 
 }

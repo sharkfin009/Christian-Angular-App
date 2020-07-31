@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {
   GetCommissionsService
-} from '../shared/old/get-commissions.service';
+} from '../shared/get-commissions.service';
 
 import {
   ActivatedRoute,

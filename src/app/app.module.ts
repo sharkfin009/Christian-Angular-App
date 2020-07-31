@@ -76,6 +76,7 @@ import { AboutComponent } from './about/about.component';
 import { ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
+import { GridLightboxComponent } from './grid-lightbox/grid-lightbox.component';
 
 
 @NgModule({
@@ -93,6 +94,7 @@ import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
     ShowcaseWrapperComponent,
     ShowcaseComponent,
     AboutWrapperComponent,
+    GridLightboxComponent,
     // RouterOutletDirective,
   ],
   imports: [

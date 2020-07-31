@@ -11,7 +11,7 @@ export class AboutWrapperComponent implements OnInit {
   constructor(private router:Router ) { }
 
   ngOnInit() {
-    this.router.navigate(['/','aboutInner'])
+    this.router.navigate(['/','about'])
   }
 
 }

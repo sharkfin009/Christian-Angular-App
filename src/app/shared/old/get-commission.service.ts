@@ -16,10 +16,11 @@ import {
   providedIn: 'root'
 })
 export class GetCommissionService {
-  private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/getCommission/v1/";
 
   constructor(private http: HttpClient) {
   }
+  private apiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/getCommission/v1/";
+
 
   getCommission(slug): Observable < any > {
 
