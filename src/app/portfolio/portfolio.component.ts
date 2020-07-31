@@ -29,7 +29,7 @@ import {
 } from '@angular/animations';
 import {
   GetPreloadPicsService
-} from '../shared/getPreloadPics.service';
+} from '../shared/old/getPreloadPics.service';
 import {
   Observable
 } from 'rxjs';

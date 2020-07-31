@@ -27,8 +27,7 @@ import {
 } from "@angular/common";
 
 import FontFaceObserver from "fontfaceobserver";
-import { GetCommissionsService } from './shared/get-commissions.service';
-    import LogRocket from "logrocket";
+import { filter, pairwise } from 'rxjs/operators';
 
 
 
@@ -95,12 +94,12 @@ export class AppComponent implements OnInit {
   fullWrapper: any;
   showTime = {state:"initial"};
   @Input('thumbs') thumbStore=[];
+  lastRoute: any;
   constructor(private route: ActivatedRoute, private router: Router, public location: Location) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
   ngOnInit() {
-    // LogRocket.init("k9inbd/doppelgatz");
     this.XXHaasObserver = new FontFaceObserver('XXHaas');
     this.XXHaasObserver.load().then( ()=> {
       this.showTime.state = "final";
@@ -112,6 +111,13 @@ export class AppComponent implements OnInit {
 
       }
     }));
+    this.router.events
+    .pipe(filter((e: any) => e instanceof RoutesRecognized),
+        pairwise()
+    ).subscribe((e: any) => {
+      this.lastRoute = e[0].urlAfterRedirects;
+        console.log(this.lastRoute); // previous url
+    });
 
   }
   ngAfterViewInit() {
@@ -154,6 +160,10 @@ export class AppComponent implements OnInit {
         relativeTo: this.route
       });
     } else {
+
+      if(this.lastRoute == "/show-case"){
+        sessionStorage.setItem("scrollFlag","yes")
+      }
       this.location.back();
     }
   }

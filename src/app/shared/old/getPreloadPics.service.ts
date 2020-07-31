@@ -11,7 +11,7 @@ import {
 } from '@angular/common/http';
 import {
   Gallery,
-} from "./interfaces"
+} from "../interfaces"
 import {
   Observable
 } from 'rxjs';

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GalleryWrapperComponent } from './gallery-wrapper.component';
+import { GalleryWrapperComponent } from './showcase-wrapper.component';
 
 describe('GalleryWrapperComponent', () => {
   let component: GalleryWrapperComponent;

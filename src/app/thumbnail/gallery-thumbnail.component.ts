@@ -37,9 +37,9 @@ import { state, trigger, transition, style, animate } from '@angular/animations'
     ])
   ]
 })
+
 export class GalleryThumbnailComponent implements OnInit {
 
-  
   @Input() prepClass: string;
   @Input() thumbnail: any;
   @Input() hoverCompute: string;

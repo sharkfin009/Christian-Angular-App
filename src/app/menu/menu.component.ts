@@ -15,7 +15,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     if (sessionStorage.getItem("showcase") === "cached"){
-      this.showcaseLink = "/showcaseInner";
+      this.showcaseLink = "/show-case";
     };
     if(sessionStorage.getItem('about') ==="cached"){
       this.aboutLink = "/aboutInner"

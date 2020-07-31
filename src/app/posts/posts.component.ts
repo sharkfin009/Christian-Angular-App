@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {
   GetPostsService
-} from '../shared/get-posts.service';
+} from '../shared/old/get-posts.service';
 
 import {
   ActivatedRoute
@@ -36,7 +36,7 @@ export class PostsComponent implements OnInit {
 
   }
   hoverOn(title){
-   
+
     this.hoverClass = "hoverOn";
     this.title = title;
 

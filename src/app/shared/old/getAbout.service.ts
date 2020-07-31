@@ -12,7 +12,7 @@ import {
 import {
   Gallery,
   About,
-} from "./interfaces"
+} from "../interfaces"
 import {
   Observable
 } from 'rxjs';

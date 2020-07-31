@@ -18,7 +18,7 @@ export class AboutResolverService implements Resolve < any > {
   constructor(private getAbout: GetAboutService) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-   
+
       return this.getAbout.getAbout();
 
   }

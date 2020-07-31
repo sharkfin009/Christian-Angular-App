@@ -250,7 +250,7 @@ import {
     }
 
     //target DOM element containing santized grid as innerHTML
-    this.renderedGrid = document.querySelector('#renderedGridA');
+    this.renderedGrid = document.querySelector('#renderedGrid');
     // make nodelist of img's within grid
     let picNodeList = this.renderedGrid.querySelectorAll('img');
     console.dir(picNodeList)

@@ -1,5 +1,5 @@
-<div  class="  b--blue bw2" [routerLink]="['/gallery',thumbnail.slug]"
-  [ngClass]="hoverDecide(hoverCompute)" class="relative">
+<div  class="fade-anim b--blue bw2 relative" [routerLink]="['/gallery',thumbnail.slug]"
+  [ngClass]="hoverDecide(hoverCompute)" >
   <img id="thumbnail" [ngClass]="prepClass" (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="
    relative"
     [@simpleFadeAnimation]="thumbnail.showFlag" [src]= "thumbnail.url" />

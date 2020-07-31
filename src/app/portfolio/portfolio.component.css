@@ -4,8 +4,8 @@
   overflow:scroll;
 }
 .thumb-box{
-  width:286px;
-  height:190px;
+  width:300px;
+  /* height:190px; */
 }
 
 @media only screen and ( min-width:10px){
@@ -59,8 +59,8 @@
   .thumbs-wrapper {
     display: grid;
     grid-template-columns: auto auto auto;
-    column-gap: 140px;
-    row-gap: 140px;
+    /* column-gap: 140px; */
+    row-gap: 100px;
   }
   .thumb-box{
     /* border: 3px dashed red; */

@@ -10,7 +10,7 @@ import {
 
 import {
   GalleriesResolverService
-} from './shared/galleriesResolver.service'
+} from './shared/old/galleriesResolver.service'
 import {
   CommissionsComponent
 } from './commissions/commissions.component'
@@ -20,24 +20,21 @@ import {
 } from './shared/commissionsResolver.service'
 import {
   CommissionResolverService
-} from './shared/commissionResolver.service'
+} from './shared/old/commissionResolver.service'
 
 import { MenuComponent } from './menu/menu.component';
 import { AboutComponent } from './about/about.component'
 import { ShowreelComponent } from './showreel/showreel.component';
 import { ThumbnailsResolverService } from './shared/thumbnailsResolver.service';
 import { CommissionComponent } from './commission/commission.component';
-import {GalleryWrapperComponent } from './gallery-wrapper/gallery-wrapper.component'
+import {ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component'
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
-import { AboutResolverService } from './shared/aboutResolver.service'
+import { AboutResolverService } from './shared/old/aboutResolver.service'
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
     component: PortfolioComponent,
-    // resolve: {
-    //   thumbnails: ThumbnailsResolverService,
-    // },
     data: {
       view: 'portfolio',
       title: "Portfolio",
@@ -49,23 +46,23 @@ export const appRoutes: Routes = [{
 
   {
     path: 'showcase',
-    component: GalleryWrapperComponent,
+    component: ShowcaseWrapperComponent,
     data: {
       view: "showcase-wrapper",
-      title: "showcase-wrapper",
+      title: "showcase",
       arrowState: false,
       xTurnState: false,
       slideXState:false,
     }
   },
   {
-    path: 'showcaseInner',
+    path: 'show-case',
     component: ShowcaseComponent,
     resolve: {
       gallery: GalleriesResolverService,
     },
     data: {
-      view: "showcase",
+      view: "show-case",
       title: "Showcase",
       arrowState: false,
       xTurnState: false,
@@ -151,7 +148,7 @@ export const appRoutes: Routes = [{
     component: AboutWrapperComponent,
     data: {
       view: "aboutWrapper",
-      title: "AboutWrapper",
+      title: "About",
       arrowState: false,
       xTurnState:true,
       slideXState:false,
@@ -164,7 +161,7 @@ export const appRoutes: Routes = [{
       aboutGrid: AboutResolverService,
     },
     data: {
-      view: 'about',
+      view: 'about-inner',
       title: 'about',
       arrowState:  false,
       xTurnState: false,

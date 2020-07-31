@@ -31,7 +31,7 @@ import {
 import {
   GetPreloadPicsService
 }
-from './shared/getPreloadPics.service'
+from './shared/old/getPreloadPics.service'
 import {
   GalleryThumbnailComponent
 } from './thumbnail/gallery-thumbnail.component'
@@ -64,16 +64,16 @@ import {
 } from './commission/commission.component';
 import {
   GetGalleriesService
-} from './shared/getGalleries.service'
+} from './shared/old/getGalleries.service'
 import {
   GetCommissionService
-} from './shared/get-commission.service'
+} from './shared/old/get-commission.service'
 import {
   GetPostsService
-} from './shared/get-posts.service'
-import { GetAboutService} from './shared/getAbout.service';
+} from './shared/old/get-posts.service'
+import { GetAboutService} from './shared/old/getAbout.service';
 import { AboutComponent } from './about/about.component';
-import { GalleryWrapperComponent } from './gallery-wrapper/gallery-wrapper.component';
+import { ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
 
@@ -90,7 +90,7 @@ import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
     MenuComponent,
     CommissionComponent,
     AboutComponent,
-    GalleryWrapperComponent,
+    ShowcaseWrapperComponent,
     ShowcaseComponent,
     AboutWrapperComponent,
     // RouterOutletDirective,

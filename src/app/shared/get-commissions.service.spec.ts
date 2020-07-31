@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GetCommissionsService } from './get-commissions.service';
+import { GetCommissionsService } from './old/get-commissions.service';
 
 describe('GetCommissionsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
