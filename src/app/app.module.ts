@@ -1,10 +1,6 @@
 import {
   BrowserModule
 } from '@angular/platform-browser'
-import {
-  RetainScrollPolyfillModule
-}
-from "./retain-scroll-polyfill/retain-scroll-polyfill.module"
 
 import {
   NgModule
@@ -28,10 +24,7 @@ import {
 import {
   GetThumbnailsService
 } from './shared/getThumbnails.service'
-import {
-  GetPreloadPicsService
-}
-from './shared/old/getPreloadPics.service'
+
 import {
   GalleryThumbnailComponent
 } from './thumbnail/gallery-thumbnail.component'
@@ -62,21 +55,12 @@ import {
 import {
   CommissionComponent
 } from './commission/commission.component';
-import {
-  GetGalleriesService
-} from './shared/old/getGalleries.service'
-import {
-  GetCommissionService
-} from './shared/old/get-commission.service'
-import {
-  GetPostsService
-} from './shared/old/get-posts.service'
-import { GetAboutService} from './shared/old/getAbout.service';
 import { AboutComponent } from './about/about.component';
 import { ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
 import { GridLightboxComponent } from './grid-lightbox/grid-lightbox.component';
+import { GetGridService } from './shared/getGrid.service'
 
 
 @NgModule({
@@ -111,12 +95,7 @@ import { GridLightboxComponent } from './grid-lightbox/grid-lightbox.component';
   exports: [RouterModule],
   providers: [
     GetThumbnailsService,
-    GetPreloadPicsService,
-    GetGalleriesService,
-    GetCommissionService,
-    GetPostsService,
-    GetCommissionService,
-    GetAboutService,
+   GetGridService
 
 
   ],

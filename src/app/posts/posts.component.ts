@@ -3,8 +3,8 @@ import {
   OnInit
 } from '@angular/core';
 import {
-  GetPostsService
-} from '../shared/old/get-posts.service';
+  GetGridService
+} from '../shared/getGrid.service';
 
 import {
   ActivatedRoute
@@ -23,7 +23,7 @@ export class PostsComponent implements OnInit {
   hoverClass="hoverOn"
   title:string;
 
-  constructor(private route: ActivatedRoute, private getPosts: GetPostsService,
+  constructor(private route: ActivatedRoute, private getPosts: GetGridService,
     private sanitizer: DomSanitizer) {}
 
   ngOnInit() {

@@ -74,7 +74,7 @@ export const slider =
             opacity:1,
            //  transform: 'translateY(0%)'
           }),
-          animate('1s ease-out',
+          animate('0.8s ease-out',
             style({
               opacity: 0,
             //  transform: 'translateY(200%)',
@@ -83,10 +83,10 @@ export const slider =
         query(':enter', [
           style({
             opacity: 0,
-            transform: 'translateY(-100%)',
+            transform: 'translateY(-200%)',
 
           }),
-          animate('1.5s ease-out',
+          animate('1s ease-in',
             style({
               opacity:1,
               transform: 'translateY(0%)',

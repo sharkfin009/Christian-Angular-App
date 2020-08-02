@@ -63,7 +63,6 @@ export class GalleryThumbnailComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    console.log("prepClass:",this.prepClass)
     this.paleOnWithTitle = {
       title: this.thumbnail.title,
       hover: "paleOn",

@@ -45,19 +45,13 @@ import {
 
 ) export class AboutComponent implements OnInit {
   aboutGrid: {};
+  view:any;
 
   constructor(private route: ActivatedRoute ) {}
 
-
-
   ngOnInit(): void {
     this.aboutGrid = this.route.snapshot.data['aboutGrid'];
-
+    this.view = this.route.snapshot.data.view;
+    sessionStorage.setItem("about","cached");
   }
-
-
-
-
-
-
 }

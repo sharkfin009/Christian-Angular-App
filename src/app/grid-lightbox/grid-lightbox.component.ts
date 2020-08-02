@@ -124,7 +124,8 @@ import {
   }
 
 ) export class GridLightboxComponent implements OnInit {
-  @Input() view:any;
+  @Input() gridData:any;
+  @Input() view: any;
   gallery: Grid;
   grid: string;
   slug: string;
@@ -185,6 +186,11 @@ import {
   loadedLightboxPics = [];
   browseBlock: Boolean = true;
   galleryPicsLoaded = 0;
+  scrollValue: string;
+  userScrollFlag= false;
+  showArrows: Boolean =true;
+
+  spinnerCursor: any;
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
   prepareRoute(outlet: RouterOutlet) {
@@ -192,13 +198,29 @@ import {
   }
 
   ngOnInit(): void {
-    this.srcUrls = this.view.srcUrls;
-    this.srcSets = this.view.srcSets;
-    this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.view.grid);
+    this.srcUrls = this.gridData.srcUrls;
+    this.srcSets = this.gridData.srcSets;
+    this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gridData.grid);
+    if(this.view === "about"){
+      this.showArrows = false;
+    }
   }
 
+  onScroll(event){
+    this.galleryWrapper.style.scrollBehavior = "auto";
+    if(this.userScrollFlag){
+      this.picsArray.forEach(item=>{
+        item.style.transition = "opacity ease-out 2s, transform ease-out 1s";
+     })
+    }
+
+    this.userScrollFlag = true;
+    sessionStorage.setItem("scrollValue",event.srcElement.scrollTop);
+  }
 
   ngAfterViewInit() {
+
+
     //set up DOM values
     this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
@@ -213,7 +235,19 @@ import {
     this.leftPic = document.querySelector("#leftPic");
     this.rightPic = document.querySelector("#rightPic");
     this.fader = document.querySelector("#fader");
-    this.faderB = document.querySelector("#faderB")
+    this.faderB = document.querySelector("#faderB");
+    this.spinnerCursor = document.querySelector(".spinner-cursor");
+
+    if(this.view === "showcase" && sessionStorage.getItem("scrollValue") && sessionStorage.getItem("showcaseWhatLink") === "back" ){
+      this.userScrollFlag = false;
+      setTimeout(()=>{
+        this.scrollValue=sessionStorage.getItem("scrollValue");
+        this.picsArray.forEach(item=>{
+          item.style.transition = "none";
+       })
+      })
+    }
+
 
     //add click listeners to overlay
     this.left.addEventListener("click", this.browse.bind(this), false);
@@ -235,17 +269,30 @@ import {
     }
     document.addEventListener('keydown', callBrowse.bind(this));
 
+    //set up cursor spinner for right scroll while still loading gallery pics
+    window.addEventListener("mousemove",(e)=>{
+      this.spinnerCursor.style.left = e.pageX +"px";
+      this.spinnerCursor.style.top = e.pageY + "px";
+    })
+    this.right.addEventListener("mouseenter",(e)=>{
+      this.spinnerCursor.style.opacity = 1;
+    });
+    this.right.addEventListener("mouseleave",(e)=>{
+      this.spinnerCursor.style.opacity = 0;
+    })
+
     //hide arrow on scroll
     this.arrowFrame = document.querySelector(".arrow-frame");
     // add arrow hide listener
     this.galleryWrapper.onscroll = () => {
-      this.arrowFrame.style.opacity = 0;
+    this.arrowFrame.style.opacity = 0;
     }
 
     //target DOM element containing santized grid as innerHTML
     this.renderedGrid = document.querySelector('#renderedGrid');
     // make nodelist of img's within grid
     let picNodeList = this.renderedGrid.querySelectorAll('img');
+
     this.picsArray = Array.from(picNodeList)
 
 
@@ -261,31 +308,26 @@ import {
       this.picsListenLoadAndObserve();
     }.bind(this), true);
 
-
-
     //load first  pic
      this.picsArray[0].src = this.picsArray[0].dataset.src;
     this.picsArray[0].srcset = this.srcSets[0];
-    // this.picsArray[1].src = this.picsArray[1].dataset.src;
-    //this.picsArray[1].srcset = this.srcSets[1];
-    //place load events on preload div to trigger anim according to position
+
   }
 
   scrollToTop(): void {
-    this.galleryWrapper.style.scrollBehaviour = "smooth";
+    this.galleryWrapper.style.scrollBehavior = "smooth";
     this.galleryWrapper.scrollTo(0, 0)
-
   }
 
   picsListenLoadAndObserve() {
     this.picsArray.forEach((item, index,array) => {
 
       item.onload = ()=> {
+
            //set onload event handler to count all pics loaded, and set flag to enable lightbox scrolling
            this.galleryPicsLoaded++;
-           console.log(this.galleryPicsLoaded)
            if (this.galleryPicsLoaded+1 === array.length) {
-             console.log("browseBlock now false")
+
              this.browseBlock = false;}
         //fade in above fold pics , and set flag to differentiate first screenfull
         let picTop = item.getBoundingClientRect().top;
@@ -408,12 +450,10 @@ import {
     //set onload event
     this.pic.onload = () => {
       if (this.pic.src === this.loadedLightboxPics[this.picPointer]) {
-        console.log('hi res load')
 
         return
       }
       if (this.pic.src === event.target.currentSrc) {
-        console.log('lo res load')
         this.pic.src = this.loadedLightboxPics[this.picPointer];
 
 
@@ -531,7 +571,7 @@ import {
     }
 
     //close lightbox at end
-    if (direction === "right" && this.picPointer === this.picsArray.length - 1) {
+    if (direction === "right" && this.picPointer === this.picsArray.length - 1 && !this.browseBlock) {
       this.closeLightbox();
     }
 

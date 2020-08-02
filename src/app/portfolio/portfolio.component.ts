@@ -28,16 +28,10 @@ import {
   animate
 } from '@angular/animations';
 import {
-  GetPreloadPicsService
-} from '../shared/old/getPreloadPics.service';
-import {
-  Observable
-} from 'rxjs';
-import {
-  isNgTemplate
-} from '@angular/compiler';
-import {
-  GalleryThumbnailComponent
+  GetGridService
+} from '../shared/getGrid.service';
+
+ import{ GalleryThumbnailComponent
 } from '../thumbnail/gallery-thumbnail.component';
 
 
@@ -67,7 +61,7 @@ export class PortfolioComponent implements AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private preloadPics: GetPreloadPicsService,
+    private preloadGrids: GetGridService,
     private thumbnailsService: GetThumbnailsService
   ) {}
 
@@ -88,8 +82,8 @@ export class PortfolioComponent implements AfterViewInit {
 
   cacheGalleryMarkup() {
     this.thumbnails.forEach((thumbnail) => {
-      thumbnail.obs$ = this.preloadPics
-        .getFirstFourPics(thumbnail.slug)
+      thumbnail.obs$ = this.preloadGrids
+        .getGrid("gallery",thumbnail.slug)
         .subscribe((item) => {});
     });
   }
@@ -106,12 +100,11 @@ export class PortfolioComponent implements AfterViewInit {
         item.img = img;
         item.imgPromise = this.onload2Promise(img);
       });
-      console.dir(this.thumbnails);
 
       let recursive = (count) => {
         if (count === this.thumbnails.length-1) {
-          console.log("recursive done");
           this.cacheGalleryMarkup();
+          sessionStorage.setItem("portfolio", "cached");
           return;
         }
         //set src
@@ -128,12 +121,10 @@ export class PortfolioComponent implements AfterViewInit {
 
     //check if this is not first time. if not, load instantly from cache so that route animation looks good
     //so if cache is there, skip consecutive load and animation
-    if (sessionStorage.getItem("firstLoad") === "no") {
+    if (sessionStorage.getItem("portfolio") === "cached") {
       this.thumbnailsService.getThumbnails().subscribe((thumbs) => {
         this.cachedFlag = true;
         this.thumbnails = thumbs;
-
-        // console.log("not first time - thumbnails:", this.thumbnails);
         // reset scroll after render
         if (sessionStorage.getItem("scroll")) {
           console.log(sessionStorage.getItem("scroll"));
@@ -148,13 +139,12 @@ export class PortfolioComponent implements AfterViewInit {
       return;
 
     } else {
-             sessionStorage.setItem("firstLoad", "no");
+          //do consecutive load
              this.thumbnails.forEach(item=>{
                item.picSrc = item.url;
               item.url = "";
              })
              this.prepClass = "prepareForAnim";
-             console.log("first time");
              this.thumbnailsService.getThumbnails().subscribe((thumbs) => {
                this.thumbnails = thumbs;
                this.thumbBoxes.changes.subscribe((item) => {

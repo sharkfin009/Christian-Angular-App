@@ -127,14 +127,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  onActivate(componentReference) {
-
-    if (componentReference.route !== undefined && componentReference.route.component.name === "GalleryComponent") {
-      componentReference.headerClass.subscribe((data) => {
-        this.class = data;
-      });
-    }
-  }
+ 
 
   getArrowState(outlet) {
     if (outlet.activatedRouteData.arrowState === undefined) {
@@ -161,9 +154,12 @@ export class AppComponent implements OnInit {
       });
     } else {
 
-      if(this.lastRoute == "/show-case"){
-        sessionStorage.setItem("scrollFlag","yes")
+      if(this.lastRoute === "/showcase"){
+        sessionStorage.setItem("lastRoute","showcase")
+        sessionStorage.setItem("showcaseWhatLink","back")
       }
+
+
       this.location.back();
     }
   }

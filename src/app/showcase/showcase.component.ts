@@ -71,17 +71,18 @@ import {
   }
 
 ) export class ShowcaseComponent implements OnInit {
-  showCaseGrid: any;
+  showcaseGrid: any;
+  view:any;
 
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
+  constructor(private route: ActivatedRoute) {}
 
-  prepareRoute(outlet: RouterOutlet) {
-    return outlet.activatedRouteData['view'];
-  }
 
   ngOnInit(): void {
     //set up values
-    this.showCaseGrid = this.route.snapshot.data['showCaseGrid'];
+    this.view = this.route.snapshot.data.view;
+    this.showcaseGrid = this.route.snapshot.data['showCaseGrid'];
+    sessionStorage.setItem("showcase","cached")
+
   }
 }

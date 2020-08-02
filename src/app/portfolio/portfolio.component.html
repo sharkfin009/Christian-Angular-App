@@ -1,10 +1,10 @@
 <div id="port-frame" class="
-relative bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll($event)"
+relative  bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll($event)"
   [scrollTop]="previousScrollValue">
 
-  <div class=" relative  thumbs-wrapper w-80 pb7">
+  <div class=" relative  thumbs-wrapper w-80  pb7">
 
-    <gallery-thumbnail #thumbBox [prepClass]="prepClass"  class="thumb-box pointer-styled  b--red bw2"
+    <gallery-thumbnail #thumbBox [prepClass]="prepClass"  class="thumb-box pointer-styled b--red bw2"
       (hover)="hover($event)" *ngFor="let thumbnail of thumbnails" [thumbnail]="thumbnail"
       [hoverCompute]="hoverEventObject" [ngClass]="prepClass"></gallery-thumbnail>
 
@@ -17,6 +17,6 @@ relative bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll(
         </div>
       </div>
     </div>
-    
+
     <div class="spacer "></div>
   </div>

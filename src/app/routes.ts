@@ -15,12 +15,7 @@ import {
   CommissionsComponent
 } from './commissions/commissions.component'
 
-import {
-  CommissionsResolverService
-} from './shared/commissionsResolver.service'
-import {
-  CommissionResolverService
-} from './shared/old/commissionResolver.service'
+
 
 import { MenuComponent } from './menu/menu.component';
 import { AboutComponent } from './about/about.component'
@@ -91,7 +86,7 @@ export const appRoutes: Routes = [{
     path: 'commissions',
     component: CommissionsComponent,
     resolve: {
-      commissions: CommissionsResolverService,
+      commissions: GridResolverService,
     },
     data: {
       view: 'commissions',
@@ -106,7 +101,7 @@ export const appRoutes: Routes = [{
     path: 'commission/:slug',
     component: CommissionComponent,
     resolve: {
-      commission: CommissionResolverService
+      commission: GridResolverService
     },
     data: {
       view: 'commission',
@@ -145,7 +140,7 @@ export const appRoutes: Routes = [{
     path: 'about-no-resolver',
     component: AboutWrapperComponent,
     data: {
-      view: "about-no-resolver",
+      view: "about",
       title: "About",
       arrowState: false,
       xTurnState:true,
@@ -160,7 +155,7 @@ export const appRoutes: Routes = [{
     },
     data: {
       view: 'about',
-      title: 'about',
+      title: 'About',
       arrowState:  false,
       xTurnState: false,
       slideXState:true,

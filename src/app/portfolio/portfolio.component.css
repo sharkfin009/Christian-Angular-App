@@ -17,8 +17,6 @@
   }
   .thumb-box{
     /* border: 3px dashed purple; */
-
-
     margin-right: 0em;
     margin-bottom: 4em;
   }
@@ -61,6 +59,23 @@
     grid-template-columns: auto auto auto;
     /* column-gap: 140px; */
     row-gap: 100px;
+    width:1145px
+
+  }
+  .thumb-box{
+    /* border: 3px dashed red; */
+    margin-bottom: 0em;
+    margin-right: 0em;
+  }
+}
+
+@media  ( min-width:3000px){
+  .thumbs-wrapper {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    /* column-gap: 140px; */
+    row-gap: 100px;
+    width:1145px
   }
   .thumb-box{
     /* border: 3px dashed red; */
