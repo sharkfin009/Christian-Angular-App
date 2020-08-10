@@ -31,7 +31,8 @@ import {
   GetGridService
 } from '../shared/getGrid.service';
 
- import{ GalleryThumbnailComponent
+import {
+  GalleryThumbnailComponent
 } from '../thumbnail/gallery-thumbnail.component';
 
 
@@ -39,6 +40,22 @@ import {
   selector: "portfolio",
   templateUrl: "./portfolio.component.html",
   styleUrls: ["./portfolio.component.css"],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('false', style({
+        opacity: 0,
+      })),
+      state('true', style({
+        opacity: 1,
+      })),
+      transition('false=>true', [
+        style({
+          opacity: 0,
+        }),
+        animate("3s ease-in")
+      ]),
+    ])
+  ]
 })
 export class PortfolioComponent implements AfterViewInit {
   @ViewChildren(GalleryThumbnailComponent, {
@@ -52,6 +69,7 @@ export class PortfolioComponent implements AfterViewInit {
     title: "",
     names: "",
   };
+  thumblink = "/gallery/"
   @Output() arrowClass = new EventEmitter();
 
   previousScrollValue: Object;
@@ -83,7 +101,7 @@ export class PortfolioComponent implements AfterViewInit {
   cacheGalleryMarkup() {
     this.thumbnails.forEach((thumbnail) => {
       thumbnail.obs$ = this.preloadGrids
-        .getGrid("gallery",thumbnail.slug)
+        .getGrid("gallery", thumbnail.slug)
         .subscribe((item) => {});
     });
   }
@@ -102,7 +120,7 @@ export class PortfolioComponent implements AfterViewInit {
       });
 
       let recursive = (count) => {
-        if (count === this.thumbnails.length-1) {
+        if (count === this.thumbnails.length - 1) {
           this.cacheGalleryMarkup();
           sessionStorage.setItem("portfolio", "cached");
           return;
@@ -122,14 +140,13 @@ export class PortfolioComponent implements AfterViewInit {
     //check if this is not first time. if not, load instantly from cache so that route animation looks good
     //so if cache is there, skip consecutive load and animation
     if (sessionStorage.getItem("portfolio") === "cached") {
-      this.thumbnailsService.getThumbnails().subscribe((thumbs) => {
+      this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
         this.cachedFlag = true;
         this.thumbnails = thumbs;
         // reset scroll after render
-        if (sessionStorage.getItem("scroll")) {
-          console.log(sessionStorage.getItem("scroll"));
+        if (sessionStorage.getItem("scroll") &&
+         (sessionStorage.getItem("portfolioWhatLink") === "back" || sessionStorage.getItem("portfolioWhatLink")==="grid-lightbox")) {
           setTimeout(() => {
-            console.log(sessionStorage.getItem("scroll"));
             this.previousScrollValue = sessionStorage.getItem("scroll");
           });
         }
@@ -139,20 +156,20 @@ export class PortfolioComponent implements AfterViewInit {
       return;
 
     } else {
-          //do consecutive load
-             this.thumbnails.forEach(item=>{
-               item.picSrc = item.url;
-              item.url = "";
-             })
-             this.prepClass = "prepareForAnim";
-             this.thumbnailsService.getThumbnails().subscribe((thumbs) => {
-               this.thumbnails = thumbs;
-               this.thumbBoxes.changes.subscribe((item) => {
-                 this.elements = item.toArray();
-                 loadWithAnim();
-               });
-             });
-           }
+      //do consecutive load
+      this.thumbnails.forEach(item => {
+        item.picSrc = item.url;
+        item.url = "";
+      })
+      this.prepClass = "prepareForAnim";
+      this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
+        this.thumbnails = thumbs;
+        this.thumbBoxes.changes.subscribe((item) => {
+          this.elements = item.toArray();
+          loadWithAnim();
+        });
+      });
+    }
 
   }
 }

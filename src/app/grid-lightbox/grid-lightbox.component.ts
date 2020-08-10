@@ -7,7 +7,9 @@ import {
   Input
 }
 
+
 from '@angular/core';
+
 
 import {
   DomSanitizer,
@@ -26,40 +28,18 @@ import {
 from '@angular/router';
 
 
-
-import {
-  map,
-  shareReplay,
-  timeout,
-}
-
-from 'rxjs/operators';
-
-import {
-  Observable
-}
-
-from 'rxjs';
-import {
-  doesNotThrow
-} from 'assert';
 import {
   Grid
 } from '../shared/interfaces';
-import {
-  isNgTemplate
-} from '@angular/compiler';
+
 import {
   trigger,
-  state,
   style,
   transition,
   animate,
   keyframes
 } from '@angular/animations';
-import {
-  THIS_EXPR
-} from '@angular/compiler/src/output/output_ast';
+
 
 
 @Component({
@@ -124,7 +104,7 @@ import {
   }
 
 ) export class GridLightboxComponent implements OnInit {
-  @Input() gridData:any;
+  @Input() gridData: any;
   @Input() view: any;
   gallery: Grid;
   grid: string;
@@ -184,13 +164,14 @@ import {
   links: any;
   loadLoopFired = false;
   loadedLightboxPics = [];
-  browseBlock: Boolean = true;
+  lowResLoaded: Boolean = false;
   galleryPicsLoaded = 0;
   scrollValue: string;
-  userScrollFlag= false;
-  showArrows: Boolean =true;
+  userScrollFlag = false;
+  showArrows: Boolean = true;
 
   spinnerCursor: any;
+  fullResLoaded: boolean = false;
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
 
   prepareRoute(outlet: RouterOutlet) {
@@ -198,24 +179,27 @@ import {
   }
 
   ngOnInit(): void {
+
     this.srcUrls = this.gridData.srcUrls;
     this.srcSets = this.gridData.srcSets;
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gridData.grid);
-    if(this.view === "about"){
+    if (this.view === "about") {
       this.showArrows = false;
     }
   }
 
-  onScroll(event){
+  onScroll(event) {
+    // for scroll restoration, disable smooth scroll and 'float in' animation
     this.galleryWrapper.style.scrollBehavior = "auto";
-    if(this.userScrollFlag){
-      this.picsArray.forEach(item=>{
+    if (this.userScrollFlag) {
+      this.picsArray.forEach(item => {
         item.style.transition = "opacity ease-out 2s, transform ease-out 1s";
-     })
+      })
     }
 
+    sessionStorage.setItem("scrollValue", event.srcElement.scrollTop);
+    //reset flag for "float in"
     this.userScrollFlag = true;
-    sessionStorage.setItem("scrollValue",event.srcElement.scrollTop);
   }
 
   ngAfterViewInit() {
@@ -238,13 +222,49 @@ import {
     this.faderB = document.querySelector("#faderB");
     this.spinnerCursor = document.querySelector(".spinner-cursor");
 
-    if(this.view === "showcase" && sessionStorage.getItem("scrollValue") && sessionStorage.getItem("showcaseWhatLink") === "back" ){
+    //set up cursor spinner for right scroll while still loading gallery pics
+    window.addEventListener("mousemove", (e) => {
+      this.spinnerCursor.style.left = e.pageX + "px";
+      this.spinnerCursor.style.top = e.pageY + "px";
+    })
+    this.right.addEventListener("mouseenter", (e) => {
+      this.spinnerCursor.style.opacity = 1;
+    });
+    this.right.addEventListener("mouseleave", (e) => {
+      this.spinnerCursor.style.opacity = 0;
+    })
+
+    //set an SS value to trigger scroll reset in portfolio or commissions view
+
+    sessionStorage.setItem("commissionsWhatLink","grid-lightbox");
+    sessionStorage.setItem("portFolioWhatLink","grid-lightbox");
+    //check if user came here via the navlink X back link, in which case temporarily disable 'float in' animation so that scroll position can be restored
+    if (this.view === "showcase" && sessionStorage.getItem("scrollValue") && sessionStorage.getItem("showcaseWhatLink") === "back") {
+      //set flag to bypass anim
       this.userScrollFlag = false;
-      setTimeout(()=>{
-        this.scrollValue=sessionStorage.getItem("scrollValue");
-        this.picsArray.forEach(item=>{
+      setTimeout(() => {
+        this.scrollValue = sessionStorage.getItem("scrollValue");
+        this.picsArray.forEach(item => {
           item.style.transition = "none";
-       })
+        })
+      })
+    }
+
+    if (this.view === "showcase" && sessionStorage.getItem("showcaseWhatLink") === "menu") {
+      this.userScrollFlag = false;
+      setTimeout(() => {
+        this.picsArray.forEach(item => {
+          item.style.transition = "none";
+        })
+      })
+    }
+
+    if (this.view === "about" && sessionStorage.getItem("showcaseWhatLink") === "menu") {
+      this.userScrollFlag = false;
+      setTimeout(() => {
+        this.picsArray.forEach(item => {
+          item.style.transition = "none";
+        })
       })
     }
 
@@ -269,23 +289,13 @@ import {
     }
     document.addEventListener('keydown', callBrowse.bind(this));
 
-    //set up cursor spinner for right scroll while still loading gallery pics
-    window.addEventListener("mousemove",(e)=>{
-      this.spinnerCursor.style.left = e.pageX +"px";
-      this.spinnerCursor.style.top = e.pageY + "px";
-    })
-    this.right.addEventListener("mouseenter",(e)=>{
-      this.spinnerCursor.style.opacity = 1;
-    });
-    this.right.addEventListener("mouseleave",(e)=>{
-      this.spinnerCursor.style.opacity = 0;
-    })
+
 
     //hide arrow on scroll
     this.arrowFrame = document.querySelector(".arrow-frame");
     // add arrow hide listener
     this.galleryWrapper.onscroll = () => {
-    this.arrowFrame.style.opacity = 0;
+      this.arrowFrame.style.opacity = 0;
     }
 
     //target DOM element containing santized grid as innerHTML
@@ -309,26 +319,35 @@ import {
     }.bind(this), true);
 
     //load first  pic
-     this.picsArray[0].src = this.picsArray[0].dataset.src;
+    this.picsArray[0].src = this.picsArray[0].dataset.src;
     this.picsArray[0].srcset = this.srcSets[0];
 
   }
 
   scrollToTop(): void {
     this.galleryWrapper.style.scrollBehavior = "smooth";
-    this.galleryWrapper.scrollTo(0, 0)
+    this.galleryWrapper.scroll({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    })
   }
 
   picsListenLoadAndObserve() {
-    this.picsArray.forEach((item, index,array) => {
 
-      item.onload = ()=> {
+    this.picsArray.forEach((item, index, array) => {
 
-           //set onload event handler to count all pics loaded, and set flag to enable lightbox scrolling
-           this.galleryPicsLoaded++;
-           if (this.galleryPicsLoaded+1 === array.length) {
+      item.onload = () => {
 
-             this.browseBlock = false;}
+        //set onload event handler to count all pics loaded, and set flag to enable lightbox scrolling
+        this.galleryPicsLoaded++;
+        if (this.galleryPicsLoaded + 1 === array.length) {
+          this.lowResLoaded = true;
+          console.log("low res loaded");
+          this.spinnerCursor.style.display = "none";
+
+
+        }
         //fade in above fold pics , and set flag to differentiate first screenfull
         let picTop = item.getBoundingClientRect().top;
         if (picTop < window.innerHeight) {
@@ -350,7 +369,10 @@ import {
         //set up intersection observers
         let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
         observer.observe(item);
+        //set onload event
+
       }
+      //load all gallery pics
       if (index !== 0) {
         item.src = item.dataset.src;
         item.srcset = this.srcSets[index]
@@ -387,6 +409,10 @@ import {
     this.preloadDiv = document.createElement('div');
     let loadLoop = (counter) => {
       if (counter === this.picsArray.length) {
+        this.fullResLoaded = true;
+        console.log("high res loaded");
+        // this.browse("right");
+        // this.browse("left");
         return
       }
       let preloadImage = new Image;
@@ -395,12 +421,15 @@ import {
       preloadImage.onload = () => {
         this.preloadDiv.append(preloadImage);
         this.picsArray[counter].fullResLoadedFlag = true;
+        if(this.pic.currentSrc === this.picsArray[counter].src){
+        this.pic.src = this.loadedLightboxPics[counter];
+
+        }
         counter++;
         loadLoop(counter)
       }
       //load image
       preloadImage.src = this.loadedLightboxPics[counter];
-
     }
     loadLoop(0);
   }
@@ -411,13 +440,11 @@ import {
       this.lightboxRecursiveLoad()
     };
 
-
-
     this.galleryWrapper.classList.toggle('hide-scroll');
     this.close.style.opacity = 0.8;
     this.clickBlock = true;
     this.lightboxFlag = true;
-   // this.headerClass.emit("o-0");
+    // this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id);
     this.lightboxFade.forEach(item => item.style.opacity = 0);
     //hide arrows at start and end of pics
@@ -442,17 +469,14 @@ import {
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
       void this.renderedGrid.offsetWidth;
-      this.renderedGrid.style.transition = "opacity 1s ease-in-out"
+      this.renderedGrid.style.transition = "opacity 0.7s ease-in-out"
       this.renderedGrid.style.opacity = 0;
       this.clickBlock = false;
 
     }, 300)
-    //set onload event
-    this.pic.onload = () => {
-      if (this.pic.src === this.loadedLightboxPics[this.picPointer]) {
+    //set pic load event
+    this.pic.onload = (event) => {
 
-        return
-      }
       if (this.pic.src === event.target.currentSrc) {
         this.pic.src = this.loadedLightboxPics[this.picPointer];
 
@@ -461,10 +485,10 @@ import {
       }
 
     }
-
     //put backup pic in lightbox
     this.pic.src = event.target.currentSrc
-    //put this pic in lightbox
+    //set lightbox overlay "close" area to size of pic:
+    this.close.style.width = this.pic.offsetWidth + "px";
   }
 
   cumulativeOffset(element, index) {
@@ -552,7 +576,7 @@ import {
 
 
   browse(param) {
-    if (this.browseBlock) {
+    if (!this.lowResLoaded) {
       return
     }
     //establish direction
@@ -571,7 +595,7 @@ import {
     }
 
     //close lightbox at end
-    if (direction === "right" && this.picPointer === this.picsArray.length - 1 && !this.browseBlock) {
+    if (direction === "right" && this.picPointer === this.picsArray.length - 1) {
       this.closeLightbox();
     }
 
@@ -587,7 +611,16 @@ import {
       if (direction === "right" && this.picPointer < this.picsArray.length - 1) {
         this.picPointer += 1;
       }
+      //set onload event
+      this.picsArray[this.picPointer].onload = (event) => {
 
+        if (this.picsArray[this.picPointer] === this.loadedLightboxPics[this.picPointer]) {
+          console.log("load event")
+
+
+          return
+        }
+      }
       //update pic
       if (this.picsArray[this.picPointer].fullResLoadedFlag) {
         this.pic.src = this.loadedLightboxPics[this.picPointer]
@@ -609,24 +642,28 @@ import {
           //manage first pic
           this.startFlag = false;
           //move right with animation
-          this.faderB.src = this.loadedLightboxPics[
-            this.picPointer - 1
-          ]
+          if (this.picsArray[this.picPointer - 1].fullResLoadedFlag) {
+            this.faderB.src = this.loadedLightboxPics[this.picPointer - 1]
+          } else {
+            this.faderB.src = this.picsArray[this.picPointer - 1].currentSrc;
+          }
 
           this.fadeFlag2 = "fire";
           this.crossFadeDone2 = false;
         }
         if (direction === "left") {
           let moveLeft = () => {
-            this.faderB.src = this.loadedLightboxPics[
-              this.picPointer + 1
-            ]
+            if (this.picsArray[this.picPointer + 1].fullResLoadedFlag) {
+              this.faderB.src = this.loadedLightboxPics[this.picPointer + 1]
+            } else {
+              this.faderB.src = this.picsArray[this.picPointer + 1].currentSrc;
+            }
             this.fadeFlag2 = "fire";
             this.crossFadeDone2 = false;
           }
 
           //manage first pic
-          if (this.startFlag === true ) {
+          if (this.startFlag === true) {
             moveLeft()
           }
           if (this.startFlag === false) {
@@ -651,7 +688,11 @@ import {
           this.startFlag = false;
           //move right with animation
 
-          this.fader.src = this.loadedLightboxPics[this.picPointer - 1]
+          if (this.picsArray[this.picPointer - 1].fullResLoadedFlag) {
+            this.fader.src = this.loadedLightboxPics[this.picPointer - 1]
+          } else {
+            this.fader.src = this.picsArray[this.picPointer - 1].currentSrc;
+          }
 
           this.fadeFlag = "fire";
           this.crossFadeDone = false;
@@ -659,16 +700,18 @@ import {
         if (direction === "left") {
           let moveLeft = () => {
 
-
-            this.fader.src = this.loadedLightboxPics[
-              this.picPointer + 1];
+            if (this.picsArray[this.picPointer + 1].fullResLoadedFlag) {
+              this.fader.src = this.loadedLightboxPics[this.picPointer + 1]
+            } else {
+              this.fader.src = this.picsArray[this.picPointer + 1].currentSrc;
+            }
 
             this.fadeFlag = "fire";
             this.crossFadeDone = false;
           }
 
           //manage first pic
-          if (this.startFlag === true ) {
+          if (this.startFlag === true) {
 
             moveLeft()
           }

@@ -2,16 +2,16 @@
 relative  bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll($event)"
   [scrollTop]="previousScrollValue">
 
-  <div class=" relative  thumbs-wrapper w-80  pb7">
+  <div class="relative thumbs-wrapper w-80">
 
     <gallery-thumbnail #thumbBox [prepClass]="prepClass"  class="thumb-box pointer-styled b--red bw2"
       (hover)="hover($event)" *ngFor="let thumbnail of thumbnails" [thumbnail]="thumbnail"
-      [hoverCompute]="hoverEventObject" [ngClass]="prepClass"></gallery-thumbnail>
+      [hoverCompute]="hoverEventObject" [ngClass]="prepClass" [thumbLink]="thumblink"></gallery-thumbnail>
 
-    <div id="titleFrame" class="fixed w-100 pointer-events-none flex items-end">
-      <div id="text" class="w-60 black">
-        <div class="w-100" [ngClass]="hoverEventObject.hover" id="names">{{hoverEventObject.names}}</div>
-        <div class="mt4  w-100" [ngClass]="hoverEventObject.hover" id="title">{{hoverEventObject.title}}
+    <div id="titleFrame" [ngClass]="hoverEventObject.hover" class="w-100  fixed pointer-events-none flex justify-center items-end">
+      <div id="text" class="w-80 black">
+        <div class="w-100" id="names">{{hoverEventObject.names}}</div>
+        <div class="mt4 w-100" id="title">{{hoverEventObject.title}}
           <div>
           </div>
         </div>

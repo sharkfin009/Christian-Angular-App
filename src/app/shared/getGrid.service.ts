@@ -40,10 +40,11 @@ export class GetGridService {
         apiUrl = this.aboutApiUrl;
         break;
       case "commission":
-        apiUrl = this.commissionApiUrl;
+        apiUrl = this.commissionApiUrl + slug;
+        break;
       case "showcase":
         apiUrl = this.galleryApiUrl + "/showcase"
-
+      break;
     };
 
     return this.http.get < any > (apiUrl)

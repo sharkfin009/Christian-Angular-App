@@ -20,22 +20,7 @@ import { state, trigger, transition, style, animate } from '@angular/animations'
   selector: '´gallery-thumbnail',
   templateUrl: './gallery-thumbnail.component.html',
   styleUrls: ['./gallery-thumbnail.component.css'],
-  animations: [
-    trigger('simpleFadeAnimation', [
-      state('false', style({
-        opacity: 0,
-      })),
-      state('true', style({
-        opacity: 1,
-      })),
-      transition('false=>true', [
-        style({
-          opacity: 0,
-        }),
-        animate("0.5s ease-in")
-      ]),
-    ])
-  ]
+
 })
 
 export class GalleryThumbnailComponent implements OnInit {
@@ -43,6 +28,7 @@ export class GalleryThumbnailComponent implements OnInit {
   @Input() prepClass: string;
   @Input() thumbnail: any;
   @Input() hoverCompute: string;
+  @Input() thumbLink: "";
   @Output() hover = new EventEmitter();
   @Output() loaded = new EventEmitter();
   @Output() arrowClass = new EventEmitter();
@@ -73,6 +59,7 @@ export class GalleryThumbnailComponent implements OnInit {
       hover: "paleOff",
       names: this.thumbnail.names,
     }
+    console.log("thumblink:",this.thumbLink)
   }
 
   hoverOn() {

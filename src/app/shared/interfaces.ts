@@ -18,6 +18,18 @@ export interface Grid {
     cachedUrl:string;
  }
 
+ export interface CommissionThumb {
+  slug: string;
+  title:string;
+  names:string;
+  thumb: string;
+  url:string;
+  showFlag: boolean;
+  obs$:any;
+  count:string;
+  cachedUrl:string;
+}
+
  export interface Commission {
   slug: string;
   names: string;

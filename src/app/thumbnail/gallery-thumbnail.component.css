@@ -5,41 +5,23 @@
 }
 
 #thumbnail {
-
   width: 100%;
   height: 100%;
+
+}
+#thumbnail-wrapper{
+  transition: all 0.5s ease-in 0.05s;
+
 }
 
 .paleOn {
-  animation: fadeOut 0.8s ease-out forwards;
+  opacity:0.2;
 }
 
 .paleOff {
-  animation: fadeIn 0.5s ease-out forwards;
-
-}
-
-.thisIsHoveredThumbnail {
-  opacity: 1 !important
+  opacity:1;
 }
 
 
- @keyframes fadeIn {
-  from {
-    opacity: 0.2;
-  }
 
-  to {
-    opacity: 1;
-  }
-}
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0.2;
-  }
-}

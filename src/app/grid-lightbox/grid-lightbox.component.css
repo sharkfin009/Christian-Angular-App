@@ -14,7 +14,7 @@
   position:absolute;
   width: 20px;
   height:20px;
- 
+
   top:0;
   z-index:500;
   left:0;
@@ -131,13 +131,19 @@
 #close {
   cursor: url('../../assets/vectrXNoShadow.svg'), auto;
   transition: opacity 1s ease-out;
-  width: 54vw;
+
 }
 
 #left {
-  width: 23vw
+  flex-grow: 1;
 }
 
 #right {
-  width: 23vw
+  flex-grow:1;
+}
+
+@media(min-width :1700px){
+#gallery-box{
+  width:1350px;
+}
 }

@@ -169,40 +169,7 @@ export const slider =
         ] ,{optional:true})
       ])
     ]),
-    transition('menu => portfolio', [
-      style({
-        position: "relative"
-      }),
-      query(':enter,:leave', [
-        style({
-           position: 'absolute',
-           left: 0,
-          top:0,
-          width: '100%',
-        }),
-      ]),
-      group([
-        query(':leave', [
-          style({
-            transform: 'translateX(0%)'
-          }),
-          animate('0.8s ease-out',
-            style({
-              transform: 'translateX(-20%)',
-            }))
-        ],{optional:true}),
-        query(':enter', [
-          style({
-            transform: 'translate(150%)',
-          }),
-          animate('0.8s ease-out',
-            style({
 
-              transform: 'translateX(0%)'
-            }))
-        ] ,{optional:true})
-      ]),
-    ]),
     transition('* => menu', [
       style({
         position: "relative"
@@ -237,40 +204,7 @@ export const slider =
         ],{optional:true} )
       ]),
     ]),
-    // transition('menu => showcase', [
-    //   style({
-    //     position: "relative"
-    //   }),
-    //   query(':enter,:leave', [
-    //     style({
-    //        position: 'absolute',
-    //        left: 0,
-    //       top:0,
-    //       width: '100%',
-    //     }),
-    //   ]),
-    //   group([
-    //     query(':leave', [
-    //       style({
-    //         transform: 'translateX(0%)'
-    //       }),
-    //       animate('0.8s ease-out',
-    //         style({
-    //           transform: 'translateX(-20%)',
-    //         }))
-    //     ],{optional:true}),
-    //     query(':enter', [
-    //       style({
-    //         transform: 'translateY(150%)',
-    //       }),
-    //       animate('0.5s ease-out',
-    //         style({
 
-    //           transform: 'translateY(0%)'
-    //         }))
-    //     ],{optional:true} )
-    //   ]),
-    // ]),
     transition('menu => *', [
       style({
         position: "relative"
@@ -288,19 +222,19 @@ export const slider =
           style({
             transform: 'translateX(0%)'
           }),
-          animate('0.8s ease-out',
+          animate('0.5s ease-in',
             style({
               transform: 'translateX(-20%)',
             }))
         ]),
         query(':enter', [
           style({
-            transform: 'translate(150%)',
+             transform: 'translateX(100%)',
           }),
           animate('0.5s ease-out',
             style({
 
-              transform: 'translateX(0%)'
+               transform: 'translateX(0%)'
             }))
         ] )
       ]),

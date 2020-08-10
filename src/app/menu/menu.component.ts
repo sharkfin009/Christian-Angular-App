@@ -14,10 +14,19 @@ export class MenuComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+  //set SS values to track how we got to showcase and portfolio
     if (sessionStorage.getItem("showcase") === "cached"){
       this.showcaseLink = "/showcase";
       sessionStorage.setItem("showcaseWhatLink","menu")
     };
+    if (sessionStorage.getItem("portfolio") === "cached"){
+      sessionStorage.setItem("portfolioWhatLink","menu")
+    };
+    if (sessionStorage.getItem("commissions") === "cached"){
+      sessionStorage.setItem("commissionsWhatLink","menu")
+    };
+
+
     if(sessionStorage.getItem('about') ==="cached"){
       this.aboutLink = "/about"
     }

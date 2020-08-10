@@ -1,22 +1,27 @@
 <div id="fullWrapper" [@showtime]="showTime.state">
-  <div id="header" class="lightbox-fade fixed w-100  flex flex-nowrap ">
-    <div id="nav-icon"class="w-10 flex justify-center items-center">
+  <div id="header" class=" lightbox-fade fixed w-100  flex justify-center ">
+
+    <div id="nav-icon" class="relative flex justify-center items-center">
+
       <img src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)"
         class=" absolute menu-button hover-grow pointer-styled ph2" [@slideX]="getArrowState(outlet)"
         [@xTurn]="getXTurnState(outlet)" />
-      <div routerLink="/portfolio" class=" b--green absolute arrow" [@arrow]="getArrowState(outlet)">
+
+      <div [routerLink]="backArrowLink" class=" b--green absolute arrow" [@arrow]="getArrowState(outlet)">
         <img src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer-styled " />
       </div>
     </div>
-    <div id="innerHeader" class="relative w-80 flex flex-nowrap justify-between items-center">
-      <div id="site-title" class="o-80 lightbox-fade  fw2">Christian Doppelgatz</div>
+
+    <div id="innerHeader" class="relative  flex flex-nowrap justify-between items-center">
+      <div id="site-title" class="o-70 lightbox-fade  fw2">Christian Doppelgatz</div>
     </div>
-    <div class="w-10">
-    </div>
+
+    <div class="" id="spacerRight"></div>
+
   </div>
 </div>
 
 <div id="outlet-wrapper" class=" bw2 b--red bw2 fixed h-100 w-100 " [@routeAnimations]="prepareRoute(outlet)">
-  <router-outlet  #outlet="outlet" class="absolute  h-100  w-100    bw2 b--blue ">
+  <router-outlet #outlet="outlet" class="absolute  h-100  w-100    bw2 b--blue ">
   </router-outlet>
 </div>

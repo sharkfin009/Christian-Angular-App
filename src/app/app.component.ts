@@ -41,19 +41,19 @@ import { filter, pairwise } from 'rxjs/operators';
         transform: "translateY(0)"
       })),
       state('false', style({
-        transform: "translateY(100vh)"
+        transform: "translateY(200vh)"
       })),
-      transition('true=>false', [animate('0.8s ease-out')]),
+      transition('true=>false', [animate('0.6s 0.8s ease-in')]),
       transition('false=>true', [animate('0.8s ease-out')])
     ]),
     trigger('slideX', [
       state('true', style({
-        transform: "translateY(-50vh)"
+        transform: "translateY(-100vh)"
       })),
       state('false', style({
         transform: "translateY(0)"
       })),
-      transition('true=>false', [animate('0.8s ease-out')]),
+      transition('true=>false', [animate('0.2s 0.8s ease-out')]),
       transition('false=>true', [animate('0.8s ease-out')])
     ]),
     trigger('xTurn', [
@@ -61,11 +61,11 @@ import { filter, pairwise } from 'rxjs/operators';
         transform: "rotate(-45deg)"
       })),
       state('false', style({
-        transform: "rotate(0)"
+        transform: "rotate(0deg)"
       })),
 
-      transition('true=>false', [animate('0.8s ease-out')]),
-      transition('false=>true', [animate('0.8s ease-out')])
+      transition('true=>false', [animate('0.5s ease-out')]),
+      transition('false=>true', [animate('0.5s ease-out')])
     ]),
     trigger('showtime', [
       state('initial', style({
@@ -95,6 +95,7 @@ export class AppComponent implements OnInit {
   showTime = {state:"initial"};
   @Input('thumbs') thumbStore=[];
   lastRoute: any;
+  backArrowLink:any;
   constructor(private route: ActivatedRoute, private router: Router, public location: Location) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
@@ -117,17 +118,17 @@ export class AppComponent implements OnInit {
     ).subscribe((e: any) => {
       this.lastRoute = e[0].urlAfterRedirects;
         console.log(this.lastRoute); // previous url
+       this.backArrowLink = this.lastRoute
     });
+
 
   }
   ngAfterViewInit() {
 
-
-
   }
 
 
- 
+
 
   getArrowState(outlet) {
     if (outlet.activatedRouteData.arrowState === undefined) {
@@ -153,12 +154,15 @@ export class AppComponent implements OnInit {
         relativeTo: this.route
       });
     } else {
-
+      //set SS values to track how we got to showcase and portfolio
       if(this.lastRoute === "/showcase"){
         sessionStorage.setItem("lastRoute","showcase")
         sessionStorage.setItem("showcaseWhatLink","back")
       }
-
+      if(this.lastRoute === "/portfolio"){
+        sessionStorage.setItem("lastRoute","portfolio")
+        sessionStorage.setItem("portfolioWhatLink","back")
+      }
 
       this.location.back();
     }

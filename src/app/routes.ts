@@ -85,9 +85,6 @@ export const appRoutes: Routes = [{
   }, {
     path: 'commissions',
     component: CommissionsComponent,
-    resolve: {
-      commissions: GridResolverService,
-    },
     data: {
       view: 'commissions',
       title: 'Commissions',
@@ -109,7 +106,6 @@ export const appRoutes: Routes = [{
       arrowState: true,
       xTurnState:false,
       slideXState:true,
-
     }
   },
 

@@ -1,19 +1,22 @@
-<div class="debug w-100 flex justify-center">
+<div id="port-frame" class="
+relative  bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll($event)"
+  [scrollTop]="previousScrollValue">
 
-  <div id="thumbsFrame" class="relative w-80 flex justify-between flex-wrap ">
-    <div id="thumbs" class="pointer w-100 h-100" class="w-100 mb5" (mouseenter)="hoverOn()"
-      (mouseleave)="hoverOff()" [innerHtml]="sanitizedLayout">
+  <div class="relative thumbs-wrapper w-80">
+
+    <gallery-thumbnail #thumbBox [prepClass]="prepClass"  class="w-100 thumb-box pointer-styled b--red bw2"
+      (hover)="hover($event)" *ngFor="let thumbnail of thumbnails" [thumbnail]="thumbnail"
+      [hoverCompute]="hoverEventObject" [thumbLink] = "thumbLink" [ngClass]="prepClass"></gallery-thumbnail>
+
+    <div id="titleFrame" [ngClass]="hoverEventObject.hover" class="w-100  fixed pointer-events-none flex justify-center items-end">
+      <div id="text" class="w-80 black">
+        <div class="w-100" id="names">{{hoverEventObject.names}}</div>
+        <div class="mt4 w-100" id="title">{{hoverEventObject.title}}
+          <div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="spacer "></div>
   </div>
-</div>
-<div id="titleFrame" class="fixed h-80 w-100 pointer-events-none flex items-end ">
-  <div class="w-10"></div>
-
-  <div id="text" class="w-60 tl black">
-
-    <h1 class="w-100 pb5" [ngClass]="[hoverClass]" id="title">{{title}}</h1>
-  </div>
-
-  <div class="w-10"></div>
-</div>
-
