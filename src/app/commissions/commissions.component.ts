@@ -97,7 +97,7 @@ export class CommissionsComponent implements AfterViewInit {
     sessionStorage.setItem("scroll", event.srcElement.scrollTop);
   }
 
-  onload2Promise(obj: unknown) {
+  onload2Promise(obj) {
     return new Promise((resolve, reject) => {
       obj.onload = () => resolve(obj);
       obj.onerror = reject;

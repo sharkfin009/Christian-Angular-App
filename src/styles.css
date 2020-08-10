@@ -10,6 +10,7 @@ html, body {
     /* -webkit-font-smoothing: antialiased; */
     /* -moz-osx-font-smoothing: grayscale; */
     cursor: url('./assets/pointer-styled.svg'),auto;
+    user-select:text;
 }
 body { margin: 0;
 

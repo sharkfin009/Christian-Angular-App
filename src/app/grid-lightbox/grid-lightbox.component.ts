@@ -169,6 +169,9 @@ import {
   scrollValue: string;
   userScrollFlag = false;
   showArrows: Boolean = true;
+  xBox: any;
+  arrow: any;
+  aTags: any;
 
   spinnerCursor: any;
   fullResLoaded: boolean = false;
@@ -221,6 +224,21 @@ import {
     this.fader = document.querySelector("#fader");
     this.faderB = document.querySelector("#faderB");
     this.spinnerCursor = document.querySelector(".spinner-cursor");
+    this.xBox = document.querySelector('#xbox');
+    this.aTags = document.querySelectorAll('a');
+
+    // style a tags
+    this.aTags.forEach((item) => {
+      item.style.textDecoration = "none";
+      item.style.color = "black";
+      item.addEventListener("mouseenter", (event) => {
+        event.target.style.color = "#ff5039";
+      });
+      item.addEventListener("mouseleave", (event) => {
+        event.target.style.color = "black";
+      })
+    })
+
 
     //set up cursor spinner for right scroll while still loading gallery pics
     window.addEventListener("mousemove", (e) => {
@@ -236,8 +254,8 @@ import {
 
     //set an SS value to trigger scroll reset in portfolio or commissions view
 
-    sessionStorage.setItem("commissionsWhatLink","grid-lightbox");
-    sessionStorage.setItem("portFolioWhatLink","grid-lightbox");
+    sessionStorage.setItem("commissionsWhatLink", "grid-lightbox");
+    sessionStorage.setItem("portFolioWhatLink", "grid-lightbox");
     //check if user came here via the navlink X back link, in which case temporarily disable 'float in' animation so that scroll position can be restored
     if (this.view === "showcase" && sessionStorage.getItem("scrollValue") && sessionStorage.getItem("showcaseWhatLink") === "back") {
       //set flag to bypass anim
@@ -421,8 +439,8 @@ import {
       preloadImage.onload = () => {
         this.preloadDiv.append(preloadImage);
         this.picsArray[counter].fullResLoadedFlag = true;
-        if(this.pic.currentSrc === this.picsArray[counter].src){
-        this.pic.src = this.loadedLightboxPics[counter];
+        if (this.pic.currentSrc === this.picsArray[counter].src) {
+          this.pic.src = this.loadedLightboxPics[counter];
 
         }
         counter++;
@@ -489,6 +507,9 @@ import {
     this.pic.src = event.target.currentSrc
     //set lightbox overlay "close" area to size of pic:
     this.close.style.width = this.pic.offsetWidth + "px";
+    console.log(this.xBox)
+    this.xBox.style.height = (window.innerHeight / 2 - this.pic.offsetHeight / 2) + "px";
+
   }
 
   cumulativeOffset(element, index) {
@@ -739,7 +760,7 @@ import {
       this.picZoom(photo);
 
       if (this.picPointer === 0) {
-        this.arrowLeft = "o-0";
+        this.arrow = "o-0";
       } else {
         this.arrowLeft = "o-100";
       }

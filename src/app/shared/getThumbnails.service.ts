@@ -46,7 +46,7 @@ export class GetThumbnailsService {
            //console.dir(grid)
             let newHTMLDoc = document.implementation.createHTMLDocument("grid");
             let gridLoaded = newHTMLDoc.createElement('div');
-            gridLoaded.innerHTML= grid;
+            gridLoaded.innerHTML=  grid;
 
             let comImgs = gridLoaded.querySelectorAll('img');
             console.log(gridLoaded)
