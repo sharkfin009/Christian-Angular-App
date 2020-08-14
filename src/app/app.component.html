@@ -1,5 +1,10 @@
+<div  class="spinner-cursor dn" >
+  <div class="wheel">
+  </div>
+</div>
+
 <div id="fullWrapper" [@showtime]="showTime.state">
-  <div id="header" class=" lightbox-fade fixed w-100  flex justify-center ">
+  <div  id="header" class=" lightbox-fade fixed w-100  flex justify-center ">
 
     <div id="nav-icon" class="relative flex justify-center items-center">
 
@@ -8,12 +13,13 @@
         [@xTurn]="getXTurnState(outlet)" />
 
       <div [routerLink]="backArrowLink" class=" b--green absolute arrow" [@arrow]="getArrowState(outlet)">
-        <img src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer-styled " />
+        <img src="../assets/upArrao!.svg" width="22" class="relative ph3  hover-grow pointer-styled "
+        />
       </div>
     </div>
 
-    <div id="innerHeader" class="relative  flex flex-nowrap justify-between items-center">
-      <div id="site-title" class="o-70 lightbox-fade fw2">Christian Doppelgatz</div>
+    <div id="innerHeader" class="relative  flex flex-nowrap justify-between items-center ">
+      <div routerLink="/portfolio" id="site-title" class="o-70 lightbox-fade fw2 pointer-styled">Christian Doppelgatz</div>
     </div>
 
     <div class="" id="spacerRight"></div>

@@ -10,6 +10,7 @@ import {
 
 from '@angular/core';
 
+import * as fileSaver from 'file-saver';
 
 import {
   DomSanitizer,
@@ -37,8 +38,10 @@ import {
   style,
   transition,
   animate,
-  keyframes
+  keyframes,
+  state
 } from '@angular/animations';
+import { FileService } from '../file.service';
 
 
 
@@ -98,6 +101,15 @@ import {
         ]),
 
       ]),
+      trigger('showTimeAbout', [
+        state('initial', style({
+          opacity: "0.2"
+        })),
+        state('fadedIn', style({
+          opacity: "1"
+        })),
+        transition('initial=>fadedIn', [animate('2s ease-out')]),
+      ]),
     ]
 
 
@@ -113,7 +125,7 @@ import {
   galleryGrid: any;
   picsArray: any;
   overlay: any;
-  pic: any;
+  pic:any = '';
   zoom: string;
   lightboxFade: any;
   left: any;
@@ -173,14 +185,32 @@ import {
   arrow: any;
   aTags: any;
 
-  spinnerCursor: any;
+  spinnerLightbox: any;
   fullResLoaded: boolean = false;
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) {}
+  showTimeAbout  = {state:"initial"};
+  galleryFrame: any;
+  galleryBox: any;
+  spinner: any;
+  overlayCentralColumn: any;
+  picOverlay: any;
+  constructor(
+    // private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    // private router: Router,
+    private fileService: FileService
+    ) {}
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
-
+ download(){
+   this.fileService.downloadFile(this.pic.src).subscribe(response => {
+     let blob:any = new Blob([response._body],{ type:'image/jpeg'});
+   console.dir(response);
+   console.dir(blob)
+   fileSaver.saveAs(blob,'pic.jpeg')
+   })
+ }
   ngOnInit(): void {
 
     this.srcUrls = this.gridData.srcUrls;
@@ -189,6 +219,8 @@ import {
     if (this.view === "about") {
       this.showArrows = false;
     }
+    this.spinner = document.querySelector(".spinner-cursor");
+    this.spinner.style.display = "none";
   }
 
   onScroll(event) {
@@ -208,6 +240,7 @@ import {
   ngAfterViewInit() {
 
 
+
     //set up DOM values
     this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
@@ -218,14 +251,15 @@ import {
     this.right = document.querySelector("#right");
     this.fullWrapper = document.querySelector(".full-wrapper");
     this.galleryWrapper = document.querySelector("#galleryWrapper");
-    this.close = document.querySelector("#close");
+    this.overlayCentralColumn = document.querySelector("#central-column");
     this.leftPic = document.querySelector("#leftPic");
     this.rightPic = document.querySelector("#rightPic");
     this.fader = document.querySelector("#fader");
     this.faderB = document.querySelector("#faderB");
-    this.spinnerCursor = document.querySelector(".spinner-cursor");
+    this.spinnerLightbox = document.querySelector(".spinner-lightbox");
     this.xBox = document.querySelector('#xbox');
     this.aTags = document.querySelectorAll('a');
+    this.picOverlay = document.querySelector('#pic-overlay')
 
     // style a tags
     this.aTags.forEach((item) => {
@@ -242,23 +276,30 @@ import {
 
     //set up cursor spinner for right scroll while still loading gallery pics
     window.addEventListener("mousemove", (e) => {
-      this.spinnerCursor.style.left = e.pageX + "px";
-      this.spinnerCursor.style.top = e.pageY + "px";
+      this.spinnerLightbox.style.left = e.pageX + "px";
+      this.spinnerLightbox.style.top = e.pageY + "px";
     })
     this.right.addEventListener("mouseenter", (e) => {
-      this.spinnerCursor.style.opacity = 1;
+      this.spinnerLightbox.style.opacity = 1;
     });
     this.right.addEventListener("mouseleave", (e) => {
-      this.spinnerCursor.style.opacity = 0;
+      this.spinnerLightbox.style.opacity = 0;
     })
 
     //set an SS value to trigger scroll reset in portfolio or commissions view
 
     sessionStorage.setItem("commissionsWhatLink", "grid-lightbox");
-    sessionStorage.setItem("portFolioWhatLink", "grid-lightbox");
+    sessionStorage.setItem("portfolioWhatLink", "grid-lightbox");
+    //fire fade in
+    this.galleryBox= document.querySelector("#gallery-box")
+    setTimeout(() =>{
+      this.showTimeAbout.state = "fadedIn";
+    })
     //check if user came here via the navlink X back link, in which case temporarily disable 'float in' animation so that scroll position can be restored
-    if (this.view === "showcase" && sessionStorage.getItem("scrollValue") && sessionStorage.getItem("showcaseWhatLink") === "back") {
+    if ((this.view === "showcase")  && sessionStorage.getItem("showcaseWhatLink") === "back") {
+      console.log("back to showcase")
       //set flag to bypass anim
+
       this.userScrollFlag = false;
       setTimeout(() => {
         this.scrollValue = sessionStorage.getItem("scrollValue");
@@ -266,7 +307,13 @@ import {
           item.style.transition = "none";
         })
       })
+        //run fade in with transition none
+        this.galleryBox.style.transition="none";
+        setTimeout(() =>{
+          this.showTimeAbout.state = "fadedIn";
+        })
     }
+
 
     if (this.view === "showcase" && sessionStorage.getItem("showcaseWhatLink") === "menu") {
       this.userScrollFlag = false;
@@ -275,16 +322,61 @@ import {
           item.style.transition = "none";
         })
       })
+        //run fade in with transition none
+        this.galleryBox.style.transition="none";
+        setTimeout(() =>{
+          this.showTimeAbout.state = "fadedIn";
+        })
+    }
+    if (this.view === "about" && sessionStorage.getItem("aboutWhatLink") === "back") {
+      //set flag to bypass anim
+      this.spinner.style.display="none";
+      this.userScrollFlag = false;
+      setTimeout(() => {
+        this.scrollValue = sessionStorage.getItem("scrollValue");
+        this.picsArray.forEach(item => {
+          item.style.transition = "none";
+        });
+
+      })
+       //run fade in with transition none
+       this.galleryBox.style.transition="none";
+       setTimeout(() =>{
+         this.showTimeAbout.state = "fadedIn";
+       })
     }
 
-    if (this.view === "about" && sessionStorage.getItem("showcaseWhatLink") === "menu") {
+    if (this.view === "about" && sessionStorage.getItem("aboutWhatLink") === "menu") {
       this.userScrollFlag = false;
+      this.spinner.style.display="none";
       setTimeout(() => {
         this.picsArray.forEach(item => {
           item.style.transition = "none";
         })
       })
+        //run fade in with transition none
+        this.galleryBox.style.transition="none";
+        setTimeout(() =>{
+          this.showTimeAbout.state = "fadedIn";
+        })
     }
+
+    if(this.view === "about" && sessionStorage.getItem("aboutFirstTime")==="true"){
+      console.log('about first time')
+      this.spinner.style.display="none";
+      setTimeout(()=> {
+         this.showTimeAbout.state = "fadedIn";
+      })
+      sessionStorage.setItem("aboutFirstTime","false");
+    }
+    if(this.view !== "about" && this.view!== "showcase"){
+      this.galleryBox.style.transition="none";
+      setTimeout(() =>{
+        this.showTimeAbout.state = "fadedIn";
+      })
+    }
+
+
 
 
     //add click listeners to overlay
@@ -322,7 +414,6 @@ import {
     let picNodeList = this.renderedGrid.querySelectorAll('img');
 
     this.picsArray = Array.from(picNodeList)
-
 
     this.picsArray.forEach((item, index, array) => {
       let src = item.dataset.src.slice(8);
@@ -362,9 +453,13 @@ import {
         if (this.galleryPicsLoaded + 1 === array.length) {
           this.lowResLoaded = true;
           console.log("low res loaded");
-          this.spinnerCursor.style.display = "none";
+          this.spinnerLightbox.style.display = "none";
 
 
+
+        }
+        if ( this.galleryPicsLoaded ===4){
+          this.spinner.style.display = "none";
         }
         //fade in above fold pics , and set flag to differentiate first screenfull
         let picTop = item.getBoundingClientRect().top;
@@ -459,7 +554,7 @@ import {
     };
 
     this.galleryWrapper.classList.toggle('hide-scroll');
-    this.close.style.opacity = 0.8;
+    this.overlayCentralColumn.style.opacity = 1;
     this.clickBlock = true;
     this.lightboxFlag = true;
     // this.headerClass.emit("o-0");
@@ -506,9 +601,11 @@ import {
     //put backup pic in lightbox
     this.pic.src = event.target.currentSrc
     //set lightbox overlay "close" area to size of pic:
-    this.close.style.width = this.pic.offsetWidth + "px";
-    console.log(this.xBox)
+    this.overlayCentralColumn.style.width = this.pic.offsetWidth +"px";
+    this.picOverlay.style.width = this.pic.offsetWidth + "px";
+    this.picOverlay.style.height = this.pic.offsetHeight + "px";
     this.xBox.style.height = (window.innerHeight / 2 - this.pic.offsetHeight / 2) + "px";
+
 
   }
 
@@ -776,7 +873,7 @@ import {
 
   closeLightbox() {
     this.galleryWrapper.classList.toggle('hide-scroll');
-    this.close.style.opacity = 0;
+    this.overlayCentralColumn.style.opacity = 0;
     if (this.clickBlock === true) {
       return;
     }

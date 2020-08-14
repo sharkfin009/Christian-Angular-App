@@ -1,15 +1,15 @@
-<div  class="spinner-cursor o-0" >
+<div class="spinner-lightbox o-0">
   <div class="wheel">
   </div>
 </div>
-<div class="gallery-frame  z-2 arrow-frame fixed  w-100 h-5 flex justify-center items-end">
+<div class="gallery-frame  z-2 arrow-frame fixed  w-100 h-5 flex align-items justify-center items-end">
 
   <img *ngIf="showArrows" src="../assets/black arrow down.svg" width="22" class="relative z-5 ph3 mb4" />
 </div>
 <div (scroll)="onScroll($event)" [scrollTop]="scrollValue" id="galleryWrapper"
   class="relative z-3 w-100 flex justify-center">
 
-  <div id="gallery-box" class="w-80  relative">
+  <div [@showTimeAbout]="showTimeAbout.state" id="gallery-box" class="w-80  relative">
     <div class="spacer1 "></div>
     <div id="renderedGrid" [innerHTML]="trustedGrid" class="w-100"></div>
     <div class="flex justify-center pt4">
@@ -24,20 +24,26 @@
 
 
 
-
 <div id="overlay" class=" w-100 absolute h-100 z-1 fixed flex justify-center">
   <div id="left" class=" h-100 left-arrow">
   </div>
-  <div id="close" class="h-100 flex flex-column justify-between items-center pb4 ph6 o-0" (click)="closeLightbox()">
-    <div id="xbox" class="h2 w-100 flex justify-center">
-        <img id="close-icon" width="15px" src="../assets/plus.svg" />
+  <div id="central-column" class="h-100 flex flex-column justify-between items-center pb4 ph6 o-0">
+    <div id="close" class=" close ">
     </div>
- <div class="w-100 flex justify-between">
-      <span class="o-1 link pointer-styled">download image</span>
-      <span class="o-1 link pointer-styled">add to PDF lightbox</span>
- </div>
+    <div (click)="closeLightbox()" id="xbox" class="xCursor h2 w-100 flex justify-center">
+      <img id="close-icon" width="15px" src="../assets/plus.svg" />
+    </div>
+    <div (click)="closeLightbox()" id="pic-overlay" class="xCursor" >
+
+    </div>
+    <div id="download-links" class="w-100 flex justify-around">
+      <span (click)="download()"
+        class="link  pointer-styled">download image</span>
+      <span class="o-0 link pointer-styled">add to PDF lightbox</span>
+    </div>
   </div>
-  <div id="right" class=" h-100 right-arrow" >
+
+  <div id="right" class=" h-100 right-arrow">
 
   </div>
 </div>

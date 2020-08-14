@@ -27,7 +27,8 @@ import {
 } from "@angular/common";
 
 import FontFaceObserver from "fontfaceobserver";
-import { filter, pairwise } from 'rxjs/operators';
+import { filter, pairwise, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 
@@ -78,6 +79,7 @@ import { filter, pairwise } from 'rxjs/operators';
     ]),
   ]
 })
+
 export class AppComponent implements OnInit {
   XXHaasObserver:any;
   outlet: any;
@@ -96,6 +98,9 @@ export class AppComponent implements OnInit {
   @Input('thumbs') thumbStore=[];
   lastRoute: any;
   backArrowLink:any;
+  url:any;
+  spinnerCursor: any;
+  spinFlag: false;
   constructor(private route: ActivatedRoute, private router: Router, public location: Location) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
@@ -124,7 +129,26 @@ export class AppComponent implements OnInit {
 
   }
   ngAfterViewInit() {
+    this.spinnerCursor = document.querySelector(".spinner-cursor");
+    window.addEventListener("mousemove", (e) => {
+      this.spinnerCursor.style.left = e.pageX + "px";
+      this.spinnerCursor.style.top = e.pageY + "px";
+    });
 
+let url=window.location.pathname;
+console.log(url);
+url= url.slice(1);
+let locationValue = url.substr(0,url.indexOf('/'));
+switch (locationValue){
+  case "gallery":
+    setTimeout(()=>{
+      this.backArrowLink = "/portfolio";
+    })
+    break;
+    case "commission":
+setTimeout(()=>{
+  this.backArrowLink = "/commissions";
+})}
   }
 
 
@@ -163,9 +187,13 @@ export class AppComponent implements OnInit {
         sessionStorage.setItem("lastRoute","portfolio")
         sessionStorage.setItem("portfolioWhatLink","back")
       }
-
+      if(this.lastRoute === "/about"){
+        sessionStorage.setItem("lastRoute","about")
+        sessionStorage.setItem("aboutWhatLink","back")
+      }
       this.location.back();
     }
+  
   }
 
 

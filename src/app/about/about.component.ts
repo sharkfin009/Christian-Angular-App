@@ -38,20 +38,24 @@ import {
 
 
 @Component({
-    selector: 'about',
-    templateUrl: './about.component.html',
-    styleUrls: ['./about.component.css'],
-  }
+      selector: 'about',
+      templateUrl: './about.component.html',
+      styleUrls: ['./about.component.css'],
+    }
 
-) export class AboutComponent implements OnInit {
-  aboutGrid: {};
-  view:any;
+  ) export class AboutComponent implements OnInit {
+    aboutGrid: {};
+    view: any;
 
-  constructor(private route: ActivatedRoute ) {}
+    constructor(private route: ActivatedRoute, private getGrid: GetGridService) {}
 
-  ngOnInit(): void {
-    this.aboutGrid = this.route.snapshot.data['aboutGrid'];
-    this.view = this.route.snapshot.data.view;
-    sessionStorage.setItem("about","cached");
-  }
+    ngOnInit(): void {
+      this.getGrid.getGrid("about").subscribe(item => {
+        this.aboutGrid = item;
+        console.log(this.aboutGrid)
+      })
+      this.view = this.route.snapshot.data.view;
+      sessionStorage.setItem("about", "cached");
+    }
+    ngAfterViewInit() {}
 }

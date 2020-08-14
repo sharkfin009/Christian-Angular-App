@@ -2,9 +2,9 @@
 relative  bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll($event)"
   [scrollTop]="previousScrollValue">
 
-  <div class="relative thumbs-wrapper w-80">
+  <div class=" relative thumbs-wrapper  w-80">
 
-    <gallery-thumbnail #thumbBox [prepClass]="prepClass"  class="w-100 thumb-box pointer-styled b--red bw2"
+    <gallery-thumbnail #thumbBox [prepClass]="prepClass"  class=" w-100 thumb-box pointer-styled b--red bw2"
       (hover)="hover($event)" *ngFor="let thumbnail of thumbnails" [thumbnail]="thumbnail"
       [hoverCompute]="hoverEventObject" [thumbLink] = "thumbLink" [ngClass]="prepClass"></gallery-thumbnail>
 

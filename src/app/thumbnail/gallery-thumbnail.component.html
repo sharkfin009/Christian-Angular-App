@@ -1,5 +1,5 @@
 <div id="thumbnail-wrapper" class="fade-anim b--blue bw2 relative" [routerLink]="thumbLink+[thumbnail.slug]"
   [ngClass]="hoverDecide(hoverCompute)" >
   <img id="thumbnail" [ngClass]="prepClass" (mouseenter)="hoverOn()" (mouseleave)="hoverOff()" class="relative"
-    [src]= "thumbnail.url" />
+    [src]= "thumbnail.url"   [srcset]= "thumbnail.srcSet || ''"/>
 </div>

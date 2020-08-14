@@ -70,12 +70,12 @@ export class CommissionsComponent implements AfterViewInit {
     title: "",
     names: "",
   };
-  @Output() arrowClass = new EventEmitter();
 
   previousScrollValue: Object;
   thumbnailsAllLoaded: any;
   elements: any;
   cachedFlag: boolean = false;
+  spinner: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -114,10 +114,13 @@ export class CommissionsComponent implements AfterViewInit {
 
   ngAfterViewInit() {
 
+    this.spinner = document.querySelector(".spinner-cursor");
+
 
     //animated load function
 
     let loadWithAnim = async () => {
+      console.log("load with anim")
       this.thumbnails.forEach((item, index) => {
         let img = this.elements[index]._data.renderElement.children[0]
           .children[0];
@@ -129,10 +132,13 @@ export class CommissionsComponent implements AfterViewInit {
         if (count === this.thumbnails.length - 1) {
           this.cacheGalleryMarkup();
           sessionStorage.setItem("commissions", "cached");
+          this.spinner.style.display = "none";
           return;
         }
+
         //set src
-        this.thumbnails[count].img.src = this.thumbnails[count].url;
+         this.thumbnails[count].img.srcset = this.thumbnails[count].srcSet;
+         this.thumbnails[count].img.src = this.thumbnails[count].urlStore;
         this.thumbnails[count].imgPromise.then((data: any) => {
           this.thumbnails[count].img.style.opacity = "1";
           this.thumbnails[count].img.style.transform = "translateY(0px)";
@@ -164,12 +170,14 @@ export class CommissionsComponent implements AfterViewInit {
 
     } else {
       //do consecutive load
-      this.thumbnails.forEach(item => {
-        item.picSrc = item.url;
-        item.url = "";
-      })
+      this.spinner.style.display = "block";
       this.prepClass = "prepareForAnim";
       this.thumbnailsService.getThumbnails("commissions").subscribe((thumbs) => {
+        thumbs.forEach(item=>{
+          item.urlStore = item.url;
+          item.url="";
+
+        })
         this.thumbnails = thumbs;
         this.thumbBoxes.changes.subscribe((item) => {
           this.elements = item.toArray();

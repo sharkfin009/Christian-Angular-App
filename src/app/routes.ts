@@ -20,7 +20,6 @@ import {
 import { MenuComponent } from './menu/menu.component';
 import { AboutComponent } from './about/about.component'
 import { ShowreelComponent } from './showreel/showreel.component';
-import { ThumbnailsResolverService } from './shared/thumbnailsResolver.service';
 import { CommissionComponent } from './commission/commission.component';
 import {ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component'
 import { ShowcaseComponent } from './showcase/showcase.component';
@@ -132,23 +131,10 @@ export const appRoutes: Routes = [{
       slideXState:false,
     }
   },
-  {
-    path: 'about-no-resolver',
-    component: AboutWrapperComponent,
-    data: {
-      view: "about",
-      title: "About",
-      arrowState: false,
-      xTurnState:true,
-      slideXState:false,
-    }
-  },
+
   {
     path: 'about',
     component: AboutComponent,
-    resolve: {
-      aboutGrid: GridResolverService,
-    },
     data: {
       view: 'about',
       title: 'About',

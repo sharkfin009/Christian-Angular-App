@@ -70,12 +70,13 @@ export class PortfolioComponent implements AfterViewInit {
     names: "",
   };
   thumblink = "/gallery/"
-  @Output() arrowClass = new EventEmitter();
 
   previousScrollValue: Object;
   thumbnailsAllLoaded: any;
   elements: any;
   cachedFlag: boolean = false;
+  subscription: any;
+  spinner: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -108,6 +109,9 @@ export class PortfolioComponent implements AfterViewInit {
 
   ngAfterViewInit() {
 
+    this.spinner = document.querySelector(".spinner-cursor");
+    this.spinner.style.display = "block";
+
 
     //animated load function
 
@@ -116,7 +120,7 @@ export class PortfolioComponent implements AfterViewInit {
         let img = this.elements[index]._data.renderElement.children[0]
           .children[0];
         item.img = img;
-        item.imgPromise = this.onload2Promise(img);
+        // item.imgPromise = this.onload2Promise(img);
       });
 
       let recursive = (count) => {
@@ -125,14 +129,19 @@ export class PortfolioComponent implements AfterViewInit {
           sessionStorage.setItem("portfolio", "cached");
           return;
         }
+        if(count === 4){
+          this.spinner.style.display = "none";
+        }
+        //set onload
+        this.thumbnails[count].img.addEventListener('load',()=>{
+            this.thumbnails[count].img.style.opacity = "1";
+            this.thumbnails[count].img.style.transform = "translateY(0px)";
+            recursive(count+1);
+
+        },false)
         //set src
-        this.thumbnails[count].img.src = this.thumbnails[count].url;
-        this.thumbnails[count].imgPromise.then((data) => {
-          this.thumbnails[count].img.style.opacity = "1";
-          this.thumbnails[count].img.style.transform = "translateY(0px)";
-          count++;
-          recursive(count);
-        });
+        this.thumbnails[count].img.src = this.thumbnails[count].urlStore;
+
       };
       recursive(0);
     };
@@ -140,9 +149,10 @@ export class PortfolioComponent implements AfterViewInit {
     //check if this is not first time. if not, load instantly from cache so that route animation looks good
     //so if cache is there, skip consecutive load and animation
     if (sessionStorage.getItem("portfolio") === "cached") {
-      this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
-        this.cachedFlag = true;
+     this.subscription =  this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
+      this.spinner.style.display = "none";
         this.thumbnails = thumbs;
+
         // reset scroll after render
         if (sessionStorage.getItem("scroll") &&
          (sessionStorage.getItem("portfolioWhatLink") === "back" || sessionStorage.getItem("portfolioWhatLink")==="grid-lightbox")) {
@@ -157,12 +167,14 @@ export class PortfolioComponent implements AfterViewInit {
 
     } else {
       //do consecutive load
-      this.thumbnails.forEach(item => {
-        item.picSrc = item.url;
-        item.url = "";
-      })
+      //this.spinner.style.display = "block";
       this.prepClass = "prepareForAnim";
-      this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
+     this.subscription = this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
+        thumbs.forEach(item=>{
+          item.urlStore = item.url;
+          item.url="";
+          item.srcSet = "";
+        })
         this.thumbnails = thumbs;
         this.thumbBoxes.changes.subscribe((item) => {
           this.elements = item.toArray();
@@ -171,5 +183,8 @@ export class PortfolioComponent implements AfterViewInit {
       });
     }
 
+  }
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 }

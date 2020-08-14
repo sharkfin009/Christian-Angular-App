@@ -73,6 +73,7 @@ import {
 ) export class ShowcaseComponent implements OnInit {
   showcaseGrid: any;
   view:any;
+  spinner: any;
 
 
   constructor(private route: ActivatedRoute) {}
@@ -82,7 +83,10 @@ import {
     //set up values
     this.view = this.route.snapshot.data.view;
     this.showcaseGrid = this.route.snapshot.data['showCaseGrid'];
+
     sessionStorage.setItem("showcase","cached")
 
+    this.spinner = document.querySelector(".spinner-cursor");
+    this.spinner.style.display ="none";
   }
 }

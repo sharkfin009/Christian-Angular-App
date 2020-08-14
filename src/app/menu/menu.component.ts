@@ -25,10 +25,9 @@ export class MenuComponent implements OnInit {
     if (sessionStorage.getItem("commissions") === "cached"){
       sessionStorage.setItem("commissionsWhatLink","menu")
     };
-
-
     if(sessionStorage.getItem('about') ==="cached"){
-      this.aboutLink = "/about"
+      // this.aboutLink = "/about";
+      sessionStorage.setItem("showcaseWhatLink","menu")
     }
     var uLinkAttr = 'data-underlined-link';
     var uLinks = document.querySelectorAll('li');

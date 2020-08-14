@@ -39,8 +39,6 @@ import {
     selector: 'commission',
     templateUrl: './commission.component.html',
     styleUrls: ['./commission.component.css'],
-
-
   }
 
 ) export class CommissionComponent implements OnInit {

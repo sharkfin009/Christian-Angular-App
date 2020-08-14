@@ -31,7 +31,6 @@ export class GalleryThumbnailComponent implements OnInit {
   @Input() thumbLink: "";
   @Output() hover = new EventEmitter();
   @Output() loaded = new EventEmitter();
-  @Output() arrowClass = new EventEmitter();
   @Output() thumbLoaded = new EventEmitter();
   paleOnWithTitle = {};
   paleOffWithTitle = {};
@@ -59,7 +58,6 @@ export class GalleryThumbnailComponent implements OnInit {
       hover: "paleOff",
       names: this.thumbnail.names,
     }
-    console.log("thumblink:",this.thumbLink)
   }
 
   hoverOn() {

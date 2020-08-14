@@ -42,3 +42,9 @@ ul {
     width:1350px;
   }
 }
+*{
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+
+}

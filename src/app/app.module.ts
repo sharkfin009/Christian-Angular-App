@@ -15,9 +15,12 @@ import {
   BrowserAnimationsModule
 } from '@angular/platform-browser/animations'
 import {
-  HttpClientModule
-} from '@angular/common/http'
+  HttpClientModule,
 
+} from '@angular/common/http'
+import {
+  HttpModule
+} from '@angular/http'
 import {
   PortfolioComponent
 } from './portfolio/portfolio.component'
@@ -55,12 +58,27 @@ import {
 import {
   CommissionComponent
 } from './commission/commission.component';
-import { AboutComponent } from './about/about.component';
-import { ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component';
-import { ShowcaseComponent } from './showcase/showcase.component';
-import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
-import { GridLightboxComponent } from './grid-lightbox/grid-lightbox.component';
-import { GetGridService } from './shared/getGrid.service'
+import {
+  AboutComponent
+} from './about/about.component';
+import {
+  ShowcaseWrapperComponent
+} from './showcase-wrapper/showcase-wrapper.component';
+import {
+  ShowcaseComponent
+} from './showcase/showcase.component';
+import {
+  AboutWrapperComponent
+} from './about-wrapper/about-wrapper.component';
+import {
+  GridLightboxComponent
+} from './grid-lightbox/grid-lightbox.component';
+import {
+  GetGridService
+} from './shared/getGrid.service'
+import {
+  FileService
+} from './file.service'
 
 
 @NgModule({
@@ -85,17 +103,19 @@ import { GetGridService } from './shared/getGrid.service'
     BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes,{
+    HttpModule,
+
+    RouterModule.forRoot(appRoutes, {
       scrollPositionRestoration: 'enabled',
-      anchorScrolling:'disabled',
+      anchorScrolling: 'disabled',
     }),
     LazyLoadImageModule,
-   // RetainScrollPolyfillModule,
   ],
   exports: [RouterModule],
   providers: [
     GetThumbnailsService,
-   GetGridService
+    GetGridService,
+    FileService,
 
 
   ],

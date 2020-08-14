@@ -13,7 +13,7 @@
 
 }
 
-.spinner-cursor {
+.spinner-lightbox {
   position:absolute;
   width: 20px;
   height:20px;
@@ -133,7 +133,7 @@
   transition: opacity 1s ease-out;
 }
 
-#close {
+.xCursor {
   cursor: url('../../assets/vectrXNoShadow.svg'), auto;
   transition: opacity 1s ease-out;
 

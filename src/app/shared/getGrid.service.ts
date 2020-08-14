@@ -23,7 +23,8 @@ import {
 export class GetGridService {
   private galleryApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGallery/";
   private aboutApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/getAboutPage/v1/please";
-  private commissionApiUrl = "http://wpbackend.dreamhosters.com/index.php/wp-json/getCommission/v1/";
+  private commissionApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/getCommission/v1/";
+  spinner: any;
 
 
   constructor(private http: HttpClient) {
@@ -44,6 +45,8 @@ export class GetGridService {
         break;
       case "showcase":
         apiUrl = this.galleryApiUrl + "/showcase"
+        this.spinner = document.querySelector(".spinner-cursor");
+        this.spinner.style.display = "block";
       break;
     };
 

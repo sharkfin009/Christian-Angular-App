@@ -12,6 +12,7 @@ export class AboutWrapperComponent implements OnInit {
 
   ngOnInit() {
     this.router.navigate(['/','about'])
+    sessionStorage.setItem("aboutFirstTime","true")
   }
 
 }

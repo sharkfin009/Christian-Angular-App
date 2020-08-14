@@ -25,7 +25,18 @@ export class GetThumbnailsService {
   //  storeThumbnails(){
   //    this.thumbnails$ = this.getThumbnails();
   //  }
+ unSlugify(slug){
 
+    var words = slug.split('-');
+
+    for (var i = 0; i < words.length; i++) {
+      var word = words[i];
+      words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+    }
+
+    return words.join(' ');
+
+ }
   getThumbnails(view): Observable <any>{
     let url="";
     switch(view){
@@ -47,16 +58,15 @@ export class GetThumbnailsService {
             let newHTMLDoc = document.implementation.createHTMLDocument("grid");
             let gridLoaded = newHTMLDoc.createElement('div');
             gridLoaded.innerHTML=  grid;
-
             let comImgs = gridLoaded.querySelectorAll('img');
             console.log(gridLoaded)
            let comThumbs = [];
            comImgs.forEach(((item,index)=>{
             let obj ={
-              slug:item.parentNode.parentNode.id,
-              title:item.parentNode.parentNode.id,
+              slug:item.parentElement.parentElement.id,
+              title:this.unSlugify(item.parentElement.parentElement.id),
               url:item.src,
-
+              srcSet:item.srcset,
             };
             comThumbs[index] = obj
            }));
