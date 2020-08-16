@@ -126,6 +126,8 @@ export class AppComponent implements OnInit {
        this.backArrowLink = this.lastRoute
     });
 
+ 
+
 
   }
   ngAfterViewInit() {
@@ -193,7 +195,7 @@ setTimeout(()=>{
       }
       this.location.back();
     }
-  
+
   }
 
 

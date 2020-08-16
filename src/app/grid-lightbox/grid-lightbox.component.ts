@@ -175,7 +175,7 @@ import { FileService } from '../file.service';
   srcSets = [];
   links: any;
   loadLoopFired = false;
-  loadedLightboxPics = [];
+  fullResPicUrls = [];
   lowResLoaded: Boolean = false;
   galleryPicsLoaded = 0;
   scrollValue: string;
@@ -193,6 +193,7 @@ import { FileService } from '../file.service';
   spinner: any;
   overlayCentralColumn: any;
   picOverlay: any;
+  headerContainer: any;
   constructor(
     // private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
@@ -208,11 +209,13 @@ import { FileService } from '../file.service';
      let blob:any = new Blob([response._body],{ type:'image/jpeg'});
    console.dir(response);
    console.dir(blob)
-   fileSaver.saveAs(blob,'pic.jpeg')
+   let fileName= this.pic.src.split("/")[8].split("?")[0];
+   console.log(fileName)
+   fileSaver.saveAs(blob,fileName)
    })
  }
   ngOnInit(): void {
-
+console.log(this.view);
     this.srcUrls = this.gridData.srcUrls;
     this.srcSets = this.gridData.srcSets;
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gridData.grid);
@@ -292,9 +295,9 @@ import { FileService } from '../file.service';
     sessionStorage.setItem("portfolioWhatLink", "grid-lightbox");
     //fire fade in
     this.galleryBox= document.querySelector("#gallery-box")
-    setTimeout(() =>{
-      this.showTimeAbout.state = "fadedIn";
-    })
+    // setTimeout(() =>{
+       this.showTimeAbout.state = "fadedIn";
+    // })
     //check if user came here via the navlink X back link, in which case temporarily disable 'float in' animation so that scroll position can be restored
     if ((this.view === "showcase")  && sessionStorage.getItem("showcaseWhatLink") === "back") {
       console.log("back to showcase")
@@ -310,7 +313,7 @@ import { FileService } from '../file.service';
         //run fade in with transition none
         this.galleryBox.style.transition="none";
         setTimeout(() =>{
-          this.showTimeAbout.state = "fadedIn";
+           this.showTimeAbout.state = "fadedIn";
         })
     }
 
@@ -323,7 +326,7 @@ import { FileService } from '../file.service';
         })
       })
         //run fade in with transition none
-        this.galleryBox.style.transition="none";
+        this.galleryBox.style.transition = "none";
         setTimeout(() =>{
           this.showTimeAbout.state = "fadedIn";
         })
@@ -417,7 +420,7 @@ import { FileService } from '../file.service';
 
     this.picsArray.forEach((item, index, array) => {
       let src = item.dataset.src.slice(8);
-      this.loadedLightboxPics[index] = "https://i0.wp.com/" + src + "?resize=1740&ssl=1";
+      this.fullResPicUrls[index] = "https://i0.wp.com/" + src + "?resize=1740&ssl=1";
 
     })
     //set first pic load event handler
@@ -509,6 +512,7 @@ import { FileService } from '../file.service';
         entry.target.style.opacity = "1";
         entry.target.style.transform = 'translateY(0)';
       }
+
       if (picTop > window.innerHeight) {
         entry.target.style.opacity = "0";
         entry.target.style.transform = `translateY(300px)`;
@@ -524,8 +528,6 @@ import { FileService } from '../file.service';
       if (counter === this.picsArray.length) {
         this.fullResLoaded = true;
         console.log("high res loaded");
-        // this.browse("right");
-        // this.browse("left");
         return
       }
       let preloadImage = new Image;
@@ -534,21 +536,23 @@ import { FileService } from '../file.service';
       preloadImage.onload = () => {
         this.preloadDiv.append(preloadImage);
         this.picsArray[counter].fullResLoadedFlag = true;
+        console.log(this.pic.currentSrc)
         if (this.pic.currentSrc === this.picsArray[counter].src) {
-          this.pic.src = this.loadedLightboxPics[counter];
+          this.pic.src = this.fullResPicUrls[counter];
 
         }
         counter++;
         loadLoop(counter)
       }
       //load image
-      preloadImage.src = this.loadedLightboxPics[counter];
+      preloadImage.src = this.fullResPicUrls[counter];
     }
     loadLoop(0);
   }
 
   showLightbox(event) {
-
+    this.headerContainer= document.querySelector("#header");
+    this,this.headerContainer.style.pointerEvents = "none";
     if (!this.loadLoopFired) {
       this.lightboxRecursiveLoad()
     };
@@ -591,7 +595,7 @@ import { FileService } from '../file.service';
     this.pic.onload = (event) => {
 
       if (this.pic.src === event.target.currentSrc) {
-        this.pic.src = this.loadedLightboxPics[this.picPointer];
+        this.pic.src = this.fullResPicUrls[this.picPointer];
 
 
         return
@@ -732,7 +736,7 @@ import { FileService } from '../file.service';
       //set onload event
       this.picsArray[this.picPointer].onload = (event) => {
 
-        if (this.picsArray[this.picPointer] === this.loadedLightboxPics[this.picPointer]) {
+        if (this.picsArray[this.picPointer] === this.fullResPicUrls[this.picPointer]) {
           console.log("load event")
 
 
@@ -741,7 +745,7 @@ import { FileService } from '../file.service';
       }
       //update pic
       if (this.picsArray[this.picPointer].fullResLoadedFlag) {
-        this.pic.src = this.loadedLightboxPics[this.picPointer]
+        this.pic.src = this.fullResPicUrls[this.picPointer]
       } else {
         this.pic.src = this.picsArray[this.picPointer].currentSrc;
       }
@@ -761,7 +765,7 @@ import { FileService } from '../file.service';
           this.startFlag = false;
           //move right with animation
           if (this.picsArray[this.picPointer - 1].fullResLoadedFlag) {
-            this.faderB.src = this.loadedLightboxPics[this.picPointer - 1]
+            this.faderB.src = this.fullResPicUrls[this.picPointer - 1]
           } else {
             this.faderB.src = this.picsArray[this.picPointer - 1].currentSrc;
           }
@@ -772,7 +776,7 @@ import { FileService } from '../file.service';
         if (direction === "left") {
           let moveLeft = () => {
             if (this.picsArray[this.picPointer + 1].fullResLoadedFlag) {
-              this.faderB.src = this.loadedLightboxPics[this.picPointer + 1]
+              this.faderB.src = this.fullResPicUrls[this.picPointer + 1]
             } else {
               this.faderB.src = this.picsArray[this.picPointer + 1].currentSrc;
             }
@@ -807,7 +811,7 @@ import { FileService } from '../file.service';
           //move right with animation
 
           if (this.picsArray[this.picPointer - 1].fullResLoadedFlag) {
-            this.fader.src = this.loadedLightboxPics[this.picPointer - 1]
+            this.fader.src = this.fullResPicUrls[this.picPointer - 1]
           } else {
             this.fader.src = this.picsArray[this.picPointer - 1].currentSrc;
           }
@@ -819,7 +823,7 @@ import { FileService } from '../file.service';
           let moveLeft = () => {
 
             if (this.picsArray[this.picPointer + 1].fullResLoadedFlag) {
-              this.fader.src = this.loadedLightboxPics[this.picPointer + 1]
+              this.fader.src = this.fullResPicUrls[this.picPointer + 1]
             } else {
               this.fader.src = this.picsArray[this.picPointer + 1].currentSrc;
             }
@@ -872,6 +876,7 @@ import { FileService } from '../file.service';
 
 
   closeLightbox() {
+    this.headerContainer.style.pointerEvents = "auto";
     this.galleryWrapper.classList.toggle('hide-scroll');
     this.overlayCentralColumn.style.opacity = 0;
     if (this.clickBlock === true) {

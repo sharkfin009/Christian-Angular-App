@@ -158,3 +158,16 @@
     opacity: 0;
   }
 }
+/* @media
+ (min-width:0px){
+   #titleFrame{
+     color:green;
+     display:none;
+   }
+ }
+ @media
+ (min-width:670px){
+   #titleFrame{
+     display:flex;
+   }
+ } */
