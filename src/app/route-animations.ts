@@ -226,7 +226,7 @@ export const slider =
             style({
               transform: 'translateX(-20%)',
             }))
-        ]),
+        ],{optional:true}),
         query(':enter', [
           style({
              transform: 'translateX(100%)',
@@ -273,6 +273,178 @@ export const slider =
         ] )
       ]),
     ]),
+
+    transition('portfolio => showcase', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateX(0%)'
+          }),
+          animate('0.8s ease-in-out',
+            style({
+              transform: 'translateX(-150%)',
+            }))
+        ],{optional:true}),
+        query(':enter', [
+          style({
+            transform: 'translateX(150%)',
+          }),
+          animate('0.8s ease-in-out',
+            style({
+
+              transform: 'translateX(0%)'
+            }))
+        ] )
+      ]),
+    ]),
+    transition('gallery => showcase', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateX(0%)'
+          }),
+          animate('0.8s ease-in-out',
+            style({
+              transform: 'translateX(-150%)',
+            }))
+        ],{optional:true}),
+        query(':enter', [
+          style({
+            transform: 'translateX(150%)',
+          }),
+          animate('0.8s ease-in-out',
+            style({
+
+              transform: 'translateX(0%)'
+            }))
+        ] )
+      ]),
+    ]),
+    transition('about => showcase', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateX(0%)'
+          }),
+          animate('0.8s ease-in-out',
+            style({
+              transform: 'translateX(-150%)',
+            }))
+        ],{optional:true}),
+        query(':enter', [
+          style({
+            transform: 'translateX(150%)',
+          }),
+          animate('0.8s ease-in-out',
+            style({
+
+              transform: 'translateX(0%)'
+            }))
+        ] )
+      ]),
+    ]),
+    transition('contact => showcase', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateX(0%)'
+          }),
+          animate('0.8s ease-in-out',
+            style({
+              transform: 'translateX(-150%)',
+            }))
+        ],{optional:true}),
+        query(':enter', [
+          style({
+            transform: 'translateX(150%)',
+          }),
+          animate('0.8s ease-in-out',
+            style({
+
+              transform: 'translateX(0%)'
+            }))
+        ] )
+      ]),
+    ]),
+    transition('commissions => showcase', [
+      style({
+        position: "relative"
+      }),
+      query(':enter,:leave', [
+        style({
+           position: 'absolute',
+           left: 0,
+          top:0,
+          width: '100%',
+        }),
+      ]),
+      group([
+        query(':leave', [
+          style({
+            transform: 'translateX(0%)'
+          }),
+          animate('0.8s ease-in-out',
+            style({
+              transform: 'translateX(-150%)',
+            }))
+        ],{optional:true}),
+        query(':enter', [
+          style({
+            transform: 'translateX(150%)',
+          }),
+          animate('0.8s ease-in-out',
+            style({
+
+              transform: 'translateX(0%)'
+            }))
+        ] )
+      ]),
+    ]),
+
 
 
 

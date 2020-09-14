@@ -59,17 +59,15 @@ import {
   CommissionComponent
 } from './commission/commission.component';
 import {
-  AboutComponent
-} from './about/about.component';
+  contactComponent
+} from './contact/contact.component';
 import {
   ShowcaseWrapperComponent
 } from './showcase-wrapper/showcase-wrapper.component';
 import {
   ShowcaseComponent
 } from './showcase/showcase.component';
-import {
-  AboutWrapperComponent
-} from './about-wrapper/about-wrapper.component';
+
 import {
   GridLightboxComponent
 } from './grid-lightbox/grid-lightbox.component';
@@ -78,7 +76,9 @@ import {
 } from './shared/getGrid.service'
 import {
   FileService
-} from './file.service'
+} from './file.service';
+import { AboutComponent } from './about/about.component';
+import { PrivacyComponent } from './privacy/privacy.component'
 
 
 @NgModule({
@@ -92,11 +92,13 @@ import {
     ShowreelComponent,
     MenuComponent,
     CommissionComponent,
-    AboutComponent,
+    contactComponent,
     ShowcaseWrapperComponent,
     ShowcaseComponent,
-    AboutWrapperComponent,
+   
     GridLightboxComponent,
+    AboutComponent,
+    PrivacyComponent,
     // RouterOutletDirective,
   ],
   imports: [

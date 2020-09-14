@@ -61,6 +61,5 @@ import {
  ngOnInit(){
 //set up values
 this.gallery = this.route.snapshot.data['gallery'];
-console.dir(this.gallery)
  }
 }

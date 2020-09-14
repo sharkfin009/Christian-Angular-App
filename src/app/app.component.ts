@@ -6,6 +6,7 @@ import {
   ɵConsole,
   Input
 } from '@angular/core';
+import  "zenscroll";
 import {
   RouterOutlet,
   Router,
@@ -97,14 +98,16 @@ export class AppComponent implements OnInit {
   showTime = {state:"initial"};
   @Input('thumbs') thumbStore=[];
   lastRoute: any;
-  backArrowLink:any;
+  backArrowLink:"/portfolio";
   url:any;
   spinnerCursor: any;
   spinFlag: false;
+  backArrowLinkBackup: any;
   constructor(private route: ActivatedRoute, private router: Router, public location: Location) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
+
   ngOnInit() {
     this.XXHaasObserver = new FontFaceObserver('XXHaas');
     this.XXHaasObserver.load().then( ()=> {
@@ -122,14 +125,11 @@ export class AppComponent implements OnInit {
         pairwise()
     ).subscribe((e: any) => {
       this.lastRoute = e[0].urlAfterRedirects;
-        console.log(this.lastRoute); // previous url
-       this.backArrowLink = this.lastRoute
+      console.log(this.lastRoute); // previous url
+      this.backArrowLinkBackup = this.lastRoute
     });
-
- 
-
-
   }
+
   ngAfterViewInit() {
     this.spinnerCursor = document.querySelector(".spinner-cursor");
     window.addEventListener("mousemove", (e) => {
@@ -150,7 +150,13 @@ switch (locationValue){
     case "commission":
 setTimeout(()=>{
   this.backArrowLink = "/commissions";
-})}
+})
+default :
+console.log("no value")
+setTimeout(()=>{
+  this.backArrowLink = this.backArrowLinkBackup;
+})
+}
   }
 
 

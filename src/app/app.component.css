@@ -42,7 +42,7 @@
 
 #header {
   z-index: 2;
-  transition: opacity 0.5s ease-out;
+  transition: opacity 1s ease-out;
   box-sizing: content-box;
 
 }
@@ -110,19 +110,37 @@ position: relative;
 #nav-icon {
   pointer-events: auto;
   flex-grow: 1;
-  width:10vw;
   flex-wrap:none;
 }
 
 #spacerRight {
   flex-grow: 1;
-  width:10vw;
 }
 
-@media (min-width:0px) {
+
+@media (min-width:1px) {
+
+  #innerHeader {
+    width: 70vw;
+  }
+  #nav-icon{
+    width:15vw;
+  }
+  #spacerRight{
+    width:15vw;
+  }
+}
+
+@media (min-width:800px) {
 
   #innerHeader {
     width: 80vw;
+  }
+  #nav-icon{
+    width:10vw;
+  }
+  #spacerRight{
+    width:10vw;
   }
 }
 
@@ -130,6 +148,12 @@ position: relative;
 
   #innerHeader {
     width: 1350px;
+  }
+  #nav-icon{
+    width:10vw;
+  }
+  #spacerRight{
+    width:10vw;
   }
 
 }

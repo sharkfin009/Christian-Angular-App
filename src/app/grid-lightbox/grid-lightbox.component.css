@@ -1,6 +1,9 @@
-#close-icon{
+
+
+#close-icon {
   transform: rotate(45deg);
 }
+
 #galleryWrapper {
   top: 0;
   left: 0;
@@ -14,22 +17,22 @@
 }
 
 .spinner-lightbox {
-  position:absolute;
+  position: absolute;
   width: 20px;
-  height:20px;
+  height: 20px;
 
-  top:0;
-  z-index:500;
-  left:0;
-  transform:translate(20px,20px);
-  transition:none;
+  top: 0;
+  z-index: 500;
+  left: 0;
+  transform: translate(20px, 20px);
+  transition: none;
 }
 
 .wheel {
-  box-sizing:border-box;
+  box-sizing: border-box;
   position: relative;
-  left:0;
-  top:0;
+  left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
   border: 2px dotted black;
@@ -38,10 +41,11 @@
   border-radius: 50%;
   /* display: inline-block; */
   animation: rotation 2s linear infinite;
-   /* transform-origin: 100% 100%; */
-   ;
+  /* transform-origin: 100% 100%; */
+  ;
 
 }
+
 
 @keyframes rotation {
   0% {
@@ -56,6 +60,7 @@
 .spacer1 {
   height: 250px;
 }
+
 
 #renderedGrid {
 
@@ -72,6 +77,9 @@
 #pic {
   transition: opacity 0.7s ease-out;
 }
+#download-links{
+  height:50px;
+}
 
 
 #lightbox {
@@ -85,7 +93,9 @@
   width: 80vw;
   overflow: none;
 }
-
+#xbox{
+  padding-top:2vh
+}
 .lightboxImages {
   height: 100%;
 
@@ -97,6 +107,7 @@
   height: 100vh;
   top: 0;
   left: 0;
+
 }
 
 .arrows {
@@ -128,7 +139,7 @@
   cursor: url('../../assets/arrow-cursor-right.svg'), auto;
 }
 
-.arrow-frame {
+#arrow-frame {
   margin-top: 95vh;
   transition: opacity 1s ease-out;
 }
@@ -144,11 +155,25 @@
 }
 
 #right {
-  flex-grow:1;
+  flex-grow: 1;
 }
 
-@media(min-width :1700px){
-#gallery-box{
-  width:1350px;
+@media(min-width :0px) {
+  #gallery-box {
+    width: 80vw;
+  }
 }
+
+.arrow-icon {
+  pointer-events: none;
+}
+
+@media(min-width :1700px) {
+  #gallery-box {
+    width: 1350px;
+  }
+}
+
+.arrow-icon {
+  pointer-events: none;
 }

@@ -7,8 +7,10 @@ import {
   Input
 }
 
-
 from '@angular/core';
+
+import  "zenscroll"
+
 
 import * as fileSaver from 'file-saver';
 
@@ -42,6 +44,7 @@ import {
   state
 } from '@angular/animations';
 import { FileService } from '../file.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 
@@ -184,16 +187,17 @@ import { FileService } from '../file.service';
   xBox: any;
   arrow: any;
   aTags: any;
-
   spinnerLightbox: any;
   fullResLoaded: boolean = false;
-  showTimeAbout  = {state:"initial"};
   galleryFrame: any;
   galleryBox: any;
   spinner: any;
   overlayCentralColumn: any;
   picOverlay: any;
   headerContainer: any;
+  downloadArea: any;
+  mobileFix: any = 0;
+  downLoadLinkFlag: boolean=true;
   constructor(
     // private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
@@ -207,15 +211,14 @@ import { FileService } from '../file.service';
  download(){
    this.fileService.downloadFile(this.pic.src).subscribe(response => {
      let blob:any = new Blob([response._body],{ type:'image/jpeg'});
-   console.dir(response);
-   console.dir(blob)
    let fileName= this.pic.src.split("/")[8].split("?")[0];
-   console.log(fileName)
    fileSaver.saveAs(blob,fileName)
    })
  }
-  ngOnInit(): void {
-console.log(this.view);
+ngOnInit(): void {
+    if(this.gridData.gridType==="commission"){
+      this.downLoadLinkFlag = false;
+    }
     this.srcUrls = this.gridData.srcUrls;
     this.srcSets = this.gridData.srcSets;
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gridData.grid);
@@ -243,6 +246,9 @@ console.log(this.view);
   ngAfterViewInit() {
 
 
+    if(window.matchMedia("(max-width:400px)").matches){
+      this.mobileFix = 1000;
+    }
 
     //set up DOM values
     this.body = document.querySelector("body");
@@ -262,7 +268,8 @@ console.log(this.view);
     this.spinnerLightbox = document.querySelector(".spinner-lightbox");
     this.xBox = document.querySelector('#xbox');
     this.aTags = document.querySelectorAll('a');
-    this.picOverlay = document.querySelector('#pic-overlay')
+    this.picOverlay = document.querySelector('#pic-overlay');
+    this.downloadArea = document.querySelector('#download-links');
 
     // style a tags
     this.aTags.forEach((item) => {
@@ -295,12 +302,9 @@ console.log(this.view);
     sessionStorage.setItem("portfolioWhatLink", "grid-lightbox");
     //fire fade in
     this.galleryBox= document.querySelector("#gallery-box")
-    // setTimeout(() =>{
-       this.showTimeAbout.state = "fadedIn";
-    // })
+
     //check if user came here via the navlink X back link, in which case temporarily disable 'float in' animation so that scroll position can be restored
     if ((this.view === "showcase")  && sessionStorage.getItem("showcaseWhatLink") === "back") {
-      console.log("back to showcase")
       //set flag to bypass anim
 
       this.userScrollFlag = false;
@@ -312,9 +316,7 @@ console.log(this.view);
       })
         //run fade in with transition none
         this.galleryBox.style.transition="none";
-        setTimeout(() =>{
-           this.showTimeAbout.state = "fadedIn";
-        })
+
     }
 
 
@@ -327,9 +329,7 @@ console.log(this.view);
       })
         //run fade in with transition none
         this.galleryBox.style.transition = "none";
-        setTimeout(() =>{
-          this.showTimeAbout.state = "fadedIn";
-        })
+
     }
     if (this.view === "about" && sessionStorage.getItem("aboutWhatLink") === "back") {
       //set flag to bypass anim
@@ -344,40 +344,10 @@ console.log(this.view);
       })
        //run fade in with transition none
        this.galleryBox.style.transition="none";
-       setTimeout(() =>{
-         this.showTimeAbout.state = "fadedIn";
-       })
+
     }
 
-    if (this.view === "about" && sessionStorage.getItem("aboutWhatLink") === "menu") {
-      this.userScrollFlag = false;
-      this.spinner.style.display="none";
-      setTimeout(() => {
-        this.picsArray.forEach(item => {
-          item.style.transition = "none";
-        })
-      })
-        //run fade in with transition none
-        this.galleryBox.style.transition="none";
-        setTimeout(() =>{
-          this.showTimeAbout.state = "fadedIn";
-        })
-    }
 
-    if(this.view === "about" && sessionStorage.getItem("aboutFirstTime")==="true"){
-      console.log('about first time')
-      this.spinner.style.display="none";
-      setTimeout(()=> {
-         this.showTimeAbout.state = "fadedIn";
-      })
-      sessionStorage.setItem("aboutFirstTime","false");
-    }
-    if(this.view !== "about" && this.view!== "showcase"){
-      this.galleryBox.style.transition="none";
-      setTimeout(() =>{
-        this.showTimeAbout.state = "fadedIn";
-      })
-    }
 
 
 
@@ -405,26 +375,35 @@ console.log(this.view);
 
 
     //hide arrow on scroll
-    this.arrowFrame = document.querySelector(".arrow-frame");
+    this.arrowFrame = document.querySelector("#arrow-frame");
     // add arrow hide listener
     this.galleryWrapper.onscroll = () => {
       this.arrowFrame.style.opacity = 0;
     }
 
-    //target DOM element containing santized grid as innerHTML
+    //target DOM element containing sanitized grid as innerHTML
     this.renderedGrid = document.querySelector('#renderedGrid');
     // make nodelist of img's within grid
+
     let picNodeList = this.renderedGrid.querySelectorAll('img');
 
     this.picsArray = Array.from(picNodeList)
 
+
     this.picsArray.forEach((item, index, array) => {
+      item.style.border="none";
+      item.style.transition = "opacity ease-out 2s, transform ease-out 1s";
+      item.style.transform = "translateY(300px)";
+      item.style.opacity = "0";
+
       let src = item.dataset.src.slice(8);
       this.fullResPicUrls[index] = "https://i0.wp.com/" + src + "?resize=1740&ssl=1";
 
     })
+    void this.renderedGrid.offsetWidth;
     //set first pic load event handler
     this.picsArray[0].addEventListener("load", function () {
+      // void this.picsArray[0].offsetWidth;
       this.picsArray[0].style.opacity = 1;
       this.picsArray[0].style.transform = "translateY(0px)";
       this.picsListenLoadAndObserve();
@@ -443,6 +422,10 @@ console.log(this.view);
       left: 0,
       behavior: "smooth"
     })
+
+
+
+
   }
 
   picsListenLoadAndObserve() {
@@ -455,25 +438,24 @@ console.log(this.view);
         this.galleryPicsLoaded++;
         if (this.galleryPicsLoaded + 1 === array.length) {
           this.lowResLoaded = true;
-          console.log("low res loaded");
           this.spinnerLightbox.style.display = "none";
-
 
 
         }
         if ( this.galleryPicsLoaded ===4){
           this.spinner.style.display = "none";
         }
-        //fade in above fold pics , and set flag to differentiate first screenfull
-        let picTop = item.getBoundingClientRect().top;
+       // fade in above fold pics , and set flag to differentiate first screenfull
+        let picTop = item.getBoundingClientRect().y - this.mobileFix;
         if (picTop < window.innerHeight) {
+        void item.offsetWidth;
           item.style.opacity = "1";
-          item.transform = "translateY(300)";
+          item.style.transform = "translateY(0)";
         }
         //hide below fold pics for floating in
         else if (picTop > window.innerHeight) {
           item.style.opacity = "0";
-          item.style.transform = 'translateY(0px)';
+          item.style.transform = 'translateY(300px)';
         }
         //set up intersection observer options
         let options = {
@@ -482,10 +464,10 @@ console.log(this.view);
           threshold: 0,
         }
 
+
         //set up intersection observers
         let observer = new IntersectionObserver(this.intersectionCallback.bind(this), options);
         observer.observe(item);
-        //set onload event
 
       }
       //load all gallery pics
@@ -505,15 +487,15 @@ console.log(this.view);
   intersectionCallback(entries) {
     entries.forEach((entry) => {
 
-      let picTop = entry.boundingClientRect.top;
+      let picTop = entry.boundingClientRect.top -this.mobileFix;
 
       // animate pics on entry and exit (if loaded)
-      if (picTop < window.innerHeight) {
+      if (picTop < window.innerHeight ) {
         entry.target.style.opacity = "1";
         entry.target.style.transform = 'translateY(0)';
       }
 
-      if (picTop > window.innerHeight) {
+      if (picTop > window.innerHeight ) {
         entry.target.style.opacity = "0";
         entry.target.style.transform = `translateY(300px)`;
       }
@@ -527,7 +509,6 @@ console.log(this.view);
     let loadLoop = (counter) => {
       if (counter === this.picsArray.length) {
         this.fullResLoaded = true;
-        console.log("high res loaded");
         return
       }
       let preloadImage = new Image;
@@ -536,7 +517,6 @@ console.log(this.view);
       preloadImage.onload = () => {
         this.preloadDiv.append(preloadImage);
         this.picsArray[counter].fullResLoadedFlag = true;
-        console.log(this.pic.currentSrc)
         if (this.pic.currentSrc === this.picsArray[counter].src) {
           this.pic.src = this.fullResPicUrls[counter];
 
@@ -552,19 +532,36 @@ console.log(this.view);
 
   showLightbox(event) {
     this.headerContainer= document.querySelector("#header");
-    this,this.headerContainer.style.pointerEvents = "none";
+    this.headerContainer.style.pointerEvents = "none";
+
     if (!this.loadLoopFired) {
       this.lightboxRecursiveLoad()
     };
 
     this.galleryWrapper.classList.toggle('hide-scroll');
-    this.overlayCentralColumn.style.opacity = 1;
     this.clickBlock = true;
     this.lightboxFlag = true;
-    // this.headerClass.emit("o-0");
     this.picPointer = parseInt(event.target.dataset.id);
     this.lightboxFade.forEach(item => item.style.opacity = 0);
-    //hide arrows at start and end of pics
+
+
+    this.picZoom(event.target);
+
+    //show lightbox after transition to hide renderedGrid
+    setTimeout(() => {
+      this.overlay.style.transition = "opacity 0.7s ease-in-out";
+      this.overlay.style.opacity = 1;
+      this.arrowFrame.style.opacity = 0;
+      this.lightbox.style.transition = "none";
+      this.lightbox.style.opacity = '1';
+      this.overlay.style.zIndex = "300";
+      this.lightbox.style.zIndex = "200";
+      void this.renderedGrid.offsetWidth;
+      this.renderedGrid.style.transition = "opacity 0.7s ease-in-out"
+      this.renderedGrid.style.opacity = 0;
+      this.clickBlock = false;
+
+         //hide arrows at start and end of pics
     if (this.picPointer === 0) {
       this.arrowLeft = "o-0";
     } else {
@@ -575,20 +572,6 @@ console.log(this.view);
     } else {
       this.arrowRight = "o-100";
     }
-
-    this.picZoom(event.target);
-
-    //show lightbox after transition to hide renderedGrid
-    setTimeout(() => {
-      this.arrowFrame.style.opacity = 0;
-      this.lightbox.style.transition = "none";
-      this.lightbox.style.opacity = '1';
-      this.overlay.style.zIndex = "300";
-      this.lightbox.style.zIndex = "200";
-      void this.renderedGrid.offsetWidth;
-      this.renderedGrid.style.transition = "opacity 0.7s ease-in-out"
-      this.renderedGrid.style.opacity = 0;
-      this.clickBlock = false;
 
     }, 300)
     //set pic load event
@@ -737,9 +720,6 @@ console.log(this.view);
       this.picsArray[this.picPointer].onload = (event) => {
 
         if (this.picsArray[this.picPointer] === this.fullResPicUrls[this.picPointer]) {
-          console.log("load event")
-
-
           return
         }
       }
@@ -878,7 +858,8 @@ console.log(this.view);
   closeLightbox() {
     this.headerContainer.style.pointerEvents = "auto";
     this.galleryWrapper.classList.toggle('hide-scroll');
-    this.overlayCentralColumn.style.opacity = 0;
+    this.overlay.style.transition = "none";
+    this.overlay.style.opacity = 0;
     if (this.clickBlock === true) {
       return;
     }

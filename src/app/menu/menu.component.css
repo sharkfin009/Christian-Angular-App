@@ -37,6 +37,18 @@ ul {
   /* width:120px; */
 }
 
+@media ( min-width: 0px ){
+  #menu{
+    width:70vw;
+  }
+}
+
+@media ( min-width: 800px ){
+  #menu{
+    width:80vw;
+  }
+}
+
 @media ( min-width: 1700px ){
   #menu{
     width:1350px;

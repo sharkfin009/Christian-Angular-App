@@ -129,7 +129,8 @@ export class CommissionsComponent implements AfterViewInit {
       });
 
       let recursive = (count: number) => {
-        if (count === this.thumbnails.length - 1) {
+
+        if (count === this.thumbnails.length ) {
           this.cacheGalleryMarkup();
           sessionStorage.setItem("commissions", "cached");
           this.spinner.style.display = "none";
@@ -139,7 +140,8 @@ export class CommissionsComponent implements AfterViewInit {
         //set src
          this.thumbnails[count].img.srcset = this.thumbnails[count].srcSet;
          this.thumbnails[count].img.src = this.thumbnails[count].urlStore;
-        this.thumbnails[count].imgPromise.then((data: any) => {
+         console.log("count:"+count,this.thumbnails[count].urlStore);
+         this.thumbnails[count].imgPromise.then(() => {
           this.thumbnails[count].img.style.opacity = "1";
           this.thumbnails[count].img.style.transform = "translateY(0px)";
           count++;
@@ -176,7 +178,6 @@ export class CommissionsComponent implements AfterViewInit {
         thumbs.forEach(item=>{
           item.urlStore = item.url;
           item.url="";
-
         })
         this.thumbnails = thumbs;
         this.thumbBoxes.changes.subscribe((item) => {

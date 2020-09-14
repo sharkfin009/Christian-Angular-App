@@ -1,6 +1,4 @@
 #port-frame {
-  padding-top: 250px;
-  height: 400vh;
   overflow:scroll;
 }
 .thumb-box{
@@ -11,7 +9,7 @@
   padding-bottom:50vh;
 }
 
-@media only screen and ( min-width:10px){
+@media only screen and ( min-width:0px){
   .thumbs-wrapper {
     display: flex;
     flex-direction:column;
@@ -22,6 +20,11 @@
     /* border: 3px dashed purple; */
     margin-right: 0em;
     margin-bottom: 4em;
+    width: 70vw;
+  }
+  #port-frame{
+    height: 100vh;
+    padding-top: 150px;
   }
 }
 @media only screen and ( min-width:884px){
@@ -36,7 +39,11 @@
    /* border: 3px dashed darkred; */
     margin-right: 2em;
     margin-bottom: 5em;
-
+    width:80vw;
+  }
+  #port-frame{
+    height: 400vh;
+    padding-top: 250px;
   }
 }
 
@@ -54,6 +61,11 @@
     /* border: 3px dashed green; */
     margin-right: 0em;
     margin-bottom: 0em;
+    width: 80vw;
+  }
+  #port-frame{
+    height: 400vh;
+    padding-top: 250px;
   }
 
 }
@@ -72,9 +84,14 @@
     /* border: 3px dashed red; */
     margin-bottom: 0em;
     margin-right: 0em;
+    width:80vw;
   }
   #text{
     width:1350px;
+  }
+  #port-frame{
+    height: 400vh;
+    padding-top: 250px;
   }
 }
 

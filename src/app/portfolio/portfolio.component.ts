@@ -85,28 +85,20 @@ export class PortfolioComponent implements AfterViewInit {
   ) {}
 
   hover(event) {
+  if (!window.matchMedia("(pointer:coarse)").matches){
     this.hoverEventObject = event;
+  }
   }
 
   onScroll(event) {
     sessionStorage.setItem("scroll", event.srcElement.scrollTop);
   }
 
-  onload2Promise(obj) {
-    return new Promise((resolve, reject) => {
-      obj.onload = () => resolve(obj);
-      obj.onerror = reject;
-    });
-  }
+  resizePortFrame(){
 
-  cacheGalleryMarkup() {
-    this.thumbnails.forEach((thumbnail) => {
-      thumbnail.obs$ = this.preloadGrids
-        .getGrid("gallery", thumbnail.slug)
-        .subscribe((item) => {});
-    });
+    let portFrame :any = document.querySelector("#port-frame");
+    portFrame.style.height = "400vh"
   }
-
   ngAfterViewInit() {
 
     this.spinner = document.querySelector(".spinner-cursor");
@@ -120,22 +112,31 @@ export class PortfolioComponent implements AfterViewInit {
         let img = this.elements[index]._data.renderElement.children[0]
           .children[0];
         item.img = img;
-        // item.imgPromise = this.onload2Promise(img);
       });
 
       let recursive = (count) => {
-        if (count === this.thumbnails.length - 1) {
-          this.cacheGalleryMarkup();
+        console.log(count)
+        if (count === this.thumbnails.length ) {
+          console.log('full load')
           sessionStorage.setItem("portfolio", "cached");
           return;
         }
-        if(count === 4){
+        if(count === 12){
           this.spinner.style.display = "none";
         }
         //set onload
         this.thumbnails[count].img.addEventListener('load',()=>{
-            this.thumbnails[count].img.style.opacity = "1";
-            this.thumbnails[count].img.style.transform = "translateY(0px)";
+
+            //get html for this thumb
+            this.thumbnails[count].obs$ = this.preloadGrids
+            .getGrid("gallery", this.thumbnails[count].slug)
+            .subscribe(
+              (item)=>{console.log("this:",item);
+              this.thumbnails[count].img.style.opacity = "1";
+           // this.thumbnails[count].img.style.transform = "translateY(0px)";
+
+            }
+            );
             recursive(count+1);
 
         },false)
@@ -151,16 +152,24 @@ export class PortfolioComponent implements AfterViewInit {
     if (sessionStorage.getItem("portfolio") === "cached") {
      this.subscription =  this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
       this.spinner.style.display = "none";
-        this.thumbnails = thumbs;
+        this.thumbnails = thumbs.filter(item=>item.slug!=="overview");
 
         // reset scroll after render
         if (sessionStorage.getItem("scroll") &&
          (sessionStorage.getItem("portfolioWhatLink") === "back" || sessionStorage.getItem("portfolioWhatLink")==="grid-lightbox")) {
+          let portFrame :any = document.querySelector("#port-frame");
+          portFrame.style.height = "400vh";
           setTimeout(() => {
             this.previousScrollValue = sessionStorage.getItem("scroll");
-          });
+          },1001);
+
+
+
+      setTimeout(()=>{
+        portFrame.style.height = "100vh";
+      },1000)
+
         }
-        this.cacheGalleryMarkup();
       });
 
       return;
@@ -174,10 +183,12 @@ export class PortfolioComponent implements AfterViewInit {
           item.urlStore = item.url;
           item.url="";
           item.srcSet = "";
-        })
-        this.thumbnails = thumbs;
+        });
+        this.thumbnails = thumbs.filter(item=>item.slug!=="overview");
+        console.dir(this.thumbnails)
         this.thumbBoxes.changes.subscribe((item) => {
           this.elements = item.toArray();
+
           loadWithAnim();
         });
       });

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GalleryWrapperComponent } from './about-wrapper.component';
+import { PrivacyComponent } from './privacy.component';
 
-describe('GalleryWrapperComponent', () => {
-  let component: GalleryWrapperComponent;
-  let fixture: ComponentFixture<GalleryWrapperComponent>;
+describe('PrivacyComponent', () => {
+  let component: PrivacyComponent;
+  let fixture: ComponentFixture<PrivacyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GalleryWrapperComponent ]
+      declarations: [ PrivacyComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GalleryWrapperComponent);
+    fixture = TestBed.createComponent(PrivacyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

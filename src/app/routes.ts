@@ -14,16 +14,21 @@ import {
 import {
   CommissionsComponent
 } from './commissions/commissions.component'
+import {
+  AboutComponent
+} from './about/about.component'
+import {
+  PrivacyComponent
+} from './privacy/privacy.component'
 
 
 
 import { MenuComponent } from './menu/menu.component';
-import { AboutComponent } from './about/about.component'
+import { contactComponent } from './contact/contact.component'
 import { ShowreelComponent } from './showreel/showreel.component';
 import { CommissionComponent } from './commission/commission.component';
 import {ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component'
 import { ShowcaseComponent } from './showcase/showcase.component';
-import { AboutWrapperComponent } from './about-wrapper/about-wrapper.component';
 
 export const appRoutes: Routes = [{
     path: 'portfolio',
@@ -133,11 +138,11 @@ export const appRoutes: Routes = [{
   },
 
   {
-    path: 'about',
-    component: AboutComponent,
+    path: 'contact',
+    component: contactComponent,
     data: {
-      view: 'about',
-      title: 'About',
+      view: 'contact',
+      title: 'contact',
       arrowState:  false,
       xTurnState: false,
       slideXState:true,
@@ -145,6 +150,32 @@ export const appRoutes: Routes = [{
     }
   },
 
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: {
+      view: 'about',
+      title: 'about',
+      arrowState:  false,
+      xTurnState: false,
+      slideXState:true,
+
+    }
+  },
+
+
+  {
+    path: 'privacy',
+    component: PrivacyComponent,
+    data: {
+      view: 'privacy',
+      title: 'privacy',
+      arrowState:  false,
+      xTurnState: false,
+      slideXState:true,
+
+    }
+  },
 
 
 ]

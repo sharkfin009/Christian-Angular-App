@@ -1,6 +1,5 @@
 #port-frame {
-  padding-top: 250px;
-  height: 400vh;
+  height: 100vh;
   overflow:scroll;
 }
 .thumb-box{
@@ -8,10 +7,10 @@
   /* height:190px; */
 }
 .thumbs-wrapper{
-  padding-bottom:50vh;
+  padding-bottom:250px;
 }
 
-@media only screen and ( min-width:10px){
+@media only screen and ( min-width:0px){
   .thumbs-wrapper {
     display: flex;
     flex-direction:column;
@@ -22,6 +21,10 @@
     /* border: 3px dashed purple; */
     margin-right: 0em;
     margin-bottom: 4em;
+    width:70vw;
+  }
+  #port-frame{
+    padding-top: 150px;
   }
 }
 @media only screen and ( min-width:884px){
@@ -36,7 +39,11 @@
    /* border: 3px dashed darkred; */
     margin-right: 2em;
     margin-bottom: 5em;
+    width:320px;
 
+  }
+  #port-frame{
+    padding-top: 250px;
   }
 }
 
@@ -53,6 +60,10 @@
     /* border: 3px dashed green; */
     margin-right: 0em;
     margin-bottom: 0em;
+    width:320px;
+  }
+  #port-frame{
+    padding-top: 250px;
   }
 
 }
@@ -71,13 +82,15 @@
     /* border: 3px dashed red; */
     margin-bottom: 0em;
     margin-right: 0em;
+    width:320px;
   }
   #text{
     width:1350px;
   }
+  #port-frame{
+    padding-top: 250px;
+  }
 }
-
-
 
 .spacer{
   height:273vh
@@ -158,16 +171,4 @@
     opacity: 0;
   }
 }
-/* @media
- (min-width:0px){
-   #titleFrame{
-     color:green;
-     display:none;
-   }
- }
- @media
- (min-width:670px){
-   #titleFrame{
-     display:flex;
-   }
- } */
+
