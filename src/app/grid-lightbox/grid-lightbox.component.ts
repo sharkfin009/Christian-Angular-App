@@ -198,6 +198,9 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
   downloadArea: any;
   mobileFix: any = 0;
   downLoadLinkFlag: boolean=true;
+  backArrowLink: string;
+  navIcon: any;
+  arrowBack: any;
   constructor(
     // private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
@@ -222,9 +225,7 @@ ngOnInit(): void {
     this.srcUrls = this.gridData.srcUrls;
     this.srcSets = this.gridData.srcSets;
     this.trustedGrid = this.sanitizer.bypassSecurityTrustHtml(this.gridData.grid);
-    if (this.view === "about") {
-      this.showArrows = false;
-    }
+
     this.spinner = document.querySelector(".spinner-cursor");
     this.spinner.style.display = "none";
   }
@@ -244,13 +245,14 @@ ngOnInit(): void {
   }
 
   ngAfterViewInit() {
-
+    //put header back to let back arrow work
 
     if(window.matchMedia("(max-width:400px)").matches){
       this.mobileFix = 1000;
     }
 
     //set up DOM values
+    this.header= document.querySelector("#header")
     this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
     this.lightboxFade = document.querySelectorAll(".lightbox-fade");
@@ -296,6 +298,14 @@ ngOnInit(): void {
       this.spinnerLightbox.style.opacity = 0;
     })
 
+    // console.log(this.view)
+
+    if(this.view === "showcase"){
+      setTimeout(()=>{
+        this.arrowBack = document.querySelector("#arrowBack")
+        this.arrowBack.style.display="none";
+      })
+    }
     //set an SS value to trigger scroll reset in portfolio or commissions view
 
     sessionStorage.setItem("commissionsWhatLink", "grid-lightbox");
@@ -329,28 +339,7 @@ ngOnInit(): void {
       })
         //run fade in with transition none
         this.galleryBox.style.transition = "none";
-
     }
-    if (this.view === "about" && sessionStorage.getItem("aboutWhatLink") === "back") {
-      //set flag to bypass anim
-      this.spinner.style.display="none";
-      this.userScrollFlag = false;
-      setTimeout(() => {
-        this.scrollValue = sessionStorage.getItem("scrollValue");
-        this.picsArray.forEach(item => {
-          item.style.transition = "none";
-        });
-
-      })
-       //run fade in with transition none
-       this.galleryBox.style.transition="none";
-
-    }
-
-
-
-
-
 
     //add click listeners to overlay
     this.left.addEventListener("click", this.browse.bind(this), false);
@@ -531,9 +520,9 @@ ngOnInit(): void {
   }
 
   showLightbox(event) {
-    this.headerContainer= document.querySelector("#header");
-    this.headerContainer.style.pointerEvents = "none";
 
+
+    this.header.style.pointerEvents = "none";
     if (!this.loadLoopFired) {
       this.lightboxRecursiveLoad()
     };
@@ -856,7 +845,7 @@ ngOnInit(): void {
 
 
   closeLightbox() {
-    this.headerContainer.style.pointerEvents = "auto";
+    this.header.style.pointerEvents = "auto";
     this.galleryWrapper.classList.toggle('hide-scroll');
     this.overlay.style.transition = "none";
     this.overlay.style.opacity = 0;

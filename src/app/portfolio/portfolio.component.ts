@@ -77,6 +77,7 @@ export class PortfolioComponent implements AfterViewInit {
   cachedFlag: boolean = false;
   subscription: any;
   spinner: any;
+  header: any;
 
   constructor(
     private route: ActivatedRoute,

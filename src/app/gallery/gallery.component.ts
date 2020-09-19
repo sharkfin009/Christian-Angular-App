@@ -49,6 +49,7 @@ import {
 
 ) export class GalleryComponent implements OnInit {
   gallery: any;
+  view: any;
 
 
 
@@ -61,5 +62,7 @@ import {
  ngOnInit(){
 //set up values
 this.gallery = this.route.snapshot.data['gallery'];
+this.view = this.route.snapshot.data.view;
  }
+
 }

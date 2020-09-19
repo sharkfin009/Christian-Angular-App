@@ -6,7 +6,7 @@ import {
   ɵConsole,
   Input
 } from '@angular/core';
-import  "zenscroll";
+import "zenscroll";
 import {
   RouterOutlet,
   Router,
@@ -28,8 +28,11 @@ import {
 } from "@angular/common";
 
 import FontFaceObserver from "fontfaceobserver";
-import { filter, pairwise, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {
+  filter,
+  pairwise,
+  map
+} from 'rxjs/operators';
 
 
 
@@ -76,13 +79,13 @@ import { Observable } from 'rxjs';
       state('final', style({
         opacity: "1"
       })),
-      transition('initial=>final', [animate('2s ease-out')]),
+      transition('initial=>final', [animate('1s ease-out')]),
     ]),
   ]
 })
 
 export class AppComponent implements OnInit {
-  XXHaasObserver:any;
+  XXHaasObserver: any;
   outlet: any;
   menuButton: any;
   headerElement: any;
@@ -95,22 +98,26 @@ export class AppComponent implements OnInit {
   x: any;
   hideMenuClass: string;
   fullWrapper: any;
-  showTime = {state:"initial"};
-  @Input('thumbs') thumbStore=[];
+  showTime = {
+    state: "initial"
+  };
+  @Input('thumbs') thumbStore = [];
   lastRoute: any;
-  backArrowLink:"/portfolio";
-  url:any;
+  backArrowLink: any;
+  url: any;
   spinnerCursor: any;
   spinFlag: false;
   backArrowLinkBackup: any;
+  view: string;
   constructor(private route: ActivatedRoute, private router: Router, public location: Location) {}
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
 
   ngOnInit() {
+    // this.view = this.route.snapshot.data.view;
     this.XXHaasObserver = new FontFaceObserver('XXHaas');
-    this.XXHaasObserver.load().then( ()=> {
+    this.XXHaasObserver.load().then(() => {
       this.showTime.state = "final";
     });
     this.x = document.querySelector(".menu-button");
@@ -121,42 +128,26 @@ export class AppComponent implements OnInit {
       }
     }));
     this.router.events
-    .pipe(filter((e: any) => e instanceof RoutesRecognized),
+      .pipe(filter((e: any) => e instanceof RoutesRecognized),
         pairwise()
-    ).subscribe((e: any) => {
-      this.lastRoute = e[0].urlAfterRedirects;
-      console.log(this.lastRoute); // previous url
-      this.backArrowLinkBackup = this.lastRoute
-    });
+      ).subscribe((e: any) => {
+
+    
+        this.backArrowLink = this.router.url
+      });
   }
 
   ngAfterViewInit() {
+
     this.spinnerCursor = document.querySelector(".spinner-cursor");
     window.addEventListener("mousemove", (e) => {
       this.spinnerCursor.style.left = e.pageX + "px";
       this.spinnerCursor.style.top = e.pageY + "px";
     });
 
-let url=window.location.pathname;
-console.log(url);
-url= url.slice(1);
-let locationValue = url.substr(0,url.indexOf('/'));
-switch (locationValue){
-  case "gallery":
-    setTimeout(()=>{
-      this.backArrowLink = "/portfolio";
-    })
-    break;
-    case "commission":
-setTimeout(()=>{
-  this.backArrowLink = "/commissions";
-})
-default :
-console.log("no value")
-setTimeout(()=>{
-  this.backArrowLink = this.backArrowLinkBackup;
-})
-}
+
+
+
   }
 
 
@@ -187,17 +178,17 @@ setTimeout(()=>{
       });
     } else {
       //set SS values to track how we got to showcase and portfolio
-      if(this.lastRoute === "/showcase"){
-        sessionStorage.setItem("lastRoute","showcase")
-        sessionStorage.setItem("showcaseWhatLink","back")
+      if (this.lastRoute === "/showcase") {
+        sessionStorage.setItem("lastRoute", "showcase")
+        sessionStorage.setItem("showcaseWhatLink", "back")
       }
-      if(this.lastRoute === "/portfolio"){
-        sessionStorage.setItem("lastRoute","portfolio")
-        sessionStorage.setItem("portfolioWhatLink","back")
+      if (this.lastRoute === "/portfolio") {
+        sessionStorage.setItem("lastRoute", "portfolio")
+        sessionStorage.setItem("portfolioWhatLink", "back")
       }
-      if(this.lastRoute === "/about"){
-        sessionStorage.setItem("lastRoute","about")
-        sessionStorage.setItem("aboutWhatLink","back")
+      if (this.lastRoute === "/about") {
+        sessionStorage.setItem("lastRoute", "about")
+        sessionStorage.setItem("aboutWhatLink", "back")
       }
       this.location.back();
     }

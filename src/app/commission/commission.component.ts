@@ -43,6 +43,7 @@ import {
 
 ) export class CommissionComponent implements OnInit {
   commission: any;
+  view: any;
 
 
 
@@ -55,5 +56,7 @@ import {
 //set up values
 this.commission = this.route.snapshot.data['commission'];
 console.dir(this.commission)
+this.view = this.route.snapshot.data.view;
  }
+
 }

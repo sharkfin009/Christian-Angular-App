@@ -1,3 +1,4 @@
+
 .spinner-cursor {
   position:absolute;
   width: 20px;
@@ -44,7 +45,7 @@
   z-index: 2;
   transition: opacity 1s ease-out;
   box-sizing: content-box;
-
+  /* pointer-events:none; */
 }
 
 #site-title {
@@ -100,17 +101,13 @@
   height: 155px;
 }
 
-#nav-link-icon-wrapper{
-width:26px;
-height:26px;
-position: relative;
 
-}
 
 #nav-icon {
-  pointer-events: auto;
+  pointer-events: none;
   flex-grow: 1;
   flex-wrap:none;
+  pointer-events:auto;
 }
 
 #spacerRight {
@@ -118,7 +115,7 @@ position: relative;
 }
 
 
-@media (min-width:1px) {
+@media (min-width:0px) {
 
   #innerHeader {
     width: 70vw;

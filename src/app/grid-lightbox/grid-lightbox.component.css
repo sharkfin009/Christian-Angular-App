@@ -1,4 +1,6 @@
-
+.arrow-icon {
+  pointer-events: none;
+}
 
 #close-icon {
   transform: rotate(45deg);
@@ -147,7 +149,6 @@
 .xCursor {
   cursor: url('../../assets/vectrXNoShadow.svg'), auto;
   transition: opacity 1s ease-out;
-
 }
 
 #left {
@@ -157,23 +158,75 @@
 #right {
   flex-grow: 1;
 }
+#arrowStructure{
+  height:155px;
+  z-index:2000;
+  pointer-events:auto;
+}
+#arrowBox{
+  /* margin-top: 6px; */
+  pointer-events: auto;
+
+}
+#arrowBack{
+  pointer-events: auto;
+}
+
 
 @media(min-width :0px) {
   #gallery-box {
+    width: 70vw;
+  }
+
+  #arrowBox{
+    width:15vw;
+  }
+
+  #headerCenter{
+    width:70vw;
+  }
+  #headerRight{
+    width:15vw;
+
+  }
+
+}
+
+
+@media(min-width :800px) {
+  #gallery-box {
     width: 80vw;
   }
+
+#arrowBox{
+  width:10vw;
+
+}
+#headerCenter{
+  width:80vw;
+}
+#headerRight{
+  width:10vw;
+
 }
 
-.arrow-icon {
-  pointer-events: none;
 }
 
-@media(min-width :1700px) {
+
+ @media(min-width :1700px) {
   #gallery-box {
     width: 1350px;
   }
+  #arrowBox{
+    flex-grow:1;
+  }
+  #headerCenter{
+    width:1350px;
+  }
+  #headerRight{
+    flex-grow:1;
+  }
+
 }
 
-.arrow-icon {
-  pointer-events: none;
-}
+
