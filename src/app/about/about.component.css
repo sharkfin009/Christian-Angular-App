@@ -1,125 +1,255 @@
-#frame{
-  top:0;
-  left:0;
-  height:100vh;
-  width:100vw;
-
-  -webkit-user-select: auto;
--moz-user-select: auto;
--ms-user-select: auto;
-user-select: auto !important;
-}
-
-#box{
-  width:70%;
-  padding-top:250px;
+#frame {
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  padding-top: 250px;
   overflow-y: auto;
-  height:100vh;
-  
-/* Hide scrollbar for IE, Edge and Firefox */
-
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-/* Hide scrollbar for Chrome, Safari and Opera */
-#box::-webkit-scrollbar {
-  display: none;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text !important;
+  letter-spacing: 2px;
 }
 
-
-#para{
-  top:0;
-  left:0;
+#para {
+  top: 0;
+  left: 0;
   /* height:100%; */
-  line-height:1.5;
-  letter-spacing:2px;
-  overscroll-behavior-inline:auto;
+  line-height: 1.5;
+  letter-spacing: 2px;
+  overscroll-behavior-inline: auto;
+  width: 70%;
+}
+
+#pic {
+  width: 360px;
+  height: 320px;
+  z-index: -1;
+}
+
+#mobile-pic {
+  width: 360px;
+  height: 360px;
+  z-index: -1;
+}
+
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: #ff5039
+}
+
+.privacy {
+  height: 150px;
+  opacity: 0.5;
+}
+
+table {
+
+  margin-bottom: 50px;
 
 }
 
-#pic{
-  width:330px;
-  z-index:-1;
-}
 
-a{
-  text-decoration:none;
-  color:black;
-}
-a:hover{
-color:#ff5039
-}
-
-@media only screen and ( min-width:0px){
-
-  #pic{
-    margin:auto;
-    position:static;
+@media only screen and (min-width:0px) {
+  #mobile-pic {
     display: block;
-    padding-bottom:50px;
   }
-  #para{
+
+  #pic {
+    position: static;
+    display: none;
+
+  }
+
+  #para {
     width: 100%;
-    padding-bottom:0px;
+    padding-bottom: 0px;
   }
 
-  #header{
-    width:70vw;
+  #header {
+    width: 70vw;
+  }
+
+  table {
+    display: none
+  }
+
+  #mobile-table {
+    display: inline-table;
+
+    margin-top: 0px;
+
+  }
+
+  #box {
+    margin-left: 15vw;
+    margin-right: 15vw;
+
+  }
+
+  .links {
+    width: 60%;
   }
 }
 
-.grid-lightbox{
-width:80%
-}
-@media only screen and ( min-width:880px){
+@media only screen and (min-width:1000px) {
+  #mobile-pic {
+    display: block;
+  }
 
-  #para{
-    width: 70%;
+  #box {
+    margin: 0;
+    width: 80vw;
+  }
+
+  #table-and-pic {
+    width: 832px;
+    border-bottom: black solid 1px;
+    ;
+  }
+
+  #para {
+    width: 100%;
+  }
+
+  #pic {
+    display: none;
+  }
+
+  #header {
+    width: 80%;
+  }
+
+  #frame {
+    display: flex;
+    justify-content: center;
+  }
+
+  table {
+    display: inline-table;
+    /* margin-left:10vw; */
+  }
+
+  #mobile-table {
+    display: none;
+  }
+
+
+}
+
+@media only screen and (min-width:1400px) {
+  #mobile-pic {
+    display: none;
+  }
+
+  #box {
+    margin: 0;
+    width: 80vw;
+  }
+
+  #table-and-pic {
+    width: 1130px;
+    border-bottom: black solid 1px;
+    ;
+  }
+
+  #para {
+    width: 100%;
     padding-bottom: 100;
-
-  }
-  #box{
-    width:80%;
-
-
-  }
-  #pic{
-    top:50vh;
-    left:60vw;
-    position:fixed;
-    margin:0;
-
-  }
-  #header{
-    width:80%;
   }
 
-
-}
-@media only screen and ( min-width:1700px){
-
-
-  #box{
-    width:1350px;
-
+  #pic {
+    display: block;
+    margin-right: 50px;
   }
-  #para{
+
+  #header {
+    width: 80%;
+  }
+
+  #frame {
+    display: flex;
+    justify-content: center;
+  }
+
+  table {
+    display: inline-table;
+    /* margin-left:10vw; */
+  }
+
+  #mobile-table {
+    display: none;
+  }
+
+  #par1 {
+    width: 60%;
+  }
+
+  #par2 {
     width: 70%;
-    padding-bottom:100px;
-
   }
-  #pic{
-    top:50vh;
-    left:60vw;
-    position:fixed;
-    margin:0;
 
-  }
-  #header{
-    width:1350px;
+  #par3 {
+    width: 80%;
   }
 
 
 }
 
+@media only screen and (min-width:1700px) {
+  #mobile-pic {
+    display: none;
+  }
 
+  #box {
+    width: 1350px;
+  }
+
+  #para {
+    width: 100%;
+    padding-bottom: 100px;
+  }
+
+  #pic {
+    display: block;
+    margin-right: 50px;
+  }
+
+  #header {
+    width: 1350px;
+  }
+
+  #frame {
+    display: flex;
+    justify-content: center;
+
+  }
+
+  table {
+    display: inline-table;
+    margin-left: 0;
+  }
+
+  #mobile-table {
+    display: none;
+  }
+
+  #par1 {
+    width: 60%;
+  }
+
+  #par2 {
+    width: 70%;
+  }
+
+  #par3 {
+    width: 80%;
+  }
+
+}

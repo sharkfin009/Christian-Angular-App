@@ -6,7 +6,9 @@ import {
   ɵConsole,
   Input
 } from '@angular/core';
-import "zenscroll";
+import {
+  Title, Meta
+} from '@angular/platform-browser'
 import {
   RouterOutlet,
   Router,
@@ -132,7 +134,7 @@ export class AppComponent implements OnInit {
         pairwise()
       ).subscribe((e: any) => {
 
-    
+
         this.backArrowLink = this.router.url
       });
   }

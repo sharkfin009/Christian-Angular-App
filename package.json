@@ -23,6 +23,7 @@
     "@angular/platform-browser": "~8.2.13",
     "@angular/platform-browser-dynamic": "~8.2.13",
     "@angular/router": "~8.2.13",
+    "@nguniversal/express-engine": "^8.2.6",
     "@types/zenscroll": "^4.0.0",
     "bootstrap": "^4.5.0",
     "file-saver": "^2.0.2",
