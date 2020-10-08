@@ -27,7 +27,7 @@
   z-index: 500;
   left: 0;
   transform: translate(20px, 20px);
-  transition: none;
+  /* transition: none; */
 }
 
 .wheel {
@@ -169,7 +169,9 @@
 
 }
 #arrowBack{
-  pointer-events: auto;
+  /* pointer-events: auto; */
+  transition: opacity 1s ease-out;
+
 }
 
 

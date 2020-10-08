@@ -24,7 +24,6 @@ import {
 
 
 import { MenuComponent } from './menu/menu.component';
-import { contactComponent } from './contact/contact.component'
 import { ShowreelComponent } from './showreel/showreel.component';
 import { CommissionComponent } from './commission/commission.component';
 import {ShowcaseWrapperComponent } from './showcase-wrapper/showcase-wrapper.component'
@@ -138,20 +137,18 @@ export const appRoutes: Routes = [{
   },
 
   {
-    path: 'contact',
-    component: contactComponent,
+    path: 'about',
+    component: AboutComponent,
     data: {
-      view: 'contact',
-      title: 'contact',
+      view: 'about',
+      title: 'about',
       arrowState:  false,
       xTurnState: false,
       slideXState:true,
 
     }
-  },
-
-  {
-    path: 'about',
+  }, {
+    path: 'contact',
     component: AboutComponent,
     data: {
       view: 'about',

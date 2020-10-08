@@ -46,9 +46,7 @@ import {
 import {
   ShowreelComponent
 } from './showreel/showreel.component';
-import {
-  PostsComponent
-} from './posts/posts.component';
+
 import {
   MenuComponent
 } from './menu/menu.component';
@@ -58,9 +56,7 @@ import {
 import {
   CommissionComponent
 } from './commission/commission.component';
-import {
-  contactComponent
-} from './contact/contact.component';
+
 import {
   ShowcaseWrapperComponent
 } from './showcase-wrapper/showcase-wrapper.component';
@@ -78,7 +74,8 @@ import {
   FileService
 } from './file.service';
 import { AboutComponent } from './about/about.component';
-import { PrivacyComponent } from './privacy/privacy.component'
+import { PrivacyComponent } from './privacy/privacy.component';
+import { MCFormComponent } from './mcform/mcform.component'
 
 
 @NgModule({
@@ -88,17 +85,16 @@ import { PrivacyComponent } from './privacy/privacy.component'
     GalleryThumbnailComponent,
     GalleryComponent,
     CommissionsComponent,
-    PostsComponent,
     ShowreelComponent,
     MenuComponent,
     CommissionComponent,
-    contactComponent,
     ShowcaseWrapperComponent,
     ShowcaseComponent,
-   
+
     GridLightboxComponent,
     AboutComponent,
     PrivacyComponent,
+    MCFormComponent,
     // RouterOutletDirective,
   ],
   imports: [

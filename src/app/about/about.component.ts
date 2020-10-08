@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
 @Component({
   selector: 'app-about',
@@ -6,10 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent implements OnInit {
+  formFlag: boolean = false;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+  showForm() {
+    this.formFlag = true;
   }
-
+  closeForm(delayFlag) {
+    console.log(delayFlag)
+    if (delayFlag === "smallDelay") {
+      setTimeout(() => {
+        this.formFlag = false;
+      }, 1000)
+    } else {
+      this.formFlag = false;
+    }
+  }
 }
+

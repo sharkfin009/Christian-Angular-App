@@ -22,7 +22,7 @@ import {
 })
 export class GetGridService {
   private galleryApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGallery/";
-  private contactApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/getAboutPage/v1/please";
+
   private commissionApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/getCommission/v1/";
   spinner: any;
 
@@ -37,9 +37,7 @@ export class GetGridService {
       case "gallery":
         apiUrl = this.galleryApiUrl + slug;
         break;
-      case "contact":
-        apiUrl = this.contactApiUrl;
-        break;
+
       case "commission":
         apiUrl = this.commissionApiUrl + slug;
 

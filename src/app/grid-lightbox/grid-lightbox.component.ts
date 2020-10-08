@@ -9,7 +9,7 @@ import {
 
 from '@angular/core';
 
-import  "zenscroll"
+import "zenscroll"
 
 
 import * as fileSaver from 'file-saver';
@@ -43,8 +43,12 @@ import {
   keyframes,
   state
 } from '@angular/animations';
-import { FileService } from '../file.service';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import {
+  FileService
+} from '../file.service';
+import {
+  connectableObservableDescriptor
+} from 'rxjs/internal/observable/ConnectableObservable';
 
 
 
@@ -128,7 +132,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
   galleryGrid: any;
   picsArray: any;
   overlay: any;
-  pic:any = '';
+  pic: any = '';
   zoom: string;
   lightboxFade: any;
   left: any;
@@ -197,7 +201,7 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
   headerContainer: any;
   downloadArea: any;
   mobileFix: any = 0;
-  downLoadLinkFlag: boolean=true;
+  downLoadLinkFlag: boolean = true;
   backArrowLink: string;
   navIcon: any;
   arrowBack: any;
@@ -206,20 +210,22 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
     private sanitizer: DomSanitizer,
     // private router: Router,
     private fileService: FileService
-    ) {}
+  ) {}
 
   prepareRoute(outlet: RouterOutlet) {
     return outlet.activatedRouteData['view'];
   }
- download(){
-   this.fileService.downloadFile(this.pic.src).subscribe(response => {
-     let blob:any = new Blob([response._body],{ type:'image/jpeg'});
-   let fileName= this.pic.src.split("/")[8].split("?")[0];
-   fileSaver.saveAs(blob,fileName)
-   })
- }
-ngOnInit(): void {
-    if(this.gridData.gridType==="commission"){
+  download() {
+    this.fileService.downloadFile(this.pic.src).subscribe(response => {
+      let blob: any = new Blob([response._body], {
+        type: 'image/jpeg'
+      });
+      let fileName = this.pic.src.split("/")[8].split("?")[0];
+      fileSaver.saveAs(blob, fileName)
+    })
+  }
+  ngOnInit(): void {
+    if (this.gridData.gridType === "commission") {
       this.downLoadLinkFlag = false;
     }
     this.srcUrls = this.gridData.srcUrls;
@@ -247,12 +253,12 @@ ngOnInit(): void {
   ngAfterViewInit() {
     //put header back to let back arrow work
 
-    if(window.matchMedia("(max-width:400px)").matches){
+    if (window.matchMedia("(max-width:400px)").matches) {
       this.mobileFix = 1000;
     }
 
     //set up DOM values
-    this.header= document.querySelector("#header")
+    this.header = document.querySelector("#header")
     this.body = document.querySelector("body");
     this.lightbox = document.querySelector('#lightbox');
     this.lightboxFade = document.querySelectorAll(".lightbox-fade");
@@ -300,10 +306,10 @@ ngOnInit(): void {
 
     // console.log(this.view)
 
-    if(this.view === "showcase"){
-      setTimeout(()=>{
+    if (this.view === "showcase") {
+      setTimeout(() => {
         this.arrowBack = document.querySelector("#arrowBack")
-        this.arrowBack.style.display="none";
+        this.arrowBack.style.display = "none";
       })
     }
     //set an SS value to trigger scroll reset in portfolio or commissions view
@@ -311,10 +317,10 @@ ngOnInit(): void {
     sessionStorage.setItem("commissionsWhatLink", "grid-lightbox");
     sessionStorage.setItem("portfolioWhatLink", "grid-lightbox");
     //fire fade in
-    this.galleryBox= document.querySelector("#gallery-box")
+    this.galleryBox = document.querySelector("#gallery-box")
 
     //check if user came here via the navlink X back link, in which case temporarily disable 'float in' animation so that scroll position can be restored
-    if ((this.view === "showcase")  && sessionStorage.getItem("showcaseWhatLink") === "back") {
+    if ((this.view === "showcase") && sessionStorage.getItem("showcaseWhatLink") === "back") {
       //set flag to bypass anim
 
       this.userScrollFlag = false;
@@ -324,8 +330,8 @@ ngOnInit(): void {
           item.style.transition = "none";
         })
       })
-        //run fade in with transition none
-        this.galleryBox.style.transition="none";
+      //run fade in with transition none
+      this.galleryBox.style.transition = "none";
 
     }
 
@@ -337,8 +343,8 @@ ngOnInit(): void {
           item.style.transition = "none";
         })
       })
-        //run fade in with transition none
-        this.galleryBox.style.transition = "none";
+      //run fade in with transition none
+      this.galleryBox.style.transition = "none";
     }
 
     //add click listeners to overlay
@@ -380,7 +386,7 @@ ngOnInit(): void {
 
 
     this.picsArray.forEach((item, index, array) => {
-      item.style.border="none";
+      item.style.border = "none";
       item.style.transition = "opacity ease-out 2s, transform ease-out 1s";
       item.style.transform = "translateY(300px)";
       item.style.opacity = "0";
@@ -431,13 +437,13 @@ ngOnInit(): void {
 
 
         }
-        if ( this.galleryPicsLoaded ===4){
+        if (this.galleryPicsLoaded === 4) {
           this.spinner.style.display = "none";
         }
-       // fade in above fold pics , and set flag to differentiate first screenfull
+        // fade in above fold pics , and set flag to differentiate first screenfull
         let picTop = item.getBoundingClientRect().y - this.mobileFix;
         if (picTop < window.innerHeight) {
-        void item.offsetWidth;
+          void item.offsetWidth;
           item.style.opacity = "1";
           item.style.transform = "translateY(0)";
         }
@@ -476,15 +482,15 @@ ngOnInit(): void {
   intersectionCallback(entries) {
     entries.forEach((entry) => {
 
-      let picTop = entry.boundingClientRect.top -this.mobileFix;
+      let picTop = entry.boundingClientRect.top - this.mobileFix;
 
       // animate pics on entry and exit (if loaded)
-      if (picTop < window.innerHeight ) {
+      if (picTop < window.innerHeight) {
         entry.target.style.opacity = "1";
         entry.target.style.transform = 'translateY(0)';
       }
 
-      if (picTop > window.innerHeight ) {
+      if (picTop > window.innerHeight) {
         entry.target.style.opacity = "0";
         entry.target.style.transform = `translateY(300px)`;
       }
@@ -531,7 +537,11 @@ ngOnInit(): void {
     this.clickBlock = true;
     this.lightboxFlag = true;
     this.picPointer = parseInt(event.target.dataset.id);
-    this.lightboxFade.forEach(item => item.style.opacity = 0);
+    console.dir(this.lightboxFade)
+    this.lightboxFade.forEach(item => {
+      console.log(item);
+      item.style.opacity = 0
+    });
 
 
     this.picZoom(event.target);
@@ -550,17 +560,17 @@ ngOnInit(): void {
       this.renderedGrid.style.opacity = 0;
       this.clickBlock = false;
 
-         //hide arrows at start and end of pics
-    if (this.picPointer === 0) {
-      this.arrowLeft = "o-0";
-    } else {
-      this.arrowLeft = "o-100";
-    }
-    if (this.picPointer === this.picsArray.length - 1) {
-      this.arrowRight = "o-0";
-    } else {
-      this.arrowRight = "o-100";
-    }
+      //hide arrows at start and end of pics
+      if (this.picPointer === 0) {
+        this.arrowLeft = "o-0";
+      } else {
+        this.arrowLeft = "o-100";
+      }
+      if (this.picPointer === this.picsArray.length - 1) {
+        this.arrowRight = "o-0";
+      } else {
+        this.arrowRight = "o-100";
+      }
 
     }, 300)
     //set pic load event
@@ -577,7 +587,7 @@ ngOnInit(): void {
     //put backup pic in lightbox
     this.pic.src = event.target.currentSrc
     //set lightbox overlay "close" area to size of pic:
-    this.overlayCentralColumn.style.width = this.pic.offsetWidth +"px";
+    this.overlayCentralColumn.style.width = this.pic.offsetWidth + "px";
     this.picOverlay.style.width = this.pic.offsetWidth + "px";
     this.picOverlay.style.height = this.pic.offsetHeight + "px";
     this.xBox.style.height = (window.innerHeight / 2 - this.pic.offsetHeight / 2) + "px";

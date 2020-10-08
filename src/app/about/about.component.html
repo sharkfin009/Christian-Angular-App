@@ -1,10 +1,10 @@
-<div id="frame" class="fixed w-100  flex flex-column items-center ">
+<div id="frame" class="debu fixed w-100  flex flex-column items-center ">
   <div id="box" class=" h-100">
 
     <div id="table-and-pic" class="flex no-wrap pb2">
 
       <div id="table" class="">
-        <table width="832">
+        <table width="680">
           <tbody>
             <tr >
               <td>
@@ -16,7 +16,7 @@
                 <div class=" pt3">representation germany</div>
               </td>
               <td>
-                <div class="bt mr3"></div>
+                <div class="bt "></div>
                 <div class=" pt3">representation italy / asia</div>
               </td>
             </tr>
@@ -37,9 +37,9 @@
             </tr>
             <tr>
               <td><a href="mailto:christian@doppelgatz.com" target="_blank"
-                  rel="noopener"><span>christian@doppelgatz.com</span></a></td>
-              <td><a href="mailto:info@upfront.de" target="_blank" rel="noopener"><span>info@upfront.de</span></a></td>
-              <td><a href="mailto:info@1806.agency" target="_blank" rel="noopener"><span>info@1806.agency</span></a>
+                  rel="noopener" class="pointer-styled"><span>christian@doppelgatz.com</span></a></td>
+              <td><a href="mailto:info@upfront.de" target="_blank" rel="noopener" class="pointer-styled"><span>info@upfront.de</span></a></td>
+              <td><a href="mailto:info@1806.agency" target="_blank" rel="noopener" class="pointer-styled"><span>info@1806.agency</span></a>
               </td>
             </tr>
             <tr>
@@ -49,15 +49,15 @@
             </tr>
             <tr>
               <td><span>south africa       +27 (0)72 8810 682</span></td>
-              <td><a href="http://www.upfront.de" target="_blank" rel="noopener"><span>www.upfront.de</span></a></td>
-              <td><a href="http://www.1806.agency" target="_blank" rel="noopener"><span>www.1806.agency</span></a></td>
+              <td><a href="http://www.upfront.de" target="_blank" rel="noopener" class="pointer-styled"><span>www.upfront.de</span></a></td>
+              <td><a href="http://www.1806.agency" target="_blank" rel="noopener" class="pointer-styled"><span>www.1806.agency</span></a></td>
             </tr>
             <tr>
-              <td class="pt5"><span>instagram:<a target="_blank"
+              <td class="pt5"><span>instagram:<a target="_blank" class="pointer-styled"
                     href="https://www.instagram.com/doppelgatz/?hl=en">@doppelgatz.com</a></span></td>
               <td class="pt5">
-                <span class="">
-                  <a target="_blank" href="mailto:christian@doppelgatz.com">subscribe to my newsletter</a>
+                <span class="pointer-styled">
+                  <a (click)="showForm()">subscribe to my newsletter</a>
                 </span>
               </td>
               <td>
@@ -68,7 +68,7 @@
           </tbody>
         </table>
 
-        <table class="" id="mobile-table" width="400">
+        <table class="" id="mobile-table" width="300">
           <tbody >
             <tr >
               <td class= "bt pt4"><span class="heading">direct contact</span></td>
@@ -157,7 +157,21 @@
               <td class= "bb pb4"><a href="https://www.upfront.de" target="_blank" rel="noopener"><span>www.1806.agency</span></a></td>
 
             </tr>
+            <tr>
+              <td class="pt5"><span>instagram:<a target="_blank" class="pointer-styled"
+                    href="https://www.instagram.com/doppelgatz/?hl=en">@doppelgatz.com</a></span></td>
 
+              <td>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="pt5">
+                <span class="pointer-styled">
+                  <a (click)="showForm()">subscribe to my newsletter</a>
+                </span>
+              </td>
+            </tr>
 
           </tbody>
 
@@ -208,5 +222,14 @@
 
 
 
+</div>
+
+<div *ngIf="formFlag" id="modal" class = "fixed w-100 h-100 flex  justify-center">
+  <div class="w-70 relative">
+    <div id="xbox" class=" h2 w-100 flex justify-end pr5">
+      <div (click)="closeForm('noDelay')" id="X" class="absolute pointer-styled">X</div>
+    </div>
+    <app-mcform (submitFlag)="closeForm($event)"></app-mcform>
+  </div>
 
 </div>

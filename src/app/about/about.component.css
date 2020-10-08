@@ -1,4 +1,5 @@
 #frame {
+  font-size: 14px;
   top: 0;
   left: 0;
   height: 100vh;
@@ -11,26 +12,37 @@
   user-select: text !important;
   letter-spacing: 2px;
 }
+#modal{
+
+  line-height: 1.8;
+  letter-spacing: 2px;
+  padding-top:150px;
+  overflow:auto;
+background-color:rgb(255, 255, 255);
+}
+#x{
+  font-size:40px;
+}
 
 #para {
   top: 0;
   left: 0;
   /* height:100%; */
-  line-height: 1.5;
+  line-height: 1.8;
   letter-spacing: 2px;
   overscroll-behavior-inline: auto;
   width: 70%;
 }
 
 #pic {
-  width: 360px;
-  height: 320px;
+  width: 300px;
+  height: 260px;
   z-index: -1;
 }
 
 #mobile-pic {
-  width: 360px;
-  height: 360px;
+  width: 300px;
+  height: 300px;
   z-index: -1;
 }
 
@@ -49,11 +61,7 @@ a:hover {
   opacity: 0.5;
 }
 
-table {
 
-  margin-bottom: 50px;
-
-}
 
 
 @media only screen and (min-width:0px) {
@@ -109,7 +117,7 @@ table {
   }
 
   #table-and-pic {
-    width: 832px;
+    width: 680px;
     border-bottom: black solid 1px;
     ;
   }
@@ -154,7 +162,7 @@ table {
   }
 
   #table-and-pic {
-    width: 1130px;
+    width: 930px;
     border-bottom: black solid 1px;
     ;
   }
