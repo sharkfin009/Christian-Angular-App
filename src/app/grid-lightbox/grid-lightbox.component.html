@@ -1,14 +1,10 @@
-<div id="arrowStructure" class="fixed w-100 flex justify-center align-items">
+<div id="arrowStructure" class="fixed w-10 ">
   <div id="arrowBox" [routerLink]="backArrowLink" class="pointer-styled flex justify-center h-100">
     <div   class="flex align-items">
       <img id="arrowBack"src="../assets/upArrao!.svg" width="22" class="lightbox-fade relative ph3   " />
     </div>
   </div>
-  <div id="headerCenter" class="">
 
-  </div>
-  <div id="headerRight" class="">
-  </div>
 </div>
 
 <div class="spinner-lightbox o-0">
@@ -28,33 +24,36 @@
     <div class="spacer1 "></div>
     <div id="renderedGrid" [innerHTML]="trustedGrid" class=" w-100"></div>
     <div class="flex justify-center pt4">
-      <div (click)="scrollToTop()" class="pointer-styled spacer2 flex justify-center w-20">
+      <div (click)="scrollToTop()" class="lightbox-fade pointer-styled spacer2 flex justify-center w-20">
         <img *ngIf="showArrows" src="../assets/upArrao!.svg" width="22"
           class="pointer relative z-5 ph3 hover-grow mb1" />
       </div>
     </div>
-
   </div>
 </div>
 
 
 
-<div id="overlay" class="o-0 w-100 absolute h-100 z-1 fixed flex justify-center">
+<div id="overlay" class=" o-0 z-1 fixed flex justify-center">
   <div id="left" class=" h-100 left-arrow flex items-center justify-start">
     <img width="15px" src="../../assets/arrow_left.svg" class="relative ph3 hover-grow arrow-icon" />
   </div>
   <div id="central-column" class="h-100 flex flex-column justify-between items-center ph6 ">
 
-    <div (click)="closeLightbox()" id="xbox" class=" xCursor h2 w-100 flex justify-center items-start">
+    <div (click)="closeLightbox()" id="xboxTop" class="xbox  xCursor h2 w-100 flex justify-center items-start">
       <img id="close-icon" width="20px" src="../assets/plus.svg" />
     </div>
-    <div (click)="closeLightbox()" id="pic-overlay" class="xCursor">
+    <div (click)="closeLightbox()" id="pic-overlay" class="xCursor"  (swipeleft)="browse($event)"
+    (swiperight)="browse($event)"  >
 
     </div>
-    <div id="download-links" class=" w-100  flex justify-around items-center">
-      <div *ngIf="downLoadLinkFlag" (click)="download()" class="link   pointer-styled"><img width="20px"
+    <div id="download-link" class=" w-100  flex justify-around items-center">
+      <div *ngIf="downLoadLinkFlag" (click)="download()" class="link pointer-styled"><img width="20px"
           src='../assets/download.svg' /></div>
       <!-- <span class="o-0 link pointer-styled">add to PDF lightbox</span> -->
+    </div>
+    <div (click)="closeLightbox()" id="xboxBottom" class="xbox xCursor h2 w-100 flex justify-center items-start">
+      <img id="close-icon" width="20px" src="../assets/plus.svg" />
     </div>
   </div>
 
@@ -64,7 +63,7 @@
 
 </div>
 <div class="fixed w-100 h-100 flex o-0 justify-center items-center" id="lightbox">
-  <div id="picBox" class=" relative flex justify-center  o-100">
+  <div id="picBox" class=" relative flex justify-center o-100">
 
     <img class="bw2 b--blue  lightboxImages" id="pic" />
 
@@ -73,10 +72,6 @@
 
     <img class="absolute  bw2 b--red lightboxImages o-0" [@scrollFadeHide2]="fadeFlag2"
       (@scrollFadeHide2.done)="resetScrollFade2()" id="faderB" />
-
-
-
   </div>
-
 
 </div>

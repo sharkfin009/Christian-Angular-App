@@ -100,10 +100,13 @@ a:hover {
     margin-right: 15vw;
 
   }
-
-  .links {
-    width: 60%;
+  #xbox-top{
+    display:none;
   }
+  #xboxBottom{
+    display:block;
+  }
+
 }
 
 @media only screen and (min-width:1000px) {
@@ -151,7 +154,7 @@ a:hover {
 
 }
 
-@media only screen and (min-width:1400px) {
+@media only screen and (min-width:1200px) {
   #mobile-pic {
     display: none;
   }

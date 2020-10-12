@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
         pairwise()
       ).subscribe((e: any) => {
 
-
+        console.log(this.router.url)
         this.backArrowLink = this.router.url
       });
   }

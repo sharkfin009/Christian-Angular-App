@@ -1,33 +1,34 @@
-<div  class="spinner-cursor dn" >
+<div class="spinner-cursor dn">
   <div class="wheel">
   </div>
 </div>
 
 <div id="fullWrapper" [@showtime]="showTime.state">
-  <div  id="header" class=" lightbox-fade fixed w-100  flex justify-center ">
+  <div id="header" class=" lightbox-fade fixed w-100  flex justify-center ">
 
-    <div id="nav-icon" class="relative flex justify-center items-center">
+    <div id="nav-icon" class=" relative flex justify-center items-center">
 
       <img src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)"
         class=" absolute menu-button hover-grow pointer-styled ph2" [@slideX]="getArrowState(outlet)"
         [@xTurn]="getXTurnState(outlet)" />
 
-      <!-- <div [routerLink]="backArrowLink" class="o-0 b--green absolute arrow " [@arrow]="getArrowState(outlet)">
-        <img src="../assets/upArrao!.svg" width="22" class="lightbox-fade relative ph3   pointer-styled "
-        />
-      </div> -->
+      <div [routerLink]="backArrowLink" class="o-0 b--green absolute arrow " [@arrow]="getArrowState(outlet)">
+        <img src="../assets/upArrao!.svg" width="22" class="relative ph3   pointer-styled " />
+      </div>
     </div>
 
     <div id="innerHeader" class="relative  flex flex-nowrap justify-between items-center">
       <div routerLink="/showcase" id="site-title" class="o-70  fw2 pointer-styled">Christian Doppelgatz</div>
     </div>
 
-    <div class="" id="spacerRight"></div>
+    <!-- <div class="" id="spacerRight"></div> -->
 
   </div>
 </div>
 
 <div id="outlet-wrapper" class=" bw2 b--red bw2 fixed h-100 w-100 " [@routeAnimations]="prepareRoute(outlet)">
-  <router-outlet #outlet="outlet" class="absolute  h-100  w-100    bw2 b--blue ">
+  <router-outlet #outlet="outlet" class="absolute  h-100  w-100 bw2 b--blue ">
   </router-outlet>
 </div>
+<img style="display: none;" src="../assets/_Christian_Doppelgatz.jpg">
+<img style="display: none;" src="../assets/_Christian_Doppelgatz_round.jpg">

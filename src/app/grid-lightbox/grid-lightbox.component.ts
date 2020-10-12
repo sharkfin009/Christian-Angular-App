@@ -209,7 +209,7 @@ import {
     // private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
     // private router: Router,
-    private fileService: FileService
+    private fileService: FileService,
   ) {}
 
   prepareRoute(outlet: RouterOutlet) {
@@ -274,11 +274,10 @@ import {
     this.fader = document.querySelector("#fader");
     this.faderB = document.querySelector("#faderB");
     this.spinnerLightbox = document.querySelector(".spinner-lightbox");
-    this.xBox = document.querySelector('#xbox');
+    this.xBox = document.querySelector('.xbox');
     this.aTags = document.querySelectorAll('a');
     this.picOverlay = document.querySelector('#pic-overlay');
-    this.downloadArea = document.querySelector('#download-links');
-
+    this.downloadArea = document.querySelector('#download-link');
     // style a tags
     this.aTags.forEach((item) => {
       item.style.textDecoration = "none";
@@ -290,7 +289,7 @@ import {
         event.target.style.color = "black";
       })
     })
-
+    this.picOverlay = document.querySelector("#pic-overlay")
 
     //set up cursor spinner for right scroll while still loading gallery pics
     window.addEventListener("mousemove", (e) => {
@@ -304,7 +303,6 @@ import {
       this.spinnerLightbox.style.opacity = 0;
     })
 
-    // console.log(this.view)
 
     if (this.view === "showcase") {
       setTimeout(() => {
@@ -366,6 +364,19 @@ import {
         this.closeLightbox();
     }
     document.addEventListener('keydown', callBrowse.bind(this));
+    //add touch listeners
+    let processTouchstart = function (e) {
+      e.preventDefault();
+      //console.log(e)
+    }
+    let processTouchmove = (e) => {
+      //console.log(e)
+    }
+    let processTouchEnd = (e) => {
+
+      console.log(e.changedTouches)
+    }
+
 
 
 
@@ -455,7 +466,7 @@ import {
         //set up intersection observer options
         let options = {
           root: null,
-          rootMargin: '0px',
+          rootMargin: '100px',
           threshold: 0,
         }
 
@@ -481,7 +492,9 @@ import {
 
   intersectionCallback(entries) {
     entries.forEach((entry) => {
-
+      let floatFactor = 0;
+      let query = window.matchMedia('(max-width:800px)').matches
+      query ? floatFactor = 100 : floatFactor = 300;
       let picTop = entry.boundingClientRect.top - this.mobileFix;
 
       // animate pics on entry and exit (if loaded)
@@ -492,7 +505,7 @@ import {
 
       if (picTop > window.innerHeight) {
         entry.target.style.opacity = "0";
-        entry.target.style.transform = `translateY(300px)`;
+        entry.target.style.transform = `translateY(${floatFactor}px)`;
       }
     });
   }
@@ -526,9 +539,8 @@ import {
   }
 
   showLightbox(event) {
-
-
     this.header.style.pointerEvents = "none";
+
     if (!this.loadLoopFired) {
       this.lightboxRecursiveLoad()
     };
@@ -537,18 +549,24 @@ import {
     this.clickBlock = true;
     this.lightboxFlag = true;
     this.picPointer = parseInt(event.target.dataset.id);
-    console.dir(this.lightboxFade)
     this.lightboxFade.forEach(item => {
-      console.log(item);
       item.style.opacity = 0
     });
-
-
+    let transitionString = "opacity 0.7s ease-out";
     this.picZoom(event.target);
+
+
+    //  if(window.matchMedia('(min-width:801px)').matches){
+    //   this.picZoomUnder1200(event.target);
+    //    transitionString = "opacity 0.7s ease-out"
+    //  }
+
 
     //show lightbox after transition to hide renderedGrid
     setTimeout(() => {
-      this.overlay.style.transition = "opacity 0.7s ease-in-out";
+
+
+      this.overlay.style.transition = transitionString;
       this.overlay.style.opacity = 1;
       this.arrowFrame.style.opacity = 0;
       this.lightbox.style.transition = "none";
@@ -556,7 +574,7 @@ import {
       this.overlay.style.zIndex = "300";
       this.lightbox.style.zIndex = "200";
       void this.renderedGrid.offsetWidth;
-      this.renderedGrid.style.transition = "opacity 0.7s ease-in-out"
+      this.renderedGrid.style.transition = transitionString
       this.renderedGrid.style.opacity = 0;
       this.clickBlock = false;
 
@@ -573,6 +591,7 @@ import {
       }
 
     }, 300)
+
     //set pic load event
     this.pic.onload = (event) => {
 
@@ -592,7 +611,6 @@ import {
     this.picOverlay.style.height = this.pic.offsetHeight + "px";
     this.xBox.style.height = (window.innerHeight / 2 - this.pic.offsetHeight / 2) + "px";
 
-
   }
 
   cumulativeOffset(element, index) {
@@ -610,54 +628,87 @@ import {
       top: top,
     };
   }
-  picZoom(photo) {
-    //get absolute photo position
-    let photoUnzoomed = this.cumulativeOffset(photo, 8);
 
-    //check transform values set in layGridder
-    let yOffsetPerc = photo.parentElement.parentElement.dataset.offsety;
-    let xOffsetPerc = photo.parentElement.parentElement.dataset.offsetx;
-    this.yOffset = () => {
-      if (yOffsetPerc) {
-        let yOffset = window.innerWidth * yOffsetPerc / 100;
-        return yOffset;
-      } else return 0;
+  GetScreenCoordinates(obj) {
+    var p = {
+      x: 0,
+      y: 0,
+    };
+    p.x = obj.offsetLeft;
+    p.y = obj.offsetTop;
+    while (obj.offsetParent) {
+      p.x = p.x + obj.offsetParent.offsetLeft;
+      p.y = p.y + obj.offsetParent.offsetTop;
+      if (obj == document.getElementsByTagName("body")[0]) {
+        break;
+      } else {
+        obj = obj.offsetParent;
+      }
     }
+    return p;
+  }
+
+
+
+  picZoom(photo) {
+    let lightboxWidth = 0;
+    window.matchMedia('(max-width:800px)').matches === true ? lightboxWidth = 1 : lightboxWidth = 0.8;
+    console.log(lightboxWidth);
+
+    //get absolute photo position
+    let photoUnzoomed = this.GetScreenCoordinates(photo);
+    let screenRatio = window.innerWidth / window.innerHeight;
+    let picRatio = photo.offsetWidth / photo.offsetHeight;
+    let picBoxHeight = window.innerHeight * 0.8
+    let picBoxWidth = window.innerWidth * lightboxWidth
+    let targetWidth = 0;
+    let targetHeight = 0;
+    let zoomRatio = 0;
+
+    if (screenRatio > picRatio) {
+      targetWidth = picBoxHeight * picRatio;
+      zoomRatio = targetWidth / photo.offsetWidth;
+    }
+    if (screenRatio < picRatio) {
+      targetHeight = picBoxWidth / picRatio
+      zoomRatio = targetHeight / photo.offsetHeight;
+
+    }
+    //check transform values set in layGridder
+    let xOffsetPerc = photo.parentElement.parentElement.dataset.offsetx;
+    let yOffsetPerc = photo.parentElement.parentElement.dataset.offsety;
+
     let xOffset = () => {
       if (xOffsetPerc) {
         let xOffset = window.innerWidth * xOffsetPerc / 100;
         return xOffset;
       } else return 0;
     }
-    //work out 90% height and resultant width
-    let aspectRatio = photo.width / photo.height;
-    let targetHeight = window.innerHeight * 0.8;
-    let targetWidth = targetHeight * aspectRatio;
+    let yOffset = () => {
+      if (yOffsetPerc ) {
+        let yOffset = window.innerWidth * yOffsetPerc / 100;
+        return yOffset;
+      } else return 0;
+    }
 
-    //work out zoom ratio
-    let zoomRatio = targetWidth / photo.offsetWidth;
-
-    //work out photo center
-    let photoMiddleX = photoUnzoomed.left + photo.offsetWidth / 2 + xOffset();
-    let photoMiddleY = photoUnzoomed.top + photo.offsetHeight / 2 + this.yOffset();
 
     //get photo position within grid for transform origin , so that zoom animation is correct
     this.photoCenterWithinGrid = {
       x: this.cumulativeOffset(photo, 5).left + photo.offsetWidth / 2 + xOffset(),
-      y: this.cumulativeOffset(photo, 5).top + photo.offsetHeight / 2 + this.yOffset() - 250,
+      y: (this.cumulativeOffset(photo, 5).top + photo.offsetHeight / 2 + yOffset()) - 250,
     }
     // set transform origin
     this.renderedGrid.style.transformOrigin = `${this.photoCenterWithinGrid.x}px ${this.photoCenterWithinGrid.y}px`;
 
-    // work out  middle Y value for target
-    //let targetMiddleY = window.innerHeight / 2 - targetHeight / 2;
+    //work out photo center
+    let photoMiddleX = photoUnzoomed.x + photo.offsetWidth / 2 + xOffset();
+    let photoMiddleY = photoUnzoomed.y + photo.offsetHeight / 2 + yOffset();
 
     //work out translate values for zoomed position
-    let diffX = window.innerWidth / 2 - photoMiddleX;
-    let diffY = window.innerHeight / 2 - photoMiddleY;
-
+    let diffX = window.innerWidth * 0.5 - photoMiddleX;
+    let diffY = window.innerHeight * 0.5 - photoMiddleY;
     // do translates
-    this.renderedGrid.style.transform = `translateX(${diffX}px`;
+    this.renderedGrid.style.transform = `translateX(${diffX}px)`;
     this.renderedGrid.style.transform += `translateY(${diffY + this.galleryWrapper.scrollTop}px)`;
 
     //do scale
@@ -680,18 +731,23 @@ import {
 
 
   browse(param) {
+
     if (!this.lowResLoaded) {
       return
     }
     //establish direction
     let direction = "";
-
+    // check for strings from keys
     if (typeof (param) === "string") {
       direction = param;
     };
-
+    //check for object from mouse
     if (param.target) {
       direction = param.target.direction
+    }
+    //check for swipes from hammer.js
+    if (param.type) {
+      param.type === "swiperight" ? direction = "left" : direction = "right"
     }
     //close lightbox at start
     if (direction === "left" && this.picPointer === 0) {
