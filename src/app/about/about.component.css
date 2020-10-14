@@ -41,8 +41,8 @@ background-color:rgb(255, 255, 255);
 }
 
 #mobile-pic {
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   z-index: -1;
 }
 
@@ -80,9 +80,6 @@ a:hover {
     padding-bottom: 0px;
   }
 
-  #header {
-    width: 70vw;
-  }
 
   table {
     display: none
@@ -96,8 +93,9 @@ a:hover {
   }
 
   #box {
-    margin-left: 15vw;
-    margin-right: 15vw;
+    width:70vw;
+    /* margin-left: 15vw;
+    margin-right: 15vw; */
 
   }
   #xbox-top{

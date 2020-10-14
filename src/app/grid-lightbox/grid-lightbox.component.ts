@@ -9,7 +9,7 @@ import {
 
 from '@angular/core';
 
-import "zenscroll"
+import smoothscroll  from 'smoothscroll-polyfill'
 
 
 import * as fileSaver from 'file-saver';
@@ -225,6 +225,7 @@ import {
     })
   }
   ngOnInit(): void {
+    smoothscroll.polyfill();
     if (this.gridData.gridType === "commission") {
       this.downLoadLinkFlag = false;
     }
@@ -652,14 +653,16 @@ import {
 
   picZoom(photo) {
     let lightboxWidth = 0;
+    let lightboxHeight = 0;
     window.matchMedia('(max-width:800px)').matches === true ? lightboxWidth = 1 : lightboxWidth = 0.8;
-    console.log(lightboxWidth);
+    window.orientation === 90 || window.orientation === -90 ? lightboxHeight = 1 : lightboxHeight= 0.8
+    console.log(lightboxHeight);
 
     //get absolute photo position
     let photoUnzoomed = this.GetScreenCoordinates(photo);
     let screenRatio = window.innerWidth / window.innerHeight;
     let picRatio = photo.offsetWidth / photo.offsetHeight;
-    let picBoxHeight = window.innerHeight * 0.8
+    let picBoxHeight = window.innerHeight * lightboxHeight
     let picBoxWidth = window.innerWidth * lightboxWidth
     let targetWidth = 0;
     let targetHeight = 0;

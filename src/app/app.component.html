@@ -8,7 +8,7 @@
 
     <div id="nav-icon" class=" relative flex justify-center items-center">
 
-      <img src="../assets/plus.svg" width="26" (click)="toggleMenu(outlet)"
+      <img id="plus"src="../assets/plus.svg"  (click)="toggleMenu(outlet)"
         class=" absolute menu-button hover-grow pointer-styled ph2" [@slideX]="getArrowState(outlet)"
         [@xTurn]="getXTurnState(outlet)" />
 
@@ -21,7 +21,7 @@
       <div routerLink="/showcase" id="site-title" class="o-70  fw2 pointer-styled">Christian Doppelgatz</div>
     </div>
 
-    <!-- <div class="" id="spacerRight"></div> -->
+    <div class="" id="spacerRight"></div>
 
   </div>
 </div>

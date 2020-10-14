@@ -92,7 +92,6 @@ pointer-events: none;
 #lightbox {
   top: 0;
   left: 0;
-  /* overflow: hidden; */
 }
 
 #picBox {
@@ -182,10 +181,9 @@ pointer-events: none;
 
 }
 
-
-@media(min-width :0px) {
+@media(min-width :0px) and (orientation:landscape){
   #gallery-box {
-    width: 80vw;
+    width:95vw;
   }
 
   #arrowBox {
@@ -203,12 +201,57 @@ pointer-events: none;
 
   #picBox {
     width: 100vw;
+    height:100vh;
   }
   #xboxTop{
     display: none;
   }
   #xboxBottom{
-   display:flex;
+   display:none;
+  }
+  #left{
+    display:none;
+  }
+  #right{
+    display:none;
+  }
+  #download-link{
+    display:none;
+  }
+}
+@media(min-width :0px)  and (orientation:portrait){
+  #gallery-box {
+    width:95vw;
+  }
+
+  #arrowBox {
+    width: 10vw;
+  }
+
+  #headerCenter {
+    width: 80vw;
+  }
+
+  #headerRight {
+    width: 10vw;
+
+  }
+
+  #picBox {
+    width: 100vw;
+    height:80vh;
+  }
+  #xboxTop{
+    display: none;
+  }
+  #xboxBottom{
+   display:none;
+  }
+  #left{
+    display:none;
+  }
+  #right{
+    display:none;
   }
   #download-link{
     display:none;
@@ -237,13 +280,20 @@ pointer-events: none;
   }
 
   #picBox {
-    width: 80vw
+    width: 80vw;
+    height:80vh;
   }
   #xboxTop{
     display: flex;
   }
   #xboxBottom{
    display:none;
+  }
+  #left{
+    display:flex;
+  }
+  #right{
+    display:flex;
   }
   #download-link{
     display:flex;
