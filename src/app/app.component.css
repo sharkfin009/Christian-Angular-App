@@ -120,9 +120,7 @@
   #plus{
     width:20px;
   }
-  #navOver1700{
-    display:none;
-  }
+
 
   #innerHeader {
     width: 70vw;
@@ -146,9 +144,6 @@
   #plus{
     width:26px;
   }
-  #navOver1700{
-    display:none;
-  }
 
   #innerHeader {
     width: 80vw;
@@ -166,19 +161,18 @@
 
 @media (min-width:1700px) {
   #nav-icon{
-    width:10vw;
+    /* width:10vw; */
     flex-grow:1;
   }
-  #navOver1700{
-    display:none;
-  }
+
 
   #innerHeader {
     width: 1350px;
   }
 
   #spacerRight{
-    width:10vw;
+    /* width:10vw; */
+    flex-grow: 1;
   }
 
 }

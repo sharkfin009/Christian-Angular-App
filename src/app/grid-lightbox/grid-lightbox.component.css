@@ -166,29 +166,37 @@ pointer-events: none;
 
 #arrowStructure {
   height: 155px;
-  z-index: 2000;
-  pointer-events: auto;
-}
-
-#arrowBox {
-  /* margin-top: 6px; */
-  pointer-events: auto;
+  pointer-events:none;
+  width:100vw;
 
 }
+
+
 
 #arrowBack {
   z-index: -1;
 
 }
 
+
+
 @media(min-width :0px) and (orientation:landscape){
+  #arrowBox {
+    flex-grow: 1;
+  }
+
+  #spacerHeader{
+    width:1350px;
+    height:155px;
+  }
+  #rightSpacer{
+    flex-grow: 1;
+
+  }
   #gallery-box {
     width:95vw;
   }
 
-  #arrowBox {
-    width: 10vw;
-  }
 
   #headerCenter {
     width: 80vw;
@@ -220,13 +228,24 @@ pointer-events: none;
   }
 }
 @media(min-width :0px)  and (orientation:portrait){
+  #arrowBox {
+    width:15vw;
+
+  }
+  #spacerHeader{
+    width:70vw;
+
+  }
+  #rightSpacer{
+   width:15vw;
+
+
+  }
   #gallery-box {
     width:95vw;
   }
 
-  #arrowBox {
-    width: 10vw;
-  }
+
 
   #headerCenter {
     width: 80vw;
@@ -262,13 +281,24 @@ pointer-events: none;
 
 
 @media(min-width :800px) {
+  #arrowBox {
+    width:10vw;
+
+  }
+
+  #spacerHeader{
+    width:80vw;
+
+  }
+  #rightSpacer{
+    width:10vw;
+
+
+  }
   #gallery-box {
     width: 80vw;
   }
 
-  #arrowBox {
-    width: 10vw;
-  }
 
   #headerCenter {
     width: 80vw;
@@ -306,14 +336,23 @@ pointer-events: none;
 }
 
 @media(min-width :1200px) {
+  #arrowBox {
+   width:10vw;
+  }
+
+  #spacerHeader{
+    width:80vw;
+
+  }
+  #rightSpacer{
+    width:10vw;
+
+
+  }
   #gallery-box {
     width: 80vw;
   }
 
-  #arrowBox {
-    width: 10vw;
-
-  }
 
   #headerCenter {
     width: 80vw;
@@ -340,12 +379,21 @@ pointer-events: none;
 }
 
 @media(min-width :1700px) {
-  #gallery-box {
-    width: 80vw;
-  }
 
   #arrowBox {
+    flex-basis:175px;
     flex-grow: 1;
+  }
+
+  #spacerHeader{
+    width:1350px;
+  }
+  #rightSpacer{
+    flex-grow: 1;
+    flex-basis:175px;
+  }
+  #gallery-box {
+    width: 80vw;
   }
 
   #headerCenter {

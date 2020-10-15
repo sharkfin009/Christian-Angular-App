@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Christian Doppelgatz is an international advertisement and lifestyle photographer based in Berlin, Germany, and Cape Town, South Africa, 
+  known for his natural approach to people photography.">
+  <meta name="author" content="Christian Doppelgatz">
+  <meta name="developer" content="Ben Amato">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -12,7 +17,15 @@
   <title>Christian Doppelgatz</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <script>
+    const po = new PerformanceObserver((list) => {
+      for (const entry of list.getEntriesByName('first-contentful-paint')) {
+        console.log('FCP: ', entry.startTime);
+        po.disconnect();
+      }
+    });
+    po.observe({type: 'paint', buffered: true});
+  </script>
 </head>
 <body class="">
   <app-root></app-root>

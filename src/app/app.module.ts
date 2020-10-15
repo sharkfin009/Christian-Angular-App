@@ -99,7 +99,7 @@ import { MCFormComponent } from './mcform/mcform.component'
   ],
   imports: [
     BrowserAnimationsModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     HttpModule,
 
