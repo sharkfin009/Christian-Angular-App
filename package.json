@@ -16,11 +16,11 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.1.6",
-    "@angular/cdk": "~8.2.3",
+    "@angular/cdk": "~10.2.5",
     "@angular/common": "~10.1.6",
     "@angular/compiler": "~10.1.6",
     "@angular/core": "~10.1.6",
-    "@angular/flex-layout": "^6.0.0-beta.15",
+    "@angular/flex-layout": "^10.0.0-beta.32",
     "@angular/forms": "~10.1.6",
     "@angular/http": "^7.2.16",
     "@angular/localize": "^10.1.6",
