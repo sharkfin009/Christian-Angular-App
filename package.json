@@ -23,6 +23,7 @@
     "@angular/flex-layout": "^6.0.0-beta.15",
     "@angular/forms": "~8.2.13",
     "@angular/http": "^7.2.16",
+    "@angular/localize": "^9.1.12",
     "@angular/material": "^8.2.3",
     "@angular/platform-browser": "~8.2.13",
     "@angular/platform-browser-dynamic": "~8.2.13",
