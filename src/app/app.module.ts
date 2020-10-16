@@ -104,9 +104,10 @@ import { MCFormComponent } from './mcform/mcform.component'
     HttpModule,
 
     RouterModule.forRoot(appRoutes, {
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'disabled',
-    }),
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'disabled',
+    initialNavigation: 'enabled'
+}),
     LazyLoadImageModule,
   ],
   exports: [RouterModule],
