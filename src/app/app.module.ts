@@ -99,14 +99,15 @@ import { MCFormComponent } from './mcform/mcform.component'
   ],
   imports: [
     BrowserAnimationsModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     HttpModule,
 
     RouterModule.forRoot(appRoutes, {
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'disabled',
-    }),
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'disabled',
+    initialNavigation: 'enabled'
+}),
     LazyLoadImageModule,
   ],
   exports: [RouterModule],
