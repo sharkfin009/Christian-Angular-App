@@ -110,8 +110,10 @@ export class PortfolioComponent implements AfterViewInit {
 
     let loadWithAnim = async () => {
       this.thumbnails.forEach((item, index) => {
-        let img = this.elements[index]._data.renderElement.children[0]
-          .children[0];
+        console.dir(this.elements)
+        // let img = this.elements[index]._data.renderElement.children[0]
+        //   .children[0];
+        let img = this.elements[index]._hostView[37]._ngEl.nativeElement.children[0].children[0]
         item.img = img;
       });
 

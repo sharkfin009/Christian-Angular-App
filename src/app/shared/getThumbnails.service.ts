@@ -14,7 +14,7 @@ import { GalleryThumb,CommissionThumb } from './interfaces';
   providedIn: 'root'
 })
 export class GetThumbnailsService {
-   private galleriesUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/thumbnails_endpoint/v1/thumbs";
+   private portfolioUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/portfolio_endpoint/v1/thumbs";
    private commissionsUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/commissions_endpoint/v1/getThumbs";
   thumbnails$:Observable<GalleryThumb[]>;
 
@@ -41,7 +41,7 @@ export class GetThumbnailsService {
     let url="";
     switch(view){
       case "portfolio":
-      url= this.galleriesUrl;
+      url= this.portfolioUrl;
       return this.http.get<GalleryThumb[]>(url )
       .pipe(
 

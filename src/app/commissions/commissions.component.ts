@@ -122,6 +122,7 @@ export class CommissionsComponent implements AfterViewInit {
     let loadWithAnim = async () => {
       console.log("load with anim")
       this.thumbnails.forEach((item, index) => {
+        console.log(item)
         let img = this.elements[index]._data.renderElement.children[0]
           .children[0];
         item.img = img;
