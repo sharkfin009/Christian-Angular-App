@@ -1,5 +1,6 @@
 import {
-  Injectable
+  Injectable,
+  ElementRef, Directive
 } from '@angular/core';
 import {
   map,
@@ -20,6 +21,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
+ @Directive()
 export class GetGridService {
   private galleryApiUrl = "https://wpbackend.dreamhosters.com/index.php/wp-json/galleries_endpoint/v1/getGallery/";
 
@@ -44,8 +46,7 @@ export class GetGridService {
         break;
       case "showcase":
         apiUrl = this.galleryApiUrl + "/overview"
-        this.spinner = document.querySelector(".spinner-cursor");
-        this.spinner.style.display = "block";
+        //  this.spinner = this.el.nativeElement.querySelector('.spinner-cursor')
       break;
     };
 

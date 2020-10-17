@@ -147,7 +147,11 @@ export class AppComponent implements OnInit {
       this.spinnerCursor.style.top = e.pageY + "px";
     });
 
-    this.backArrowLink = this.backArrowLink===undefined?'/portfolio':this.backArrowLink;
+    if(this.backArrowLink===undefined){
+      setTimeout(()=>{
+        this.backArrowLink = "/portfolio";
+      })
+    }
     console.log(this.backArrowLink)
 
 

@@ -167,7 +167,7 @@ pointer-events: none;
 #arrowStructure {
   height: 155px;
   z-index: 2000;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 #arrowBox {

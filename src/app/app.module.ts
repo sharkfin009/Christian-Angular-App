@@ -18,9 +18,7 @@ import {
   HttpClientModule,
 
 } from '@angular/common/http'
-import {
-  HttpModule
-} from '@angular/http'
+
 import {
   PortfolioComponent
 } from './portfolio/portfolio.component'
@@ -101,7 +99,6 @@ import { MCFormComponent } from './mcform/mcform.component'
     BrowserAnimationsModule,
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
-    HttpModule,
 
     RouterModule.forRoot(appRoutes, {
     scrollPositionRestoration: 'enabled',
