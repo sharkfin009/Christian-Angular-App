@@ -78,6 +78,7 @@ export class PortfolioComponent implements AfterViewInit {
   subscription: any;
   spinner: any;
   header: any;
+  gridCount: number=1;
 
   constructor(
     private route: ActivatedRoute,
@@ -96,7 +97,6 @@ export class PortfolioComponent implements AfterViewInit {
   }
 
   resizePortFrame(){
-
     let portFrame :any = document.querySelector("#port-frame");
     portFrame.style.height = "400vh"
   }
@@ -111,9 +111,8 @@ export class PortfolioComponent implements AfterViewInit {
     let loadWithAnim = async () => {
       this.thumbnails.forEach((item, index) => {
         console.dir(this.elements)
-        // let img = this.elements[index]._data.renderElement.children[0]
-        //   .children[0];
-        let img = this.elements[index]._hostView[37]._ngEl.nativeElement.children[0].children[0]
+        let img = this.elements[index]._data.renderElement.children[0].children[0];
+        // let img = this.elements[index]._hostView[37]._ngEl.nativeElement.children[0].children[0]
         item.img = img;
       });
 
@@ -144,7 +143,7 @@ export class PortfolioComponent implements AfterViewInit {
 
         },false)
         //set src
-        this.thumbnails[count].img.src = this.thumbnails[count].urlStore;
+        this.thumbnails[count].img.src = this.thumbnails[count].url;
 
       };
       recursive(0);
@@ -156,6 +155,10 @@ export class PortfolioComponent implements AfterViewInit {
      this.subscription =  this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
       this.spinner.style.display = "none";
         this.thumbnails = thumbs.filter(item=>item.slug!=="overview");
+        this.thumbnails.forEach((item)=>{
+          item.src = item.url;
+        })
+        
 
         // reset scroll after render
         if (sessionStorage.getItem("scroll") &&
@@ -182,17 +185,14 @@ export class PortfolioComponent implements AfterViewInit {
       //this.spinner.style.display = "block";
       this.prepClass = "prepareForAnim";
      this.subscription = this.thumbnailsService.getThumbnails("portfolio").subscribe((thumbs) => {
-        thumbs.forEach(item=>{
-          item.urlStore = item.url;
-          item.url="";
-          item.srcSet = "";
-        });
+
         this.thumbnails = thumbs.filter(item=>item.slug!=="overview");
         console.dir(this.thumbnails)
         this.thumbBoxes.changes.subscribe((item) => {
           this.elements = item.toArray();
+          console.log(this.thumbBoxes.length)
+            loadWithAnim();
 
-          loadWithAnim();
         });
       });
     }

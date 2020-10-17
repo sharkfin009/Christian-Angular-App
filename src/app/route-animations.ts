@@ -99,7 +99,8 @@ export const slider =
 
     transition('commissions => commission', [
       style({
-        position: "relative"
+        position: "relative",
+        width:'100%'
       }),
       query(':enter,:leave', [
         style({
@@ -112,24 +113,28 @@ export const slider =
       group([
         query(':leave', [
           style({
-            transform: 'translateY(0%)'
+            opacity:1,
+             transform: 'translateY(0%)'
           }),
           animate('0.8s ease-out',
             style({
+              opacity:0,
               transform: 'translateY(-100%)',
             }))
         ],{optional:true}),
+
         query(':enter', [
           style({
 
-            transform: 'translateY(100%)',
+           transform: 'translateY(200%)',
+          opacity:0
 
           }),
-          animate('0.8s ease-out',
+          animate('1s ease-out',
             style({
 
               transform: 'translateY(0%)',
-
+              opacity:1
             }))
         ],{optional:true} ),
 
@@ -137,7 +142,8 @@ export const slider =
     ]),
     transition('commission => commissions', [
       style({
-        position: "relative"
+        position: "relative",
+        width:"100%"
       }),
       query(':enter,:leave', [
         style({
@@ -150,23 +156,29 @@ export const slider =
       group([
         query(':leave', [
           style({
-            transform: 'translateY(0%)'
+            opacity:1,
+           //  transform: 'translateY(0%)'
           }),
           animate('0.8s ease-out',
             style({
-              transform: 'translateY(200vh)',
+              opacity: 0,
+            //  transform: 'translateY(200%)',
             }))
         ],{optional:true}),
         query(':enter', [
           style({
-            transform: 'translateY(-200vh)',
-          }),
-          animate('0.8s ease-out',
-            style({
+            opacity: 0,
+            transform: 'translateY(-200%)',
 
-              transform: 'translateY(0%)'
+          }),
+          animate('1s ease-in',
+            style({
+              opacity:1,
+              transform: 'translateY(0%)',
+
             }))
-        ] ,{optional:true})
+        ],{optional:true} ),
+
       ])
     ]),
 
@@ -376,7 +388,7 @@ export const slider =
         ] )
       ]),
     ]),
- 
+
     transition('commissions => showcase', [
       style({
         position: "relative"

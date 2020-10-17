@@ -1,9 +1,11 @@
-<div id="arrowStructure" class="fixed w-10 ">
-  <div id="arrowBox" [routerLink]="backArrowLink" class="pointer-styled flex justify-center h-100">
-    <div   class="flex align-items">
-      <img id="arrowBack"src="../assets/upArrao!.svg" width="22" class="lightbox-fade relative ph3   " />
-    </div>
+<div id="arrowStructure" class="fixed flex justify-center w-100 ">
+  <div id="arrowBox" [routerLink]="backArrowLink" class=" pointer-styled flex justify-center h-100">
+
+      <img id="arrowBack"src="../assets/upArrao!.svg" width="22" class="lightbox-fade relative ph3" />
+
   </div>
+  <div id = "gallery-header" class=" h-100"></div>
+  <div id= "gallery-right-spacer" class="h-100"></div>
 
 </div>
 
@@ -11,8 +13,7 @@
   <div class="wheel">
   </div>
 </div>
-<div id="arrow-frame" class=" z-2  fixed  w-100 h-5 flex align-items justify-center items-end">
-
+<div id="arrow-frame" class="z-2 fixed w-100 h-5 flex align-items justify-center items-end">
   <img *ngIf="showArrows" src="../assets/black arrow down.svg" width="22" class="relative z-5 ph3 mb4" />
 </div>
 

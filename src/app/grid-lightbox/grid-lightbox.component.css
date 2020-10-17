@@ -346,6 +346,14 @@ pointer-events: none;
 
   #arrowBox {
     flex-grow: 1;
+    flex-basis:10vw;
+  }
+  #gallery-header{
+    width:1350px;
+  }
+  #gallery-right-spacer{
+    flex-grow:1;
+    flex-basis:10vw;
   }
 
   #headerCenter {

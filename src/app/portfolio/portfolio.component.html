@@ -4,7 +4,7 @@ relative  bw2 b--yellow  w-100 flex flex-column items-center" (scroll)="onScroll
 
   <div class=" relative thumbs-wrapper w-80 ">
 
-    <gallery-thumbnail #thumbBox [prepClass]="prepClass"  class="thumb-box pointer-styled b--red bw2"
+    <gallery-thumbnail [prepClass]="prepClass"  class="thumb-box pointer-styled b--red bw2"
       (hover)="hover($event)" *ngFor="let thumbnail of thumbnails" [thumbnail]="thumbnail"
       [hoverCompute]="hoverEventObject" [ngClass]="prepClass" [thumbLink]="thumblink" (click)="resizePortFrame()"></gallery-thumbnail>
 
